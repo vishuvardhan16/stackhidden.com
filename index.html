@@ -118,11 +118,18 @@
            asked for a cool action figure related to big data and software
            engineering for the space under the bio (a five-stage pipeline
            diagram lived here briefly and came out the same night: too
-           internal). The figure is a generic illustrated character on a
-           display stand, not a portrait; the no-photo rule is about
-           photographs of the owner and stands. WebP, 163KB. -->
+           internal), then asked for it animated, "like a gif thing". So
+           the figure is a 10-second muted looping MP4 (1.2MB) over
+           the still as its poster. The
+           figure is a generic illustrated character on a display stand,
+           not a portrait; the no-photo rule is about photographs of the
+           owner and stands. app.js plays it only when motion is allowed
+           and the hero is on screen; under reduced motion the poster
+           still is all anyone gets. -->
       <figure class="hero-figure">
-        <img src="assets/data-hero.webp" alt="Illustration of a software engineer action figure on a display stand, laptop in hand, commanding glowing streams of data, database stacks, charts, and a network graph." width="1200" height="800">
+        <video id="heroVideo" muted loop playsinline preload="metadata" poster="assets/data-hero.webp" aria-label="Animated illustration of a software engineer action figure on a display stand, laptop in hand, commanding glowing streams of data, database stacks, charts, and a network graph.">
+          <source src="assets/data-hero-loop.mp4" type="video/mp4">
+        </video>
       </figure>
     </div>
     <aside class="hero-side panel">
