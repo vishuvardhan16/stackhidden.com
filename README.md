@@ -175,3 +175,17 @@ Extra pre-push checks for v4: open and close each case file, follow a
 `#case=` link, run two palette commands by keyboard, click the page
 background for the burst, toggle Reduce motion and confirm the canvas
 and packets stop, and print-preview to confirm case files print open.
+
+## License and artwork
+
+The site's code is released under the MIT License (see `LICENSE`),
+copyright Vishnuvardhan Reddy Kaithapuram. The license covers the
+code only; the words, record, and published material on the page are
+the owner's own.
+
+The hero artwork (`assets/lineage-core-dark.png` and
+`assets/lineage-core-light.png`) was generated for this site: a
+halftone core with orbiting graph nodes, drawn from the owner's
+lineage work. One version per theme; CSS shows the matching one.
+Contact is links only (Email me, LinkedIn) by the owner's direction;
+the print stylesheet remains so a visitor's own print stays clean.
