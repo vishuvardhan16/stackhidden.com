@@ -395,48 +395,6 @@
     coreStart();
   }
 
-  // Hero flow packets: two dots per edge travel the five-stage diagram
-  // under the bio, left to right, staggered. Same politeness rules as
-  // everything else on the page: the loop runs only while the figure is
-  // on screen and the tab is visible, and under reduced motion the
-  // packets park mid-edge as a still diagram.
-  var hfFig = document.querySelector('.hero-flow');
-  if (hfFig) {
-    var hfPaths = ['hf-e1', 'hf-e2', 'hf-e3', 'hf-e4'].map(function (id) { return document.getElementById(id); }).filter(Boolean);
-    var hfLayer = document.getElementById('hfPackets');
-    var hfDots = [];
-    hfPaths.forEach(function (path, ei) {
-      for (var k = 0; k < 2; k++) {
-        var c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        c.setAttribute('r', '3');
-        hfLayer.appendChild(c);
-        hfDots.push({ path: path, len: path.getTotalLength(), el: c, off: (k * 0.5 + ei * 0.23) % 1 });
-      }
-    });
-    var hfVisible = true, hfRunning = false;
-    function hfPlace(dot, t) {
-      var p = dot.path.getPointAtLength(((t + dot.off) % 1) * dot.len);
-      dot.el.setAttribute('cx', p.x.toFixed(1)); dot.el.setAttribute('cy', p.y.toFixed(1));
-    }
-    function hfFrame(now) {
-      if (!hfRunning) return;
-      if (motionOff()) { hfDots.forEach(function (d) { hfPlace(d, 0.35); }); hfRunning = false; return; }
-      var t = (now % 2600) / 2600;
-      hfDots.forEach(function (d) { hfPlace(d, t); });
-      requestAnimationFrame(hfFrame);
-    }
-    function hfStart() {
-      if (hfRunning) return;
-      if (motionOff()) { hfDots.forEach(function (d) { hfPlace(d, 0.35); }); return; }
-      hfRunning = true; requestAnimationFrame(hfFrame);
-    }
-    function hfStop() { hfRunning = false; }
-    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { hfVisible = es[0].isIntersecting; if (hfVisible && !document.hidden) hfStart(); else hfStop(); }).observe(hfFig);
-    document.addEventListener('visibilitychange', function () { if (document.hidden) hfStop(); else if (hfVisible) hfStart(); });
-    new MutationObserver(function () { if (motionOff()) { hfRunning = false; hfDots.forEach(function (d) { hfPlace(d, 0.35); }); } else if (hfVisible && !document.hidden) hfStart(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-motion'] });
-    hfStart();
-  }
-
   // The cursor bot (owner's idea, Oct 2026): a small terminal bot fixed
   // in the corner. Its pupils ease toward the pointer, the head leans a
   // few degrees that way, and it blinks on a random timer. Under

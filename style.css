@@ -105,17 +105,6 @@ h3{margin:.3em 0 .5em;line-height:1.35}
    made this label invisible - bug found from a user screenshot, Oct 26). */
 :root[data-theme="dark"] .button.secondary{color:var(--accent)}
 .actions .button{margin:6px 10px 6px 0}
-.hero-flow{margin:28px 0 0}
-.hero-flow svg{width:100%;height:auto;display:block}
-.hero-flow text{font-family:inherit}
-.hf-stage rect{fill:var(--panel);stroke:var(--line);stroke-width:1}
-.hf-stage.hot rect{stroke:var(--accent2)}
-.hf-name{fill:var(--text);font-size:12px;font-weight:650}
-.hf-name.hf-long{font-size:11px}
-.hf-sub{fill:var(--muted);font-size:10px}
-.hf-edge{stroke:var(--line);stroke-width:1.5;fill:none}
-#hfPackets circle{fill:var(--accent)}
-.flow-note{margin-top:4px;font-size:.82rem;color:var(--muted)}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:26px 0 0;padding:0}
 .stats div{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:13px 15px}
 .stats dt{font-weight:800;font-size:1.15rem;color:var(--accent)}
