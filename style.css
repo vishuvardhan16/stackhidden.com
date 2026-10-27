@@ -189,6 +189,7 @@ canvas#graph{opacity:.85}
 .carousel-dots{display:flex;gap:8px}
 .carousel-dot{width:10px;height:10px;border-radius:50%;border:1px solid var(--accent);background:transparent;cursor:pointer;padding:0}
 .carousel-dot.on{background:var(--accent)}
+.featured-note{font-size:13px;color:var(--muted);text-align:center;margin-top:12px}
 @media (prefers-reduced-motion: reduce){ .carousel .slide{transition:none} }
 .goal-line{font-size:16px;color:var(--text);font-weight:600;margin:8px 0 0}
 
