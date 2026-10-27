@@ -157,7 +157,8 @@
         <li>Replaced batch full refreshes with per-schedule FULL, INCREMENTAL, and SKIP decisions, and removed about 4,290 lines of legacy workflow code in the process.</li>
         <li>Added demographic insights across all regions (feature store plus search index) and keyword classification to the store.</li>
         <li>Built Kaleidoscope data lake APIs for audience estimation, persona creation, and table discovery; recovered a streaming incident in September 2026 and backfilled 11 months of cold-tier data across 13 markets.</li>
-        <li>Designed the Mosaic agent program: the orchestration agent design doc and proof of concept, with insights exposed to agents as governed tools; 24 playbooks live and a 30-user load test passed.</li>
+        <li>Designed the Mosaic orchestration agent: the design document and proof of concept for routing insight requests across specialized agents.</li>
+        <li>Built the AudienceStratAgent on the Ads Agent Fabric (Strands framework, AgentCore Runtime), with insights exposed to agents as governed skills and playbooks: 24 live, MCP tooling in Python, and a 30-user gamma load test passed.</li>
         <li>Started on the CAIRE recommendation engine and the legacy AIP precompute stack: day-of-week, long-term customer value, basket analysis, and share of voice insights.</li>
         <li>On-call owner for these services: incident response and root cause write-ups, including an OpenSearch throttling analysis in April 2026.</li>
       </ul>
@@ -459,16 +460,19 @@
         <p class="meta">TDWI Upside &middot; July 8, 2026</p>
         <h3>From Reactive to Proactive: Automating Data Quality in Petabyte-Scale Analytics Pipelines</h3>
         <p>How automated checks catch schema drift, volume anomalies, and distribution shift before they reach a dashboard.</p>
+        <p><a href="https://tdwi.org/articles/2026/07/08/diq-all-automating-data-quality-in-petabytescale-analytics-pipelines.aspx" target="_blank" rel="noopener">Read the article at TDWI Upside</a></p>
       </article>
       <article class="card">
         <p class="meta">ExchangeWire &middot; August 27, 2026</p>
         <h3>Building Advertiser Analytics in a Post-Identifier World</h3>
         <p>What changes for advertiser analytics when the identifiers the industry relied on go away.</p>
+        <p><a href="https://www.exchangewire.com/blog/2026/08/27/building-advertiser-analytics-in-a-post-identifier-world/" target="_blank" rel="noopener">Read the article at ExchangeWire</a></p>
       </article>
       <article class="card">
         <p class="meta">AI Loves Data Roundtable &middot; August 25, 2026</p>
         <h3>Batch to Streaming: What Actually Breaks and When It's Worth It</h3>
         <p>A roundtable on the real failure modes of moving from batch to streaming, and when the move pays off.</p>
+        <p><a href="https://roundtable.ailovesdata.com/batch-to-streaming-what-actually-breaks-and-when-its-worth-it" target="_blank" rel="noopener">Read the roundtable at AI Loves Data</a></p>
       </article>
       <article class="card">
         <p class="meta">Build log &middot; This site &middot; October 2026</p>
@@ -522,6 +526,7 @@
     <h3>Automated Data Quality and Data-Layer AI Governance</h3>
     <p>Conference talk on automated data quality in production pipelines, and why governance has to live inside the pipeline, not in a policy document beside it.</p>
     <p><a href="https://www.marketplacerisk.com/new-york-conference-speakers/vishnuvardhan-reddy-kaithapuram" target="_blank" rel="noopener">My speaker page at Marketplace Risk</a></p>
+    <p>About the conference: the Marketplace Risk Management Conference is the world's largest event and global summit dedicated to digital risk, trust and safety, compliance, and fraud prevention for online marketplaces, digital platforms, and fintechs.</p>
   </section>
 
     <!-- Contact: LinkedIn only. There is no form: GitHub Pages is static, and a fake form that mails nowhere would be worse than none. -->
