@@ -1,0 +1,48 @@
+name: site-checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Playwright
+        run: pip install playwright
+
+      - name: Install Chromium for Playwright
+        run: playwright install --with-deps chromium
+
+      - name: Serve the site locally
+        run: |
+          python3 -m http.server 8000 &
+          echo $! > /tmp/http-server.pid
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:8000/ > /dev/null && break
+            sleep 1
+          done
+
+      - name: Run the static checks
+        working-directory: tests
+        run: python3 -m unittest test_static
+
+      - name: Run the browser checks
+        working-directory: tests
+        env:
+          BASE_URL: http://localhost:8000/
+        run: >-
+          python3 -m unittest test_theme test_palette test_cases
+          test_carousel test_explorer test_layout test_motion
+
+      - name: Stop the local server
+        if: always()
+        run: kill "$(cat /tmp/http-server.pid)" || true
