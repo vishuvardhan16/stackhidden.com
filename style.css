@@ -73,7 +73,8 @@ h3{margin:.3em 0 .5em;line-height:1.35}
 #cursorBot .bot-ant{stroke:var(--accent);stroke-width:2}
 #cursorBot .bot-ant-dot{fill:var(--accent2)}
 #cursorBot .bot-base{fill:var(--border)}
-#cursorBot .bot-mouth{stroke:var(--accent);stroke-width:2;stroke-linecap:round}
+#cursorBot .bot-smile{fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round}
+#cursorBot .bot-cheek{fill:var(--accent2);opacity:.5}
 #cursorBot .bot-closed{stroke:var(--accent);stroke-width:2;stroke-linecap:round;display:none}
 :root[data-motion="reduced"] #cursorBot .bot-pupil{display:none}
 :root[data-motion="reduced"] #cursorBot .bot-closed{display:block}
