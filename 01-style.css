@@ -1,0 +1,288 @@
+/* =====================================================================
+   stackhidden.com - stylesheet
+   ---------------------------------------------------------------------
+   THEME SYSTEM
+     Every colour on the page comes from a custom property. Dark values
+     live under :root[data-theme="dark"], light values under
+     :root[data-theme="light"]. Components never hard-code a colour, so
+     the toggle in app.js only flips one attribute on <html> and the
+     whole page, including the canvas palette (app.js reads the same
+     theme), follows. When you add a component, use the variables:
+     --bg/--bg2 page background, --panel translucent surfaces,
+     --card solid surfaces, --text/--muted copy, --accent/--accent2
+     interactive colour, --border hairlines, --shadow elevation.
+     color-scheme is set per theme so native controls and scrollbars
+     match the page instead of fighting it.
+
+   LAYOUT
+     Single column, max-width 1020px, CSS grid only where it earns it
+     (stats strip, publication cards). The hero is a plain block: the
+     visual is the fixed full-page lineage-graph canvas behind the
+     content (z-index -1), not a hero image - see the photo rule in
+     index.html.
+
+   MOTION
+     Transitions are colour/background only, 0.35s, and
+     prefers-reduced-motion turns smooth scrolling off here while
+     app.js stops the canvas animation entirely.
+   ===================================================================== */
+:root, :root[data-theme="dark"]{
+  --bg:#0d1017; --bg2:#11151f; --panel:rgba(23,27,38,.82); --card:#171b26;
+  --text:#eef0f4; --muted:#a3aabd; --accent:#6ea8fe; --accent2:#8b7cf6;
+  --border:#272d3d; --shadow:0 12px 32px rgba(0,0,0,.35); color-scheme:dark;
+}
+:root[data-theme="light"]{
+  --bg:#f4f6fa; --bg2:#e9edf4; --panel:rgba(255,255,255,.85); --card:#ffffff;
+  --text:#171a21; --muted:#5a6272; --accent:#1f5fd0; --accent2:#6a53d6;
+  --border:#d8dde8; --shadow:0 12px 28px rgba(30,41,82,.10); color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{overflow-x:clip}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(160deg,var(--bg),var(--bg2));color:var(--text);line-height:1.65;min-height:100vh;transition:background .35s ease,color .35s ease}
+#graph{position:fixed;inset:0;width:100%;height:100%;z-index:-1;opacity:.55}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.site-header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 26px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--panel);backdrop-filter:blur(10px);z-index:10}
+.brand{font-weight:800;color:var(--text);letter-spacing:.02em;font-size:1.05rem}
+.brand span{color:var(--accent)}
+nav{display:flex;align-items:center;flex-wrap:wrap}
+nav a{color:var(--muted);margin-left:16px;font-size:.95rem}
+#theme-toggle{margin-left:18px;width:38px;height:38px;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;font-size:1rem;line-height:1;display:inline-flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+#theme-toggle:hover{border-color:var(--accent)}
+:root[data-theme="dark"] .icon-sun{display:inline}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+:root[data-theme="light"] .icon-moon{display:inline}
+main{max-width:1280px;margin:0 auto;padding:34px 28px 60px}
+section{margin:52px 0}
+h1{font-size:2.6rem;line-height:1.12;margin:.15em 0}
+h2{font-size:1.55rem;margin:.2em 0 .7em}
+h3{margin:.3em 0 .5em;line-height:1.35}
+.panel,.card,.quote-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:var(--shadow);backdrop-filter:blur(6px)}
+.hero{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(320px,.82fr);gap:38px;align-items:start;margin-top:8px;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:26px 26px;border-radius:24px}
+.points{padding-left:20px;margin:10px 0}
+.points li{margin:8px 0}
+#cursorBot{position:fixed;right:20px;bottom:16px;width:112px;z-index:30;pointer-events:none;filter:drop-shadow(0 10px 24px rgba(0,0,0,.35))}
+#cursorBot .bot-head{transform-origin:60px 60px}
+#cursorBot .bot-shell{fill:var(--card);stroke:var(--accent);stroke-width:2}
+#cursorBot .bot-screen{fill:var(--bg);stroke:var(--border)}
+#cursorBot .bot-eye-g{transform-box:fill-box;transform-origin:center}
+#cursorBot .bot-eye-ball{fill:var(--text)}
+#cursorBot .bot-pupil{fill:var(--accent)}
+#cursorBot .bot-ant{stroke:var(--accent);stroke-width:2}
+#cursorBot .bot-ant-dot{fill:var(--accent2)}
+#cursorBot .bot-base{fill:var(--border)}
+#cursorBot .bot-smile{fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round}
+#cursorBot .bot-cheek{fill:var(--accent2);opacity:.5}
+#cursorBot .bot-closed{stroke:var(--accent);stroke-width:2;stroke-linecap:round;display:none}
+:root[data-motion="reduced"] #cursorBot .bot-pupil{display:none}
+:root[data-motion="reduced"] #cursorBot .bot-closed{display:block}
+@media (prefers-reduced-motion: reduce){#cursorBot .bot-pupil{display:none}#cursorBot .bot-closed{display:block}}
+@media (max-width:640px){#cursorBot{width:84px;right:12px;bottom:10px}}
+:root[data-theme="dark"]{--grid:rgba(110,168,254,.07)}
+:root[data-theme="light"]{--grid:rgba(31,95,208,.09)}
+.core-art{margin:0 0 16px}
+.core-art canvas{width:100%;height:auto;display:block}
+.hero-side{position:sticky;top:96px}
+.glance{margin:10px 0 18px}
+.glance div{display:flex;justify-content:space-between;gap:16px;padding:8px 0;border-bottom:1px dashed var(--border)}
+.glance div:last-child{border-bottom:none}
+.glance dt{color:var(--muted);font-size:.9rem;white-space:nowrap}
+.glance dd{margin:0;text-align:right;font-weight:600;font-size:.95rem}
+.stats-side{grid-template-columns:1fr 1fr;margin:0 0 18px}
+.side-links{margin:8px 0 0;font-weight:600}
+@media(max-width:920px){ .hero{grid-template-columns:1fr} .hero-side{position:static} }
+.eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:.14em;font-size:.8rem;font-weight:700;margin:0}
+.role{font-size:1.22rem;font-weight:650;margin:.25em 0}
+.lede{color:var(--muted);font-size:1.05rem}
+.button{display:inline-block;background:var(--accent);color:#fff;padding:11px 20px;border-radius:11px;font-weight:700}
+:root[data-theme="dark"] .button:not(.secondary){color:#0a1220}
+.button.secondary{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+/* Secondary button label must stay the accent colour in BOTH themes:
+   the dark filled-button text colour above must never reach it (that
+   combination, dark text on a transparent dark background, is what
+   made this label invisible - bug found from a user screenshot, Oct 26). */
+:root[data-theme="dark"] .button.secondary{color:var(--accent)}
+.actions .button{margin:6px 10px 6px 0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:26px 0 0;padding:0}
+.stats div{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:13px 15px}
+.stats dt{font-weight:800;font-size:1.15rem;color:var(--accent)}
+.stats dd{margin:2px 0 0;color:var(--muted);font-size:.9rem}
+.chips{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:10px;margin:0}
+.chips li{background:var(--card);border:1px solid var(--border);padding:8px 14px;border-radius:999px;font-size:.95rem}
+.trace-note{color:var(--muted)}
+.trace{margin-top:16px}
+.trace-row{padding:9px 0;border-bottom:1px dashed var(--border)}
+.trace-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.trace-label{font-weight:650;font-size:.95rem}
+.trace-date{color:var(--muted);font-size:.85rem}
+.trace-track{height:12px;border-radius:999px;background:var(--border);margin-top:7px;overflow:hidden}
+.trace-bar{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.trace-bar.accent{background:linear-gradient(90deg,var(--accent2),var(--accent))}
+.trace-axis{display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem;margin-top:8px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.cards .card p{color:var(--muted)}
+.meta{color:var(--muted);font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;margin:0}
+.quote-card{margin:0 0 16px}
+.quote-card blockquote{margin:0;font-size:1.22rem;line-height:1.55;font-style:italic}
+.quote-card figcaption{margin-top:12px;color:var(--muted);font-size:.92rem}
+footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:var(--muted);font-size:.9rem;background:var(--panel)}
+@media(max-width:760px){
+  .hero{grid-template-columns:1fr}
+  h1{font-size:2rem}
+  nav a{margin-left:10px}
+}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+.stack{color:var(--muted);font-size:.9rem;border-top:1px dashed var(--border);padding-top:10px;margin-top:12px}
+.role-block{padding:14px 0;border-bottom:1px dashed var(--border)}
+.role-block:last-child{border-bottom:none}
+
+/* Lineage explorer: stage boxes drawn as pipeline nodes. Edges use the
+   accent colour; .lit edges go full accent at full width while .dim
+   edges and nodes fade, so the traced path reads at a glance in both
+   themes. The anomaly node uses a warm colour in both themes. */
+.lineage-svg{width:100%;height:auto;display:block;margin:10px 0}
+.lineage-svg .edges path{stroke:var(--accent);opacity:.45;transition:opacity .25s}
+.lineage-svg .edges path.lit{opacity:1;stroke-width:3.5}
+.lineage-svg .edges path.dim{opacity:.07}
+.lineage-svg .lnode{cursor:pointer;transition:opacity .25s}
+.lineage-svg .lnode rect{fill:var(--card);stroke:var(--accent);stroke-width:1.5}
+.lineage-svg .lnode text{fill:var(--text);font-size:14.5px;text-anchor:middle;pointer-events:none}
+.lineage-svg .lnode.anomaly rect{stroke:#f59e0b}
+.lineage-svg .lnode.dim{opacity:.25}
+.lineage-svg .lnode:focus{outline:none}
+.lineage-svg .lnode:focus rect{stroke-width:3}
+.lineage-detail{min-height:2.6em;font-size:15.5px}
+canvas#graph{opacity:.85}
+
+/* Travelling packets on the lineage graph (SVG animateMotion). The
+   anomaly packet is amber: most traffic flows clean, a little is flagged. */
+.lineage-svg .packet{fill:var(--accent)}
+.lineage-svg .anomaly-packet{fill:#f59e0b}
+/* Trace rows are selectable (app.js wires them as buttons). */
+#trace .trace-row{cursor:pointer;border-radius:8px;padding:2px 6px}
+#trace .trace-row:hover,#trace .trace-row:focus{background:var(--panel);outline:none}
+/* Scrollspy: the nav link for the section in view. */
+.site-nav a.active{color:var(--accent);border-color:var(--accent)}
+/* Scroll progress: a pipeline-thin track under the sticky header. */
+.scrollbar{position:absolute;left:0;right:0;bottom:-1px;height:3px;background:transparent}
+#scrollbarFill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.site-header{position:sticky}
+@media (prefers-reduced-motion: reduce){ .lineage-svg .packet{display:none} }
+
+/* Featured quotes carousel. Slides are stacked in one stage; the
+   active slide sits at rest, the next enters from the LEFT and the old
+   one exits RIGHT, so the motion travels left to right as the owner
+   asked. app.js rotates the .on class every 5 seconds. Screenshots sit
+   on white in both themes: they are captures of a light article page
+   and should look like captures, not be recoloured. */
+.carousel{overflow:hidden}
+.carousel-stage{position:relative;aspect-ratio:16/5.9}
+.carousel .slide{position:absolute;inset:0;margin:0;padding:6px;transform:translateX(-104%);transition:transform .65s ease;pointer-events:none}
+.carousel .slide.on{transform:translateX(0);pointer-events:auto;z-index:2}
+.carousel .slide.out{transform:translateX(104%);z-index:1}
+.carousel .slide img{width:100%;height:auto;max-height:78%;object-fit:contain;display:block;background:#fff;border-radius:12px;padding:14px;box-shadow:var(--shadow)}
+.carousel .slide figcaption{margin-top:10px;font-size:14.5px;color:var(--muted)}
+.carousel-controls{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:8px}
+.featured-note{margin:10px 0 0;text-align:center;font-size:.82rem;color:var(--muted)}
+.carousel-btn{background:var(--card);color:var(--accent);border:1px solid var(--border);width:38px;height:38px;border-radius:50%;font-size:20px;line-height:1;cursor:pointer}
+.carousel-dots{display:flex;gap:8px}
+.carousel-dot{width:10px;height:10px;border-radius:50%;border:1px solid var(--accent);background:transparent;cursor:pointer;padding:0}
+.carousel-dot.on{background:var(--accent)}
+@media (prefers-reduced-motion: reduce){ .carousel .slide{transition:none} }
+.goal-line{font-size:16px;color:var(--text);font-weight:600;margin:8px 0 0}
+
+/* =====================================================================
+   V4 additions (Oct 2026): case files, command palette, print resume,
+   reduce-motion control, and pointer/scroll/click graphics. Same
+   variable system as the rest of the file; no new hard-coded colours
+   except the palette scrim, which works over both themes.
+   ===================================================================== */
+/* Case files: full-width panels with an impact row up top and an
+   expandable body. The impact row is the Jared Chester lesson: the
+   numbers sit where a skimming reviewer lands first. */
+.case{margin:0 0 18px}
+.case h3{font-size:1.25rem}
+.impact-row{display:flex;flex-wrap:wrap;margin:16px 0 4px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.impact-row div{flex:1 1 150px;padding:12px 14px 12px 0}
+.impact-row div+div{border-left:1px solid var(--border);padding-left:14px}
+.impact-row strong{display:block;font-size:1.3rem;color:var(--accent);line-height:1.2}
+.impact-row span{color:var(--muted);font-size:.88rem}
+.case-toggle{margin-top:14px;background:transparent;color:var(--accent);border:1px solid var(--accent);border-radius:10px;padding:9px 16px;font-weight:700;cursor:pointer;font-size:.95rem}
+.case-toggle:hover{background:var(--card)}
+.case-body{margin-top:8px}
+.case-body h4{margin:20px 0 6px;font-size:1rem;color:var(--text)}
+.case-body p,.case-body li,.case-body dd{color:var(--muted)}
+.case-body ul{margin:6px 0;padding-left:20px}
+.decisions{margin:6px 0}
+.decisions dt{font-weight:700;color:var(--text);margin-top:12px}
+.decisions dd{margin:2px 0 0}
+/* Trace result labels: each 2026 span carries its outcome in the head
+   line, the way strong trace tools label a span with its result. */
+.trace-result{color:var(--accent);font-size:.88rem;font-weight:600;margin-right:auto;padding-left:14px}
+/* Header palette button + footer text button. */
+#paletteBtn{margin-left:10px;height:38px;padding:0 12px;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;font-size:.9rem;box-shadow:var(--shadow)}
+#paletteBtn:hover{border-color:var(--accent);color:var(--accent)}
+.footer-btn{background:none;border:none;color:var(--accent);cursor:pointer;font:inherit;padding:0;text-decoration:underline}
+.colophon{font-size:.85rem}
+/* Command palette overlay. */
+.palette{position:fixed;inset:0;z-index:50;background:rgba(5,8,14,.55);display:flex;align-items:flex-start;justify-content:center;padding:12vh 16px 16px}
+.palette[hidden]{display:none}
+.palette-box{width:min(560px,100%);background:var(--card);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+.palette-box input{width:100%;border:none;border-bottom:1px solid var(--border);background:var(--card);color:var(--text);font-size:1.05rem;padding:16px 18px;outline:none}
+#paletteList{list-style:none;margin:0;padding:8px;max-height:46vh;overflow:auto}
+#paletteList li{padding:10px 12px;border-radius:10px;cursor:pointer;color:var(--text);display:flex;justify-content:space-between;gap:12px}
+#paletteList li small{color:var(--muted)}
+#paletteList li.sel{background:var(--panel);outline:1px solid var(--accent)}
+.palette-hint{margin:0;padding:10px 18px;color:var(--muted);font-size:.82rem;border-top:1px solid var(--border)}
+/* Reduce motion (manual control mirrors prefers-reduced-motion):
+   app.js stops the canvas and carousel; CSS kills transitions, the
+   SVG packets, and smooth scrolling. */
+:root[data-motion="reduced"]{scroll-behavior:auto}
+:root[data-motion="reduced"] *{transition:none!important;animation:none!important}
+:root[data-motion="reduced"] .lineage-svg .packet{display:none}
+/* Pointer, scroll, and click graphics (owner request, Oct 2026).
+   Cursor glow: a soft accent halo that trails the pointer (app.js
+   lerps it inside the same rAF loop as the canvas). Fine pointers
+   only; the element never intercepts clicks. Click burst: a ring and
+   six sparks in the accent colours, spawned by app.js and removed
+   when the animation ends. Scroll reveal: sections rise and fade in
+   the first time they enter the viewport. All three are disabled by
+   reduced motion, OS-level or via the footer control. */
+#cursorGlow{position:fixed;left:0;top:0;width:340px;height:340px;margin:-170px 0 0 -170px;border-radius:50%;pointer-events:none;z-index:0;background:radial-gradient(circle,var(--glow) 0%,transparent 62%);opacity:0;transition:opacity .5s}
+:root[data-theme="dark"]{--glow:rgba(110,168,254,.13)}
+:root[data-theme="light"]{--glow:rgba(31,95,208,.10)}
+.burst{position:fixed;z-index:40;pointer-events:none}
+.burst .ring{position:absolute;left:-6px;top:-6px;width:12px;height:12px;border-radius:50%;border:2px solid var(--accent)}
+.burst .spark{position:absolute;left:-2px;top:-2px;width:4px;height:4px;border-radius:50%;background:var(--accent2)}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){ .reveal{opacity:1;transform:none;transition:none} #cursorGlow{display:none} }
+:root[data-motion="reduced"] .reveal{opacity:1;transform:none}
+:root[data-motion="reduced"] #cursorGlow{display:none}
+/* Print resume mode: the page as a clean document. Interactive and
+   decorative layers go away, case files print OPEN (their content is
+   the resume's substance), colours flatten to black on white. */
+@media print{
+  @page{margin:16mm}
+  body{background:#fff!important;color:#000!important;font-size:11pt;line-height:1.5}
+  #graph,#cursorGlow,#cursorBot,.core-art,.site-header,#palette,.carousel-controls,.case-toggle,.burst{display:none!important}
+  main{max-width:none;padding:0}
+  section{margin:18px 0}
+  .panel,.card,.case,.stats div{background:#fff!important;border:1px solid #bbb!important;box-shadow:none!important;backdrop-filter:none}
+  .case-body{display:block!important}
+  .case-body[hidden]{display:block!important}
+  .reveal{opacity:1!important;transform:none!important}
+  a{color:#000!important;text-decoration:none}
+  .meta,.lede,.cards .card p,.case-body p,.case-body li,.case-body dd,.impact-row span,.trace-date,.trace-note{color:#333!important}
+  .impact-row strong,.stats dt,.trace-result{color:#000!important}
+  .carousel-stage{position:static;aspect-ratio:auto}
+  .carousel .slide{position:static!important;transform:none!important;pointer-events:auto}
+  .carousel .slide img{box-shadow:none;border:1px solid #bbb}
+  .lineage-svg{display:none}
+  footer{background:#fff!important;border-top:1px solid #bbb;color:#333}
+  h1{font-size:22pt}
+  h2{font-size:14pt;border-bottom:1px solid #999;padding-bottom:4px}
+  .case,.panel{break-inside:avoid}
+}
