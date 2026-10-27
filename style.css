@@ -60,7 +60,13 @@ h1{font-size:2.6rem;line-height:1.12;margin:.15em 0}
 h2{font-size:1.55rem;margin:.2em 0 .7em}
 h3{margin:.3em 0 .5em;line-height:1.35}
 .panel,.card,.quote-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:var(--shadow);backdrop-filter:blur(6px)}
-.hero{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(320px,.82fr);gap:38px;align-items:start;margin-top:8px}
+.hero{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(320px,.82fr);gap:38px;align-items:start;margin-top:8px;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:26px 26px;border-radius:24px}
+:root[data-theme="dark"]{--grid:rgba(110,168,254,.07)}
+:root[data-theme="light"]{--grid:rgba(31,95,208,.09)}
+.core-art{margin:0 0 16px}
+.core-art img{width:100%;height:auto;display:none}
+:root[data-theme="dark"] .core-art .core-dark{display:block}
+:root[data-theme="light"] .core-art .core-light{display:block}
 .hero-side{position:sticky;top:96px}
 .glance{margin:10px 0 18px}
 .glance div{display:flex;justify-content:space-between;gap:16px;padding:8px 0;border-bottom:1px dashed var(--border)}
@@ -243,7 +249,7 @@ canvas#graph{opacity:.85}
 @media print{
   @page{margin:16mm}
   body{background:#fff!important;color:#000!important;font-size:11pt;line-height:1.5}
-  #graph,#cursorGlow,.site-header,#palette,.carousel-controls,.case-toggle,#copyNote,.burst{display:none!important}
+  #graph,#cursorGlow,.core-art,.site-header,#palette,.carousel-controls,.case-toggle,.burst{display:none!important}
   main{max-width:none;padding:0}
   section{margin:18px 0}
   .panel,.card,.case,.stats div{background:#fff!important;border:1px solid #bbb!important;box-shadow:none!important;backdrop-filter:none}
