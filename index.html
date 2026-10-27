@@ -221,7 +221,44 @@
        WHEN, not importance or duration. The role="img" wrapper carries
        a text alternative listing every span, because the bars alone
        would mean nothing to a screen reader. -->
-<section id="trace" class="panel">
+<section id="lineage" class="panel">
+    <h2>Lineage, drawn out</h2>
+    <!-- Interactive lineage explorer. The pipeline SHAPE is real (it is the
+         architecture his articles and research describe); the tags on each
+         node are illustrative labels for the demo, not live job metadata,
+         and the section says so in plain words below. Hover or tap a stage:
+         its upstream and downstream edges light up and the rest fade,
+         the pattern his lineage research automates. Keyboard: the stages
+         are real buttons in the list under the graphic. -->
+    <p>This is the shape of the systems I work on, drawn the way a lineage tool sees them. Hover or tap any stage to trace what feeds it and what it feeds.</p>
+    <svg id="lineageSvg" viewBox="0 0 960 300" role="img" aria-label="Illustrative data lineage graph: advertiser feeds and clickstream flow through ingest, Spark transform, and a quality gate into a data lake, then out through an API to analytics. One event stream branches off as flagged anomalies." class="lineage-svg">
+      <g class="edges" fill="none" stroke-width="2">
+        <path id="e-feed-ingest" d="M150,70 C240,70 240,120 330,120"/>
+        <path id="e-click-ingest" d="M150,200 C240,200 240,150 330,150"/>
+        <path id="e-ingest-transform" d="M470,135 L560,135"/>
+        <path id="e-transform-gate" d="M690,120 C750,120 740,110 800,110"/>
+        <path id="e-gate-lake" d="M870,110 C910,110 900,150 880,185"/>
+        <path id="e-lake-api" d="M790,225 L640,225"/>
+        <path id="e-api-analytics" d="M470,225 L330,225"/>
+        <path id="e-gate-anomaly" d="M830,140 C830,200 830,215 830,240" stroke-dasharray="5 5"/>
+      </g>
+      <g class="nodes" font-family="inherit">
+        <g class="lnode" data-node="feed" tabindex="0"><rect x="20" y="45" width="130" height="50" rx="10"/><text x="85" y="75">Advertiser feeds</text></g>
+        <g class="lnode" data-node="click" tabindex="0"><rect x="20" y="175" width="130" height="50" rx="10"/><text x="85" y="205">Clickstream</text></g>
+        <g class="lnode" data-node="ingest" tabindex="0"><rect x="330" y="110" width="140" height="50" rx="10"/><text x="400" y="140">Ingest</text></g>
+        <g class="lnode" data-node="transform" tabindex="0"><rect x="560" y="110" width="130" height="50" rx="10"/><text x="625" y="140">Spark transform</text></g>
+        <g class="lnode" data-node="gate" tabindex="0"><rect x="800" y="85" width="140" height="50" rx="10"/><text x="870" y="115">Quality gate</text></g>
+        <g class="lnode" data-node="lake" tabindex="0"><rect x="740" y="200" width="140" height="50" rx="10"/><text x="810" y="230">Data lake</text></g>
+        <g class="lnode" data-node="api" tabindex="0"><rect x="470" y="200" width="170" height="50" rx="10"/><text x="555" y="230">Data lake API</text></g>
+        <g class="lnode" data-node="analytics" tabindex="0"><rect x="160" y="200" width="170" height="50" rx="10"/><text x="245" y="230">Advertiser analytics</text></g>
+        <g class="lnode anomaly" data-node="anomaly" tabindex="0"><rect x="765" y="240" width="130" height="42" rx="10"/><text x="830" y="266">Flagged anomalies</text></g>
+      </g>
+    </svg>
+    <p id="lineageDetail" class="lineage-detail" aria-live="polite">Pick a stage to see its place in the chain.</p>
+    <p class="meta">Illustrative diagram of the pipeline architecture described in my writing. Stage tags in the detail line are examples, not live metadata from a production job.</p>
+  </section>
+
+  <section id="trace" class="panel">
     <h2>2026, as a trace</h2>
     <p class="trace-note">Every span below is a published piece or a talk, in order. Six spans, July to October 2026.</p>
     <div class="trace" role="img" aria-label="Timeline of 2026 publications and speaking: TDWI Upside on July 8, AI Loves Data on August 25, ExchangeWire on August 27, Marketplace Risk New York on September 16, Label Your Data EU AI Act on September 30, Label Your Data Golden Dataset on October 23">

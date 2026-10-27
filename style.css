@@ -99,3 +99,21 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:v
 .stack{color:var(--muted);font-size:.9rem;border-top:1px dashed var(--border);padding-top:10px;margin-top:12px}
 .role-block{padding:14px 0;border-bottom:1px dashed var(--border)}
 .role-block:last-child{border-bottom:none}
+
+/* Lineage explorer: stage boxes drawn as pipeline nodes. Edges use the
+   accent colour; .lit edges go full accent at full width while .dim
+   edges and nodes fade, so the traced path reads at a glance in both
+   themes. The anomaly node uses a warm colour in both themes. */
+.lineage-svg{width:100%;height:auto;display:block;margin:10px 0}
+.lineage-svg .edges path{stroke:var(--accent);opacity:.45;transition:opacity .25s}
+.lineage-svg .edges path.lit{opacity:1;stroke-width:3.5}
+.lineage-svg .edges path.dim{opacity:.07}
+.lineage-svg .lnode{cursor:pointer;transition:opacity .25s}
+.lineage-svg .lnode rect{fill:var(--card);stroke:var(--accent);stroke-width:1.5}
+.lineage-svg .lnode text{fill:var(--text);font-size:14.5px;text-anchor:middle;pointer-events:none}
+.lineage-svg .lnode.anomaly rect{stroke:#f59e0b}
+.lineage-svg .lnode.dim{opacity:.25}
+.lineage-svg .lnode:focus{outline:none}
+.lineage-svg .lnode:focus rect{stroke-width:3}
+.lineage-detail{min-height:2.6em;font-size:15.5px}
+canvas#graph{opacity:.85}

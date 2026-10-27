@@ -121,4 +121,55 @@
   drawColors();
   resize();
   if (!reduced) requestAnimationFrame(step);
+
+  /* ---- Interactive lineage explorer (section #lineage) ---------------
+     Each stage lists the edges that touch it. Hover, focus, or tap a
+     stage and only those edges stay lit; everything else fades, which
+     is the upstream/downstream trace a lineage tool performs. Tags are
+     illustrative examples, as the section states on the page. */
+  var lineageInfo = {
+    feed: "Advertiser feeds - upstream source. Example tags: owner, ads data team; contract, data contract v3; contains campaign and spend fields.",
+    click: "Clickstream - upstream source. Example tags: high volume event stream; schema checked at ingest; late events expected.",
+    ingest: "Ingest - first stage under our control. Example tags: validates schemas, stamps every record with its source and arrival time.",
+    transform: "Spark transform - where legacy ETL now runs as Spark jobs. Example tags: joins feeds to events; dedupes; writes partitioned output.",
+    gate: "Quality gate - automated checks before anything is served. Example tags: freshness, volume, and distribution checks; failures stop the run and page the owner.",
+    lake: "Data lake - the governed store. Example tags: partitioned by date; retention policy applied; every table carries its lineage.",
+    api: "Data lake API - the serving layer I designed for real-time audience targeting. Example tags: low latency; access logged; consumers see certified data only.",
+    analytics: "Advertiser analytics - what agencies and advertisers actually read. Downstream of everything above, which is why the chain has to be traceable.",
+    anomaly: "Flagged anomalies - records the gate stopped or marked. Example tags: held out of serving; routed for review with the failing check attached."
+  };
+  var lineageEdges = {
+    feed: ["e-feed-ingest"], click: ["e-click-ingest"],
+    ingest: ["e-feed-ingest", "e-click-ingest", "e-ingest-transform"],
+    transform: ["e-ingest-transform", "e-transform-gate"],
+    gate: ["e-transform-gate", "e-gate-lake", "e-gate-anomaly"],
+    lake: ["e-gate-lake", "e-lake-api"],
+    api: ["e-lake-api", "e-api-analytics"],
+    analytics: ["e-api-analytics"], anomaly: ["e-gate-anomaly"]
+  };
+  var svg = document.getElementById("lineageSvg");
+  var detail = document.getElementById("lineageDetail");
+  if (svg && detail) {
+    var paths = svg.querySelectorAll(".edges path");
+    var nodes = svg.querySelectorAll(".lnode");
+    function highlight(name) {
+      var on = lineageEdges[name] || [];
+      paths.forEach(function (p) { p.classList.toggle("lit", on.indexOf(p.id) !== -1); p.classList.toggle("dim", on.indexOf(p.id) === -1); });
+      nodes.forEach(function (n) { n.classList.toggle("dim", n.getAttribute("data-node") !== name); });
+      detail.textContent = lineageInfo[name] || "";
+    }
+    function clear() {
+      paths.forEach(function (p) { p.classList.remove("lit", "dim"); });
+      nodes.forEach(function (n) { n.classList.remove("dim"); });
+      detail.textContent = "Pick a stage to see its place in the chain.";
+    }
+    nodes.forEach(function (n) {
+      var name = n.getAttribute("data-node");
+      n.addEventListener("mouseenter", function () { highlight(name); });
+      n.addEventListener("mouseleave", clear);
+      n.addEventListener("focus", function () { highlight(name); });
+      n.addEventListener("blur", clear);
+      n.addEventListener("click", function () { highlight(name); });
+    });
+  }
 })();
