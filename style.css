@@ -38,6 +38,7 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+html,body{overflow-x:clip}
 body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(160deg,var(--bg),var(--bg2));color:var(--text);line-height:1.65;min-height:100vh;transition:background .35s ease,color .35s ease}
 #graph{position:fixed;inset:0;width:100%;height:100%;z-index:-1;opacity:.55}
 a{color:var(--accent);text-decoration:none}
@@ -64,8 +65,13 @@ h3{margin:.3em 0 .5em;line-height:1.35}
 .role{font-size:1.22rem;font-weight:650;margin:.25em 0}
 .lede{color:var(--muted);font-size:1.05rem}
 .button{display:inline-block;background:var(--accent);color:#fff;padding:11px 20px;border-radius:11px;font-weight:700}
-:root[data-theme="dark"] .button{color:#0a1220}
+:root[data-theme="dark"] .button:not(.secondary){color:#0a1220}
 .button.secondary{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+/* Secondary button label must stay the accent colour in BOTH themes:
+   the dark filled-button text colour above must never reach it (that
+   combination, dark text on a transparent dark background, is what
+   made this label invisible - bug found from a user screenshot, Oct 26). */
+:root[data-theme="dark"] .button.secondary{color:var(--accent)}
 .actions .button{margin:6px 10px 6px 0}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:26px 0 0;padding:0}
 .stats div{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:13px 15px}
