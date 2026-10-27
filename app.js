@@ -317,6 +317,44 @@
     if (document.getElementById(wantCase)) setTimeout(function () { openCase(wantCase); }, 80);
   }
 
+  // The cursor bot (owner's idea, Oct 2026): a small terminal bot fixed
+  // in the corner. Its pupils ease toward the pointer, the head leans a
+  // few degrees that way, and it blinks on a random timer. Under
+  // reduced motion the block never starts and CSS closes its eyes: the
+  // sleeping state. Hidden in print via style.css.
+  var bot = document.getElementById('cursorBot');
+  if (bot && !motionOff()) {
+    var bHead = bot.querySelector('.bot-head');
+    var bPupils = bot.querySelectorAll('.bot-pupil');
+    var bEyes = bot.querySelectorAll('.bot-eye-g');
+    var bTx = window.innerWidth / 2, bTy = window.innerHeight / 2, bPx = 0, bPy = 0, bLean = 0;
+    document.addEventListener('pointermove', function (e) { bTx = e.clientX; bTy = e.clientY; }, { passive: true });
+    (function bLoop() {
+      if (!motionOff()) {
+        var r = bot.getBoundingClientRect();
+        var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+        var dx = bTx - cx, dy = bTy - cy;
+        var d = Math.sqrt(dx * dx + dy * dy) || 1;
+        var gx = (dx / d) * Math.min(2.8, d / 40), gy = (dy / d) * Math.min(2.8, d / 40);
+        bPx += (gx - bPx) * 0.12; bPy += (gy - bPy) * 0.12;
+        for (var i = 0; i < bPupils.length; i++) bPupils[i].setAttribute('transform', 'translate(' + bPx.toFixed(2) + ',' + bPy.toFixed(2) + ')');
+        var targetLean = Math.max(-4, Math.min(4, dx / 90));
+        bLean += (targetLean - bLean) * 0.06;
+        if (bHead) bHead.style.transform = 'rotate(' + bLean.toFixed(2) + 'deg)';
+      }
+      requestAnimationFrame(bLoop);
+    })();
+    (function bBlink() {
+      setTimeout(function () {
+        if (!motionOff()) {
+          for (var i = 0; i < bEyes.length; i++) bEyes[i].style.transform = 'scaleY(0.08)';
+          setTimeout(function () { for (var j = 0; j < bEyes.length; j++) bEyes[j].style.transform = 'scaleY(1)'; }, 130);
+        }
+        bBlink();
+      }, 2400 + Math.random() * 3200);
+    })();
+  }
+
   // Contact is links only (Email me, LinkedIn). The copy-email and
   // print-resume buttons were removed at the owner's direction in
   // Oct 2026, here and in the palette below. The print stylesheet in

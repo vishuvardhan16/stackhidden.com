@@ -61,6 +61,24 @@ h2{font-size:1.55rem;margin:.2em 0 .7em}
 h3{margin:.3em 0 .5em;line-height:1.35}
 .panel,.card,.quote-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:var(--shadow);backdrop-filter:blur(6px)}
 .hero{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(320px,.82fr);gap:38px;align-items:start;margin-top:8px;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:26px 26px;border-radius:24px}
+.points{padding-left:20px;margin:10px 0}
+.points li{margin:8px 0}
+#cursorBot{position:fixed;right:20px;bottom:16px;width:112px;z-index:30;pointer-events:none;filter:drop-shadow(0 10px 24px rgba(0,0,0,.35))}
+#cursorBot .bot-head{transform-origin:60px 60px}
+#cursorBot .bot-shell{fill:var(--card);stroke:var(--accent);stroke-width:2}
+#cursorBot .bot-screen{fill:var(--bg);stroke:var(--border)}
+#cursorBot .bot-eye-g{transform-box:fill-box;transform-origin:center}
+#cursorBot .bot-eye-ball{fill:var(--text)}
+#cursorBot .bot-pupil{fill:var(--accent)}
+#cursorBot .bot-ant{stroke:var(--accent);stroke-width:2}
+#cursorBot .bot-ant-dot{fill:var(--accent2)}
+#cursorBot .bot-base{fill:var(--border)}
+#cursorBot .bot-mouth{stroke:var(--accent);stroke-width:2;stroke-linecap:round}
+#cursorBot .bot-closed{stroke:var(--accent);stroke-width:2;stroke-linecap:round;display:none}
+:root[data-motion="reduced"] #cursorBot .bot-pupil{display:none}
+:root[data-motion="reduced"] #cursorBot .bot-closed{display:block}
+@media (prefers-reduced-motion: reduce){#cursorBot .bot-pupil{display:none}#cursorBot .bot-closed{display:block}}
+@media (max-width:640px){#cursorBot{width:84px;right:12px;bottom:10px}}
 :root[data-theme="dark"]{--grid:rgba(110,168,254,.07)}
 :root[data-theme="light"]{--grid:rgba(31,95,208,.09)}
 .core-art{margin:0 0 16px}
@@ -249,7 +267,7 @@ canvas#graph{opacity:.85}
 @media print{
   @page{margin:16mm}
   body{background:#fff!important;color:#000!important;font-size:11pt;line-height:1.5}
-  #graph,#cursorGlow,.core-art,.site-header,#palette,.carousel-controls,.case-toggle,.burst{display:none!important}
+  #graph,#cursorGlow,#cursorBot,.core-art,.site-header,#palette,.carousel-controls,.case-toggle,.burst{display:none!important}
   main{max-width:none;padding:0}
   section{margin:18px 0}
   .panel,.card,.case,.stats div{background:#fff!important;border:1px solid #bbb!important;box-shadow:none!important;backdrop-filter:none}

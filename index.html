@@ -147,8 +147,19 @@
     <div class="role-block">
       <p class="meta">Amazon Advertising &middot; New York City Metropolitan Area &middot; Hybrid</p>
       <h3>Software Development Engineer, Advertising Analytics and Insights &middot; Sep 2022 to Present</h3>
-      <p>Four years on the same team, through three names for the org and one constant problem: getting trustworthy audience insights from raw advertising data to the people who plan campaigns. I started on the CAIRE recommendation engine and the legacy AIP precompute stack, then built the Insights Store, the platform those pipelines now run on: an ingestion orchestration service I designed and built from scratch, signal-driven publishing, and the Insights API that serves the results. Since then I have added demographic insights, integrated custom brands (ICM) into the store end to end, and moved into the Mosaic and Kaleidoscope agent program, where the same insight data is exposed to AI agents as governed tools and playbooks.</p>
-      <p>The numbers that follow from that work: 8 insight families migrated onto one orchestration platform, a metadata lookup cut from about 3.7 seconds to about 200 milliseconds, ICM insights live in production since August 2025, and 24 agent playbooks in production. The case files under Engineering Work tell each of those stories properly.</p>
+      <p>Four years on the same team, through three names for the org and one constant problem: getting trustworthy audience insights from raw advertising data to the people who plan campaigns. The work, in points:</p>
+      <ul class="points">
+        <li>Built the Insight Ingestion Orchestration Service from scratch: API-triggered ingestion, signal tables, config-driven publishing, and artifact generation, now running all 8 insight families (AIP, P2P, NABS, BSI, ACI, ACV, NTB, Repeat Purchasers).</li>
+        <li>Own the Insights API surface on top of the store, including the Count API and a targeted family-upload endpoint; cut a core metadata lookup from about 3.7 seconds to about 200 milliseconds.</li>
+        <li>Integrated custom brands (ICM) into the store end to end, live in the advertiser UI since August 2025, then extended it to non-endemic advertisers across 50+ change requests.</li>
+        <li>Replaced batch full refreshes with per-schedule FULL, INCREMENTAL, and SKIP decisions, and removed about 4,290 lines of legacy workflow code in the process.</li>
+        <li>Added demographic insights across all regions (feature store plus search index) and keyword classification to the store.</li>
+        <li>Built Kaleidoscope data lake APIs for audience estimation, persona creation, and table discovery; recovered a streaming incident in September 2026 and backfilled 11 months of cold-tier data across 13 markets.</li>
+        <li>Designed the Mosaic agent program: the orchestration agent design doc and proof of concept, with insights exposed to agents as governed tools; 24 playbooks live and a 30-user load test passed.</li>
+        <li>Started on the CAIRE recommendation engine and the legacy AIP precompute stack: day-of-week, long-term customer value, basket analysis, and share of voice insights.</li>
+        <li>On-call owner for these services: incident response and root cause write-ups, including an OpenSearch throttling analysis in April 2026.</li>
+      </ul>
+      <p>The case files under Engineering Work tell four of these stories in full, with the decisions and the numbers.</p>
       <p class="stack">Java &middot; Scala and Spark &middot; TypeScript CDK &middot; Python &middot; DynamoDB &middot; OpenSearch &middot; Step Functions &middot; Lambda &middot; Glue</p>
     </div>
     <div class="role-block">
@@ -532,6 +543,23 @@
        the list is rebuilt on every keystroke from a static command
        table, so there is nothing to keep in sync by hand beyond the
        commands themselves. -->
+<div id="cursorBot" aria-hidden="true">
+  <svg viewBox="0 0 120 106" aria-hidden="true">
+    <g class="bot-head">
+      <line class="bot-ant" x1="60" y1="14" x2="60" y2="27"/>
+      <circle class="bot-ant-dot" cx="60" cy="10" r="4"/>
+      <rect class="bot-shell" x="14" y="27" width="92" height="60" rx="12"/>
+      <rect class="bot-screen" x="24" y="36" width="72" height="42" rx="8"/>
+      <g class="bot-eye-g"><circle class="bot-eye-ball" cx="47" cy="55" r="7.5"/><circle class="bot-pupil" cx="47" cy="55" r="3.4"/></g>
+      <g class="bot-eye-g"><circle class="bot-eye-ball" cx="73" cy="55" r="7.5"/><circle class="bot-pupil" cx="73" cy="55" r="3.4"/></g>
+      <line class="bot-closed" x1="40" y1="55" x2="54" y2="55"/>
+      <line class="bot-closed" x1="66" y1="55" x2="80" y2="55"/>
+      <line class="bot-mouth" x1="54" y1="70" x2="66" y2="70"/>
+    </g>
+    <rect class="bot-base" x="42" y="92" width="36" height="6" rx="3"/>
+  </svg>
+</div>
+
 <div id="palette" class="palette" hidden role="dialog" aria-modal="true" aria-label="Command palette">
   <div class="palette-box">
     <input id="paletteInput" type="text" placeholder="Type a command: go to, copy, print, theme..." aria-label="Command search" autocomplete="off">
