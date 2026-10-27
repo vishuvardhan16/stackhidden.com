@@ -146,3 +146,32 @@ GitHub Pages usually rebuilds within a minute or two of a push. If the live page
 - **Access:** the owner is the only collaborator. Repository interaction limits are set so non-collaborators cannot open issues or pull requests. The code is public because GitHub Pages on this plan serves public repositories; that visibility does not grant anyone write access, and nothing merges without the owner.
 - **DNS (at Hostinger, set Oct 26, 2026, all TTL 14400):** A `@` to 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153; AAAA `@` to 2606:50c0:8000::153 through 8003::153; CNAME `www` to `vishuvardhan16.github.io`. MX (Titan Email) and TXT (SPF, DKIM) records are unrelated to the site and must not be touched.
 - **Domain renewal:** the registration renews at Hostinger on Nov 1, 2026 ($20.19 plus tax); the domain expires Nov 28, 2026 if not renewed. Do not cancel the registration: the live site depends on it.
+
+## V4 (October 2026)
+
+Design pass driven by a study of the best engineer portfolios (Jared
+Chester's site in particular). What changed:
+
+- **Case files** in Engineering Work now follow a fixed template:
+  lede, impact row, the problem, what I built, named **Decisions**,
+  and a stack line. Content is from the owner's own Amazon record.
+  Each file expands in place and answers to a deep link
+  (`#case=icm`, `#case=mosaic`, and so on).
+- **Command palette**: Ctrl or Cmd + K (or the header button) opens a
+  filterable command list: section jumps, opening case files, copy
+  email, print, theme, and motion controls.
+- **Pointer, scroll, and click graphics**: a soft glow trails the
+  cursor (fine pointers only), a ring-and-sparks burst fires on
+  background clicks, and sections reveal as they scroll into view.
+- **Print resume mode**: `@media print` flattens the page to a clean
+  document with every case file open and all interactive layers off.
+- **Reduce motion control** in the footer mirrors
+  `prefers-reduced-motion` and persists per visitor.
+- Stats are sentence fragments with the numbers up front, each 2026
+  trace row carries its result, and Writing gained a short build log,
+  "How This Site Works."
+
+Extra pre-push checks for v4: open and close each case file, follow a
+`#case=` link, run two palette commands by keyboard, click the page
+background for the burst, toggle Reduce motion and confirm the canvas
+and packets stop, and print-preview to confirm case files print open.
