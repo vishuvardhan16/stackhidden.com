@@ -186,6 +186,7 @@ canvas#graph{opacity:.85}
 .carousel .slide figcaption{margin-top:10px;font-size:14.5px;color:var(--muted)}
 .carousel-controls{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:8px}
 .featured-note{margin:10px 0 0;text-align:center;font-size:.82rem;color:var(--muted)}
+.card a{overflow-wrap:anywhere}
 .carousel-btn{background:var(--card);color:var(--accent);border:1px solid var(--border);width:38px;height:38px;border-radius:50%;font-size:20px;line-height:1;cursor:pointer}
 .carousel-dots{display:flex;gap:8px}
 .carousel-dot{width:10px;height:10px;border-radius:50%;border:1px solid var(--accent);background:transparent;cursor:pointer;padding:0}
