@@ -317,25 +317,10 @@
     if (document.getElementById(wantCase)) setTimeout(function () { openCase(wantCase); }, 80);
   }
 
-  // Contact actions: copy email (clipboard API with a textarea fallback
-  // for older browsers) and the print-resume button.
-  function copyEmail() {
-    var note = document.getElementById('copyNote');
-    function done() { if (note) note.textContent = ' - email copied to clipboard'; }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText('vishuvardhan16@gmail.com').then(done, done);
-    } else {
-      var ta = document.createElement('textarea');
-      ta.value = 'vishuvardhan16@gmail.com';
-      document.body.appendChild(ta); ta.select();
-      try { document.execCommand('copy'); } catch (e) {}
-      document.body.removeChild(ta); done();
-    }
-  }
-  var copyBtn = document.getElementById('copyEmail');
-  if (copyBtn) copyBtn.addEventListener('click', copyEmail);
-  var printBtn = document.getElementById('printBtn');
-  if (printBtn) printBtn.addEventListener('click', function () { window.print(); });
+  // Contact is links only (Email me, LinkedIn). The copy-email and
+  // print-resume buttons were removed at the owner's direction in
+  // Oct 2026, here and in the palette below. The print stylesheet in
+  // style.css stays, so a visitor's own browser print still works.
 
   // Reduce-motion control in the footer. Pauses the SVG packets via
   // pauseAnimations; the canvas and carousel check data-motion in
@@ -386,8 +371,6 @@
     { label: 'Go to Published Writing', hint: 'section', run: function () { goTo('#writing'); } },
     { label: 'Go to Featured In', hint: 'section', run: function () { goTo('#featured'); } },
     { label: 'Go to Contact', hint: 'section', run: function () { goTo('#contact'); } },
-    { label: 'Copy email address', hint: 'action', run: copyEmail },
-    { label: 'Print resume', hint: 'action', run: function () { window.print(); } },
     { label: 'Toggle light / dark theme', hint: 'action', run: function () { if (btn) btn.click(); } },
     { label: 'Reduce motion on / off', hint: 'action', run: function () { if (motionBtn) motionBtn.click(); } },
     { label: 'Open LinkedIn', hint: 'link', run: function () { window.open('https://www.linkedin.com/in/vishnu-vardhan-reddy-kaithapuram/', '_blank'); } },
