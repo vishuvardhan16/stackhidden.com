@@ -1,5 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--
+  stackhidden.com - portfolio of Vishnuvardhan Reddy Kaithapuram
+  =====================================================================
+  ARCHITECTURE
+    Plain HTML/CSS/JS. No framework, no build step, no external scripts,
+    fonts, CDNs, or trackers. GitHub Pages serves these files as-is from
+    the repo vishuvardhan16/stackhidden.com (main branch, root folder).
+    That constraint is deliberate: the whole site can be read, audited,
+    and edited in a text editor, and it will still work in ten years.
+
+  FILES
+    index.html          This page. All content lives here.
+    style.css           Theme variables (dark + light) and all layout.
+    app.js              Theme toggle, New York clock, lineage graph.
+    assets/favicon.svg  The only image asset. See the photo rule below.
+
+  THEME
+    The tiny inline script in <head> is the ONE deliberate exception to
+    "all JS lives in app.js". It must run before first paint or returning
+    visitors would get a flash of the wrong theme. It only reads
+    localStorage / the OS colour-scheme preference and sets
+    data-theme on <html>; app.js owns every later change.
+
+  CONTENT RULES (owner's standing instructions - do not break these)
+    1. No photo of Vishnu anywhere on this site. No <img> portrait, no
+       portrait in og:image, no portrait file in the repo.
+    2. Every claim traces to a verified source: his LinkedIn profile read
+       live, his published articles, or a real build artefact. Titles,
+       dates, roles, and tech stacks are never invented or padded.
+    3. Do not name the Journal of Big Data in any bio or profile text.
+    4. Earned-media quotes (Label Your Data) are linked to their live
+       articles; trade articles are titled and dated exactly as published.
+
+  ACCESSIBILITY
+    Landmarks (header/nav/main/footer), one <h1>, a labelled theme
+    toggle, a decorative canvas hidden from assistive tech, and
+    prefers-reduced-motion honoured in both CSS and the canvas code.
+-->
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,102 +47,234 @@
 <meta property="og:description" content="Software Development Engineer at Amazon Advertising. Data pipelines, data quality, lineage, and AI governance.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://stackhidden.com/">
-<meta property="og:image" content="https://stackhidden.com/assets/profile.jpg">
+<meta property="og:image" content="https://stackhidden.com/assets/favicon.svg">
+<meta name="twitter:card" content="summary">
 <link rel="canonical" href="https://stackhidden.com/">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<script>
+(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
+</script>
 <link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Vishnuvardhan Reddy Kaithapuram","jobTitle":"Software Development Engineer","worksFor":{"@type":"Organization","name":"Amazon Advertising"},"address":{"@type":"PostalAddress","addressLocality":"New York","addressRegion":"NY"},"url":"https://stackhidden.com/","sameAs":["https://www.linkedin.com/in/vishnu-vardhan-reddy-kaithapuram/"]}
+</script>
 </head>
 <body>
+<canvas id="graph" aria-hidden="true"></canvas>
+
+  <!-- Sticky header: brand, section nav, and the theme toggle (app.js wires the toggle). -->
 <header class="site-header">
-  <a class="brand" href="/">stackhidden</a>
+  <a class="brand" href="#top">stack<span>hidden</span></a>
   <nav>
     <a href="#about">About</a>
+    <a href="#engineering">Engineering</a>
+    <a href="#trace">2026</a>
     <a href="#writing">Writing</a>
-    <a href="#featured">Featured In</a>
+    <a href="#featured">Featured</a>
     <a href="#speaking">Speaking</a>
     <a href="#contact">Contact</a>
+    <button id="theme-toggle" type="button" aria-label="Switch between light and dark theme" title="Switch theme">
+      <span class="icon-sun" aria-hidden="true">&#9728;</span><span class="icon-moon" aria-hidden="true">&#9790;</span>
+    </button>
   </nav>
 </header>
 
-<main>
+  <!-- Hero: engineer first. Role and pipelines lead; publications are evidence further down, not the headline. -->
+<main id="top">
   <section class="hero">
-    <img class="hero-photo" src="assets/profile.jpg" alt="Vishnuvardhan Reddy Kaithapuram">
-    <div>
-      <p class="eyebrow">New York City</p>
+    <div class="hero-text">
+      <p class="eyebrow">New York City &middot; <span id="clock">--:--</span> ET</p>
       <h1>Vishnuvardhan Reddy Kaithapuram</h1>
-      <p class="role">Software Development Engineer at Amazon Advertising</p>
-      <p class="lede">I build the data pipelines behind advertiser analytics. My work sits at the engineering layer of data governance: tracing where data came from, spotting when it behaves strangely, and enforcing the rules as one connected system.</p>
+      <p class="role">Software Development Engineer, Advertising Analytics and Insights at Amazon</p>
+      <p class="lede">I am an engineer first. At Amazon I build low-latency APIs, Spark pipelines, and the data lake behind advertiser analytics, and my work sits at the engineering layer of data governance: tracing where data came from, spotting when it behaves strangely, and enforcing the rules as one connected system, not three separate jobs.</p>
       <p class="actions">
         <a class="button" href="https://www.linkedin.com/in/vishnu-vardhan-reddy-kaithapuram/" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="button secondary" href="#writing">See my writing</a>
+        <a class="button secondary" href="#writing">Read my writing</a>
       </p>
+      <dl class="stats">
+        <div><dt>Sep 2022 to now</dt><dd>engineering at Amazon Advertising</dd></div>
+        <div><dt>3</dt><dd>trade publications in 2026</dd></div>
+        <div><dt>2</dt><dd>expert features, Label Your Data</dd></div>
+        <div><dt>48</dt><dd>certifications on LinkedIn, incl. Go and SQL Advanced</dd></div>
+      </dl>
     </div>
   </section>
 
-  <section id="about">
+    <!-- About: the owner-approved short bio. Keep wording aligned with his LinkedIn summary. -->
+<section id="about" class="panel">
     <h2>About</h2>
-    <p>I'm a Software Development Engineer at Amazon Advertising, where I build petabyte-scale data pipelines and advertiser-facing analytics systems. My own research is on graph-based lineage reconstruction and anomaly detection in those pipelines.</p>
+    <p>I'm a Software Development Engineer at Amazon Advertising, where I build petabyte-scale data pipelines and advertiser-facing analytics systems. My own research is on graph-based lineage reconstruction and anomaly detection in those pipelines, the animated graph behind this page is a nod to that work.</p>
     <p>I've written about data-layer AI governance for TDWI Upside and ExchangeWire, spoke at Marketplace Risk 2026 in New York on automated data quality, and was quoted by Label Your Data on EU AI Act training data requirements and on golden datasets.</p>
   </section>
 
-  <section id="expertise">
-    <h2>Expertise</h2>
+    <!-- Experience: roles and dates must match LinkedIn exactly. Do not add employers, titles, or dates from memory. -->
+<section id="experience" class="panel">
+    <h2>Experience</h2>
+    <!-- Roles, employers, dates, and work details below are copied in substance from his LinkedIn profile, read live on Oct 26, 2026. Wording is condensed; no employer, title, date, or result has been added. -->
+    <div class="role-block">
+      <p class="meta">Amazon Advertising &middot; New York City Metropolitan Area &middot; Hybrid</p>
+      <h3>Software Development Engineer, Advertising Analytics and Insights &middot; Sep 2022 to Present</h3>
+      <p>Low-latency APIs serving major agency holding companies. Migrated legacy ETL processes to Spark jobs. Designed a data lake API that enhanced real-time audience targeting. Focus: audience insights, automation, and the analytics platform other teams build on.</p>
+      <p class="stack">Go &middot; Back-end development &middot; Spark &middot; Distributed systems &middot; Big data</p>
+    </div>
+    <div class="role-block">
+      <p class="meta">Uptycs &middot; Remote, Massachusetts</p>
+      <h3>SDE Intern &middot; Jun 2022 to Aug 2022</h3>
+      <p>Built and fixed user interface stories in React, integrated backend APIs with the frontend, and built data visualisation dashboards with ECharts against business requirements.</p>
+      <p class="stack">React &middot; API integration &middot; Data visualisation</p>
+    </div>
+    <div class="role-block">
+      <p class="meta">TA Digital &middot; Hyderabad, India</p>
+      <h3>Associate Software Engineer &middot; Mar 2020 to Apr 2021</h3>
+      <p>Built data collection from multiple upstreams, parsed and sent downstream for storage and visualisation, in Java, REST, and Spring Boot on Oracle DB. Shipped 15 end-to-end machine learning projects to production, and turned a monolithic email spam classifier into an extensible Python API. Earlier, interned there Dec 2019 to Feb 2020 on Java EE and Spring MVC applications.</p>
+      <p class="stack">Java &middot; Spring Boot &middot; REST &middot; Oracle DB &middot; Python &middot; NLP &middot; Machine learning</p>
+    </div>
+    <div class="role-block">
+      <p class="meta">Augmented Byte &middot; Hyderabad, India</p>
+      <h3>Data Scientist, Intern &middot; May 2019</h3>
+      <p>Data mining and integration for actionable insights. Removing 25 percent redundant data lifted model accuracy by 15 percent, and time series work reached a 2 percent mean squared error.</p>
+      <p class="stack">Python &middot; Data mining &middot; Time series</p>
+    </div>
+  </section>
+
+  <section id="education" class="panel">
+    <h2>Education</h2>
+    <!-- Degree names, schools, and dates exactly as listed on LinkedIn. No campus is named for either school there, so none is stated here. -->
+    <div class="role-block">
+      <h3>University at Buffalo</h3>
+      <p>Master's of Engineering Science, Data Science (MS) &middot; Aug 2021 to Aug 2022</p>
+    </div>
+    <div class="role-block">
+      <h3>GITAM Deemed University</h3>
+      <p>Bachelor's degree, Computer Science &middot; Jun 2016 to Jun 2020 &middot; Grade 8.41</p>
+    </div>
+    <p class="meta">Selected certifications, of 48 listed on LinkedIn</p>
     <ul class="chips">
+      <li>Go (Intermediate), HackerRank, Jan 2026</li>
+      <li>SQL (Advanced), HackerRank, Dec 2025</li>
+      <li>Software Engineer Certificate, HackerRank, Dec 2025</li>
+      <li>IBM Data Science Specialization, Jun 2021</li>
+      <li>Triplebyte Certified Generalist Engineer, Nov 2021</li>
+    </ul>
+    <p class="meta">Mentoring</p>
+    <p>Volunteer Mentor, Data Visualization Society, Feb to Apr 2026, and mentor in the DVS 2026 Mentorship Cohort.</p>
+  </section>
+
+    <!-- Engineering work as case files. Each card is a real system, article, or build; the stack/focus line only lists verified tech. -->
+<section id="engineering">
+    <h2>Engineering Work</h2>
+    <div class="cards">
+      <article class="card">
+        <p class="meta">Case file &middot; Data quality at scale</p>
+        <h3>Automating Data Quality in Petabyte-Scale Pipelines</h3>
+        <p>Automated checks for schema drift, volume anomalies, and distribution shift, built into the pipeline instead of bolted on after a dashboard breaks. Written up in TDWI Upside, July 2026.</p>
+        <p class="stack">Focus: data quality automation, anomaly detection, streaming and batch pipelines</p>
+      </article>
+      <article class="card">
+        <p class="meta">Case file &middot; Advertiser analytics</p>
+        <h3>Advertiser Analytics in a Post-Identifier World</h3>
+        <p>Rebuilding analytics when the identifiers the industry relied on disappear: what breaks, what replaces them, and how measurement stays honest. Written up in ExchangeWire, August 2026.</p>
+        <p class="stack">Focus: advertiser analytics, measurement, privacy-era data design</p>
+      </article>
+      <article class="card">
+        <p class="meta">Project &middot; LedgerLens</p>
+        <h3>LedgerLens, a Payment Anomaly Agent</h3>
+        <p>A silent payment-integrity agent built for the PayPal AI Hackathon 2026. It detects duplicate charges, FX drift, fee anomalies, orphan refunds, velocity spikes, and stuck authorizations, then explains each finding in plain language. Build complete, 12 of 12 tests passing.</p>
+        <p class="stack">Stack: Python, FastAPI, PayPal sandbox API, six-rule anomaly detector, dashboard UI</p>
+      </article>
+      <article class="card">
+        <p class="meta">Research &middot; Lineage and detection</p>
+        <h3>Graph-Based Lineage Reconstruction</h3>
+        <p>My research thread: rebuilding a dataset's lineage as a graph so you can prove where a row came from, and flagging when a pipeline's behaviour drifts from what that lineage says it should be. It is also the idea behind this page's background graphic.</p>
+        <p class="stack">Focus: lineage graphs, provenance, drift detection</p>
+      </article>
+    </div>
+  </section>
+
+    <!-- Expertise chips: areas, not a keyword dump. Keep to what his record actually supports. -->
+<section id="work" class="panel">
+    <h2>What I work on</h2>
+    <ul class="chips">
+      <li>Go and back-end development</li>
+      <li>Distributed systems</li>
+      <li>Data engineering</li>
       <li>Data pipelines at petabyte scale</li>
       <li>Automated data quality</li>
       <li>Data lineage and provenance</li>
       <li>Anomaly detection</li>
       <li>Data-layer AI governance</li>
       <li>Advertiser analytics</li>
+      <li>A/B testing and predictive modelling</li>
+      <li>Natural language processing</li>
       <li>Streaming pipelines</li>
     </ul>
   </section>
 
-  <section id="writing">
+    <!-- "2026, as a trace": a tracing-waterfall view of one year.
+       Bar widths are the event's position inside Jul 1 to Oct 31, 2026:
+       width % = (event date - Jul 1) / 123 days, rounded. They encode
+       WHEN, not importance or duration. The role="img" wrapper carries
+       a text alternative listing every span, because the bars alone
+       would mean nothing to a screen reader. -->
+<section id="trace" class="panel">
+    <h2>2026, as a trace</h2>
+    <p class="trace-note">Every span below is a published piece or a talk, in order. Six spans, July to October 2026.</p>
+    <div class="trace" role="img" aria-label="Timeline of 2026 publications and speaking: TDWI Upside on July 8, AI Loves Data on August 25, ExchangeWire on August 27, Marketplace Risk New York on September 16, Label Your Data EU AI Act on September 30, Label Your Data Golden Dataset on October 23">
+      <div class="trace-row"><div class="trace-head"><span class="trace-label">TDWI Upside</span><span class="trace-date">Jul 8 &middot; Writing</span></div><div class="trace-track"><span class="trace-bar" style="width:8%"></span></div></div>
+      <div class="trace-row"><div class="trace-head"><span class="trace-label">AI Loves Data</span><span class="trace-date">Aug 25 &middot; Roundtable</span></div><div class="trace-track"><span class="trace-bar" style="width:50%"></span></div></div>
+      <div class="trace-row"><div class="trace-head"><span class="trace-label">ExchangeWire</span><span class="trace-date">Aug 27 &middot; Writing</span></div><div class="trace-track"><span class="trace-bar" style="width:52%"></span></div></div>
+      <div class="trace-row"><div class="trace-head"><span class="trace-label">Marketplace Risk, New York</span><span class="trace-date">Sep 16 &middot; Speaking</span></div><div class="trace-track"><span class="trace-bar accent" style="width:69%"></span></div></div>
+      <div class="trace-row"><div class="trace-head"><span class="trace-label">Label Your Data, EU AI Act</span><span class="trace-date">Sep 30 &middot; Featured</span></div><div class="trace-track"><span class="trace-bar" style="width:81%"></span></div></div>
+      <div class="trace-row"><div class="trace-head"><span class="trace-label">Label Your Data, Golden Dataset</span><span class="trace-date">Oct 23 &middot; Featured</span></div><div class="trace-track"><span class="trace-bar" style="width:100%"></span></div></div>
+      <div class="trace-axis"><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span></div>
+    </div>
+  </section>
+
+    <!-- Published writing: exact published titles and dates. Add a link only after the live URL has been verified. -->
+<section id="writing">
     <h2>Published Writing</h2>
     <div class="cards">
       <article class="card">
         <p class="meta">TDWI Upside &middot; July 8, 2026</p>
         <h3>From Reactive to Proactive: Automating Data Quality in Petabyte-Scale Analytics Pipelines</h3>
+        <p>How automated checks catch schema drift, volume anomalies, and distribution shift before they reach a dashboard.</p>
       </article>
       <article class="card">
         <p class="meta">ExchangeWire &middot; August 27, 2026</p>
         <h3>Building Advertiser Analytics in a Post-Identifier World</h3>
+        <p>What changes for advertiser analytics when the identifiers the industry relied on go away.</p>
       </article>
       <article class="card">
         <p class="meta">AI Loves Data Roundtable &middot; August 25, 2026</p>
         <h3>Batch to Streaming: What Actually Breaks and When It's Worth It</h3>
+        <p>A roundtable on the real failure modes of moving from batch to streaming, and when the move pays off.</p>
       </article>
     </div>
   </section>
 
-  <section id="featured">
+    <!-- Featured in: named expert quotes. Short excerpts only, always attributed and linked to the source article. -->
+<section id="featured">
     <h2>Featured In</h2>
-    <div class="cards">
-      <article class="card">
-        <p class="meta">Label Your Data &middot; September 30, 2026</p>
-        <h3><a href="https://labelyourdata.com/articles/eu-artificial-intelligence-act" target="_blank" rel="noopener">EU AI Act: Training Data Requirements in 2026</a></h3>
-        <blockquote>"In practice, most teams have a labeling pipeline and a policy document, but no lineage. They can't tell you where a given training row came from, what transformations it went through, or whether the distribution that produced it has drifted since."</blockquote>
-      </article>
-      <article class="card">
-        <p class="meta">Label Your Data &middot; October 23, 2026</p>
-        <h3><a href="https://labelyourdata.com/articles/machine-learning/golden-dataset" target="_blank" rel="noopener">Golden Dataset: How to Build Trusted AI Evaluation Data</a></h3>
-        <blockquote>"A golden dataset is one whose lineage is auditable and whose behavior is continuously validated against the world it claims to represent."</blockquote>
-      </article>
-    </div>
+    <figure class="quote-card">
+      <blockquote>"In practice, most teams have a labeling pipeline and a policy document, but no lineage. They can't tell you where a given training row came from, what transformations it went through, or whether the distribution that produced it has drifted since."</blockquote>
+      <figcaption><a href="https://labelyourdata.com/articles/eu-artificial-intelligence-act" target="_blank" rel="noopener">Label Your Data, EU AI Act: Training Data Requirements in 2026</a> &middot; September 30, 2026</figcaption>
+    </figure>
+    <figure class="quote-card">
+      <blockquote>"A golden dataset is one whose lineage is auditable and whose behavior is continuously validated against the world it claims to represent."</blockquote>
+      <figcaption><a href="https://labelyourdata.com/articles/machine-learning/golden-dataset" target="_blank" rel="noopener">Label Your Data, Golden Dataset: How to Build Trusted AI Evaluation Data</a> &middot; October 23, 2026</figcaption>
+    </figure>
   </section>
 
-  <section id="speaking">
+    <!-- Speaking: confirmed engagements only, with the venue and date as announced. -->
+<section id="speaking" class="panel">
     <h2>Speaking</h2>
-    <div class="cards">
-      <article class="card">
-        <p class="meta">Marketplace Risk, New York &middot; September 16, 2026</p>
-        <h3>Automated Data Quality and Data-Layer AI Governance</h3>
-        <p>Conference talk on automated data quality in production pipelines.</p>
-      </article>
-    </div>
+    <p class="meta">Marketplace Risk, New York &middot; September 16, 2026</p>
+    <h3>Automated Data Quality and Data-Layer AI Governance</h3>
+    <p>Conference talk on automated data quality in production pipelines, and why governance has to live inside the pipeline, not in a policy document beside it.</p>
   </section>
 
-  <section id="contact">
+    <!-- Contact: LinkedIn only. There is no form: GitHub Pages is static, and a fake form that mails nowhere would be worse than none. -->
+<section id="contact" class="panel">
     <h2>Contact</h2>
     <p>For speaking, writing, or expert commentary on data quality and AI governance, reach me on LinkedIn.</p>
     <p><a class="button" href="https://www.linkedin.com/in/vishnu-vardhan-reddy-kaithapuram/" target="_blank" rel="noopener">Connect on LinkedIn</a></p>
@@ -112,7 +282,9 @@
 </main>
 
 <footer>
-  <p>&copy; 2026 Vishnuvardhan Reddy Kaithapuram &middot; stackhidden.com</p>
+  <p>&copy; 2026 Vishnuvardhan Reddy Kaithapuram &middot; stackhidden.com &middot; Built on GitHub Pages</p>
 </footer>
+
+<script src="app.js"></script>
 </body>
 </html>
