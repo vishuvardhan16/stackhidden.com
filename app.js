@@ -395,6 +395,30 @@
     coreStart();
   }
 
+  // Hero video: the data-hero action figure as a muted 10-second loop.
+  // It plays only while motion is allowed (OS setting and the footer
+  // toggle, via motionOff), the hero is on screen, and the tab is
+  // visible. Otherwise the poster still shows, which is the same
+  // illustration unanimated. The play() promise is caught because a
+  // browser may still refuse; a refused autoplay just leaves the still.
+  var heroVideo = document.getElementById('heroVideo');
+  if (heroVideo) {
+    heroVideo.muted = true;
+    var hvVisible = true;
+    function hvSync() {
+      if (!motionOff() && hvVisible && !document.hidden) {
+        var promise = heroVideo.play();
+        if (promise && promise.catch) promise.catch(function () {});
+      } else {
+        heroVideo.pause();
+      }
+    }
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { hvVisible = es[0].isIntersecting; hvSync(); }).observe(heroVideo);
+    document.addEventListener('visibilitychange', hvSync);
+    new MutationObserver(hvSync).observe(document.documentElement, { attributes: true, attributeFilter: ['data-motion', 'data-theme'] });
+    hvSync();
+  }
+
   // The cursor bot (owner's idea, Oct 2026): a small terminal bot fixed
   // in the corner. Its pupils ease toward the pointer, the head leans a
   // few degrees that way, and it blinks on a random timer. Under
