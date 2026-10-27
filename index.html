@@ -115,6 +115,47 @@
         <a class="button" href="https://www.linkedin.com/in/vishnu-vardhan-reddy-kaithapuram/" target="_blank" rel="noopener">LinkedIn</a>
         <a class="button secondary" href="#writing">Read my writing</a>
       </p>
+      <!-- Hero flow: how an insight travels on his platform, drawn as five
+           stages with packets moving between them (app.js). It fills the
+           space under the bio with the shape of the day job, in the same
+           visual language as the lineage explorer below. Stage four is
+           stroked violet: quality and lineage are his signature. Under
+           reduced motion the packets park and the diagram is still. -->
+      <figure class="hero-flow">
+        <svg id="heroFlowSvg" viewBox="0 0 600 112" role="img" aria-label="Diagram: advertiser data flows through orchestration, Spark compute, and quality and lineage checks, into the Insights API.">
+          <path class="hf-edge" id="hf-e1" d="M104 62 L124 62"/>
+          <path class="hf-edge" id="hf-e2" d="M228 62 L248 62"/>
+          <path class="hf-edge" id="hf-e3" d="M352 62 L372 62"/>
+          <path class="hf-edge" id="hf-e4" d="M476 62 L496 62"/>
+          <g class="hf-stage">
+            <rect x="0" y="30" width="104" height="64" rx="10"/>
+            <text class="hf-name" x="52" y="58" text-anchor="middle">Advertiser data</text>
+            <text class="hf-sub" x="52" y="76" text-anchor="middle">the sources</text>
+          </g>
+          <g class="hf-stage">
+            <rect x="124" y="30" width="104" height="64" rx="10"/>
+            <text class="hf-name" x="176" y="58" text-anchor="middle">Orchestration</text>
+            <text class="hf-sub" x="176" y="76" text-anchor="middle">Step Functions</text>
+          </g>
+          <g class="hf-stage">
+            <rect x="248" y="30" width="104" height="64" rx="10"/>
+            <text class="hf-name" x="300" y="58" text-anchor="middle">Compute</text>
+            <text class="hf-sub" x="300" y="76" text-anchor="middle">Spark pipelines</text>
+          </g>
+          <g class="hf-stage hot">
+            <rect x="372" y="30" width="104" height="64" rx="10"/>
+            <text class="hf-name hf-long" x="424" y="58" text-anchor="middle">Quality + lineage</text>
+            <text class="hf-sub" x="424" y="76" text-anchor="middle">checked every step</text>
+          </g>
+          <g class="hf-stage">
+            <rect x="496" y="30" width="104" height="64" rx="10"/>
+            <text class="hf-name" x="548" y="58" text-anchor="middle">Insights API</text>
+            <text class="hf-sub" x="548" y="76" text-anchor="middle">serves IHUB</text>
+          </g>
+          <g id="hfPackets" aria-hidden="true"></g>
+        </svg>
+        <figcaption class="flow-note">How an insight travels on the platform I work on.</figcaption>
+      </figure>
     </div>
     <aside class="hero-side panel">
       <figure class="core-art">
@@ -549,8 +590,8 @@
         <div class="carousel-dots" role="group" aria-label="Choose quote"></div>
         <button type="button" class="carousel-btn" id="quoteNext" aria-label="Next quote">&#8250;</button>
       </div>
-      <p class="featured-note">Both articles were written by Karyna Naminas, CEO of Label Your Data, who quoted me as an expert source.</p>p>
     </div>
+    <p class="featured-note">Both articles were written by Karyna Naminas, CEO of Label Your Data, who quoted me as an expert source.</p>
   </section>
 
     <!-- Speaking: confirmed engagements only, with the venue and date as announced. -->

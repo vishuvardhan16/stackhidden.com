@@ -105,6 +105,17 @@ h3{margin:.3em 0 .5em;line-height:1.35}
    made this label invisible - bug found from a user screenshot, Oct 26). */
 :root[data-theme="dark"] .button.secondary{color:var(--accent)}
 .actions .button{margin:6px 10px 6px 0}
+.hero-flow{margin:28px 0 0}
+.hero-flow svg{width:100%;height:auto;display:block}
+.hero-flow text{font-family:inherit}
+.hf-stage rect{fill:var(--panel);stroke:var(--line);stroke-width:1}
+.hf-stage.hot rect{stroke:var(--accent2)}
+.hf-name{fill:var(--text);font-size:12px;font-weight:650}
+.hf-name.hf-long{font-size:11px}
+.hf-sub{fill:var(--muted);font-size:10px}
+.hf-edge{stroke:var(--line);stroke-width:1.5;fill:none}
+#hfPackets circle{fill:var(--accent)}
+.flow-note{margin-top:4px;font-size:.82rem;color:var(--muted)}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:26px 0 0;padding:0}
 .stats div{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:13px 15px}
 .stats dt{font-weight:800;font-size:1.15rem;color:var(--accent)}
@@ -185,11 +196,11 @@ canvas#graph{opacity:.85}
 .carousel .slide img{width:100%;height:auto;max-height:78%;object-fit:contain;display:block;background:#fff;border-radius:12px;padding:14px;box-shadow:var(--shadow)}
 .carousel .slide figcaption{margin-top:10px;font-size:14.5px;color:var(--muted)}
 .carousel-controls{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:8px}
+.featured-note{margin:10px 0 0;text-align:center;font-size:.82rem;color:var(--muted)}
 .carousel-btn{background:var(--card);color:var(--accent);border:1px solid var(--border);width:38px;height:38px;border-radius:50%;font-size:20px;line-height:1;cursor:pointer}
 .carousel-dots{display:flex;gap:8px}
 .carousel-dot{width:10px;height:10px;border-radius:50%;border:1px solid var(--accent);background:transparent;cursor:pointer;padding:0}
 .carousel-dot.on{background:var(--accent)}
-.featured-note{font-size:13px;color:var(--muted);text-align:center;margin-top:12px}
 @media (prefers-reduced-motion: reduce){ .carousel .slide{transition:none} }
 .goal-line{font-size:16px;color:var(--text);font-weight:600;margin:8px 0 0}
 
