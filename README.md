@@ -43,6 +43,16 @@ The site is a hand-built static page: plain HTML, CSS, and JavaScript. No framew
 4. He is a Software Engineer. Never title him a Data Engineer.
 5. The site presents his current role and record only. No future-role aspiration is stated anywhere on the site.
 
+### Project structure
+
+| Folder | What it holds |
+| --- | --- |
+| `assets/` | The site's images: the favicon, the data hero figure, the share card, the lineage core artwork, and the two quote screenshots. |
+| `tests/` | The automated test suite: one module per area, plus shared browser helpers. `docs/test-plan.md` says what each module protects. |
+| `scripts/` | `run-tests.sh`, the one command that runs the whole suite locally. |
+| `docs/` | The working documents, kept in the repo: how the site works, the cursor bot, the lineage core, the content rules, deployment, testing, and the test plan. |
+| `.github/workflows/` | The CI workflow (`site-checks`) that runs the same suite on every push and pull request. |
+
 ---
 
 ## Project design
@@ -102,6 +112,14 @@ Both themes are one layout driven by CSS custom properties (`--bg`, `--panel`, `
 ---
 
 ## How to test
+
+### Running the checks
+
+```bash
+scripts/run-tests.sh
+```
+
+One command runs the automated suite: the static content-rule checks first, then the browser modules (theme, palette, case files, carousel, explorer, layout, motion) against the local files, with a pass/fail line per module and a non-zero exit if anything fails. The browser modules need Playwright; the script uses the venv at `/tmp/pwenv` when it is present, and python3 otherwise. CI (`.github/workflows/ci.yml`) runs the same suite on every push and pull request, against the site served locally in the runner.
 
 ### Run it locally
 
