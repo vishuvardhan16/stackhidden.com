@@ -175,20 +175,6 @@
     });
   }
 
-  /* ---- Boot log typing (hero) -----------------------------------------
-     Types the one-line system log once when the page loads. The full
-     line is already in the HTML, so no-JS and reduced-motion visitors
-     simply read it; typing is decoration only (aria-hidden). */
-  var boot = document.getElementById("bootlog");
-  if (boot && !reduced) {
-    var full = boot.textContent; boot.textContent = "";
-    var bi = 0;
-    var bTimer = setInterval(function () {
-      bi += 2; boot.textContent = full.slice(0, bi);
-      if (bi >= full.length) clearInterval(bTimer);
-    }, 24);
-  }
-
   /* ---- Trace case files (section #trace) -------------------------------
      Rows become buttons. Selecting one writes its case file into the
      detail line: date, outlet or venue, and what the piece was. Every

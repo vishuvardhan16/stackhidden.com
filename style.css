@@ -54,13 +54,22 @@ nav a{color:var(--muted);margin-left:16px;font-size:.95rem}
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
 :root[data-theme="light"] .icon-moon{display:inline}
-main{max-width:1020px;margin:0 auto;padding:34px 20px 60px}
+main{max-width:1280px;margin:0 auto;padding:34px 28px 60px}
 section{margin:52px 0}
 h1{font-size:2.6rem;line-height:1.12;margin:.15em 0}
 h2{font-size:1.55rem;margin:.2em 0 .7em}
 h3{margin:.3em 0 .5em;line-height:1.35}
 .panel,.card,.quote-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:var(--shadow);backdrop-filter:blur(6px)}
-.hero{display:block;max-width:860px;margin-top:8px}
+.hero{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(320px,.82fr);gap:38px;align-items:start;margin-top:8px}
+.hero-side{position:sticky;top:96px}
+.glance{margin:10px 0 18px}
+.glance div{display:flex;justify-content:space-between;gap:16px;padding:8px 0;border-bottom:1px dashed var(--border)}
+.glance div:last-child{border-bottom:none}
+.glance dt{color:var(--muted);font-size:.9rem;white-space:nowrap}
+.glance dd{margin:0;text-align:right;font-weight:600;font-size:.95rem}
+.stats-side{grid-template-columns:1fr 1fr;margin:0 0 18px}
+.side-links{margin:8px 0 0;font-weight:600}
+@media(max-width:920px){ .hero{grid-template-columns:1fr} .hero-side{position:static} }
 .eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:.14em;font-size:.8rem;font-weight:700;margin:0}
 .role{font-size:1.22rem;font-weight:650;margin:.25em 0}
 .lede{color:var(--muted);font-size:1.05rem}
@@ -89,7 +98,7 @@ h3{margin:.3em 0 .5em;line-height:1.35}
 .trace-bar{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
 .trace-bar.accent{background:linear-gradient(90deg,var(--accent2),var(--accent))}
 .trace-axis{display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem;margin-top:8px}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
 .cards .card p{color:var(--muted)}
 .meta{color:var(--muted);font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;margin:0}
 .quote-card{margin:0 0 16px}
@@ -124,8 +133,6 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:v
 .lineage-detail{min-height:2.6em;font-size:15.5px}
 canvas#graph{opacity:.85}
 
-/* Boot log: monospace one-liner in the hero, typed by app.js. */
-.bootlog{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;color:var(--accent);min-height:1.4em;margin:14px 0 0}
 /* Travelling packets on the lineage graph (SVG animateMotion). The
    anomaly packet is amber: most traffic flows clean, a little is flagged. */
 .lineage-svg .packet{fill:var(--accent)}
@@ -236,7 +243,7 @@ canvas#graph{opacity:.85}
 @media print{
   @page{margin:16mm}
   body{background:#fff!important;color:#000!important;font-size:11pt;line-height:1.5}
-  #graph,#cursorGlow,.site-header,#palette,.bootlog,.carousel-controls,.case-toggle,#copyNote,.burst{display:none!important}
+  #graph,#cursorGlow,.site-header,#palette,.carousel-controls,.case-toggle,#copyNote,.burst{display:none!important}
   main{max-width:none;padding:0}
   section{margin:18px 0}
   .panel,.card,.case,.stats div{background:#fff!important;border:1px solid #bbb!important;box-shadow:none!important;backdrop-filter:none}
