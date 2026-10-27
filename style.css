@@ -82,9 +82,7 @@ h3{margin:.3em 0 .5em;line-height:1.35}
 :root[data-theme="dark"]{--grid:rgba(110,168,254,.07)}
 :root[data-theme="light"]{--grid:rgba(31,95,208,.09)}
 .core-art{margin:0 0 16px}
-.core-art img{width:100%;height:auto;display:none}
-:root[data-theme="dark"] .core-art .core-dark{display:block}
-:root[data-theme="light"] .core-art .core-light{display:block}
+.core-art canvas{width:100%;height:auto;display:block}
 .hero-side{position:sticky;top:96px}
 .glance{margin:10px 0 18px}
 .glance div{display:flex;justify-content:space-between;gap:16px;padding:8px 0;border-bottom:1px dashed var(--border)}

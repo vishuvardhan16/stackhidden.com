@@ -317,6 +317,84 @@
     if (document.getElementById(wantCase)) setTimeout(function () { openCase(wantCase); }, 80);
   }
 
+  // The animated lineage core in the hero panel: a halftone sphere of
+  // governed data with dataset nodes travelling lineage orbits around
+  // it. Inspiration: living centerpieces on the best portfolio sites;
+  // the execution is this site's own, drawn on canvas in the theme
+  // accent. Polite loop, per the standard canvas-hero pattern found in
+  // research: the dot field is precomputed once, the loop pauses when
+  // the panel is off screen or the tab is hidden, and reduced motion
+  // gets a single still frame.
+  var coreCv = document.getElementById('coreAnim');
+  if (coreCv) {
+    var cctx = coreCv.getContext('2d');
+    var CCX = 440, CCY = 420, CR = 215;
+    function hexRgb(hex) { hex = (hex || '').trim(); var n = parseInt(hex.slice(1), 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
+    function coreColors() {
+      var cs = getComputedStyle(document.documentElement);
+      return { a: hexRgb(cs.getPropertyValue('--accent')), v: hexRgb(cs.getPropertyValue('--accent2')), bg: cs.getPropertyValue('--bg').trim() || '#0d1017' };
+    }
+    var coreCols = coreColors();
+    var coreDots = [], cstep = 17;
+    for (var yy = -CR; yy <= CR; yy += cstep) for (var xx = -CR; xx <= CR; xx += cstep) {
+      var d2 = xx * xx + yy * yy; if (d2 > CR * CR) continue;
+      var nz = Math.sqrt(1 - d2 / (CR * CR));
+      var lx = -0.55, ly = -0.75, lz = 0.6, ll = Math.sqrt(lx * lx + ly * ly + lz * lz);
+      coreDots.push({ x: xx, y: yy, b: Math.max(0, (xx / CR * lx + yy / CR * ly + nz * lz) / ll) });
+    }
+    var coreOrbits = [
+      { rx: 385, ry: 120, rot: -0.30, speed: 0.14, nodes: [{ p: 0.3, r: 15 }, { p: 3.6, r: 11 }] },
+      { rx: 340, ry: 95, rot: 0.22, speed: -0.10, nodes: [{ p: 1.8, r: 12 }] },
+      { rx: 410, ry: 150, rot: -0.62, speed: 0.08, nodes: [{ p: 5.2, r: 13 }, { p: 2.2, r: 9 }] }
+    ];
+    function corePt(o, a) {
+      var x = Math.cos(a) * o.rx, y = Math.sin(a) * o.ry;
+      var c = Math.cos(o.rot), s = Math.sin(o.rot);
+      return [CCX + x * c - y * s, CCY + x * s + y * c];
+    }
+    function rgba(c, al) { return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + al + ')'; }
+    function coreFrame(t) {
+      cctx.clearRect(0, 0, 880, 880);
+      coreOrbits.forEach(function (o) {
+        cctx.beginPath();
+        for (var a = 0; a <= Math.PI * 2 + 0.01; a += 0.05) { var p = corePt(o, a); a === 0 ? cctx.moveTo(p[0], p[1]) : cctx.lineTo(p[0], p[1]); }
+        cctx.strokeStyle = rgba(coreCols.a, 0.35); cctx.lineWidth = 2.5; cctx.stroke();
+      });
+      var shimmer = 0.06 * Math.sin(t * 0.0007);
+      coreDots.forEach(function (d) {
+        var b = Math.min(1, d.b + shimmer + 0.08);
+        cctx.beginPath(); cctx.arc(CCX + d.x, CCY + d.y, 1 + 5.2 * b, 0, 7);
+        cctx.fillStyle = rgba(coreCols.a, (0.13 + 0.8 * b).toFixed(3)); cctx.fill();
+      });
+      coreOrbits.forEach(function (o) {
+        o.nodes.forEach(function (n) {
+          var a = n.p + t * 0.001 * o.speed;
+          for (var k = 5; k >= 1; k--) { var tp = corePt(o, a - k * 0.045 * Math.sign(o.speed)); cctx.beginPath(); cctx.arc(tp[0], tp[1], n.r * 0.32 * (1 - k / 7), 0, 7); cctx.fillStyle = rgba(coreCols.v, 0.10 + 0.05 * (6 - k)); cctx.fill(); }
+          var p = corePt(o, a);
+          cctx.beginPath(); cctx.arc(p[0], p[1], n.r, 0, 7); cctx.fillStyle = coreCols.bg; cctx.fill();
+          cctx.lineWidth = 4; cctx.strokeStyle = rgba(coreCols.a, 1); cctx.stroke();
+          cctx.beginPath(); cctx.arc(p[0], p[1], n.r * 0.36, 0, 7); cctx.fillStyle = rgba(coreCols.a, 1); cctx.fill();
+        });
+      });
+      cctx.fillStyle = rgba(coreCols.a, 0.5);
+      [[120, 150], [760, 180], [180, 700], [720, 690], [90, 430], [800, 450]].forEach(function (s) { cctx.fillRect(s[0], s[1], 4, 4); });
+    }
+    var coreVisible = true, coreRunning = false;
+    function coreLoop(t) {
+      if (!coreVisible || document.hidden || motionOff()) { coreRunning = false; return; }
+      coreFrame(t); requestAnimationFrame(coreLoop);
+    }
+    function coreStart() {
+      if (motionOff()) { coreFrame(1200); return; }
+      if (!coreRunning) { coreRunning = true; requestAnimationFrame(coreLoop); }
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { coreVisible = es[0].isIntersecting; if (coreVisible) coreStart(); }).observe(coreCv);
+    }
+    new MutationObserver(function () { coreCols = coreColors(); if (motionOff() || !coreRunning) coreFrame(1200); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'data-motion'] });
+    coreStart();
+  }
+
   // The cursor bot (owner's idea, Oct 2026): a small terminal bot fixed
   // in the corner. Its pupils ease toward the pointer, the head leans a
   // few degrees that way, and it blinks on a random timer. Under
