@@ -108,6 +108,8 @@
     }
   }
   function step() {
+    // The manual reduce-motion control (v4) freezes the field in place.
+    if (root.getAttribute('data-motion') === 'reduced') { draw(); return; }
     for (var i = 0; i < nodes.length; i++) {
       var n = nodes[i];
       n.x += n.vx; n.y += n.vy;
@@ -276,7 +278,7 @@
       if (manual) restart();
     }
     function step() { go(idx + 1); }
-    function restart() { if (timer) clearInterval(timer); if (!reduced) timer = setInterval(step, 5000); }
+    function restart() { if (timer) clearInterval(timer); if (!reduced && root.getAttribute('data-motion') !== 'reduced') timer = setInterval(step, 5000); }
     document.getElementById("quotePrev").addEventListener("click", function () { go(idx - 1, true); });
     document.getElementById("quoteNext").addEventListener("click", function () { go(idx + 1, true); });
     carousel.addEventListener("mouseenter", function () { if (timer) clearInterval(timer); });
@@ -287,4 +289,229 @@
     for (var i = 0; i < dots.length; i++) dots[i].classList.toggle("on", i === 0);
     restart();
   }
+
+  /* ---- V4: case files, command palette, contact actions, motion
+     control, and pointer/scroll/click graphics --------------------------
+     motionOff() is the single test every v4 animation consults: the OS
+     preference captured at load, OR the manual footer control, which
+     persists in localStorage under "motion". The canvas loop and the
+     carousel also read data-motion directly (see their gates above). */
+  function motionOff() {
+    return reduced || root.getAttribute('data-motion') === 'reduced';
+  }
+
+  // Case files: the toggle buttons open and close the file bodies, and
+  // #case=<slug> deep links open one on arrival (used by the palette).
+  function setCase(id, open) {
+    var art = document.getElementById(id);
+    if (!art) return;
+    var body = art.querySelector('.case-body');
+    var b = art.querySelector('.case-toggle');
+    if (!body || !b) return;
+    body.hidden = !open;
+    b.setAttribute('aria-expanded', open ? 'true' : 'false');
+    b.textContent = open ? 'Close case file' : 'Open case file';
+  }
+  document.querySelectorAll('.case-toggle').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var art = b.closest('.case');
+      var body = art && art.querySelector('.case-body');
+      if (art && body) setCase(art.id, body.hidden);
+    });
+  });
+  function openCase(id) {
+    setCase(id, true);
+    var art = document.getElementById(id);
+    if (art) art.scrollIntoView();
+  }
+  if (location.hash.indexOf('#case=') === 0) {
+    var slugPart = location.hash.slice(6);
+    if (slugPart.indexOf('case-') === 0) slugPart = slugPart.slice(5);
+    var wantCase = 'case-' + slugPart;
+    if (document.getElementById(wantCase)) setTimeout(function () { openCase(wantCase); }, 80);
+  }
+
+  // Contact actions: copy email (clipboard API with a textarea fallback
+  // for older browsers) and the print-resume button.
+  function copyEmail() {
+    var note = document.getElementById('copyNote');
+    function done() { if (note) note.textContent = ' - email copied to clipboard'; }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText('vishuvardhan16@gmail.com').then(done, done);
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = 'vishuvardhan16@gmail.com';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta); done();
+    }
+  }
+  var copyBtn = document.getElementById('copyEmail');
+  if (copyBtn) copyBtn.addEventListener('click', copyEmail);
+  var printBtn = document.getElementById('printBtn');
+  if (printBtn) printBtn.addEventListener('click', function () { window.print(); });
+
+  // Reduce-motion control in the footer. Pauses the SVG packets via
+  // pauseAnimations; the canvas and carousel check data-motion in
+  // their own loops; CSS handles transitions and the reveal states.
+  var motionBtn = document.getElementById('motionBtn');
+  function applyMotion() {
+    var off = motionOff();
+    if (motionBtn) {
+      motionBtn.setAttribute('aria-pressed', off ? 'true' : 'false');
+      motionBtn.textContent = off ? 'Motion reduced (on)' : 'Reduce motion';
+    }
+    var svgEl = document.getElementById('lineageSvg');
+    if (svgEl && svgEl.pauseAnimations) { if (off) svgEl.pauseAnimations(); else svgEl.unpauseAnimations(); }
+    if (!off && !reduced) requestAnimationFrame(step);
+  }
+  try { if (localStorage.getItem('motion') === 'reduced') root.setAttribute('data-motion', 'reduced'); } catch (e) {}
+  if (motionBtn) {
+    motionBtn.addEventListener('click', function () {
+      if (root.getAttribute('data-motion') === 'reduced') {
+        root.removeAttribute('data-motion');
+        try { localStorage.removeItem('motion'); } catch (e) {}
+      } else {
+        root.setAttribute('data-motion', 'reduced');
+        try { localStorage.setItem('motion', 'reduced'); } catch (e) {}
+      }
+      applyMotion();
+    });
+  }
+  applyMotion();
+
+  // Command palette: Ctrl or Cmd + K, the header button, or a tap on
+  // the scrim to close. Commands are a static table; filtering is a
+  // substring match on the label, arrow keys move, Enter runs.
+  var palette = document.getElementById('palette');
+  var pInput = document.getElementById('paletteInput');
+  var pList = document.getElementById('paletteList');
+  function goTo(sel) { var el = document.querySelector(sel); if (el) el.scrollIntoView(); }
+  var commands = [
+    { label: 'Go to About', hint: 'section', run: function () { goTo('#about'); } },
+    { label: 'Go to Experience', hint: 'section', run: function () { goTo('#experience'); } },
+    { label: 'Go to Engineering Work', hint: 'section', run: function () { goTo('#engineering'); } },
+    { label: 'Case file: Insight Ingestion Orchestration', hint: 'open', run: function () { openCase('case-orchestration'); } },
+    { label: 'Case file: Insights API', hint: 'open', run: function () { openCase('case-insights-api'); } },
+    { label: 'Case file: Custom Brands (ICM)', hint: 'open', run: function () { openCase('case-icm'); } },
+    { label: 'Case file: Mosaic and Kaleidoscope Agents', hint: 'open', run: function () { openCase('case-mosaic'); } },
+    { label: 'Go to Lineage, drawn out', hint: 'section', run: function () { goTo('#lineage'); } },
+    { label: 'Go to 2026, as a trace', hint: 'section', run: function () { goTo('#trace'); } },
+    { label: 'Go to Published Writing', hint: 'section', run: function () { goTo('#writing'); } },
+    { label: 'Go to Featured In', hint: 'section', run: function () { goTo('#featured'); } },
+    { label: 'Go to Contact', hint: 'section', run: function () { goTo('#contact'); } },
+    { label: 'Copy email address', hint: 'action', run: copyEmail },
+    { label: 'Print resume', hint: 'action', run: function () { window.print(); } },
+    { label: 'Toggle light / dark theme', hint: 'action', run: function () { if (btn) btn.click(); } },
+    { label: 'Reduce motion on / off', hint: 'action', run: function () { if (motionBtn) motionBtn.click(); } },
+    { label: 'Open LinkedIn', hint: 'link', run: function () { window.open('https://www.linkedin.com/in/vishnu-vardhan-reddy-kaithapuram/', '_blank'); } },
+    { label: 'Open GitHub source', hint: 'link', run: function () { window.open('https://github.com/vishuvardhan16/stackhidden.com', '_blank'); } }
+  ];
+  var pSel = 0, pItems = [];
+  function markSel() {
+    Array.prototype.forEach.call(pList.children, function (li, i) { li.classList.toggle('sel', i === pSel); });
+  }
+  function renderPalette() {
+    var q = pInput.value.trim().toLowerCase();
+    pItems = commands.filter(function (c) { return !q || c.label.toLowerCase().indexOf(q) !== -1; });
+    pSel = 0;
+    pList.innerHTML = '';
+    if (!pItems.length) {
+      var none = document.createElement('li');
+      none.textContent = 'No matching command';
+      pList.appendChild(none);
+      return;
+    }
+    pItems.forEach(function (c, i) {
+      var li = document.createElement('li');
+      li.setAttribute('role', 'option');
+      var s = document.createElement('span'); s.textContent = c.label;
+      var h = document.createElement('small'); h.textContent = c.hint;
+      li.appendChild(s); li.appendChild(h);
+      li.addEventListener('click', function () { closePalette(); c.run(); });
+      li.addEventListener('mousemove', function () { pSel = i; markSel(); });
+      pList.appendChild(li);
+    });
+    markSel();
+  }
+  function openPalette() { if (!palette) return; palette.hidden = false; pInput.value = ''; renderPalette(); pInput.focus(); }
+  function closePalette() { if (palette) palette.hidden = true; }
+  var paletteBtn = document.getElementById('paletteBtn');
+  if (paletteBtn) paletteBtn.addEventListener('click', openPalette);
+  if (pInput) pInput.addEventListener('input', renderPalette);
+  if (palette) palette.addEventListener('click', function (e) { if (e.target === palette) closePalette(); });
+  document.addEventListener('keydown', function (e) {
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+      e.preventDefault();
+      if (palette && palette.hidden) openPalette(); else closePalette();
+      return;
+    }
+    if (!palette || palette.hidden) return;
+    if (e.key === 'Escape') closePalette();
+    else if (e.key === 'ArrowDown') { e.preventDefault(); pSel = Math.min(pSel + 1, pItems.length - 1); markSel(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); pSel = Math.max(pSel - 1, 0); markSel(); }
+    else if (e.key === 'Enter' && document.activeElement === pInput) { var c = pItems[pSel]; if (c) { closePalette(); c.run(); } }
+  });
+
+  // Scroll reveal: sections and case files rise and fade in the first
+  // time they enter the viewport. Only elements that start below the
+  // fold get the hidden state, so nothing flashes or stays invisible
+  // if the observer never fires.
+  if ('IntersectionObserver' in window && !motionOff()) {
+    var ro = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); ro.unobserve(en.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('main section, #engineering .case').forEach(function (el) {
+      if (el.getBoundingClientRect().top > window.innerHeight * 0.92) { el.classList.add('reveal'); ro.observe(el); }
+    });
+  }
+
+  // Cursor glow: a soft accent halo that trails the pointer with a lag
+  // (lerp), so it feels like light following the hand, not a sticker.
+  // Fine pointers only; touch devices never see it.
+  var glow = document.getElementById('cursorGlow');
+  if (glow && window.matchMedia('(pointer: fine)').matches && !motionOff()) {
+    var gx = -500, gy = -500, tx = -500, ty = -500, glowOn = false;
+    document.addEventListener('pointermove', function (e) {
+      tx = e.clientX; ty = e.clientY;
+      if (!glowOn) { glowOn = true; glow.style.opacity = '1'; }
+    }, { passive: true });
+    (function glowStep() {
+      if (!motionOff()) {
+        gx += (tx - gx) * 0.08; gy += (ty - gy) * 0.08;
+        glow.style.transform = 'translate(' + gx + 'px,' + gy + 'px)';
+      }
+      requestAnimationFrame(glowStep);
+    })();
+  }
+
+  // Click burst: a ring and six sparks at the press point, in the
+  // accent colours. Skipped on interactive elements (they have their
+  // own feedback) and under reduced motion. Pure decoration, spawned
+  // and removed per click; nothing accumulates in the DOM.
+  document.addEventListener('pointerdown', function (e) {
+    if (motionOff()) return;
+    var t = e.target;
+    if (t && t.closest && t.closest('a, button, input, li, .lnode, [role="button"]')) return;
+    var b = document.createElement('div');
+    b.className = 'burst'; b.setAttribute('aria-hidden', 'true');
+    b.style.left = e.clientX + 'px'; b.style.top = e.clientY + 'px';
+    var ring = document.createElement('span'); ring.className = 'ring'; b.appendChild(ring);
+    ring.animate(
+      [{ transform: 'scale(1)', opacity: 0.9 }, { transform: 'scale(6)', opacity: 0 }],
+      { duration: 550, easing: 'ease-out' }
+    );
+    for (var i = 0; i < 6; i++) {
+      var s = document.createElement('span'); s.className = 'spark'; b.appendChild(s);
+      var ang = (Math.PI * 2 * i) / 6 + Math.random() * 0.5;
+      var dist = 26 + Math.random() * 22;
+      s.animate(
+        [{ transform: 'translate(0,0)', opacity: 1 },
+         { transform: 'translate(' + (Math.cos(ang) * dist).toFixed(1) + 'px,' + (Math.sin(ang) * dist).toFixed(1) + 'px)', opacity: 0 }],
+        { duration: 520, easing: 'ease-out' }
+      );
+    }
+    document.body.appendChild(b);
+    setTimeout(function () { b.remove(); }, 640);
+  });
 })();

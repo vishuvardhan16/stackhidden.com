@@ -31,6 +31,19 @@
     3. Do not name the Journal of Big Data in any bio or profile text.
     4. Earned-media quotes (Label Your Data) are linked to their live
        articles; trade articles are titled and dated exactly as published.
+    5. Never state his level, his office or building, or his manager's
+       name. Internal package and repository names are not site copy.
+       Program and system names (Insights Store, Mosaic, Kaleidoscope)
+       are fine. The Amazon case files in v4 are written from the
+       owner's own record of his work, provided by him on Oct 26, 2026.
+
+  V4 (Oct 2026)
+    Case files rebuilt on a fixed template (problem, what I built,
+    named decisions, impact row) after a study of the best engineer
+    portfolios, Jared Chester's in particular. Adds a Cmd/Ctrl+K
+    command palette, a print resume stylesheet, a copy-email button,
+    a reduce-motion control, and deep links to case files
+    (#case=<slug>). No new dependencies; still plain HTML/CSS/JS.
 
   ACCESSIBILITY
     Landmarks (header/nav/main/footer), one <h1>, a labelled theme
@@ -61,6 +74,7 @@
 </head>
 <body>
 <canvas id="graph" aria-hidden="true"></canvas>
+<div id="cursorGlow" aria-hidden="true"></div>
 
   <!-- Sticky header: brand, section nav, and the theme toggle (app.js wires the toggle). -->
 <header class="site-header">
@@ -77,6 +91,7 @@
     <button id="theme-toggle" type="button" aria-label="Switch between light and dark theme" title="Switch theme">
       <span class="icon-sun" aria-hidden="true">&#9728;</span><span class="icon-moon" aria-hidden="true">&#9790;</span>
     </button>
+    <button id="paletteBtn" type="button" aria-label="Open command palette" title="Command palette (Ctrl or Cmd + K)">&#8984;K</button>
   </nav>
 </header>
 
@@ -95,10 +110,10 @@
       </p>
       <p class="bootlog" id="bootlog" aria-hidden="true">sources mounted OK &middot; schema checks PASS &middot; lineage traced &middot; anomalies flagged &middot; serving analytics</p>
       <dl class="stats">
-        <div><dt>Sep 2022 to now</dt><dd>engineering at Amazon Advertising</dd></div>
-        <div><dt>3</dt><dd>trade publications in 2026</dd></div>
-        <div><dt>2</dt><dd>expert features, Label Your Data</dd></div>
-        <div><dt>48</dt><dd>certifications on LinkedIn, incl. Go and SQL Advanced</dd></div>
+        <div><dt>4 yrs</dt><dd>building advertiser analytics at Amazon Advertising</dd></div>
+        <div><dt>8</dt><dd>insight families run on an orchestration platform I built</dd></div>
+        <div><dt>~200 ms</dt><dd>for a metadata lookup that took about 3.7 seconds</dd></div>
+        <div><dt>24</dt><dd>agent playbooks live in the Mosaic agent program</dd></div>
       </dl>
     </div>
   </section>
@@ -117,8 +132,9 @@
     <div class="role-block">
       <p class="meta">Amazon Advertising &middot; New York City Metropolitan Area &middot; Hybrid</p>
       <h3>Software Development Engineer, Advertising Analytics and Insights &middot; Sep 2022 to Present</h3>
-      <p>Low-latency APIs serving major agency holding companies. Migrated legacy ETL processes to Spark jobs. Designed a data lake API that enhanced real-time audience targeting. Focus: audience insights, automation, and the analytics platform other teams build on.</p>
-      <p class="stack">Go &middot; Back-end development &middot; Spark &middot; Distributed systems &middot; Big data</p>
+      <p>Four years on the same team, through three names for the org and one constant problem: getting trustworthy audience insights from raw advertising data to the people who plan campaigns. I started on the CAIRE recommendation engine and the legacy AIP precompute stack, then built the Insights Store, the platform those pipelines now run on: an ingestion orchestration service I designed and built from scratch, signal-driven publishing, and the Insights API that serves the results. Since then I have added demographic insights, integrated custom brands (ICM) into the store end to end, and moved into the Mosaic and Kaleidoscope agent program, where the same insight data is exposed to AI agents as governed tools and playbooks.</p>
+      <p>The numbers that follow from that work: 8 insight families migrated onto one orchestration platform, a metadata lookup cut from about 3.7 seconds to about 200 milliseconds, ICM insights live in production since August 2025, and 24 agent playbooks in production. The case files under Engineering Work tell each of those stories properly.</p>
+      <p class="stack">Java &middot; Scala and Spark &middot; TypeScript CDK &middot; Python &middot; DynamoDB &middot; OpenSearch &middot; Step Functions &middot; Lambda &middot; Glue</p>
     </div>
     <div class="role-block">
       <p class="meta">Uptycs &middot; Remote, Massachusetts</p>
@@ -163,35 +179,144 @@
     <p>Volunteer Mentor, Data Visualization Society, Feb to Apr 2026, and mentor in the DVS 2026 Mentorship Cohort.</p>
   </section>
 
-    <!-- Engineering work as case files. Each card is a real system, article, or build; the stack/focus line only lists verified tech. -->
+    <!-- Engineering case files, v4 template: lede, impact row, then an
+         expandable file (the problem, what I built, named decisions,
+         stack). Every fact is from the owner's own record of his Amazon
+         work, provided Oct 26, 2026. No level, office, manager, or
+         internal package names anywhere, per his standing rule.
+         Deep links: #case=<slug> opens the file on load (app.js). -->
 <section id="engineering">
     <h2>Engineering Work</h2>
-    <div class="cards">
-      <article class="card">
-        <p class="meta">Case file &middot; Data quality at scale</p>
-        <h3>Automating Data Quality in Petabyte-Scale Pipelines</h3>
-        <p>Automated checks for schema drift, volume anomalies, and distribution shift, built into the pipeline instead of bolted on after a dashboard breaks. Written up in TDWI Upside, July 2026.</p>
-        <p class="stack">Focus: data quality automation, anomaly detection, streaming and batch pipelines</p>
-      </article>
-      <article class="card">
-        <p class="meta">Case file &middot; Advertiser analytics</p>
-        <h3>Advertiser Analytics in a Post-Identifier World</h3>
-        <p>Rebuilding analytics when the identifiers the industry relied on disappear: what breaks, what replaces them, and how measurement stays honest. Written up in ExchangeWire, August 2026.</p>
-        <p class="stack">Focus: advertiser analytics, measurement, privacy-era data design</p>
-      </article>
-      <article class="card">
-        <p class="meta">Project &middot; LedgerLens</p>
-        <h3>LedgerLens, a Payment Anomaly Agent</h3>
-        <p>A silent payment-integrity agent built for the PayPal AI Hackathon 2026. It detects duplicate charges, FX drift, fee anomalies, orphan refunds, velocity spikes, and stuck authorizations, then explains each finding in plain language. Build complete, 12 of 12 tests passing.</p>
-        <p class="stack">Stack: Python, FastAPI, PayPal sandbox API, six-rule anomaly detector, dashboard UI</p>
-      </article>
-      <article class="card">
-        <p class="meta">Research &middot; Lineage and detection</p>
-        <h3>Graph-Based Lineage Reconstruction</h3>
-        <p>My research thread: rebuilding a dataset's lineage as a graph so you can prove where a row came from, and flagging when a pipeline's behaviour drifts from what that lineage says it should be. It is also the idea behind this page's background graphic.</p>
-        <p class="stack">Focus: lineage graphs, provenance, drift detection</p>
-      </article>
-    </div>
+    <p class="trace-note">Case files from my work at Amazon Advertising. Open one for the problem, what I built, the decisions that mattered, and the numbers.</p>
+
+    <article class="panel case" id="case-orchestration">
+      <p class="meta">Case file &middot; Insights platform &middot; 2023 to 2024</p>
+      <h3>Insight Ingestion Orchestration, Built From Scratch</h3>
+      <p>Every insight family on the legacy stack had its own bespoke pipeline. I designed and built the orchestration service the Insights Store now runs on: signal-driven, config-first, and loud when something fails.</p>
+      <div class="impact-row">
+        <div><strong>8</strong><span>insight families migrated onto it</span></div>
+        <div><strong>0 to 1</strong><span>designed and built from scratch</span></div>
+        <div><strong>1 SoP</strong><span>config-authoring guide, written for the team</span></div>
+      </div>
+      <button type="button" class="case-toggle" data-case="case-orchestration" aria-expanded="false">Open case file</button>
+      <div class="case-body" hidden>
+        <h4>The problem</h4>
+        <p>Audience insights (purchase frequency, share of voice, brand switching, demographics, and more) were each computed by their own hand-wired pipeline. Onboarding a new metric meant new code, failures were discovered by customers, and nobody could answer a simple question: what ran, when, and did it publish?</p>
+        <h4>What I built</h4>
+        <ul>
+          <li>A Coral API gateway with Lambda handlers in front of DynamoDB signal tables that track metrics, subtypes, families, and publishes.</li>
+          <li>A configuration bucket holding auto-deployed JSON configs, so a family is described in config, not code.</li>
+          <li>A work queue with a dead-letter queue and a driver Lambda, plus a Step Function that generates the artifacts each run produces.</li>
+          <li>A Scala Glue payload generator and a signal processor with SNS fan-out, so downstream consumers react to publishes instead of polling.</li>
+          <li>A job metadata table and long-runtime alarms, so a stuck job pages a human instead of stalling quietly.</li>
+        </ul>
+        <h4>Decisions</h4>
+        <dl class="decisions">
+          <dt>Signals over schedules</dt><dd>Downstream work triggers off publish signals recorded in DynamoDB, not chains of cron timers. If an upstream run is late, downstream waits for the signal instead of computing on stale data.</dd>
+          <dt>Config over code</dt><dd>New families and metrics onboard through JSON configuration that deploys itself. I wrote the config-authoring standard operating procedure so the next engineer does not need me in the room.</dd>
+          <dt>Fail loud</dt><dd>Dead-letter queues and long-runtime alarms are part of the design, not an afterthought. A failed insight run is a ticket and an alarm, never a silent gap in a dashboard.</dd>
+        </dl>
+        <p class="stack">Stack: Java (Coral), Lambda, DynamoDB, Step Functions, Glue (Scala), SQS and SNS, TypeScript CDK, Andes 3.0 and Feature Store</p>
+      </div>
+    </article>
+
+    <article class="panel case" id="case-insights-api">
+      <p class="meta">Case file &middot; Insights API &middot; 2023 to 2026</p>
+      <h3>The Insights API and Insight Management Service</h3>
+      <p>The serving layer between the insight pipelines and the products that show insights to advertisers. My work here is the unglamorous kind that decides whether a platform feels fast and trustworthy: correct dates, honest availability, and lookups that stay quick as the catalogue grows.</p>
+      <div class="impact-row">
+        <div><strong>3.7s to ~200ms</strong><span>metadata lookup, reworked end to end</span></div>
+        <div><strong>All regions</strong><span>regionalized integration and load tests</span></div>
+        <div><strong>1 API</strong><span>availability, counts, and targeted uploads</span></div>
+      </div>
+      <button type="button" class="case-toggle" data-case="case-insights-api" aria-expanded="false">Open case file</button>
+      <div class="case-body" hidden>
+        <h4>The problem</h4>
+        <p>Consumers of the Insights Store needed to ask three questions constantly: what insights exist for this advertiser, over what dates, and is the data fresh? Early answers were slow and sometimes wrong, because metric dates were assumed rather than modelled, and metadata reads scanned whole tables.</p>
+        <h4>What I built</h4>
+        <ul>
+          <li>Cadence-aware metric dates in the Insight Management Service, so weekly, monthly, and quarterly insights each carry their real dates through payloads and API models, with start and end dates supported end to end.</li>
+          <li>A Count API behind the family-availability endpoint, so a UI can show what exists before it asks for the data itself.</li>
+          <li>A targeted family-upload endpoint (Smithy model, data access layer, integration and load tests) for correcting one family without republishing the world.</li>
+          <li>Manual-insights ingestion: an S3-triggered Lambda that assigns IDs, tracks what has been served, and alarms on failure, plus PDF as a supported asset type and a Kinesis dead-letter queue.</li>
+        </ul>
+        <h4>Decisions</h4>
+        <dl class="decisions">
+          <dt>Fix the access pattern, not the instance</dt><dd>The slow metadata endpoint was reading with a full table Scan. I reworked it to a Query against the right key, which is why the fix held at about 200 milliseconds instead of creeping back.</dd>
+          <dt>Dates are part of the contract</dt><dd>An insight without trustworthy dates is a wrong answer waiting to happen. Cadence is modelled in the data, not guessed by each consumer.</dd>
+          <dt>Test where it runs</dt><dd>Integration tests are regionalized and load tests run against the real shape of the catalogue, because the failures that matter show up per region and at catalogue scale.</dd>
+        </dl>
+        <p class="stack">Stack: Java, Smithy, Lambda, DynamoDB, OpenSearch, Kinesis, S3, TypeScript CDK</p>
+      </div>
+    </article>
+
+    <article class="panel case" id="case-icm">
+      <p class="meta">Case file &middot; Custom brands (ICM) &middot; 2025 to 2026</p>
+      <h3>Bringing Custom Brands Into the Insights Store</h3>
+      <p>ICM brands and business lines did not fit the standard insight model: different brand definitions, different funnels, data living in a separate account. I led the engineering that made them first-class citizens of the Insights Store instead of a side system.</p>
+      <div class="impact-row">
+        <div><strong>Aug 2025</strong><span>ICM insights live in production</span></div>
+        <div><strong>39</strong><span>schedules handed to the incremental refresh starter</span></div>
+        <div><strong>4,290</strong><span>lines of legacy code removed</span></div>
+        <div><strong>50+</strong><span>change requests for the non-endemic expansion</span></div>
+      </div>
+      <button type="button" class="case-toggle" data-case="case-icm" aria-expanded="false">Open case file</button>
+      <div class="case-body" hidden>
+        <h4>The problem</h4>
+        <p>Standard insights assume standard brands. Custom brands broke that assumption in the data model, the account mapping, the funnels, and the refresh cycle all at once, and a parallel store would have doubled every future cost.</p>
+        <h4>What I built</h4>
+        <ul>
+          <li>The low-level design for the integration, then the build: a Yellowtail ECS endpoint reading the sketch database with adaptors for the APT funnel views (trailing twelve months, year to date, quarterly, year-over-year growth).</li>
+          <li>Brand type and version carried in the unified family table and the APIs, with separate S3 partitioning for standard and ICM data.</li>
+          <li>A Step Function and Lambda trigger inside the ICM account, ICM-aware account mapping, and the ICM Purchase Frequency, Demographic, and Recency-Frequency metrics.</li>
+          <li>The incremental refresh system: a starter that decides FULL, INCREMENTAL, or SKIP from the partitions that actually changed, per-configuration refresh records, a no-change-day gate, and one deduplicated ticket per failed run.</li>
+        </ul>
+        <h4>Decisions</h4>
+        <dl class="decisions">
+          <dt>One family table, two brand types</dt><dd>I extended the unified model with a brand type rather than forking a second store. Every improvement to the platform since then has applied to both brand kinds for free.</dd>
+          <dt>Refresh only what changed</dt><dd>Full recomputation on a schedule is simple and wasteful. The starter reads the loyalty partitions and decides per dataset: full, incremental, or skip. On a no-change day the correct amount of compute is none.</dd>
+          <dt>Delete as a deliverable</dt><dd>The migration ended with 4,290 lines of legacy OmniFlow code removed. Code that no longer exists cannot page anyone.</dd>
+        </dl>
+        <p class="stack">Stack: Java, ECS, DynamoDB, S3, Step Functions, Lambda, Zeno, Theta sketches, TypeScript CDK</p>
+      </div>
+    </article>
+
+    <article class="panel case" id="case-mosaic">
+      <p class="meta">Case file &middot; Mosaic and Kaleidoscope agents &middot; 2025 to 2026</p>
+      <h3>Agents Over the Data Lake: Mosaic and Kaleidoscope</h3>
+      <p>The current chapter. The audience data behind advertiser insights lives in sketches and data-lake tables that took specialist knowledge to query. The Mosaic program puts AI agents on top of it, with the insights platform as the governed source underneath.</p>
+      <div class="impact-row">
+        <div><strong>24</strong><span>insights-as-skills playbooks live</span></div>
+        <div><strong>13</strong><span>markets in the cold-tier backfill</span></div>
+        <div><strong>30 users</strong><span>gamma load test, passed</span></div>
+      </div>
+      <button type="button" class="case-toggle" data-case="case-mosaic" aria-expanded="false">Open case file</button>
+      <div class="case-body" hidden>
+        <h4>The problem</h4>
+        <p>Persona and audience questions ("how big is this audience, in this market, on these devices?") needed sketch data that only a few engineers could reach, and an agent answering those questions needs tools with contracts, not a database connection and good intentions.</p>
+        <h4>What I built</h4>
+        <ul>
+          <li>Kaleidoscope Data Lake APIs: CreatePersona, DescribePersona, EstimateAudienceSize, DiscoverTables, signal ID resolution, a targeting-expression evaluator, and ephemeral storage, on top of Theta sketch data.</li>
+          <li>The Mosaic audience-strategy agent on Ads Agent Fabric and Bedrock AgentCore Runtime: scaffold, CDK, pipeline, system prompt and response contract, monitoring and alarming, and an agentic sandbox.</li>
+          <li>Insights-as-skills playbooks that package insight logic for the agent, with end-to-end and load testing, and the integration with the internal agent service including a per-realm routing fix for EU and FE.</li>
+          <li>Operations when it counted: recovery from the September 2026 streaming-sketch incident, and an 11-month recency and device-class cold-tier backfill across 13 markets.</li>
+        </ul>
+        <h4>Decisions</h4>
+        <dl class="decisions">
+          <dt>Insights as skills, not prompts</dt><dd>An agent that improvises an insight is a liability. The platform's insight logic is packaged as tested playbooks the agent invokes, so the answer an advertiser sees is the same computation the platform has always run.</dd>
+          <dt>Contracts before autonomy</dt><dd>The agent's response contract, monitoring, and alarms were built with the agent, not after it. Autonomy without observability is just a faster way to be wrong.</dd>
+          <dt>Route per realm</dt><dd>EU and FE traffic follows different paths for real regulatory and latency reasons. The routing fix treats realm as a first-class input to the integration, not a special case.</dd>
+        </dl>
+        <p class="stack">Stack: Python (Strands Agents, FastMCP), Bedrock AgentCore, Java, Theta sketches, DynamoDB, S3, TypeScript CDK</p>
+      </div>
+    </article>
+
+    <article class="panel case">
+      <p class="meta">Project &middot; LedgerLens &middot; 2026</p>
+      <h3>LedgerLens, a Payment Anomaly Agent</h3>
+      <p>A silent payment-integrity agent built for the PayPal AI Hackathon 2026. It detects duplicate charges, FX drift, fee anomalies, orphan refunds, velocity spikes, and stuck authorizations, then explains each finding in plain language. Build complete, 12 of 12 tests passing.</p>
+      <p class="stack">Stack: Python, FastAPI, PayPal sandbox API, six-rule anomaly detector, dashboard UI</p>
+    </article>
   </section>
 
     <!-- Expertise chips: areas, not a keyword dump. Keep to what his record actually supports. -->
@@ -281,12 +406,12 @@
     <h2>2026, as a trace</h2>
     <p class="trace-note">Every span below is a published piece or a talk, in order. Six spans, July to October 2026. Select a row to open its case file.</p>
     <div class="trace" role="group" aria-label="Timeline of 2026 publications and speaking: TDWI Upside on July 8, AI Loves Data on August 25, ExchangeWire on August 27, Marketplace Risk New York on September 16, Label Your Data EU AI Act on September 30, Label Your Data Golden Dataset on October 23. Each row is selectable and opens a case file.">
-      <div class="trace-row"><div class="trace-head"><span class="trace-label">TDWI Upside</span><span class="trace-date">Jul 8 &middot; Writing</span></div><div class="trace-track"><span class="trace-bar" style="width:8%"></span></div></div>
-      <div class="trace-row"><div class="trace-head"><span class="trace-label">AI Loves Data</span><span class="trace-date">Aug 25 &middot; Roundtable</span></div><div class="trace-track"><span class="trace-bar" style="width:50%"></span></div></div>
-      <div class="trace-row"><div class="trace-head"><span class="trace-label">ExchangeWire</span><span class="trace-date">Aug 27 &middot; Writing</span></div><div class="trace-track"><span class="trace-bar" style="width:52%"></span></div></div>
-      <div class="trace-row"><div class="trace-head"><span class="trace-label">Marketplace Risk, New York</span><span class="trace-date">Sep 16 &middot; Speaking</span></div><div class="trace-track"><span class="trace-bar accent" style="width:69%"></span></div></div>
-      <div class="trace-row"><div class="trace-head"><span class="trace-label">Label Your Data, EU AI Act</span><span class="trace-date">Sep 30 &middot; Featured</span></div><div class="trace-track"><span class="trace-bar" style="width:81%"></span></div></div>
-      <div class="trace-row"><div class="trace-head"><span class="trace-label">Label Your Data, Golden Dataset</span><span class="trace-date">Oct 23 &middot; Featured</span></div><div class="trace-track"><span class="trace-bar" style="width:100%"></span></div></div>
+      <div class="trace-row"><div class="trace-head"><span class="trace-label">TDWI Upside</span><span class="trace-result">Data quality, automated</span><span class="trace-date">Jul 8 &middot; Writing</span></div><div class="trace-track"><span class="trace-bar" style="width:8%"></span></div></div>
+      <div class="trace-row"><div class="trace-head"><span class="trace-label">AI Loves Data</span><span class="trace-result">Batch to streaming, honestly</span><span class="trace-date">Aug 25 &middot; Roundtable</span></div><div class="trace-track"><span class="trace-bar" style="width:50%"></span></div></div>
+      <div class="trace-row"><div class="trace-head"><span class="trace-label">ExchangeWire</span><span class="trace-result">Post-identifier analytics</span><span class="trace-date">Aug 27 &middot; Writing</span></div><div class="trace-track"><span class="trace-bar" style="width:52%"></span></div></div>
+      <div class="trace-row"><div class="trace-head"><span class="trace-label">Marketplace Risk, New York</span><span class="trace-result">Conference talk, in person</span><span class="trace-date">Sep 16 &middot; Speaking</span></div><div class="trace-track"><span class="trace-bar accent" style="width:69%"></span></div></div>
+      <div class="trace-row"><div class="trace-head"><span class="trace-label">Label Your Data, EU AI Act</span><span class="trace-result">Expert quote, on lineage</span><span class="trace-date">Sep 30 &middot; Featured</span></div><div class="trace-track"><span class="trace-bar" style="width:81%"></span></div></div>
+      <div class="trace-row"><div class="trace-head"><span class="trace-label">Label Your Data, Golden Dataset</span><span class="trace-result">Expert quote, auditable lineage</span><span class="trace-date">Oct 23 &middot; Featured</span></div><div class="trace-track"><span class="trace-bar" style="width:100%"></span></div></div>
       <div class="trace-axis"><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span></div>
     </div>
     <p id="traceDetail" class="lineage-detail" aria-live="polite">Case file: select any row above.</p>
@@ -310,6 +435,11 @@
         <p class="meta">AI Loves Data Roundtable &middot; August 25, 2026</p>
         <h3>Batch to Streaming: What Actually Breaks and When It's Worth It</h3>
         <p>A roundtable on the real failure modes of moving from batch to streaming, and when the move pays off.</p>
+      </article>
+      <article class="card">
+        <p class="meta">Build log &middot; This site &middot; October 2026</p>
+        <h3>How This Site Works</h3>
+        <p>Hand-written HTML, CSS, and JavaScript. No framework, no build step, no trackers, and no cookies beyond a theme preference stored locally. The background is a lineage graph drawn on a canvas; the case files above open in place and answer to deep links; the whole page prints as a resume. Source is public: <a href="https://github.com/vishuvardhan16/stackhidden.com" target="_blank" rel="noopener">github.com/vishuvardhan16/stackhidden.com</a>.</p>
       </article>
     </div>
   </section>
@@ -365,15 +495,30 @@
     <p>For opportunities or questions about my work, reach me by email or on LinkedIn.</p>
     <p class="actions">
       <a class="button" href="mailto:vishuvardhan16@gmail.com">Email me</a>
+      <button type="button" class="button secondary" id="copyEmail">Copy email</button>
+      <button type="button" class="button secondary" id="printBtn">Print resume</button>
       <a class="button secondary" href="https://www.linkedin.com/in/vishnu-vardhan-reddy-kaithapuram/" target="_blank" rel="noopener">LinkedIn</a>
     </p>
-    <p class="meta">Email: vishuvardhan16@gmail.com &middot; New York City &middot; Replies within a couple of days</p>
+    <p class="meta">Email: vishuvardhan16@gmail.com &middot; New York City &middot; Replies within a couple of days <span id="copyNote" aria-live="polite"></span></p>
   </section>
 </main>
 
 <footer>
   <p>&copy; 2026 Vishnuvardhan Reddy Kaithapuram &middot; stackhidden.com &middot; Built on GitHub Pages</p>
+  <p class="colophon">Site v4 &middot; Hand-built HTML, CSS, and JavaScript, no framework and no trackers &middot; <a href="https://github.com/vishuvardhan16/stackhidden.com" target="_blank" rel="noopener">Source on GitHub</a> &middot; <button type="button" id="motionBtn" class="footer-btn" aria-pressed="false">Reduce motion</button></p>
 </footer>
+
+  <!-- Command palette (v4): Ctrl or Cmd + K. Actions live in app.js;
+       the list is rebuilt on every keystroke from a static command
+       table, so there is nothing to keep in sync by hand beyond the
+       commands themselves. -->
+<div id="palette" class="palette" hidden role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="palette-box">
+    <input id="paletteInput" type="text" placeholder="Type a command: go to, copy, print, theme..." aria-label="Command search" autocomplete="off">
+    <ul id="paletteList" role="listbox" aria-label="Commands"></ul>
+    <p class="palette-hint">Arrow keys to move &middot; Enter to run &middot; Esc to close</p>
+  </div>
+</div>
 
 <script src="app.js"></script>
 </body>
