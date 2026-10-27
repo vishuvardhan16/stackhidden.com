@@ -105,6 +105,8 @@ h3{margin:.3em 0 .5em;line-height:1.35}
    made this label invisible - bug found from a user screenshot, Oct 26). */
 :root[data-theme="dark"] .button.secondary{color:var(--accent)}
 .actions .button{margin:6px 10px 6px 0}
+.hero-figure{margin:28px 0 0}
+.hero-figure img{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:16px}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:26px 0 0;padding:0}
 .stats div{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:13px 15px}
 .stats dt{font-weight:800;font-size:1.15rem;color:var(--accent)}
