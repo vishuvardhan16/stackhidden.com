@@ -1,29 +1,101 @@
-:root{--bg:#0f1115;--panel:#171a21;--text:#eef0f3;--muted:#a7adba;--accent:#6ea8fe;--border:#262b36}
+/* =====================================================================
+   stackhidden.com - stylesheet
+   ---------------------------------------------------------------------
+   THEME SYSTEM
+     Every colour on the page comes from a custom property. Dark values
+     live under :root[data-theme="dark"], light values under
+     :root[data-theme="light"]. Components never hard-code a colour, so
+     the toggle in app.js only flips one attribute on <html> and the
+     whole page, including the canvas palette (app.js reads the same
+     theme), follows. When you add a component, use the variables:
+     --bg/--bg2 page background, --panel translucent surfaces,
+     --card solid surfaces, --text/--muted copy, --accent/--accent2
+     interactive colour, --border hairlines, --shadow elevation.
+     color-scheme is set per theme so native controls and scrollbars
+     match the page instead of fighting it.
+
+   LAYOUT
+     Single column, max-width 1020px, CSS grid only where it earns it
+     (stats strip, publication cards). The hero is a plain block: the
+     visual is the fixed full-page lineage-graph canvas behind the
+     content (z-index -1), not a hero image - see the photo rule in
+     index.html.
+
+   MOTION
+     Transitions are colour/background only, 0.35s, and
+     prefers-reduced-motion turns smooth scrolling off here while
+     app.js stops the canvas animation entirely.
+   ===================================================================== */
+:root, :root[data-theme="dark"]{
+  --bg:#0d1017; --bg2:#11151f; --panel:rgba(23,27,38,.82); --card:#171b26;
+  --text:#eef0f4; --muted:#a3aabd; --accent:#6ea8fe; --accent2:#8b7cf6;
+  --border:#272d3d; --shadow:0 12px 32px rgba(0,0,0,.35); color-scheme:dark;
+}
+:root[data-theme="light"]{
+  --bg:#f4f6fa; --bg2:#e9edf4; --panel:rgba(255,255,255,.85); --card:#ffffff;
+  --text:#171a21; --muted:#5a6272; --accent:#1f5fd0; --accent2:#6a53d6;
+  --border:#d8dde8; --shadow:0 12px 28px rgba(30,41,82,.10); color-scheme:light;
+}
 *{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(160deg,var(--bg),var(--bg2));color:var(--text);line-height:1.65;min-height:100vh;transition:background .35s ease,color .35s ease}
+#graph{position:fixed;inset:0;width:100%;height:100%;z-index:-1;opacity:.55}
 a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline}
-.site-header{display:flex;justify-content:space-between;align-items:center;padding:18px 28px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(15,17,21,.92);backdrop-filter:blur(8px)}
-.brand{font-weight:700;color:var(--text);letter-spacing:.02em}
-nav a{color:var(--muted);margin-left:18px;font-size:.95rem}
-main{max-width:980px;margin:0 auto;padding:32px 20px 56px}
-section{margin:48px 0}
-h1{font-size:2.4rem;line-height:1.15;margin:.2em 0}
-h2{font-size:1.5rem;border-bottom:1px solid var(--border);padding-bottom:8px}
+.site-header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 26px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--panel);backdrop-filter:blur(10px);z-index:10}
+.brand{font-weight:800;color:var(--text);letter-spacing:.02em;font-size:1.05rem}
+.brand span{color:var(--accent)}
+nav{display:flex;align-items:center;flex-wrap:wrap}
+nav a{color:var(--muted);margin-left:16px;font-size:.95rem}
+#theme-toggle{margin-left:18px;width:38px;height:38px;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;font-size:1rem;line-height:1;display:inline-flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+#theme-toggle:hover{border-color:var(--accent)}
+:root[data-theme="dark"] .icon-sun{display:inline}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+:root[data-theme="light"] .icon-moon{display:inline}
+main{max-width:1020px;margin:0 auto;padding:34px 20px 60px}
+section{margin:52px 0}
+h1{font-size:2.6rem;line-height:1.12;margin:.15em 0}
+h2{font-size:1.55rem;margin:.2em 0 .7em}
 h3{margin:.3em 0 .5em;line-height:1.35}
-.hero{display:grid;grid-template-columns:220px 1fr;gap:32px;align-items:center;margin-top:16px}
-.hero-photo{width:220px;height:220px;object-fit:cover;object-position:top;border-radius:16px;border:1px solid var(--border)}
+.panel,.card,.quote-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:var(--shadow);backdrop-filter:blur(6px)}
+.hero{display:block;max-width:860px;margin-top:8px}
 .eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:.14em;font-size:.8rem;font-weight:700;margin:0}
-.role{font-size:1.2rem;font-weight:600;margin:.2em 0}
-.lede{color:var(--muted)}
-.button{display:inline-block;background:var(--accent);color:#081120;padding:10px 18px;border-radius:10px;font-weight:700}
+.role{font-size:1.22rem;font-weight:650;margin:.25em 0}
+.lede{color:var(--muted);font-size:1.05rem}
+.button{display:inline-block;background:var(--accent);color:#fff;padding:11px 20px;border-radius:11px;font-weight:700}
+:root[data-theme="dark"] .button{color:#0a1220}
 .button.secondary{background:transparent;color:var(--accent);border:1px solid var(--accent)}
-.actions .button{margin-right:10px}
-.chips{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:10px}
-.chips li{background:var(--panel);border:1px solid var(--border);padding:8px 14px;border-radius:999px;font-size:.95rem}
+.actions .button{margin:6px 10px 6px 0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:26px 0 0;padding:0}
+.stats div{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:13px 15px}
+.stats dt{font-weight:800;font-size:1.15rem;color:var(--accent)}
+.stats dd{margin:2px 0 0;color:var(--muted);font-size:.9rem}
+.chips{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:10px;margin:0}
+.chips li{background:var(--card);border:1px solid var(--border);padding:8px 14px;border-radius:999px;font-size:.95rem}
+.trace-note{color:var(--muted)}
+.trace{margin-top:16px}
+.trace-row{padding:9px 0;border-bottom:1px dashed var(--border)}
+.trace-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.trace-label{font-weight:650;font-size:.95rem}
+.trace-date{color:var(--muted);font-size:.85rem}
+.trace-track{height:12px;border-radius:999px;background:var(--border);margin-top:7px;overflow:hidden}
+.trace-bar{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.trace-bar.accent{background:linear-gradient(90deg,var(--accent2),var(--accent))}
+.trace-axis{display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem;margin-top:8px}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:18px}
+.cards .card p{color:var(--muted)}
 .meta{color:var(--muted);font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;margin:0}
-blockquote{margin:.6em 0 0;color:var(--muted);border-left:3px solid var(--accent);padding-left:12px;font-style:italic}
-footer{border-top:1px solid var(--border);padding:22px;text-align:center;color:var(--muted);font-size:.9rem}
-@media(max-width:700px){.hero{grid-template-columns:1fr}.hero-photo{width:160px;height:160px}nav a{margin-left:10px}h1{font-size:1.9rem}}
+.quote-card{margin:0 0 16px}
+.quote-card blockquote{margin:0;font-size:1.22rem;line-height:1.55;font-style:italic}
+.quote-card figcaption{margin-top:12px;color:var(--muted);font-size:.92rem}
+footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:var(--muted);font-size:.9rem;background:var(--panel)}
+@media(max-width:760px){
+  .hero{grid-template-columns:1fr}
+  h1{font-size:2rem}
+  nav a{margin-left:10px}
+}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+.stack{color:var(--muted);font-size:.9rem;border-top:1px dashed var(--border);padding-top:10px;margin-top:12px}
+.role-block{padding:14px 0;border-bottom:1px dashed var(--border)}
+.role-block:last-child{border-bottom:none}
