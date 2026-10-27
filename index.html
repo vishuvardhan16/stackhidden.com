@@ -64,6 +64,7 @@
 
   <!-- Sticky header: brand, section nav, and the theme toggle (app.js wires the toggle). -->
 <header class="site-header">
+    <div class="scrollbar" aria-hidden="true"><div id="scrollbarFill"></div></div>
   <a class="brand" href="#top">stack<span>hidden</span></a>
   <nav>
     <a href="#about">About</a>
@@ -92,6 +93,7 @@
         <a class="button" href="https://www.linkedin.com/in/vishnu-vardhan-reddy-kaithapuram/" target="_blank" rel="noopener">LinkedIn</a>
         <a class="button secondary" href="#writing">Read my writing</a>
       </p>
+      <p class="bootlog" id="bootlog" aria-hidden="true">sources mounted OK &middot; schema checks PASS &middot; lineage traced &middot; anomalies flagged &middot; serving analytics</p>
       <dl class="stats">
         <div><dt>Sep 2022 to now</dt><dd>engineering at Amazon Advertising</dd></div>
         <div><dt>3</dt><dd>trade publications in 2026</dd></div>
@@ -253,6 +255,9 @@
         <g class="lnode" data-node="analytics" tabindex="0"><rect x="160" y="200" width="170" height="50" rx="10"/><text x="245" y="230">Advertiser analytics</text></g>
         <g class="lnode anomaly" data-node="anomaly" tabindex="0"><rect x="765" y="240" width="130" height="42" rx="10"/><text x="830" y="266">Flagged anomalies</text></g>
       </g>
+    
+      <circle class="packet" r="5"><animateMotion dur="7s" repeatCount="indefinite" path="M150,70 C240,70 240,120 330,120 L470,135 L560,135 L690,120 C750,120 740,110 800,110"/></circle>
+      <circle class="packet anomaly-packet" r="5"><animateMotion dur="7s" begin="3.5s" repeatCount="indefinite" path="M150,200 C240,200 240,150 330,150 L470,135 L560,135 L690,120 C750,120 740,110 800,110 L870,110 C910,110 900,150 880,185 L790,225"/></circle>
     </svg>
     <p id="lineageDetail" class="lineage-detail" aria-live="polite">Pick a stage to see its place in the chain.</p>
     <p class="meta">Illustrative diagram of the pipeline architecture described in my writing. Stage tags in the detail line are examples, not live metadata from a production job.</p>
@@ -260,8 +265,8 @@
 
   <section id="trace" class="panel">
     <h2>2026, as a trace</h2>
-    <p class="trace-note">Every span below is a published piece or a talk, in order. Six spans, July to October 2026.</p>
-    <div class="trace" role="img" aria-label="Timeline of 2026 publications and speaking: TDWI Upside on July 8, AI Loves Data on August 25, ExchangeWire on August 27, Marketplace Risk New York on September 16, Label Your Data EU AI Act on September 30, Label Your Data Golden Dataset on October 23">
+    <p class="trace-note">Every span below is a published piece or a talk, in order. Six spans, July to October 2026. Select a row to open its case file.</p>
+    <div class="trace" role="group" aria-label="Timeline of 2026 publications and speaking: TDWI Upside on July 8, AI Loves Data on August 25, ExchangeWire on August 27, Marketplace Risk New York on September 16, Label Your Data EU AI Act on September 30, Label Your Data Golden Dataset on October 23. Each row is selectable and opens a case file.">
       <div class="trace-row"><div class="trace-head"><span class="trace-label">TDWI Upside</span><span class="trace-date">Jul 8 &middot; Writing</span></div><div class="trace-track"><span class="trace-bar" style="width:8%"></span></div></div>
       <div class="trace-row"><div class="trace-head"><span class="trace-label">AI Loves Data</span><span class="trace-date">Aug 25 &middot; Roundtable</span></div><div class="trace-track"><span class="trace-bar" style="width:50%"></span></div></div>
       <div class="trace-row"><div class="trace-head"><span class="trace-label">ExchangeWire</span><span class="trace-date">Aug 27 &middot; Writing</span></div><div class="trace-track"><span class="trace-bar" style="width:52%"></span></div></div>
@@ -270,6 +275,7 @@
       <div class="trace-row"><div class="trace-head"><span class="trace-label">Label Your Data, Golden Dataset</span><span class="trace-date">Oct 23 &middot; Featured</span></div><div class="trace-track"><span class="trace-bar" style="width:100%"></span></div></div>
       <div class="trace-axis"><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span></div>
     </div>
+    <p id="traceDetail" class="lineage-detail" aria-live="polite">Case file: select any row above.</p>
   </section>
 
     <!-- Published writing: exact published titles and dates. Add a link only after the live URL has been verified. -->

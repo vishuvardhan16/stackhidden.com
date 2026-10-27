@@ -172,4 +172,71 @@
       n.addEventListener("click", function () { highlight(name); });
     });
   }
+
+  /* ---- Boot log typing (hero) -----------------------------------------
+     Types the one-line system log once when the page loads. The full
+     line is already in the HTML, so no-JS and reduced-motion visitors
+     simply read it; typing is decoration only (aria-hidden). */
+  var boot = document.getElementById("bootlog");
+  if (boot && !reduced) {
+    var full = boot.textContent; boot.textContent = "";
+    var bi = 0;
+    var bTimer = setInterval(function () {
+      bi += 2; boot.textContent = full.slice(0, bi);
+      if (bi >= full.length) clearInterval(bTimer);
+    }, 24);
+  }
+
+  /* ---- Trace case files (section #trace) -------------------------------
+     Rows become buttons. Selecting one writes its case file into the
+     detail line: date, outlet or venue, and what the piece was. Every
+     fact here restates the Writing, Featured, and Speaking sections. */
+  var traceDetail = document.getElementById("traceDetail");
+  var traceFiles = [
+    "Jul 8, 2026 - TDWI Upside. 'From Reactive to Proactive: Automating Data Quality in Petabyte-Scale Analytics Pipelines.' The case for automated quality checks over reactive cleanup, drawn from production pipeline work.",
+    "Aug 25, 2026 - AI Loves Data Roundtable. 'Batch to Streaming: What Actually Breaks and When It's Worth It.' A panel conversation on streaming migrations: what breaks first, and when batch is honestly the right answer.",
+    "Aug 27, 2026 - ExchangeWire. 'Building Advertiser Analytics in a Post-Identifier World.' How advertiser analytics gets rebuilt when the identifiers it relied on go away.",
+    "Sep 16, 2026 - Marketplace Risk, New York. Speaker on automated data quality and data-layer AI governance, in person in New York.",
+    "Sep 30, 2026 - Label Your Data, 'EU AI Act: Training Data Requirements in 2026.' Named expert quote on the quality bar the EU AI Act sets for AI training data.",
+    "Oct 23, 2026 - Label Your Data, 'Golden Dataset: How to Build Trusted AI Evaluation Data.' Named expert quote: auditable lineage is what makes a golden dataset trustworthy."
+  ];
+  if (traceDetail) {
+    var rows = document.querySelectorAll("#trace .trace-row");
+    rows.forEach(function (row, i) {
+      row.setAttribute("tabindex", "0");
+      row.setAttribute("role", "button");
+      function open() { traceDetail.textContent = "Case file " + (i + 1) + " of " + rows.length + " - " + (traceFiles[i] || row.textContent.trim()); }
+      row.addEventListener("click", open);
+      row.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+    });
+  }
+
+  /* ---- Scrollspy + pipeline progress -----------------------------------
+     The nav link for the section in view gets .active. A thin progress
+     track under the header fills as the page scrolls, styled in CSS as
+     a pipeline (Ingest, Transform, Govern, Serve light in sequence) -
+     a scroll indicator in the site's own language. */
+  var spyLinks = document.querySelectorAll(".site-nav a");
+  if ("IntersectionObserver" in window && spyLinks.length) {
+    var byId = {};
+    spyLinks.forEach(function (a) { byId[a.getAttribute("href").slice(1)] = a; });
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting && byId[en.target.id]) {
+          spyLinks.forEach(function (a) { a.classList.remove("active"); });
+          byId[en.target.id].classList.add("active");
+        }
+      });
+    }, { rootMargin: "-40% 0px -55% 0px" });
+    document.querySelectorAll("main section[id]").forEach(function (s) { spy.observe(s); });
+  }
+  var bar = document.getElementById("scrollbarFill");
+  if (bar) {
+    var onScroll = function () {
+      var h = document.documentElement;
+      var max = h.scrollHeight - h.clientHeight;
+      bar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + "%";
+    };
+    document.addEventListener("scroll", onScroll, { passive: true }); onScroll();
+  }
 })();

@@ -117,3 +117,20 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;color:v
 .lineage-svg .lnode:focus rect{stroke-width:3}
 .lineage-detail{min-height:2.6em;font-size:15.5px}
 canvas#graph{opacity:.85}
+
+/* Boot log: monospace one-liner in the hero, typed by app.js. */
+.bootlog{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;color:var(--accent);min-height:1.4em;margin:14px 0 0}
+/* Travelling packets on the lineage graph (SVG animateMotion). The
+   anomaly packet is amber: most traffic flows clean, a little is flagged. */
+.lineage-svg .packet{fill:var(--accent)}
+.lineage-svg .anomaly-packet{fill:#f59e0b}
+/* Trace rows are selectable (app.js wires them as buttons). */
+#trace .trace-row{cursor:pointer;border-radius:8px;padding:2px 6px}
+#trace .trace-row:hover,#trace .trace-row:focus{background:var(--panel);outline:none}
+/* Scrollspy: the nav link for the section in view. */
+.site-nav a.active{color:var(--accent);border-color:var(--accent)}
+/* Scroll progress: a pipeline-thin track under the sticky header. */
+.scrollbar{position:absolute;left:0;right:0;bottom:-1px;height:3px;background:transparent}
+#scrollbarFill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.site-header{position:sticky}
+@media (prefers-reduced-motion: reduce){ .lineage-svg .packet{display:none} }
