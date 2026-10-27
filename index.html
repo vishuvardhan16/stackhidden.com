@@ -301,16 +301,40 @@
   </section>
 
     <!-- Featured in: named expert quotes. Short excerpts only, always attributed and linked to the source article. -->
-<section id="featured">
+<section id="featured" class="panel">
     <h2>Featured In</h2>
-    <figure class="quote-card">
-      <blockquote>"In practice, most teams have a labeling pipeline and a policy document, but no lineage. They can't tell you where a given training row came from, what transformations it went through, or whether the distribution that produced it has drifted since."</blockquote>
-      <figcaption><a href="https://labelyourdata.com/articles/eu-artificial-intelligence-act" target="_blank" rel="noopener">Label Your Data, EU AI Act: Training Data Requirements in 2026</a> &middot; September 30, 2026</figcaption>
-    </figure>
-    <figure class="quote-card">
-      <blockquote>"A golden dataset is one whose lineage is auditable and whose behavior is continuously validated against the world it claims to represent."</blockquote>
-      <figcaption><a href="https://labelyourdata.com/articles/machine-learning/golden-dataset" target="_blank" rel="noopener">Label Your Data, Golden Dataset: How to Build Trusted AI Evaluation Data</a> &middot; October 23, 2026</figcaption>
-    </figure>
+    <!-- Featured quotes as screenshots of the published articles, in an
+         auto-advancing carousel (5 seconds per slide, app.js). The
+         screenshots are renders of the quote blocks exactly as published
+         by Label Your Data, captured Oct 26, 2026 from the live articles;
+         the only edit is that the small avatar in the published block is
+         not shown, per the owner's no-photo rule for this site. Each
+         slide links to the live article. The full quote text stays in
+         the alt text and in the Writing/Featured records on this page,
+         so the content survives with images off. -->
+    <div class="carousel" id="quoteCarousel">
+      <div class="carousel-stage">
+      <div class="carousel-track">
+        <figure class="slide">
+          <a href="https://labelyourdata.com/articles/eu-artificial-intelligence-act" target="_blank" rel="noopener">
+            <img src="assets/quote-eu-ai-act.png" alt="Screenshot of Vishnu's published quote in Label Your Data, EU AI Act: Training Data Requirements in 2026: 'In practice, most teams have a labeling pipeline and a policy document, but no lineage. They can't tell you where a given training row came from, what transformations it went through, or whether the distribution that produced it has drifted since. A policy on paper and a safeguard inside the pipeline are not the same thing.' Credited: Software Development Engineer, Amazon.">
+          </a>
+          <figcaption><a href="https://labelyourdata.com/articles/eu-artificial-intelligence-act" target="_blank" rel="noopener">Label Your Data, EU AI Act: Training Data Requirements in 2026</a> &middot; September 30, 2026</figcaption>
+        </figure>
+        <figure class="slide">
+          <a href="https://labelyourdata.com/articles/machine-learning/golden-dataset" target="_blank" rel="noopener">
+            <img src="assets/quote-golden-dataset.png" alt="Screenshot of Vishnu's published quote in Label Your Data, Golden Dataset: How to Build Trusted AI Evaluation Data: 'A golden dataset is one whose lineage is auditable and whose behavior is continuously validated against the world it claims to represent. If you can't reconstruct how a dataset was built or detect when it stops matching production reality, the label accuracy is decoration.' Credited: Software Development Engineer, Amazon.">
+          </a>
+          <figcaption><a href="https://labelyourdata.com/articles/machine-learning/golden-dataset" target="_blank" rel="noopener">Label Your Data, Golden Dataset: How to Build Trusted AI Evaluation Data</a> &middot; October 23, 2026</figcaption>
+        </figure>
+      </div>
+      </div>
+      <div class="carousel-controls">
+        <button type="button" class="carousel-btn" id="quotePrev" aria-label="Previous quote">&#8249;</button>
+        <div class="carousel-dots" role="tablist" aria-label="Choose quote"></div>
+        <button type="button" class="carousel-btn" id="quoteNext" aria-label="Next quote">&#8250;</button>
+      </div>
+    </div>
   </section>
 
     <!-- Speaking: confirmed engagements only, with the venue and date as announced. -->

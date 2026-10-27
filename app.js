@@ -239,4 +239,52 @@
     };
     document.addEventListener("scroll", onScroll, { passive: true }); onScroll();
   }
+
+  /* ---- Featured quotes carousel (section #featured) -------------------
+     Slides move left to right: the incoming slide enters from the left
+     and the track settles moving rightward, one slide every 5 seconds.
+     Implementation: the track is shifted by one slide width with the
+     order rotated, so motion is always in the same direction and wraps
+     seamlessly. Pauses on hover and on keyboard focus; with
+     prefers-reduced-motion there is no auto-advance at all and the
+     buttons/dots do the work. Dots and arrows are real buttons. */
+  var carousel = document.getElementById("quoteCarousel");
+  if (carousel) {
+    var slides = Array.prototype.slice.call(carousel.querySelectorAll(".slide"));
+    var dotsWrap = carousel.querySelector(".carousel-dots");
+    var idx = 0, timer = null;
+    slides.forEach(function (_, i) {
+      var d = document.createElement("button");
+      d.type = "button"; d.className = "carousel-dot";
+      d.setAttribute("aria-label", "Show quote " + (i + 1));
+      d.addEventListener("click", function () { go(i, true); });
+      dotsWrap.appendChild(d);
+    });
+    var dots = dotsWrap.children;
+    function render(prev) {
+      slides.forEach(function (s, i) {
+        s.classList.toggle("on", i === idx);
+        s.classList.toggle("out", i === prev);
+        s.setAttribute("aria-hidden", i === idx ? "false" : "true");
+      });
+      for (var i = 0; i < dots.length; i++) dots[i].classList.toggle("on", i === idx);
+    }
+    function go(n, manual) {
+      var prev = idx;
+      idx = ((n % slides.length) + slides.length) % slides.length;
+      render(prev);
+      if (manual) restart();
+    }
+    function step() { go(idx + 1); }
+    function restart() { if (timer) clearInterval(timer); if (!reduced) timer = setInterval(step, 5000); }
+    document.getElementById("quotePrev").addEventListener("click", function () { go(idx - 1, true); });
+    document.getElementById("quoteNext").addEventListener("click", function () { go(idx + 1, true); });
+    carousel.addEventListener("mouseenter", function () { if (timer) clearInterval(timer); });
+    carousel.addEventListener("mouseleave", restart);
+    carousel.addEventListener("focusin", function () { if (timer) clearInterval(timer); });
+    carousel.addEventListener("focusout", restart);
+    slides.forEach(function (s, i) { s.classList.toggle("on", i === 0); s.setAttribute("aria-hidden", i === 0 ? "false" : "true"); });
+    for (var i = 0; i < dots.length; i++) dots[i].classList.toggle("on", i === 0);
+    restart();
+  }
 })();
