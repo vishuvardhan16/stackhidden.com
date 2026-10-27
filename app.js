@@ -255,7 +255,7 @@
         s.classList.toggle("out", i === prev);
         s.setAttribute("aria-hidden", i === idx ? "false" : "true");
       });
-      for (var i = 0; i < dots.length; i++) dots[i].classList.toggle("on", i === idx);
+      for (var i = 0; i < dots.length; i++) { dots[i].classList.toggle("on", i === idx); if (i === idx) dots[i].setAttribute("aria-current", "true"); else dots[i].removeAttribute("aria-current"); }
     }
     function go(n, manual) {
       var prev = idx;
@@ -272,7 +272,7 @@
     carousel.addEventListener("focusin", function () { if (timer) clearInterval(timer); });
     carousel.addEventListener("focusout", restart);
     slides.forEach(function (s, i) { s.classList.toggle("on", i === 0); s.setAttribute("aria-hidden", i === 0 ? "false" : "true"); });
-    for (var i = 0; i < dots.length; i++) dots[i].classList.toggle("on", i === 0);
+    for (var i = 0; i < dots.length; i++) { dots[i].classList.toggle("on", i === 0); if (i === 0) dots[i].setAttribute("aria-current", "true"); }
     restart();
   }
 
