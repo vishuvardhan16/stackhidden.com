@@ -166,7 +166,7 @@ canvas#graph{opacity:.85}
 #trace .trace-row{cursor:pointer;border-radius:8px;padding:2px 6px}
 #trace .trace-row:hover,#trace .trace-row:focus{background:var(--panel);outline:none}
 /* Scrollspy: the nav link for the section in view. */
-.site-nav a.active{color:var(--accent);border-color:var(--accent)}
+.site-header nav a.active{color:var(--accent)}
 /* Scroll progress: a pipeline-thin track under the sticky header. */
 .scrollbar{position:absolute;left:0;right:0;bottom:-1px;height:3px;background:transparent}
 #scrollbarFill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2))}

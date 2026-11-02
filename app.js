@@ -220,7 +220,9 @@
      track under the header fills as the page scrolls, styled in CSS as
      a pipeline (Ingest, Transform, Govern, Serve light in sequence) -
      a scroll indicator in the site's own language. */
-  var spyLinks = document.querySelectorAll(".site-nav a");
+  // The header nav has no .site-nav class; the old ".site-nav a"
+  // selector matched nothing, so scrollspy never ran.
+  var spyLinks = document.querySelectorAll('.site-header nav a[href^="#"]');
   if ("IntersectionObserver" in window && spyLinks.length) {
     var byId = {};
     spyLinks.forEach(function (a) { byId[a.getAttribute("href").slice(1)] = a; });
