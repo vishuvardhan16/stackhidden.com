@@ -10,10 +10,13 @@ Every change is tested locally before it ships and checked live after it lands. 
 - Reduced motion gets checked when anything animated changes: one still frame, sleeping bot, no movement.
 - Widths: desktop wide, a medium window, and a 360px phone width. Horizontal overflow must be zero at every width.
 - Counts that the copy claims are counted in the DOM, not eyeballed: experience points, chips, case files.
+- A visual change gets an accessibility audit: axe-core over the changed sections, in both themes, with no violations.
+- A bug fix gets a regression test, and that test is run against the code before the fix to confirm it fails there. A test that passes on the broken code guards nothing.
 
 ## After a push
 
-- Reload stackhidden.com until the new version serves, then confirm the change is present in the live page, in the owner's terms: the thing he asked for is visible and works.
+- Confirm both Actions runs for the pushed commit succeeded: `site-checks` and `pages build and deployment`.
+- Reload stackhidden.com until the new version serves, then confirm the change is present in the live page, in the owner's terms: the thing he asked for is visible and works. The bare domain can be served from cache for a few minutes after a deploy; `https://stackhidden.com/index.html` shows the new version first.
 - Confirm the commit count and the newest summaries on the repo match what was pushed.
 - Confirm no portrait photo appears anywhere on the live page.
 - Grep the served page for the words that must not appear. The standing one is "Senior", which must be zero everywhere, including comments.

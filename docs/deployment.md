@@ -3,6 +3,7 @@
 ## Where things live
 
 - **Code and hosting:** GitHub Pages, from the public repo `vishuvardhan16/stackhidden.com`, main branch, root folder. The repo is public because free GitHub Pages requires it. Interaction limits on the repo are set to collaborators only, and there are no collaborators. Nobody else can open an issue or a pull request.
+- **Claude sessions:** push through the Claude GitHub App, installed on this repository only (Settings > GitHub Apps on the repo lists it). Claude is not a collaborator, and inviting a GitHub user named "claude" grants nothing to a Claude session; leave the Collaborators list empty.
 - **Domain:** stackhidden.com, registered at Hostinger. Registration stays at Hostinger by the owner's decision. Renewal is automatic.
 - **Email:** Titan Email on the domain, untouched by the site setup. Do not change MX or TXT records when working on the site.
 
@@ -29,5 +30,7 @@ TTL 14400. Nameservers unchanged. HTTPS is enforced in the repo's Pages settings
 3. Commit locally with a detailed message: a short summary line, then the what and the why.
 4. Push through the GitHub web UI, one commit at a time, in order, files exactly as tested. If an upload reports a size mismatch, stop. Do not improvise a fix mid-push.
 5. Wait for Pages to rebuild, reload the live site, and run the live checks from [[Testing]] against stackhidden.com itself.
+
+When a Claude session makes the change, steps 3 to 5 run from the session instead: it commits with the same conventions, waits for the owner to say push, pushes with git through the Claude GitHub App, then confirms both Actions runs (`site-checks` and `pages build and deployment`) succeeded and checks the live page.
 
 Only the stackhidden.com repo is ever touched on this GitHub account. No other repository is opened or changed, for any reason.
