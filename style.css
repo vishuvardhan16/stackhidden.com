@@ -436,3 +436,15 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
   .lineage-swipe{display:block}
 }
 @media print{.lineage-swipe{display:none!important}}
+
+/* The 2026 trace axis (v5): Jul 1 to Dec 1, each month label at its
+   true position, and a notch on every track at each month start, so a
+   bar's end reads as a date. See the comment above #trace. */
+.trace-axis{display:block;position:relative;height:1.5em;margin:8px 6px 0}
+.trace-axis span{position:absolute;top:0}
+.trace-track{background:
+  linear-gradient(to right,transparent calc(20.3% - 1px),var(--bg) calc(20.3% - 1px),var(--bg) 20.3%,transparent 20.3%),
+  linear-gradient(to right,transparent calc(40.5% - 1px),var(--bg) calc(40.5% - 1px),var(--bg) 40.5%,transparent 40.5%),
+  linear-gradient(to right,transparent calc(60.1% - 1px),var(--bg) calc(60.1% - 1px),var(--bg) 60.1%,transparent 60.1%),
+  linear-gradient(to right,transparent calc(80.4% - 1px),var(--bg) calc(80.4% - 1px),var(--bg) 80.4%,transparent 80.4%),
+  var(--border)}
