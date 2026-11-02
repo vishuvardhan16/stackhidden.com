@@ -43,6 +43,7 @@ jobs:
           python3 -m unittest test_theme test_palette test_cases
           test_carousel test_explorer test_layout test_motion
           test_regressions test_query test_records
+          test_animations
 
       - name: Stop the local server
         if: always()
