@@ -1228,7 +1228,17 @@
       }
       if (q.limit != null) { out = out.slice(0, q.limit); plan.push('limit ' + q.limit); }
 
-      return { cols: labels, rows: out.map(function (r) { return { vals: r.vals, src: r.src }; }), plan: plan };
+      // "= NULL" is the classic SQL slip: it is never true, so it quietly
+      // returns nothing. When that is why a result is empty, say so.
+      var hint = null;
+      if (!out.length && q.where) {
+        walk(q.where, function (n) {
+          if (n.k === 'cmp' && ((n.a.k === 'lit' && n.a.v === null) || (n.b.k === 'lit' && n.b.v === null))) {
+            hint = 'No rows matched. A comparison with NULL is never true; use IS NULL or IS NOT NULL instead.';
+          }
+        });
+      }
+      return { cols: labels, rows: out.map(function (r) { return { vals: r.vals, src: r.src }; }), plan: plan, hint: hint };
     }
 
     function runMeta(q) {
@@ -1335,7 +1345,7 @@
         var empty = body.insertRow().insertCell();
         empty.colSpan = res.cols.length;
         empty.className = 'sql-empty';
-        empty.textContent = 'No rows matched. Loosen the WHERE clause, or run SHOW TABLES to see what is here.';
+        empty.textContent = res.hint || 'No rows matched. Loosen the WHERE clause, or run SHOW TABLES to see what is here.';
       }
       resultEl.appendChild(table);
       resultEl.scrollTop = 0;
