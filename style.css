@@ -448,3 +448,25 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
   linear-gradient(to right,transparent calc(60.1% - 1px),var(--bg) calc(60.1% - 1px),var(--bg) 60.1%,transparent 60.1%),
   linear-gradient(to right,transparent calc(80.4% - 1px),var(--bg) calc(80.4% - 1px),var(--bg) 80.4%,transparent 80.4%),
   var(--border)}
+
+/* =====================================================================
+   V5 motion (Nov 2026). Three one-shot animations; nothing loops.
+   Each is skipped entirely under reduced motion, from the OS setting or
+   the footer control (the head script applies a stored choice before
+   first paint, so a visitor who turned motion off never sees the intro).
+   docs/motion.md lists every moving piece on the page with its trigger,
+   timing, and reduced-motion behaviour.
+   ===================================================================== */
+
+/* 1. Hero intro: the page's one orchestrated load moment. The hero's
+   lines rise into place in reading order, 70ms apart; the panel on the
+   right lands with the role line. About 1.2s end to end. */
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.hero-text>:nth-child(1){--i:0}.hero-text>:nth-child(2){--i:1}.hero-text>:nth-child(3){--i:2}
+.hero-text>:nth-child(4){--i:3}.hero-text>:nth-child(5){--i:4}.hero-text>:nth-child(6){--i:5}
+.hero-text>:nth-child(7){--i:6}.hero-text>:nth-child(8){--i:7}.hero-side{--i:2}
+@media (prefers-reduced-motion: no-preference){
+  :root:not([data-motion="reduced"]) .hero-text>*,
+  :root:not([data-motion="reduced"]) .hero-side{animation:rise .7s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0) * 70ms)}
+}
+

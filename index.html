@@ -25,7 +25,9 @@
     "all JS lives in app.js". It must run before first paint or returning
     visitors would get a flash of the wrong theme. It only reads
     localStorage / the OS colour-scheme preference and sets
-    data-theme on <html>; app.js owns every later change.
+    data-theme on <html>, plus data-motion="reduced" when the visitor
+    chose Reduce motion (v5), so the hero intro never plays for someone
+    who turned motion off. app.js owns every later change.
 
   CONTENT RULES (owner's standing instructions - do not break these)
     1. No photo of Vishnu anywhere on this site. No <img> portrait, no
@@ -70,7 +72,7 @@
 <link rel="canonical" href="https://stackhidden.com/">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <script>
-(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
+(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);if(localStorage.getItem('motion')==='reduced'){document.documentElement.setAttribute('data-motion','reduced');}}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
 </script>
 <link rel="stylesheet" href="style.css">
 <script type="application/ld+json">
