@@ -18,7 +18,8 @@ class PaletteTest(BrowserTestCase):
         self.assertFalse(palette.evaluate("element => element.hidden"))
 
         labels = self.page.locator("#paletteList li span").all_text_contents()
-        self.assertEqual(16, len(labels))
+        self.assertEqual(17, len(labels))
+        self.assertIn("Go to Query this page", labels)
         self.assertIn("Go to About", labels)
         self.assertIn("Case file: Custom Brands (ICM)", labels)
         self.assertIn("Toggle light / dark theme", labels)

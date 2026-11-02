@@ -92,6 +92,7 @@
     <a href="#writing">Writing</a>
     <a href="#featured">Featured</a>
     <a href="#speaking">Speaking</a>
+    <a href="#query">Query</a>
     <a href="#contact">Contact</a>
     <button id="theme-toggle" type="button" aria-label="Switch between light and dark theme" title="Switch theme">
       <span class="icon-sun" aria-hidden="true">&#9728;</span><span class="icon-moon" aria-hidden="true">&#9790;</span>
@@ -594,6 +595,36 @@
     <p><a href="https://asia.nice-teas.com/" target="_blank" rel="noopener">Conference site, NICE-TEAS ASIA</a></p>
   </section>
 
+    <!-- Query this page (v5, Nov 2026): a small SQL console over the
+         page's own records. It is site machinery, not a third record, so
+         it sits after both records and before Contact. app.js builds
+         every table from the HTML above when the page loads: a query
+         can never disagree with the page, and nothing on this page has
+         to be maintained twice. Each result row keeps a pointer to the
+         element it was read from, which is what the Trace button
+         follows. Nothing is fetched and nothing leaves the browser.
+         Deep link: #q=<url-encoded SQL> runs a query on arrival. -->
+<section id="query" class="panel">
+    <h2>Query this page</h2>
+    <p class="query-lede">Every record on this page is also a table, built from the page's own HTML when it loads. Write a query or pick an example, and use Trace to jump to the spot a row came from.</p>
+    <form id="sqlForm" class="sql" autocomplete="off">
+      <label for="sqlInput" class="sr-only">SQL query</label>
+      <div class="sql-editor">
+        <span class="sql-prompt" aria-hidden="true">sql&gt;</span>
+        <textarea id="sqlInput" class="sql-input" rows="1" spellcheck="false" autocapitalize="off" autocorrect="off" aria-describedby="sqlHint"></textarea>
+      </div>
+      <p id="sqlComplete" class="sql-complete" aria-live="polite"></p>
+      <div class="sql-bar">
+        <button type="submit" class="button">Run query</button>
+        <p id="sqlHint" class="sql-hint">Enter runs it and Shift + Enter adds a line. Tab completes table and column names, and the up arrow brings back earlier queries. Type HELP for the syntax.</p>
+      </div>
+    </form>
+    <div id="sqlExamples" class="sql-examples" role="group" aria-label="Example queries"></div>
+    <p id="sqlStatus" class="sql-status" aria-live="polite"></p>
+    <div id="sqlResult" class="sql-result" role="region" aria-label="Query result" tabindex="0"></div>
+    <p id="sqlTables" class="sql-tables"></p>
+  </section>
+
     <!-- Contact: LinkedIn only. There is no form: GitHub Pages is static, and a fake form that mails nowhere would be worse than none. -->
 <section id="contact" class="panel">
     <h2>Contact</h2>
@@ -636,11 +667,15 @@
 
 <div id="palette" class="palette" hidden role="dialog" aria-modal="true" aria-label="Command palette">
   <div class="palette-box">
-    <input id="paletteInput" type="text" placeholder="Type a command: go to, copy, print, theme..." aria-label="Command search" autocomplete="off">
+    <input id="paletteInput" type="text" placeholder="Type a command, or SQL like SELECT * FROM writing" aria-label="Command search or SQL query" autocomplete="off" spellcheck="false">
     <ul id="paletteList" role="listbox" aria-label="Commands"></ul>
     <p class="palette-hint">Arrow keys to move &middot; Enter to run &middot; Esc to close</p>
   </div>
 </div>
+
+<!-- Shown after a Trace jump from the query console; app.js hides it
+     again once the console is back in view. -->
+<button type="button" id="backToQuery" hidden>Back to your query</button>
 
 <script src="app.js"></script>
 </body>
