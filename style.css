@@ -508,11 +508,35 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
    badge) are mostly empty width at 24px; at the standard height their
    lines shrink to illegibility, so a stacked logo takes a taller slot. */
 .pub-logo.tall{height:40px}
+/* Speaking cards: the Marketplace Risk wordmark is the section's one
+   stacked logo, and at 40px it read as body text next to the printed
+   venue name beside it, so in Speaking it takes 52px. In dark mode it
+   also sits on its own brand red (#E84844, sampled from the official
+   file), the way the conference's own header shows the white wordmark
+   on a red block; the red-on-white footer version serves light mode. */
+#speaking .pub-logo.tall{height:52px}
+:root[data-theme="dark"] #speaking .pub-logo.for-dark{background:#E84844;padding:6px 10px;border-radius:6px}
+/* Logos with their own background baked in (the NICE-TEAS wordmark
+   tile) take no plate in dark mode. */
+:root[data-theme="dark"] .pub-logo.noplate{background:none;padding:0}
+#speaking .pub-logo.nt{height:36px}
 /* The Featured carousel styles every <img> in a slide at width:100%,
    which would stretch a caption logo to the slide's width. The caption
    logos keep their masthead sizing instead. */
 #featured .pub-logo{width:auto;height:24px;padding:0;background:none;box-shadow:none;box-sizing:content-box}
 #featured .pub-logo.tall{height:40px}
+/* Speaking cards: the Marketplace Risk wordmark is the section's one
+   stacked logo, and at 40px it read as body text next to the printed
+   venue name beside it, so in Speaking it takes 52px. In dark mode it
+   also sits on its own brand red (#E84844, sampled from the official
+   file), the way the conference's own header shows the white wordmark
+   on a red block; the red-on-white footer version serves light mode. */
+#speaking .pub-logo.tall{height:52px}
+:root[data-theme="dark"] #speaking .pub-logo.for-dark{background:#E84844;padding:6px 10px;border-radius:6px}
+/* Logos with their own background baked in (the NICE-TEAS wordmark
+   tile) take no plate in dark mode. */
+:root[data-theme="dark"] .pub-logo.noplate{background:none;padding:0}
+#speaking .pub-logo.nt{height:36px}
 :root[data-theme="dark"] #featured .pub-logo{background:#fff;padding:4px 8px}
 :root[data-theme="dark"] #featured .pub-logo.for-dark{background:none;padding:0}
 /* Most publisher logos are dark on transparent and vanish on the dark
