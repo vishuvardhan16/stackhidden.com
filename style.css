@@ -504,6 +504,17 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
 .pub-mark{display:inline-flex;align-items:center;flex:none}
 .pub-mark:empty{display:none}
 .pub-logo{display:block;height:24px;width:auto;max-width:150px;object-fit:contain}
+/* Stacked marks (the Marketplace Risk wordmark, the Label Your Data
+   badge) are mostly empty width at 24px; at the standard height their
+   lines shrink to illegibility, so a stacked logo takes a taller slot. */
+.pub-logo.tall{height:40px}
+/* The Featured carousel styles every <img> in a slide at width:100%,
+   which would stretch a caption logo to the slide's width. The caption
+   logos keep their masthead sizing instead. */
+#featured .pub-logo{width:auto;height:24px;padding:0;background:none;box-shadow:none;box-sizing:content-box}
+#featured .pub-logo.tall{height:40px}
+:root[data-theme="dark"] #featured .pub-logo{background:#fff;padding:4px 8px}
+:root[data-theme="dark"] #featured .pub-logo.for-dark{background:none;padding:0}
 /* Most publisher logos are dark on transparent and vanish on the dark
    theme, so in dark mode a logo sits on a small light plate, the same
    way the quote screenshots sit on white. */
