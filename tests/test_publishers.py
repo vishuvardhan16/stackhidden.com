@@ -50,16 +50,24 @@ class MastheadTest(BrowserTestCase):
                 self.assertTrue(head["name"] and head["kind"] and head["slot"])
 
     def test_empty_logo_slots_stay_collapsed_and_request_nothing(self) -> None:
-        self.assertEqual(
-            0,
-            self.page.evaluate(
-                "[...document.querySelectorAll('.pub-mark')].filter(m => getComputedStyle(m).display !== 'none').length"
-            ),
+        # Holds before and after the owner adds real logos: a slot without
+        # an <img> is collapsed, and every logo file the page asks for
+        # belongs to an <img> in a slot. (A logo file that is missing
+        # fails the suite anyway: helpers.py treats the browser's 404
+        # console error as a failure.)
+        open_empty = self.page.evaluate(
+            "[...document.querySelectorAll('.pub-mark')].filter(m => !m.querySelector('img') && getComputedStyle(m).display !== 'none').length"
         )
-        requested = self.page.evaluate(
-            "performance.getEntriesByType('resource').filter(r => r.name.includes('assets/logos')).length"
+        self.assertEqual(0, open_empty)
+        state = self.page.evaluate(
+            """() => ({
+                requested: performance.getEntriesByType('resource').map(r => r.name).filter(n => n.includes('/assets/logos/')),
+                declared: [...document.querySelectorAll('.pub-mark img')].map(i => i.src)
+            })"""
         )
-        self.assertEqual(0, requested)
+        for url in state["requested"]:
+            with self.subTest(url=url):
+                self.assertIn(url, state["declared"])
 
     def test_a_logo_replaces_the_name_visually_but_not_for_screen_readers(self) -> None:
         self.page.evaluate(INSERT_LOGO, PLACEHOLDER)
