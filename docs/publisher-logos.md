@@ -38,6 +38,11 @@ A publisher's logo is its trademark. The site does not draw, trace, or copy one.
    <img class="pub-logo for-dark" src="assets/logos/tdwi-dark.svg" alt="" width="120" height="24">
    ```
 
+## Two recorded exceptions
+
+- **NICE-TEAS ASIA** publishes no logo file anywhere; its own site renders the wordmark as styled text (white and pink on navy). At the owner's direction on Nov 2, 2026, `assets/logos/niceteas.svg` reproduces that rendering as a self-contained tile, using the colours sampled from asia.nice-teas.com that day (navy #101130, ASIA in #E5157D). It is the one logo on the site that is a reproduction rather than a downloaded file, and the file itself carries a comment saying so.
+- **Marketplace Risk** in dark mode sits on a plate in its own brand red (#E84844, sampled from the official red file), because the conference's own header presents the white wordmark on a red block. Every other dark-mode plate is white.
+
 ## Removing one
 
 Put the comment back in the slot, or simply delete the `<img>`. An empty slot collapses, and the masthead shows the publisher's name again.
