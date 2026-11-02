@@ -421,3 +421,15 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
 .lineage-svg .lnode.hit rect{fill:var(--hit);stroke-width:3}
 .lineage-svg .lnode.fail rect{stroke:#f59e0b;stroke-width:3.5}
 @media print{.lin-controls,.lin-log{display:none!important}}
+
+/* Lineage graph on phones (v5). The SVG scales to its container, so at
+   360px its 14.5px labels rendered near 4px. Under 760px it keeps a
+   720px minimum (labels near 11px) and scrolls inside .lineage-scroll;
+   a one-line hint says so. Desktop is unchanged. */
+.lineage-scroll{overflow-x:auto;overscroll-behavior-x:contain}
+.lineage-swipe{display:none;margin:0 0 6px;color:var(--muted);font-size:.84rem}
+@media (max-width:760px){
+  .lineage-scroll .lineage-svg{min-width:720px}
+  .lineage-swipe{display:block}
+}
+@media print{.lineage-swipe{display:none!important}}

@@ -463,6 +463,10 @@
          the pattern his lineage research automates. Keyboard: the stages
          are real buttons in the list under the graphic. -->
     <p>This is the shape of the systems I work on, drawn the way a lineage tool sees them. Hover or tap any stage to trace what feeds it and what it feeds.</p>
+    <!-- On phones the full-width graph shrank its labels to about 4px.
+         Below 760px it keeps a legible minimum width and scrolls
+         sideways inside this wrapper instead (style.css). -->
+    <div class="lineage-scroll">
     <svg id="lineageSvg" viewBox="0 0 960 300" role="img" aria-label="Illustrative data lineage graph: advertiser feeds and clickstream flow through ingest, Spark transform, and a quality gate into a data lake, then out through an API to analytics. One event stream branches off as flagged anomalies." class="lineage-svg">
       <g class="edges" fill="none" stroke-width="2">
         <path id="e-feed-ingest" d="M150,70 C240,70 240,120 330,120"/>
@@ -493,6 +497,8 @@
            prevent. -->
       <circle class="packet anomaly-packet" r="5"><animateMotion dur="7s" begin="3.5s" repeatCount="indefinite" path="M150,200 C240,200 240,150 330,150 L470,135 L560,135 L690,120 C750,120 740,110 800,110 L830,118 L830,140 C830,200 830,215 830,240 L830,258"/></circle>
     </svg>
+    </div>
+    <p class="lineage-swipe">Swipe sideways to see the whole pipeline.</p>
     <!-- Send a record (v5, Nov 2026). A visitor sends one record through
          the pipeline. A clean record reaches Advertiser analytics. A bad
          record looks exactly the same until the quality gate stops it
