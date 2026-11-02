@@ -291,7 +291,12 @@
     function render(prev) {
       slides.forEach(function (s, i) {
         s.classList.toggle("on", i === idx);
-        s.classList.toggle("out", i === prev);
+        // Only a slide that is leaving gets "out". Choosing the slide that
+        // is already showing (its own dot, or a Trace from the query
+        // console) used to mark it both "on" and "out", and "out" won in
+        // the stylesheet, so the visible quote slid away and left the
+        // stage empty.
+        s.classList.toggle("out", i === prev && i !== idx);
         s.setAttribute("aria-hidden", i === idx ? "false" : "true");
       });
       for (var i = 0; i < dots.length; i++) { dots[i].classList.toggle("on", i === idx); if (i === idx) dots[i].setAttribute("aria-current", "true"); else dots[i].removeAttribute("aria-current"); }

@@ -114,5 +114,24 @@ class RegressionTest(BrowserTestCase):
         self.assertEqual(before, self.page.evaluate(active))
 
 
+class CarouselActiveDotTest(BrowserTestCase):
+    """Choosing the slide that is already showing must keep it showing."""
+
+    reduced_motion = "reduce"
+
+    def test_clicking_the_active_dot_keeps_the_quote_on_screen(self) -> None:
+        # Before the fix the slide was marked both "on" and "out", "out"
+        # won, and the visible quote slid off, leaving an empty stage. The
+        # query console's Trace hit the same path for a quote on screen.
+        state = """() => {
+            const s = document.querySelector('#quoteCarousel .slide.on');
+            const st = document.querySelector('#quoteCarousel .carousel-stage').getBoundingClientRect();
+            return { out: s.classList.contains('out'), left: Math.round(s.getBoundingClientRect().left - st.left) };
+        }"""
+        self.page.evaluate("document.querySelectorAll('#quoteCarousel .carousel-dot')[0].click()")
+        self.page.wait_for_timeout(100)
+        self.assertEqual({"out": False, "left": 0}, self.page.evaluate(state))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
