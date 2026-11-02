@@ -768,27 +768,34 @@
       TABLES[name] = { name: name, about: about, cols: cols, rows: rows };
     }
 
-    defineTable('writing', 'Articles, the roundtable, and the build log', ['outlet', 'title', 'date', 'url'], function () {
+    // Writing, talks, and featured quotes all open with the same publisher
+    // masthead (.pub-name, .pub-kind, then the date), so they read alike.
+    function masthead(el) {
+      return {
+        name: txt(el.querySelector('.pub-name')) || null,
+        kind: txt(el.querySelector('.pub-kind')).toLowerCase() || null
+      };
+    }
+    defineTable('writing', 'Articles, the roundtable, and the build log', ['outlet', 'kind', 'title', 'date', 'url'], function () {
       return all('#writing .card').map(function (card) {
-        var p = parts(card.querySelector('.meta'));
+        var m = masthead(card);
         var link = card.querySelector('a[href^="http"]');
-        return { outlet: p[0] || null, title: txt(card.querySelector('h3')) || null, date: isoDate(p[p.length - 1]), url: link ? link.href : null, _src: [card] };
+        return { outlet: m.name, kind: m.kind, title: txt(card.querySelector('h3')) || null, date: isoDate(txt(card.querySelector('.pub-date'))), url: link ? link.href : null, _src: [card] };
       });
     });
-    defineTable('talks', 'Conference talks, past and upcoming', ['venue', 'title', 'date', 'status'], function () {
-      return all('#speaking .meta').map(function (meta) {
-        var h = meta.nextElementSibling;
-        while (h && h.tagName !== 'H3') h = h.nextElementSibling;
-        var d = isoDate(txt(meta));
-        return { venue: parts(meta)[0] || null, title: txt(h) || null, date: d, status: d ? (d < today ? 'delivered' : 'upcoming') : null, _src: [h || meta] };
+    defineTable('talks', 'Conference talks and papers, past and upcoming', ['venue', 'kind', 'title', 'date', 'status'], function () {
+      return all('#speaking .talk').map(function (card) {
+        var m = masthead(card);
+        var d = isoDate(txt(card.querySelector('.pub-date')));
+        return { venue: m.name, kind: m.kind, title: txt(card.querySelector('h3')) || null, date: d, status: d ? (d < today ? 'delivered' : 'upcoming') : null, _src: [card] };
       });
     });
-    defineTable('featured', 'Expert quotes in the press', ['outlet', 'title', 'date', 'url'], function () {
+    defineTable('featured', 'Expert quotes in the press', ['outlet', 'kind', 'title', 'date', 'url'], function () {
       return all('#featured .slide').map(function (fig) {
         var cap = fig.querySelector('figcaption');
-        var link = cap && cap.querySelector('a');
-        var name = txt(link), cut = name.indexOf(', ');
-        return { outlet: cut > 0 ? name.slice(0, cut) : (name || null), title: cut > 0 ? name.slice(cut + 2) : null, date: isoDate(txt(cap)), url: link ? link.href : null, _src: [fig] };
+        var m = cap ? masthead(cap) : { name: null, kind: null };
+        var link = cap && cap.querySelector('a[href^="http"]');
+        return { outlet: m.name, kind: m.kind, title: txt(link) || null, date: isoDate(txt(cap)), url: link ? link.href : null, _src: [fig] };
       });
     });
     defineTable('spans', 'The 2026 trace, one row per span', ['label', 'result', 'date', 'kind'], function () {

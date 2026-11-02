@@ -489,6 +489,37 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
 
 @media print{.trace-bar{clip-path:none!important}}
 
+/* =====================================================================
+   Publisher mastheads (v5). One component for Published Writing,
+   Speaking, and the Featured In captions: the publisher's name in the
+   site's own type, a pill for the kind of piece, then the date. The
+   logo slot (.pub-mark) stays collapsed while it holds only its HTML
+   comment; when the owner adds an official logo <img class="pub-logo">
+   it shows the logo and hides the name visually (the name stays in the
+   page for screen readers, and the img keeps alt=""). Logos are not
+   drawn or copied by the site's authors; docs/publisher-logos.md says
+   where they come from and how to add one.
+   ===================================================================== */
+.pub-head{display:flex;align-items:center;gap:10px;min-height:28px;margin:0 0 4px}
+.pub-mark{display:inline-flex;align-items:center;flex:none}
+.pub-mark:empty{display:none}
+.pub-logo{display:block;height:24px;width:auto;max-width:150px;object-fit:contain}
+/* Most publisher logos are dark on transparent and vanish on the dark
+   theme, so in dark mode a logo sits on a small light plate, the same
+   way the quote screenshots sit on white. */
+:root[data-theme="dark"] .pub-logo{box-sizing:content-box;background:#fff;padding:4px 8px;border-radius:6px}
+.pub-head .pub-name,.cards .card .pub-head .pub-name{margin:0;color:var(--text);font-weight:750;font-size:1.02rem;line-height:1.3;letter-spacing:.005em}
+.pub-head:has(.pub-logo) .pub-name{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.pub-kind{margin-left:auto;flex:none;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:1px 9px;font-size:.74rem;font-weight:650;line-height:1.6;white-space:nowrap}
+.pub-date{margin:0 0 8px}
+/* Cards are equal height in a grid row; the closing link sits on the
+   bottom edge, so the links of one row line up. */
+.pub-card{display:flex;flex-direction:column}
+.pub-card>p:last-child{margin-top:auto;padding-top:4px;margin-bottom:0}
+/* Featured In captions: the masthead sits above the title link. */
+.carousel .slide figcaption .pub-head{margin:2px 0 2px}
+.carousel .slide figcaption .pub-name{font-size:.95rem}
+
 /* Featured carousel sizing (v5). The stage used a fixed 16:5.9 box with
    absolutely positioned slides, so on phones (and once captions grew)
    the caption ran past the box and the arrows and dots sat on top of

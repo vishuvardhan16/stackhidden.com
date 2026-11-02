@@ -540,30 +540,58 @@
     <p id="traceDetail" class="lineage-detail" aria-live="polite">Case file: select any row above.</p>
   </section>
 
-    <!-- Published writing: exact published titles and dates, in date order. Add a link only after the live URL has been verified. -->
+    <!-- Published writing: exact published titles and dates, in date order. Add a link only after the live URL has been verified.
+         Each card opens with its publisher (v5): the name in the site's own
+         type, a pill for the kind of piece, then the date. Logo slot: to
+         show a publisher's official logo, save the file from their media
+         or press kit as assets/logos/<slug>.svg (or .png) and replace the
+         comment inside that card's .pub-mark with the <img> it shows.
+         Keep alt="": the publisher name stays in the page for screen
+         readers and is hidden only visually once a logo is present.
+         docs/publisher-logos.md has the details. -->
 <section id="writing">
     <h2>Published Writing</h2>
     <div class="cards">
-      <article class="card">
-        <p class="meta">TDWI Upside &middot; July 8, 2026</p>
+      <article class="card pub-card">
+        <div class="pub-head">
+          <span class="pub-mark"><!-- Official logo, when added: <img class="pub-logo" src="assets/logos/tdwi.svg" alt="" width="120" height="24"> --></span>
+          <p class="pub-name">TDWI Upside</p>
+          <span class="pub-kind">Article</span>
+        </div>
+        <p class="meta pub-date">July 8, 2026</p>
         <h3>From Reactive to Proactive: Automating Data Quality in Petabyte-Scale Analytics Pipelines</h3>
         <p>How automated checks catch schema drift, volume anomalies, and distribution shift before they reach a dashboard.</p>
         <p><a href="https://tdwi.org/articles/2026/07/08/diq-all-automating-data-quality-in-petabytescale-analytics-pipelines.aspx" target="_blank" rel="noopener">Read the article at TDWI Upside</a></p>
       </article>
-      <article class="card">
-        <p class="meta">AI Loves Data Roundtable &middot; August 25, 2026</p>
+      <article class="card pub-card">
+        <div class="pub-head">
+          <span class="pub-mark"><!-- Official logo, when added: <img class="pub-logo" src="assets/logos/ailovesdata.svg" alt="" width="120" height="24"> --></span>
+          <p class="pub-name">AI Loves Data</p>
+          <span class="pub-kind">Roundtable</span>
+        </div>
+        <p class="meta pub-date">August 25, 2026</p>
         <h3>Batch to Streaming: What Actually Breaks and When It's Worth It</h3>
         <p>A roundtable on the real failure modes of moving from batch to streaming, and when the move pays off.</p>
         <p><a href="https://roundtable.ailovesdata.com/batch-to-streaming-what-actually-breaks-and-when-its-worth-it" target="_blank" rel="noopener">Read the roundtable at AI Loves Data</a></p>
       </article>
-      <article class="card">
-        <p class="meta">ExchangeWire &middot; August 27, 2026</p>
+      <article class="card pub-card">
+        <div class="pub-head">
+          <span class="pub-mark"><!-- Official logo, when added: <img class="pub-logo" src="assets/logos/exchangewire.svg" alt="" width="120" height="24"> --></span>
+          <p class="pub-name">ExchangeWire</p>
+          <span class="pub-kind">Article</span>
+        </div>
+        <p class="meta pub-date">August 27, 2026</p>
         <h3>Building Advertiser Analytics in a Post-Identifier World</h3>
         <p>What changes for advertiser analytics when the identifiers the industry relied on go away.</p>
         <p><a href="https://www.exchangewire.com/blog/2026/08/27/building-advertiser-analytics-in-a-post-identifier-world/" target="_blank" rel="noopener">Read the article at ExchangeWire</a></p>
       </article>
-      <article class="card">
-        <p class="meta">Build log &middot; This site &middot; Updated November 2026</p>
+      <article class="card pub-card">
+        <div class="pub-head">
+          <span class="pub-mark"></span>
+          <p class="pub-name">stackhidden.com</p>
+          <span class="pub-kind">Build log</span>
+        </div>
+        <p class="meta pub-date">Updated November 2026</p>
         <h3>How This Site Works</h3>
         <p>Hand-written HTML, CSS, and JavaScript. No framework, no build step, no trackers, and no cookies; the only things stored are your theme and motion settings, in your own browser. The background is a lineage graph drawn on a canvas, the case files open in place and answer to deep links, and the Query section runs SQL against this page's own HTML without leaving your browser. The whole page prints cleanly as a document. Source is public: <a href="https://github.com/vishuvardhan16/stackhidden.com" target="_blank" rel="noopener">github.com/vishuvardhan16/stackhidden.com</a>.</p>
       </article>
@@ -584,7 +612,8 @@
          no photo either. Each slide links to the live article. The full
          quote text stays in the alt text and in the Writing/Featured
          records on this page, so the content survives with images
-         off. -->
+         off. Each caption opens with the publisher masthead used by
+         Published Writing and Speaking (v5), with a logo slot. -->
     <div class="carousel" id="quoteCarousel">
       <div class="carousel-stage">
       <div class="carousel-track">
@@ -592,19 +621,19 @@
           <a href="https://labelyourdata.com/articles/eu-artificial-intelligence-act" target="_blank" rel="noopener">
             <img src="assets/quote-eu-ai-act.png" alt="Screenshot of Vishnu's published quote in Label Your Data, EU AI Act: Training Data Requirements in 2026: 'In practice, most teams have a labeling pipeline and a policy document, but no lineage. They can't tell you where a given training row came from, what transformations it went through, or whether the distribution that produced it has drifted since. A policy on paper and a safeguard inside the pipeline are not the same thing.' Credited: Software Development Engineer, Amazon.">
           </a>
-          <figcaption><a href="https://labelyourdata.com/articles/eu-artificial-intelligence-act" target="_blank" rel="noopener">Label Your Data, EU AI Act: Training Data Requirements in 2026</a> &middot; September 30, 2026</figcaption>
+          <figcaption><div class="pub-head"><span class="pub-mark"><!-- Official logo, when added: <img class="pub-logo" src="assets/logos/labelyourdata.svg" alt="" width="120" height="24"> --></span><p class="pub-name">Label Your Data</p><span class="pub-kind">Expert quote</span></div><a href="https://labelyourdata.com/articles/eu-artificial-intelligence-act" target="_blank" rel="noopener">EU AI Act: Training Data Requirements in 2026</a> &middot; September 30, 2026</figcaption>
         </figure>
         <figure class="slide">
           <a href="https://labelyourdata.com/articles/machine-learning/golden-dataset" target="_blank" rel="noopener">
             <img src="assets/quote-golden-dataset.png" alt="Screenshot of Vishnu's published quote in Label Your Data, Golden Dataset: How to Build Trusted AI Evaluation Data: 'A golden dataset is one whose lineage is auditable and whose behavior is continuously validated against the world it claims to represent. If you can't reconstruct how a dataset was built or detect when it stops matching production reality, the label accuracy is decoration.' Credited: Software Development Engineer, Amazon.">
           </a>
-          <figcaption><a href="https://labelyourdata.com/articles/machine-learning/golden-dataset" target="_blank" rel="noopener">Label Your Data, Golden Dataset: How to Build Trusted AI Evaluation Data</a> &middot; October 23, 2026</figcaption>
+          <figcaption><div class="pub-head"><span class="pub-mark"><!-- Official logo, when added: <img class="pub-logo" src="assets/logos/labelyourdata.svg" alt="" width="120" height="24"> --></span><p class="pub-name">Label Your Data</p><span class="pub-kind">Expert quote</span></div><a href="https://labelyourdata.com/articles/machine-learning/golden-dataset" target="_blank" rel="noopener">Golden Dataset: How to Build Trusted AI Evaluation Data</a> &middot; October 23, 2026</figcaption>
         </figure>
         <figure class="slide">
           <a href="https://informaticsmagazine.com/qa/how-data-teams-balance-access-and-privacy/" target="_blank" rel="noopener">
             <img src="assets/quote-informatics-access-privacy.png" alt="Quote card for Vishnu's published quote in Informatics Magazine, How Data Teams Balance Access and Privacy, under the heading Validate Pipelines at Ingestion: 'Take one defect - a column renamed by an upstream team, or the loss of 20% of a day's events due to partial outages.' Credited: Vishnuvardhan Reddy Kaithapuram, Software Development Engineer, Amazon.">
           </a>
-          <figcaption><a href="https://informaticsmagazine.com/qa/how-data-teams-balance-access-and-privacy/" target="_blank" rel="noopener">Informatics Magazine, How Data Teams Balance Access and Privacy</a> &middot; November 2, 2026</figcaption>
+          <figcaption><div class="pub-head"><span class="pub-mark"><!-- Official logo, when added: <img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="120" height="24"> --></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div><a href="https://informaticsmagazine.com/qa/how-data-teams-balance-access-and-privacy/" target="_blank" rel="noopener">How Data Teams Balance Access and Privacy</a> &middot; November 2, 2026</figcaption>
         </figure>
       </div>
       </div>
@@ -617,18 +646,36 @@
     <p class="featured-note">The Label Your Data articles were written by Karyna Naminas, CEO of Label Your Data, who quoted me as an expert source. The Informatics Magazine Q&amp;A quoted me as an expert source too.</p>
   </section>
 
-    <!-- Speaking: confirmed engagements only, with the venue and date as announced. -->
-<section id="speaking" class="panel">
+    <!-- Speaking: confirmed engagements only, with the venue and date as announced.
+         Each talk is a card with the same publisher masthead as Published
+         Writing (v5), including a logo slot; see docs/publisher-logos.md. -->
+<section id="speaking">
     <h2>Speaking</h2>
-    <p class="meta">Marketplace Risk, New York &middot; September 16, 2026</p>
-    <h3>Automated Data Quality and Data-Layer AI Governance</h3>
-    <p>Conference talk on automated data quality in production pipelines, and why governance has to live inside the pipeline, not in a policy document beside it.</p>
-    <p><a href="https://www.marketplacerisk.com/new-york-conference-speakers/vishnuvardhan-reddy-kaithapuram" target="_blank" rel="noopener">My speaker page at Marketplace Risk</a></p>
-    <p>About the conference: the Marketplace Risk Management Conference describes itself as the world's largest event dedicated to digital risk, trust and safety, compliance, and fraud prevention for online marketplaces, digital platforms, and fintechs.</p>
-    <p class="meta">NICE-TEAS ASIA 2026, Hanoi &middot; Accepted for presentation &middot; Presenting digitally on December 4, 2026</p>
-    <h3>Scalable and Latency-Aware Real-Time Ingestion and Adaptive Search-Indexing with Advertisement Campaign Significance Analysis Using BC-SARSA</h3>
-    <p>Paper 1382, accepted for presentation at the 4th Networking International Conference on Emerging Trends in Expert Systems, Applications and Security, ASIA. The work covers real-time ingestion with Apache Kafka, campaign significance prediction, and adaptive search indexing with BC-SARSA. Accepted for presentation; not yet published.</p>
-    <p><a href="https://asia.nice-teas.com/" target="_blank" rel="noopener">Conference site, NICE-TEAS ASIA</a></p>
+    <div class="cards">
+      <article class="card pub-card talk">
+        <div class="pub-head">
+          <span class="pub-mark"><!-- Official logo, when added: <img class="pub-logo" src="assets/logos/marketplacerisk.svg" alt="" width="120" height="24"> --></span>
+          <p class="pub-name">Marketplace Risk</p>
+          <span class="pub-kind">Conference talk</span>
+        </div>
+        <p class="meta pub-date">New York &middot; September 16, 2026</p>
+        <h3>Automated Data Quality and Data-Layer AI Governance</h3>
+        <p>Conference talk on automated data quality in production pipelines, and why governance has to live inside the pipeline, not in a policy document beside it.</p>
+        <p>About the conference: the Marketplace Risk Management Conference describes itself as the world's largest event dedicated to digital risk, trust and safety, compliance, and fraud prevention for online marketplaces, digital platforms, and fintechs.</p>
+        <p><a href="https://www.marketplacerisk.com/new-york-conference-speakers/vishnuvardhan-reddy-kaithapuram" target="_blank" rel="noopener">My speaker page at Marketplace Risk</a></p>
+      </article>
+      <article class="card pub-card talk">
+        <div class="pub-head">
+          <span class="pub-mark"><!-- Official logo, when added: <img class="pub-logo" src="assets/logos/niceteas.svg" alt="" width="120" height="24"> --></span>
+          <p class="pub-name">NICE-TEAS ASIA 2026</p>
+          <span class="pub-kind">Accepted paper</span>
+        </div>
+        <p class="meta pub-date">Hanoi &middot; Presenting digitally on December 4, 2026</p>
+        <h3>Scalable and Latency-Aware Real-Time Ingestion and Adaptive Search-Indexing with Advertisement Campaign Significance Analysis Using BC-SARSA</h3>
+        <p>Paper 1382, accepted for presentation at the 4th Networking International Conference on Emerging Trends in Expert Systems, Applications and Security, ASIA. The work covers real-time ingestion with Apache Kafka, campaign significance prediction, and adaptive search indexing with BC-SARSA. Accepted for presentation; not yet published.</p>
+        <p><a href="https://asia.nice-teas.com/" target="_blank" rel="noopener">Conference site, NICE-TEAS ASIA</a></p>
+      </article>
+    </div>
   </section>
 
     <!-- Query this page (v5, Nov 2026): a small SQL console over the
