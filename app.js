@@ -107,9 +107,14 @@
       ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2); ctx.fill();
     }
   }
+  // graphRunning guards against a second animation loop. Before v5 the
+  // motion control's applyMotion() started a fresh loop on every call
+  // (including once at load), so the field drifted at double speed and
+  // each toggle added another loop.
+  var graphRunning = false;
   function step() {
     // The manual reduce-motion control (v4) freezes the field in place.
-    if (root.getAttribute('data-motion') === 'reduced') { draw(); return; }
+    if (root.getAttribute('data-motion') === 'reduced') { graphRunning = false; draw(); return; }
     for (var i = 0; i < nodes.length; i++) {
       var n = nodes[i];
       n.x += n.vx; n.y += n.vy;
@@ -119,10 +124,15 @@
     draw();
     requestAnimationFrame(step);
   }
+  function startGraph() {
+    if (reduced || graphRunning) return;
+    graphRunning = true;
+    requestAnimationFrame(step);
+  }
   window.addEventListener('resize', resize);
   drawColors();
   resize();
-  if (!reduced) requestAnimationFrame(step);
+  startGraph();
 
   /* ---- Interactive lineage explorer (section #lineage) ---------------
      Each stage lists the edges that touch it. Hover, focus, or tap a
@@ -153,19 +163,24 @@
   var detail = document.getElementById("lineageDetail");
   if (svg && detail) {
     var paths = svg.querySelectorAll(".edges path");
-    var nodes = svg.querySelectorAll(".lnode");
+    // Named lnodes, not nodes: this IIFE shares one function scope, and
+    // the background canvas above keeps its particle array in `nodes`.
+    // Reusing the name swapped the canvas array for these SVG elements,
+    // so the background painted nothing until a resize, and after a
+    // resize these handlers threw on plain particle objects.
+    var lnodes = svg.querySelectorAll(".lnode");
     function highlight(name) {
       var on = lineageEdges[name] || [];
       paths.forEach(function (p) { p.classList.toggle("lit", on.indexOf(p.id) !== -1); p.classList.toggle("dim", on.indexOf(p.id) === -1); });
-      nodes.forEach(function (n) { n.classList.toggle("dim", n.getAttribute("data-node") !== name); });
+      lnodes.forEach(function (n) { n.classList.toggle("dim", n.getAttribute("data-node") !== name); });
       detail.textContent = lineageInfo[name] || "";
     }
     function clear() {
       paths.forEach(function (p) { p.classList.remove("lit", "dim"); });
-      nodes.forEach(function (n) { n.classList.remove("dim"); });
+      lnodes.forEach(function (n) { n.classList.remove("dim"); });
       detail.textContent = "Pick a stage to see its place in the chain.";
     }
-    nodes.forEach(function (n) {
+    lnodes.forEach(function (n) {
       var name = n.getAttribute("data-node");
       n.addEventListener("mouseenter", function () { highlight(name); });
       n.addEventListener("mouseleave", clear);
@@ -481,7 +496,7 @@
     }
     var svgEl = document.getElementById('lineageSvg');
     if (svgEl && svgEl.pauseAnimations) { if (off) svgEl.pauseAnimations(); else svgEl.unpauseAnimations(); }
-    if (!off && !reduced) requestAnimationFrame(step);
+    if (!off) startGraph();
   }
   try { if (localStorage.getItem('motion') === 'reduced') root.setAttribute('data-motion', 'reduced'); } catch (e) {}
   if (motionBtn) {
