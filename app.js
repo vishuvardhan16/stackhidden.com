@@ -186,7 +186,8 @@
     "Aug 27, 2026 - ExchangeWire. 'Building Advertiser Analytics in a Post-Identifier World.' How advertiser analytics gets rebuilt when the identifiers it relied on go away.",
     "Sep 16, 2026 - Marketplace Risk, New York. Speaker on automated data quality and data-layer AI governance, in person in New York.",
     "Sep 30, 2026 - Label Your Data, 'EU AI Act: Training Data Requirements in 2026.' Named expert quote on the quality bar the EU AI Act sets for AI training data.",
-    "Oct 23, 2026 - Label Your Data, 'Golden Dataset: How to Build Trusted AI Evaluation Data.' Named expert quote: auditable lineage is what makes a golden dataset trustworthy."
+    "Oct 23, 2026 - Label Your Data, 'Golden Dataset: How to Build Trusted AI Evaluation Data.' Named expert quote: auditable lineage is what makes a golden dataset trustworthy.",
+    "Nov 2, 2026 - Informatics Magazine, 'How Data Teams Balance Access and Privacy.' Named expert quote under 'Validate Pipelines at Ingestion,' on balancing timely access to business data with protecting sensitive information."
   ];
   if (traceDetail) {
     var rows = document.querySelectorAll("#trace .trace-row");
@@ -263,8 +264,14 @@
       render(prev);
       if (manual) restart();
     }
-    function step() { go(idx + 1); }
-    function restart() { if (timer) clearInterval(timer); if (!reduced && root.getAttribute('data-motion') !== 'reduced') timer = setInterval(step, 5000); }
+    /* Named cstep, not step: the canvas animation in this same IIFE
+       also defines a step(), and the shared name let animation-frame
+       calls advance the carousel twice at load. With two slides that
+       wrapped back to the first slide and hid the bug; with three
+       slides (Nov 2, 2026) the carousel opened on the wrong slide and
+       its 5-second timer never fired. Keep this name unique. */
+    function cstep() { go(idx + 1); }
+    function restart() { if (timer) clearInterval(timer); if (!reduced && root.getAttribute('data-motion') !== 'reduced') timer = setInterval(cstep, 5000); }
     document.getElementById("quotePrev").addEventListener("click", function () { go(idx - 1, true); });
     document.getElementById("quoteNext").addEventListener("click", function () { go(idx + 1, true); });
     carousel.addEventListener("mouseenter", function () { if (timer) clearInterval(timer); });
