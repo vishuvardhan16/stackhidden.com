@@ -122,6 +122,81 @@ class MastheadTest(BrowserTestCase):
         )
 
 
+ROWS = """() => {
+    const out = {};
+    for (const [sec, n] of [['writing', 3], ['speaking', 2]]) {
+        const cards = [...document.querySelectorAll('#' + sec + ' .pub-card')].slice(0, n);
+        out[sec] = {
+            heads: cards.map(c => Math.round(c.querySelector('.pub-head').getBoundingClientRect().height)),
+            dates: cards.map(c => Math.round(c.querySelector('.pub-date').getBoundingClientRect().top)),
+            box: parseFloat(getComputedStyle(document.getElementById(sec)).getPropertyValue('--logo-box'))
+        };
+    }
+    return out;
+}"""
+VISIBLE_LOGOS = """() => [...document.querySelectorAll('.pub-logo')]
+    .filter(i => getComputedStyle(i).display !== 'none')
+    .map(i => ({
+        src: i.getAttribute('src'),
+        loaded: i.complete && i.naturalWidth > 0,
+        h: getComputedStyle(i).getPropertyValue('--h').trim(),
+        bg: getComputedStyle(i).backgroundColor,
+        height: Math.round(i.getBoundingClientRect().height),
+        box: parseFloat(getComputedStyle(i.closest('section')).getPropertyValue('--logo-box'))
+    }))"""
+
+
+class LogoSystemLightTest(BrowserTestCase):
+    """The official logos: loaded, deliberately sized, rows aligned."""
+
+    color_scheme = "light"
+
+    def test_every_logo_loads_and_has_its_own_size(self) -> None:
+        logos = self.page.evaluate(VISIBLE_LOGOS)
+        self.assertGreaterEqual(len(logos), 8)
+        for logo in logos:
+            with self.subTest(src=logo["src"]):
+                self.assertTrue(logo["loaded"], "logo file did not load")
+                # A new logo needs its own --h line in style.css.
+                self.assertTrue(logo["h"], "no --h sizing rule for this logo")
+
+    def test_cards_in_a_row_align_whatever_logo_they_carry(self) -> None:
+        rows = self.page.evaluate(ROWS)
+        for sec, row in rows.items():
+            with self.subTest(section=sec):
+                self.assertEqual({row["box"]}, set(row["heads"]), row)
+                self.assertEqual(1, len(set(row["dates"])), row)
+
+
+class LogoSystemDarkTest(LogoSystemLightTest):
+    color_scheme = "dark"
+
+    def test_chips_in_a_section_match_the_logo_box(self) -> None:
+        for logo in self.page.evaluate(VISIBLE_LOGOS):
+            with self.subTest(src=logo["src"]):
+                if logo["bg"] in ("rgba(0, 0, 0, 0)", "transparent"):
+                    continue  # carries its own background, or made for dark
+                self.assertEqual(logo["box"], logo["height"])
+                self.assertIn(logo["bg"], ("rgb(255, 255, 255)", "rgb(232, 72, 68)"))
+
+
+class LogoPhoneTest(BrowserTestCase):
+    viewport = {"width": 360, "height": 800}
+
+    def test_pills_stay_inside_their_cards_in_both_themes(self) -> None:
+        for theme in ("light", "dark"):
+            with self.subTest(theme=theme):
+                self.page.evaluate(f"document.documentElement.setAttribute('data-theme', '{theme}')")
+                over = self.page.evaluate(
+                    """() => [...document.querySelectorAll('.pub-kind')].filter(p => {
+                        const box = p.closest('.card, figcaption').getBoundingClientRect();
+                        return p.getBoundingClientRect().right > box.right + 0.5;
+                    }).map(p => p.textContent)"""
+                )
+                self.assertEqual([], over)
+                self.assertLessEqual(self.page.evaluate("document.body.scrollWidth"), 361)
+
+
 class DarkLogoPlateTest(BrowserTestCase):
     color_scheme = "dark"
 
