@@ -16,7 +16,8 @@
   FILES
     index.html          This page. All content lives here.
     style.css           Theme variables (dark + light) and all layout.
-    app.js              Theme toggle, New York clock, lineage graph.
+    app.js              All behavior: theme, clock, canvases, explorer,
+                        case files, carousel, palette, query console.
     assets/             Favicon, quote screenshots, share card.
                         See the photo rule below.
 
@@ -198,13 +199,13 @@
     <div class="role-block">
       <p class="meta">Uptycs &middot; Remote, Massachusetts</p>
       <h3>SDE Intern &middot; Jun 2022 to Aug 2022</h3>
-      <p>Built and fixed user interface stories in React, integrated backend APIs with the frontend, and built data visualisation dashboards with ECharts against business requirements.</p>
-      <p class="stack">React &middot; API integration &middot; Data visualisation</p>
+      <p>Built and fixed user interface stories in React, integrated backend APIs with the frontend, and built data visualization dashboards with ECharts against business requirements.</p>
+      <p class="stack">React &middot; API integration &middot; Data visualization</p>
     </div>
     <div class="role-block">
       <p class="meta">TA Digital &middot; Hyderabad, India</p>
       <h3>Associate Software Engineer &middot; Mar 2020 to Apr 2021</h3>
-      <p>Built data collection from multiple upstreams, parsed and sent downstream for storage and visualisation, in Java, REST, and Spring Boot on Oracle DB. Shipped 15 end-to-end machine learning projects to production, and turned a monolithic email spam classifier into an extensible Python API. Earlier, interned there Dec 2019 to Feb 2020 on Java EE and Spring MVC applications.</p>
+      <p>Built data collection from multiple upstream sources, parsing records and sending them downstream for storage and visualization, in Java, REST, and Spring Boot on Oracle DB. Shipped 15 end-to-end machine learning projects to production, and turned a monolithic email spam classifier into an extensible Python API. Before that, interned there from Dec 2019 to Feb 2020 on Java EE and Spring MVC applications.</p>
       <p class="stack">Java &middot; Spring Boot &middot; REST &middot; Oracle DB &middot; Python &middot; NLP &middot; Machine learning</p>
     </div>
     <div class="role-block">
@@ -220,7 +221,7 @@
     <!-- Degree names, schools, and dates exactly as listed on LinkedIn. No campus is named for either school there, so none is stated here. -->
     <div class="role-block">
       <h3>University at Buffalo</h3>
-      <p>Master's of Engineering Science, Data Science (MS) &middot; Aug 2021 to Aug 2022</p>
+      <p>Master of Engineering Science, Data Science (MS) &middot; Aug 2021 to Aug 2022</p>
     </div>
     <div class="role-block">
       <h3>GITAM Deemed University</h3>
@@ -282,7 +283,7 @@
     <article class="panel case" id="case-insights-api">
       <p class="meta">Case file &middot; Insights API &middot; 2023 to 2026</p>
       <h3>The Insights API and Insight Management Service</h3>
-      <p>The serving layer between the insight pipelines and the products that show insights to advertisers. My work here is the unglamorous kind that decides whether a platform feels fast and trustworthy: correct dates, honest availability, and lookups that stay quick as the catalogue grows.</p>
+      <p>The serving layer between the insight pipelines and the products that show insights to advertisers. My work here is the unglamorous kind that decides whether a platform feels fast and trustworthy: correct dates, honest availability, and lookups that stay quick as the catalog grows.</p>
       <div class="impact-row">
         <div><strong>3.7s to ~200ms</strong><span>metadata lookup, reworked end to end</span></div>
         <div><strong>All regions</strong><span>regionalized integration and load tests</span></div>
@@ -291,7 +292,7 @@
       <button type="button" class="case-toggle" data-case="case-insights-api" aria-expanded="false">Open case file</button>
       <div class="case-body" hidden>
         <h4>The problem</h4>
-        <p>Consumers of the Insights Store needed to ask three questions constantly: what insights exist for this advertiser, over what dates, and is the data fresh? Early answers were slow and sometimes wrong, because metric dates were assumed rather than modelled, and metadata reads scanned whole tables.</p>
+        <p>Consumers of the Insights Store needed to ask three questions constantly: what insights exist for this advertiser, over what dates, and is the data fresh? Early answers were slow and sometimes wrong, because metric dates were assumed rather than modeled, and metadata reads scanned whole tables.</p>
         <h4>What I built</h4>
         <ul>
           <li>Cadence-aware metric dates in the Insight Management Service, so weekly, monthly, and quarterly insights each carry their real dates through payloads and API models, with start and end dates supported end to end.</li>
@@ -302,8 +303,8 @@
         <h4>Decisions</h4>
         <dl class="decisions">
           <dt>Fix the access pattern, not the instance</dt><dd>The slow metadata endpoint was reading with a full table Scan. I reworked it to a Query against the right key, which is why the fix held at about 200 milliseconds instead of creeping back.</dd>
-          <dt>Dates are part of the contract</dt><dd>An insight without trustworthy dates is a wrong answer waiting to happen. Cadence is modelled in the data, not guessed by each consumer.</dd>
-          <dt>Test where it runs</dt><dd>Integration tests are regionalized and load tests run against the real shape of the catalogue, because the failures that matter show up per region and at catalogue scale.</dd>
+          <dt>Dates are part of the contract</dt><dd>An insight without trustworthy dates is a wrong answer waiting to happen. Cadence is modeled in the data, not guessed by each consumer.</dd>
+          <dt>Test where it runs</dt><dd>Integration tests are regionalized and load tests run against the real shape of the catalog, because the failures that matter show up per region and at catalog scale.</dd>
         </dl>
         <p class="stack">Stack: Java, Smithy, Lambda, DynamoDB, OpenSearch, Kinesis, S3, TypeScript CDK</p>
       </div>
@@ -525,7 +526,7 @@
        screen reader. -->
 <section id="trace" class="panel">
     <h2>2026, as a trace</h2>
-    <p class="trace-note">Every span below is a published piece or a talk, in order. Seven spans, July to November 2026. Select a row to open its case file.</p>
+    <p class="trace-note">Every span below is an article, a roundtable, a talk, or a press quote, in date order: seven spans, July to November 2026. Select a row to open its case file.</p>
     <div class="trace" role="group" aria-label="Timeline of 2026 publications and speaking: TDWI Upside on July 8, AI Loves Data on August 25, ExchangeWire on August 27, Marketplace Risk New York on September 16, Label Your Data EU AI Act on September 30, Label Your Data Golden Dataset on October 23, Informatics Magazine on November 2. Each row is selectable and opens a case file.">
       <div class="trace-row"><div class="trace-head"><span class="trace-label">TDWI Upside</span><span class="trace-result">Data quality, automated</span><span class="trace-date">Jul 8 &middot; Writing</span></div><div class="trace-track"><span class="trace-bar" style="width:4.6%"></span></div></div>
       <div class="trace-row"><div class="trace-head"><span class="trace-label">AI Loves Data</span><span class="trace-result">Batch to streaming, honestly</span><span class="trace-date">Aug 25 &middot; Roundtable</span></div><div class="trace-track"><span class="trace-bar" style="width:35.9%"></span></div></div>
@@ -539,7 +540,7 @@
     <p id="traceDetail" class="lineage-detail" aria-live="polite">Case file: select any row above.</p>
   </section>
 
-    <!-- Published writing: exact published titles and dates. Add a link only after the live URL has been verified. -->
+    <!-- Published writing: exact published titles and dates, in date order. Add a link only after the live URL has been verified. -->
 <section id="writing">
     <h2>Published Writing</h2>
     <div class="cards">
@@ -550,21 +551,21 @@
         <p><a href="https://tdwi.org/articles/2026/07/08/diq-all-automating-data-quality-in-petabytescale-analytics-pipelines.aspx" target="_blank" rel="noopener">Read the article at TDWI Upside</a></p>
       </article>
       <article class="card">
-        <p class="meta">ExchangeWire &middot; August 27, 2026</p>
-        <h3>Building Advertiser Analytics in a Post-Identifier World</h3>
-        <p>What changes for advertiser analytics when the identifiers the industry relied on go away.</p>
-        <p><a href="https://www.exchangewire.com/blog/2026/08/27/building-advertiser-analytics-in-a-post-identifier-world/" target="_blank" rel="noopener">Read the article at ExchangeWire</a></p>
-      </article>
-      <article class="card">
         <p class="meta">AI Loves Data Roundtable &middot; August 25, 2026</p>
         <h3>Batch to Streaming: What Actually Breaks and When It's Worth It</h3>
         <p>A roundtable on the real failure modes of moving from batch to streaming, and when the move pays off.</p>
         <p><a href="https://roundtable.ailovesdata.com/batch-to-streaming-what-actually-breaks-and-when-its-worth-it" target="_blank" rel="noopener">Read the roundtable at AI Loves Data</a></p>
       </article>
       <article class="card">
-        <p class="meta">Build log &middot; This site &middot; October 2026</p>
+        <p class="meta">ExchangeWire &middot; August 27, 2026</p>
+        <h3>Building Advertiser Analytics in a Post-Identifier World</h3>
+        <p>What changes for advertiser analytics when the identifiers the industry relied on go away.</p>
+        <p><a href="https://www.exchangewire.com/blog/2026/08/27/building-advertiser-analytics-in-a-post-identifier-world/" target="_blank" rel="noopener">Read the article at ExchangeWire</a></p>
+      </article>
+      <article class="card">
+        <p class="meta">Build log &middot; This site &middot; Updated November 2026</p>
         <h3>How This Site Works</h3>
-        <p>Hand-written HTML, CSS, and JavaScript. No framework, no build step, no trackers, and no cookies beyond a theme preference stored locally. The background is a lineage graph drawn on a canvas; the case files above open in place and answer to deep links; the whole page prints cleanly as a document. Source is public: <a href="https://github.com/vishuvardhan16/stackhidden.com" target="_blank" rel="noopener">github.com/vishuvardhan16/stackhidden.com</a>.</p>
+        <p>Hand-written HTML, CSS, and JavaScript. No framework, no build step, no trackers, and no cookies; the only things stored are your theme and motion settings, in your own browser. The background is a lineage graph drawn on a canvas, the case files open in place and answer to deep links, and the Query section runs SQL against this page's own HTML without leaving your browser. The whole page prints cleanly as a document. Source is public: <a href="https://github.com/vishuvardhan16/stackhidden.com" target="_blank" rel="noopener">github.com/vishuvardhan16/stackhidden.com</a>.</p>
       </article>
     </div>
   </section>
@@ -623,7 +624,7 @@
     <h3>Automated Data Quality and Data-Layer AI Governance</h3>
     <p>Conference talk on automated data quality in production pipelines, and why governance has to live inside the pipeline, not in a policy document beside it.</p>
     <p><a href="https://www.marketplacerisk.com/new-york-conference-speakers/vishnuvardhan-reddy-kaithapuram" target="_blank" rel="noopener">My speaker page at Marketplace Risk</a></p>
-    <p>About the conference: the Marketplace Risk Management Conference is the world's largest event and global summit dedicated to digital risk, trust and safety, compliance, and fraud prevention for online marketplaces, digital platforms, and fintechs.</p>
+    <p>About the conference: the Marketplace Risk Management Conference describes itself as the world's largest event dedicated to digital risk, trust and safety, compliance, and fraud prevention for online marketplaces, digital platforms, and fintechs.</p>
     <p class="meta">NICE-TEAS ASIA 2026, Hanoi &middot; Accepted for presentation &middot; Presenting digitally on December 4, 2026</p>
     <h3>Scalable and Latency-Aware Real-Time Ingestion and Adaptive Search-Indexing with Advertisement Campaign Significance Analysis Using BC-SARSA</h3>
     <p>Paper 1382, accepted for presentation at the 4th Networking International Conference on Emerging Trends in Expert Systems, Applications and Security, ASIA. The work covers real-time ingestion with Apache Kafka, campaign significance prediction, and adaptive search indexing with BC-SARSA. Accepted for presentation; not yet published.</p>
@@ -660,7 +661,7 @@
     <p id="sqlTables" class="sql-tables"></p>
   </section>
 
-    <!-- Contact: LinkedIn only. There is no form: GitHub Pages is static, and a fake form that mails nowhere would be worse than none. -->
+    <!-- Contact: email and LinkedIn links. There is no form: GitHub Pages is static, and a fake form that mails nowhere would be worse than none. -->
 <section id="contact" class="panel">
     <h2>Contact</h2>
     <p>For opportunities or questions about my work, reach me by email or on LinkedIn.</p>
