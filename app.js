@@ -1724,4 +1724,114 @@
     cleanBtn.addEventListener('click', function () { send(false); });
     badBtn.addEventListener('click', function () { send(true); });
   })();
+
+  /* ---- First-view reveals (v5, Nov 2026) --------------------------------
+     Two one-shot reveals that teach something about what they reveal:
+     the 2026 trace renders its spans in date order, and the lineage
+     graph draws itself in the order data flows through it. The hero
+     intro is the third v5 animation and is pure CSS (style.css).
+
+     Rules both follow:
+       - Skipped when motion is off (OS setting or footer control) or
+         IntersectionObserver is missing: the content is simply drawn.
+       - Skipped when the element is already on screen when this code
+         runs, so nothing visible vanishes and redraws. A deep link
+         (#lineage) or scroll restoration moves the page only after this
+         code runs, so those arrivals see the reveal play as they land,
+         the same as scrolling there.
+       - Armed (hidden) only by script, so with JavaScript off nothing is
+         ever hidden.
+       - Run once, then clean up after themselves. */
+  function revealOnce(el, threshold, run) {
+    if (!el || motionOff() || !('IntersectionObserver' in window)) return false;
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.92) return false;
+    var io = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      io.disconnect();
+      requestAnimationFrame(run);
+    }, { threshold: threshold });
+    io.observe(el);
+    return true;
+  }
+
+  // 2026 trace: bars render left to right, one after another, 110ms apart.
+  (function () {
+    var trace = document.querySelector('#trace .trace');
+    if (!trace) return;
+    var bars = trace.querySelectorAll('.trace-bar');
+    var armed = revealOnce(trace, 0.35, function () {
+      trace.classList.add('trace-drawn');
+      // Leave the page as if it had never animated once the last bar lands.
+      setTimeout(function () {
+        trace.classList.remove('trace-armed', 'trace-drawn');
+        bars.forEach(function (b) { b.style.removeProperty('--i'); });
+      }, 900 + bars.length * 110 + 100);
+    });
+    if (!armed) return;
+    bars.forEach(function (b, i) { b.style.setProperty('--i', i); });
+    trace.classList.add('trace-armed');
+  })();
+
+  // Lineage graph: draws itself along the data flow. Each step is one hop
+  // of the pipeline; edges in a step stroke in from their source end, and
+  // each stage fades up as the edge reaching it arrives.
+  (function () {
+    var graph = document.getElementById('lineageSvg');
+    if (!graph) return;
+    // A stage appears when its incoming edge is 70% drawn; the next edge
+    // leaves 44ms after that, so the drawing reads as data moving.
+    var STEP = 380, STROKE = 480, ARRIVE = Math.round(STROKE * 0.7);
+    var EDGE_STEPS = [
+      ['e-feed-ingest', 'e-click-ingest'],
+      ['e-ingest-transform'],
+      ['e-transform-gate'],
+      ['e-gate-lake', 'e-gate-anomaly'],
+      ['e-lake-api'],
+      ['e-api-analytics']
+    ];
+    var NODE_STEP = { feed: 0, click: 0, ingest: 1, transform: 2, gate: 3, lake: 4, anomaly: 4, api: 5, analytics: 6 };
+    var edges = [], stageNodes = graph.querySelectorAll('.lnode');
+    EDGE_STEPS.forEach(function (ids, step) {
+      ids.forEach(function (id) {
+        var p = document.getElementById(id);
+        if (p) edges.push({ p: p, step: step, dashed: p.hasAttribute('stroke-dasharray') });
+      });
+    });
+    function cleanUp() {
+      graph.classList.remove('pre-draw');
+      edges.forEach(function (e) { e.p.removeAttribute('style'); e.p.classList.remove('dashed-in'); });
+      stageNodes.forEach(function (n) { n.removeAttribute('style'); });
+    }
+    var armed = revealOnce(graph, 0.4, function () {
+      edges.forEach(function (e) {
+        var delay = e.step * STEP;
+        if (e.dashed) {
+          e.p.style.transition = 'opacity 400ms ease ' + delay + 'ms';
+          e.p.classList.remove('dashed-in');
+        } else {
+          e.p.style.transition = 'stroke-dashoffset ' + STROKE + 'ms cubic-bezier(.4,0,.2,1) ' + delay + 'ms';
+          e.p.style.strokeDashoffset = '0';
+        }
+      });
+      stageNodes.forEach(function (n) {
+        // NODE_STEP k is reached by the edges of step k - 1.
+        var k = NODE_STEP[n.getAttribute('data-node')] || 0;
+        var delay = k === 0 ? 0 : (k - 1) * STEP + ARRIVE;
+        n.style.transition = 'opacity 420ms ease ' + delay + 'ms, transform 420ms cubic-bezier(.2,.7,.2,1) ' + delay + 'ms';
+      });
+      graph.classList.remove('pre-draw');
+      setTimeout(cleanUp, (EDGE_STEPS.length - 1) * STEP + ARRIVE + 420 + 300);
+    });
+    if (!armed) return;
+    edges.forEach(function (e) {
+      if (e.dashed) { e.p.classList.add('dashed-in'); return; }
+      var len = Math.ceil(e.p.getTotalLength()) + 1;
+      e.p.style.strokeDasharray = len + ' ' + len;
+      e.p.style.strokeDashoffset = String(len);
+    });
+    graph.classList.add('pre-draw');
+    // Turning motion off mid-draw finishes the drawing at once.
+    new MutationObserver(function () { if (motionOff()) cleanUp(); })
+      .observe(document.documentElement, { attributes: true, attributeFilter: ['data-motion'] });
+  })();
 })();

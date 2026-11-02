@@ -470,3 +470,21 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
   :root:not([data-motion="reduced"]) .hero-side{animation:rise .7s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0) * 70ms)}
 }
 
+/* 2. The 2026 trace. On first view the bars render left to right in
+   date order, 110ms apart, like spans arriving in a trace viewer.
+   app.js adds .trace-armed only when motion is allowed and the trace
+   starts below the fold; without it the bars are simply drawn. The
+   axis and month notches are defined with the trace fix, above. */
+.trace-armed .trace-bar{clip-path:inset(0 100% 0 0)}
+.trace-armed.trace-drawn .trace-bar{clip-path:inset(0 0 0 0);transition:clip-path .9s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--i,0) * 110ms)}
+
+/* 3. The lineage graph draws itself along the data flow on first view:
+   sources, ingest, transform, gate, then lake and anomalies, the API,
+   and analytics. app.js sets each edge's dash length and the per-step
+   delays, then removes every inline style when the drawing is done, so
+   hover tracing and the dashed anomaly edge behave exactly as before. */
+.lineage-svg.pre-draw .lnode{opacity:0;transform:translateY(8px)}
+.lineage-svg .lnode{transform-box:fill-box}
+.lineage-svg.pre-draw .packet,.lineage-svg.pre-draw .edges path.dashed-in{opacity:0}
+
+@media print{.trace-bar{clip-path:none!important}}
