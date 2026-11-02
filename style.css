@@ -491,74 +491,77 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
 
 /* =====================================================================
    Publisher mastheads (v5). One component for Published Writing,
-   Speaking, and the Featured In captions: the publisher's name in the
-   site's own type, a pill for the kind of piece, then the date. The
-   logo slot (.pub-mark) stays collapsed while it holds only its HTML
-   comment; when the owner adds an official logo <img class="pub-logo">
-   it shows the logo and hides the name visually (the name stays in the
-   page for screen readers, and the img keeps alt=""). Logos are not
-   drawn or copied by the site's authors; docs/publisher-logos.md says
-   where they come from and how to add one.
+   Speaking, and the Featured In captions: the publisher's logo (or its
+   name in the site's own type), a pill for the kind of piece, then the
+   date. A logo hides the name visually; the name stays in the page for
+   screen readers, and the img keeps alt="". The logos are the owner's
+   official files; docs/publisher-logos.md says where each came from,
+   how to add one, and the recorded exceptions.
    ===================================================================== */
-.pub-head{display:flex;align-items:center;gap:10px;min-height:28px;margin:0 0 4px}
-.pub-mark{display:inline-flex;align-items:center;flex:none}
+.pub-head{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;min-height:var(--logo-box,28px);margin:0 0 4px}
+.pub-mark{display:inline-flex;align-items:center;flex:none;max-width:100%}
 .pub-mark:empty{display:none}
-.pub-logo{display:block;height:24px;width:auto;max-width:150px;object-fit:contain}
-/* Stacked marks (the Marketplace Risk wordmark, the Label Your Data
-   badge) are mostly empty width at 24px; at the standard height their
-   lines shrink to illegibility, so a stacked logo takes a taller slot. */
-.pub-logo.tall{height:40px}
-/* Speaking cards: the Marketplace Risk wordmark is the section's one
-   stacked logo, and at 40px it read as body text next to the printed
-   venue name beside it, so in Speaking it takes 52px. In dark mode it
-   also sits on its own brand red (#E84844, sampled from the official
-   file), the way the conference's own header shows the white wordmark
-   on a red block; the red-on-white footer version serves light mode. */
-#speaking .pub-logo.tall{height:52px}
-:root[data-theme="dark"] #speaking .pub-logo.for-dark{background:#E84844;padding:6px 10px;border-radius:6px}
-/* Logos with their own background baked in (the NICE-TEAS wordmark
-   tile) take no plate in dark mode. */
-:root[data-theme="dark"] .pub-logo.noplate{background:none;padding:0}
-#speaking .pub-logo.nt{height:36px}
-/* The Featured carousel styles every <img> in a slide at width:100%,
-   which would stretch a caption logo to the slide's width. The caption
-   logos keep their masthead sizing instead. */
-#featured .pub-logo{width:auto;height:24px;padding:0;background:none;box-shadow:none;box-sizing:content-box}
-#featured .pub-logo.tall{height:40px}
-/* Speaking cards: the Marketplace Risk wordmark is the section's one
-   stacked logo, and at 40px it read as body text next to the printed
-   venue name beside it, so in Speaking it takes 52px. In dark mode it
-   also sits on its own brand red (#E84844, sampled from the official
-   file), the way the conference's own header shows the white wordmark
-   on a red block; the red-on-white footer version serves light mode. */
-#speaking .pub-logo.tall{height:52px}
-:root[data-theme="dark"] #speaking .pub-logo.for-dark{background:#E84844;padding:6px 10px;border-radius:6px}
-/* Logos with their own background baked in (the NICE-TEAS wordmark
-   tile) take no plate in dark mode. */
-:root[data-theme="dark"] .pub-logo.noplate{background:none;padding:0}
-#speaking .pub-logo.nt{height:36px}
-:root[data-theme="dark"] #featured .pub-logo{background:#fff;padding:4px 8px}
-:root[data-theme="dark"] #featured .pub-logo.for-dark{background:none;padding:0}
-/* Most publisher logos are dark on transparent and vanish on the dark
-   theme, so in dark mode a logo sits on a small light plate, the same
-   way the quote screenshots sit on white. */
-:root[data-theme="dark"] .pub-logo{box-sizing:content-box;background:#fff;padding:4px 8px;border-radius:6px}
-/* When a publisher supplies a version made for dark backgrounds, add it
-   as a second <img class="pub-logo for-dark"> beside the usual one
-   (marked for-light). Each theme then shows its own file, unplated. */
-.pub-logo.for-dark{display:none}
-:root[data-theme="dark"] .pub-logo.for-light{display:none}
-:root[data-theme="dark"] .pub-logo.for-dark{display:block;background:none;padding:0}
 .pub-head .pub-name,.cards .card .pub-head .pub-name{margin:0;color:var(--text);font-weight:750;font-size:1.02rem;line-height:1.3;letter-spacing:.005em}
 .pub-head:has(.pub-logo) .pub-name{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .pub-kind{margin-left:auto;flex:none;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:1px 9px;font-size:.74rem;font-weight:650;line-height:1.6;white-space:nowrap}
 .pub-date{margin:0 0 8px}
+
+/* Logo sizing. Each section has one logo box, and every masthead in it
+   reserves that height, so the dates and titles of cards side by side
+   line up whatever logo each card carries. Inside the box each logo has
+   its own height (--h), chosen for equal visual weight: a compact mark
+   stands taller than a long, heavy wordmark (roughly the equal-area
+   rule, height in proportion to 1 / sqrt(aspect ratio)), then checked by
+   eye in both themes. Logos are only scaled; the artwork is never
+   altered. A new logo needs one line here. */
+#writing{--logo-box:36px}
+#featured{--logo-box:40px}
+#speaking{--logo-box:52px}
+.pub-logo{display:block;width:auto;max-width:100%;height:var(--h,24px);object-fit:contain}
+.pub-logo[src$="/tdwi.svg"]{--h:30px}
+.pub-logo[src$="/ailovesdata.png"]{--h:20px}
+.pub-logo[src$="/ailovesdata-dark.svg"]{--h:19px}
+.pub-logo[src$="/exchangewire.svg"]{--h:21px}
+.pub-logo[src$="/informatics.svg"]{--h:30px}
+.pub-logo[src$="/labelyourdata.svg"]{--h:34px}
+.pub-logo[src$="/niceteas.svg"]{--h:38px}
+/* The Marketplace Risk PNGs carry transparent margins: the light file's
+   mark fills only 63% of its height. So the light logo is drawn taller
+   and the empty margins are trimmed from layout with negative margins;
+   the file itself is untouched. */
+.pub-logo[src$="/marketplacerisk.png"]{--h:58px;margin:-12px 0 -10px}
+.pub-logo[src$="/marketplacerisk-dark.png"]{--h:44px}
+
+/* The Featured carousel styles every <img> in a slide as a screenshot
+   (full width, white card, padding, shadow). Caption logos opt out. */
+.carousel .slide .pub-logo{width:auto;max-width:100%;height:var(--h,24px);max-height:none;padding:0;background:none;border-radius:0;box-shadow:none}
+
+/* Light and dark versions: a publisher's file made for dark backgrounds
+   goes beside the usual one as <img class="pub-logo for-dark">, with the
+   usual one marked for-light, and each theme shows its own. */
+.pub-logo.for-dark{display:none}
+:root[data-theme="dark"] .pub-logo.for-light{display:none}
+
+/* Dark theme chips. A logo drawn for light backgrounds sits on a white
+   chip. Every chip in a section is the full height of the logo box, with
+   the logo centred inside it, so the chips read as one system rather
+   than stickers of different sizes. Exceptions, recorded in
+   docs/publisher-logos.md: logos that carry their own background (the
+   NICE-TEAS tile, marked .noplate, and the Label Your Data badge) and
+   versions made for dark (.for-dark) take no chip; Marketplace Risk's
+   white wordmark takes a chip in its own brand red (#E84844). */
+:root[data-theme="dark"] .pub-logo{box-sizing:border-box;height:var(--logo-box,32px);padding:calc((var(--logo-box,32px) - var(--h,24px)) / 2) 10px;background:#fff;border-radius:8px}
+:root[data-theme="dark"] .pub-logo.noplate,
+:root[data-theme="dark"] .pub-logo[src$="/labelyourdata.svg"],
+:root[data-theme="dark"] .pub-logo.for-dark{display:block;box-sizing:content-box;height:var(--h,24px);padding:0;background:none;border-radius:0}
+:root[data-theme="dark"] .pub-logo.for-dark[src$="/marketplacerisk-dark.png"]{box-sizing:border-box;height:var(--logo-box);padding:calc((var(--logo-box) - var(--h)) / 2) 12px;background:#E84844;border-radius:8px}
+
 /* Cards are equal height in a grid row; the closing link sits on the
    bottom edge, so the links of one row line up. */
 .pub-card{display:flex;flex-direction:column}
 .pub-card>p:last-child{margin-top:auto;padding-top:4px;margin-bottom:0}
 /* Featured In captions: the masthead sits above the title link. */
-.carousel .slide figcaption .pub-head{margin:2px 0 2px}
+.carousel .slide figcaption .pub-head{margin:2px 0 4px}
 .carousel .slide figcaption .pub-name{font-size:.95rem}
 
 /* Featured carousel sizing (v5). The stage used a fixed 16:5.9 box with
