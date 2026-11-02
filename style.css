@@ -373,3 +373,23 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
 @media (prefers-reduced-motion: reduce){.traced{animation:none}.sql-editor{transition:none}}
 @media print{#query,#backToQuery{display:none!important}}
 
+/* Header layout (v5). The theme and palette buttons moved out of <nav>
+   into .header-tools. Desktop looks as before: brand on the left, links
+   and tools together on the right. Under 640px the header was wrapping
+   to four lines (146px of an 800px phone screen, before v5 too); now the
+   brand and tools share the first row and the links scroll sideways in
+   a single second row, with a fade at the edge to show there is more. */
+.site-header nav{margin-left:auto}
+.header-tools{display:flex;align-items:center;gap:10px;margin-left:18px}
+.header-tools #theme-toggle,.header-tools #paletteBtn{margin-left:0}
+@media (max-width:640px){
+  .site-header{flex-wrap:wrap;row-gap:4px;padding:10px 16px 6px}
+  .header-tools{margin-left:auto}
+  .site-header nav{order:3;flex:1 1 100%;margin-left:0;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:2px 0 4px;
+    -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+  .site-header nav::-webkit-scrollbar{display:none}
+  .site-header nav a{flex:none;margin:0 18px 0 0;padding:2px 0}
+  .site-header nav a:last-child{margin-right:28px}
+  #theme-toggle,#paletteBtn{height:34px}
+  #theme-toggle{width:34px}
+}

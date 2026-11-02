@@ -94,11 +94,16 @@
     <a href="#speaking">Speaking</a>
     <a href="#query">Query</a>
     <a href="#contact">Contact</a>
+  </nav>
+  <!-- The two controls sit outside <nav>: they are actions, not
+       destinations. On phones the links become one scrolling row under
+       the brand while these stay pinned beside it (style.css). -->
+  <div class="header-tools">
     <button id="theme-toggle" type="button" aria-label="Switch between light and dark theme" title="Switch theme">
       <span class="icon-sun" aria-hidden="true">&#9728;</span><span class="icon-moon" aria-hidden="true">&#9790;</span>
     </button>
     <button id="paletteBtn" type="button" aria-label="&#8984;K Open command palette" title="Command palette (Ctrl or Cmd + K)">&#8984;K</button>
-  </nav>
+  </div>
 </header>
 
   <!-- Hero: engineer first. Role and pipelines lead; publications are evidence further down, not the headline. -->

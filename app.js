@@ -227,9 +227,20 @@
     var byId = {};
     spyLinks.forEach(function (a) { byId[a.getAttribute("href").slice(1)] = a; });
     var markActive = function (id) {
-      if (!byId[id]) return;
+      var link = byId[id];
+      if (!link || link.classList.contains("active")) return;
       spyLinks.forEach(function (a) { a.classList.remove("active"); });
-      byId[id].classList.add("active");
+      link.classList.add("active");
+      // On phones the links scroll sideways in one row; keep the active
+      // one in view. Direct scrollLeft math, not scrollIntoView, which
+      // could also nudge the page.
+      var row = link.parentElement;
+      if (row.scrollWidth > row.clientWidth + 1) {
+        var left = link.offsetLeft - row.offsetLeft, right = left + link.offsetWidth;
+        if (left < row.scrollLeft || right > row.scrollLeft + row.clientWidth - 28) {
+          row.scrollTo({ left: Math.max(0, left - 16), behavior: motionOff() ? "auto" : "smooth" });
+        }
+      }
     };
     // The last section is often too short to reach the band below, so
     // at the bottom of the page the last nav link wins. Both paths check
