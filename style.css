@@ -407,7 +407,10 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
 .lin-log{list-style:none;margin:2px 0 12px;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:12px;font-family:var(--mono);font-size:.78rem;line-height:1.6}
 .lin-log[hidden]{display:none}
 .lin-log li{display:grid;grid-template-columns:auto 6.2em minmax(0,1fr);gap:12px;color:var(--muted)}
-.lin-log time{opacity:.65;font-variant-numeric:tabular-nums}
+/* Hierarchy comes from colour, not opacity: a faded timestamp measured
+   4.07:1 (dark) and 2.74:1 (light) in axe, below the 4.5:1 minimum. */
+.lin-log time{font-variant-numeric:tabular-nums}
+.lin-log span{color:var(--text)}
 .lin-log b{color:var(--accent);font-weight:600}
 .lin-log li.fail b,.lin-log li.fail span{color:var(--warn)}
 @media (max-width:560px){.lin-log li{grid-template-columns:5.4em minmax(0,1fr);gap:8px}.lin-log time{display:none}.lin-count{margin-left:0;flex-basis:100%}
