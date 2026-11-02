@@ -488,3 +488,17 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
 .lineage-svg.pre-draw .packet,.lineage-svg.pre-draw .edges path.dashed-in{opacity:0}
 
 @media print{.trace-bar{clip-path:none!important}}
+
+/* Featured carousel sizing (v5). The stage used a fixed 16:5.9 box with
+   absolutely positioned slides, so on phones (and once captions grew)
+   the caption ran past the box and the arrows and dots sat on top of
+   the article title: 57px of overlap at 360px before v5. Now every
+   slide sits in the same grid cell, the stage is as tall as its tallest
+   slide, and the screenshot's height is capped in pixels (the same
+   ~340px it had on desktop). The grid is on .carousel-track, the
+   slides' parent. Slides still move with translateX, and the
+   stage does not change height between slides. */
+.carousel-stage{aspect-ratio:auto}
+.carousel-track{display:grid}
+.carousel .slide{grid-area:1/1;position:relative;inset:auto}
+.carousel .slide img{max-height:340px}
