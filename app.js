@@ -287,7 +287,10 @@
        wrapped back to the first slide and hid the bug; with three
        slides (Nov 2, 2026) the carousel opened on the wrong slide and
        its 5-second timer never fired. Keep this name unique. */
-    function cstep() { go(idx + 1); }
+    // The timer keeps ticking but skips while the footer Reduce motion
+    // control is on, so the carousel holds still and resumes when motion
+    // is turned back on. Before v5 only the OS setting stopped it.
+    function cstep() { if (!motionOff()) go(idx + 1); }
     function restart() { if (timer) clearInterval(timer); if (!reduced && root.getAttribute('data-motion') !== 'reduced') timer = setInterval(cstep, 5000); }
     document.getElementById("quotePrev").addEventListener("click", function () { go(idx - 1, true); });
     document.getElementById("quoteNext").addEventListener("click", function () { go(idx + 1, true); });
@@ -415,7 +418,15 @@
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (es) { coreVisible = es[0].isIntersecting; if (coreVisible) coreStart(); }).observe(coreCv);
     }
-    new MutationObserver(function () { coreCols = coreColors(); if (motionOff() || !coreRunning) coreFrame(1200); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'data-motion'] });
+    // A theme flip repaints with the new colours. Turning motion back on
+    // restarts the loop: before v5 this only drew a still frame, so the
+    // core stayed frozen until it scrolled off screen and back.
+    new MutationObserver(function () {
+      coreCols = coreColors();
+      if (motionOff()) coreFrame(1200); else coreStart();
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'data-motion'] });
+    // The loop stops itself while the tab is hidden; resume on return.
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) coreStart(); });
     coreStart();
   }
 
