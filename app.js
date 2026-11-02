@@ -226,15 +226,25 @@
   if ("IntersectionObserver" in window && spyLinks.length) {
     var byId = {};
     spyLinks.forEach(function (a) { byId[a.getAttribute("href").slice(1)] = a; });
+    var markActive = function (id) {
+      if (!byId[id]) return;
+      spyLinks.forEach(function (a) { a.classList.remove("active"); });
+      byId[id].classList.add("active");
+    };
+    // The last section is often too short to reach the band below, so
+    // at the bottom of the page the last nav link wins. Both paths check
+    // it: observer callbacks land after the scroll event and would
+    // otherwise hand the highlight back to the section above.
+    var lastId = spyLinks[spyLinks.length - 1].getAttribute("href").slice(1);
+    var atBottom = function () {
+      var h = document.documentElement;
+      return h.scrollTop + h.clientHeight >= h.scrollHeight - 2;
+    };
     var spy = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting && byId[en.target.id]) {
-          spyLinks.forEach(function (a) { a.classList.remove("active"); });
-          byId[en.target.id].classList.add("active");
-        }
-      });
+      entries.forEach(function (en) { if (en.isIntersecting) markActive(atBottom() ? lastId : en.target.id); });
     }, { rootMargin: "-40% 0px -55% 0px" });
     document.querySelectorAll("main section[id]").forEach(function (s) { spy.observe(s); });
+    document.addEventListener("scroll", function () { if (atBottom()) markActive(lastId); }, { passive: true });
   }
   var bar = document.getElementById("scrollbarFill");
   if (bar) {
