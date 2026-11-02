@@ -108,9 +108,14 @@ class StaticContentRulesTest(unittest.TestCase):
         self.assertEqual(48, len(list_items(work, "chips")))
 
     def test_karyna_naminas_credit_line_is_present(self) -> None:
+        # Wording updated Nov 2, 2026: the Featured section now also
+        # carries an Informatics Magazine quote, so the old "Both
+        # articles" line no longer covers every item.
         self.assertIn(
-            "Both articles were written by Karyna Naminas, CEO of Label Your "
-            "Data, who quoted me as an expert source.",
+            "The Label Your Data articles were written by Karyna Naminas, "
+            "CEO of Label Your Data, who quoted me as an expert source. "
+            "The Informatics Magazine Q&amp;A quoted me as an expert "
+            "source too.",
             self.index,
         )
 

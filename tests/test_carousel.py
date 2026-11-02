@@ -17,8 +17,10 @@ class CarouselTest(BrowserTestCase):
         slides = carousel.locator(".slide")
 
         self.assertEqual("group", dots_wrap.get_attribute("role"))
-        self.assertEqual(2, dots.count())
-        self.assertEqual(2, slides.count())
+        # 3 slides since Nov 2, 2026: the two Label Your Data quotes
+        # plus the Informatics Magazine quote.
+        self.assertEqual(3, dots.count())
+        self.assertEqual(3, slides.count())
         self.assertEqual("true", dots.nth(0).get_attribute("aria-current"))
         self.assertIsNone(dots.nth(1).get_attribute("aria-current"))
         self.assertIn("on", slides.nth(0).get_attribute("class") or "")
