@@ -1569,4 +1569,159 @@
       section.scrollIntoView({ block: 'start', behavior: motionOff() ? 'auto' : 'smooth' });
     });
   })();
+
+  /* ---- Send a record through the lineage explorer (v5, Nov 2026) -------
+     Two buttons under the graph send one record each. The record leaves
+     a source (advertiser feeds or clickstream, at random), passes ingest
+     and the Spark transform, and pauses at the quality gate while it is
+     checked. A clean record continues to the data lake, the API, and
+     advertiser analytics. A bad record is indistinguishable until the
+     gate: there it turns amber and is routed to Flagged anomalies, and
+     nothing downstream sees it.
+
+     Each stage it reaches pulses and writes a line to the pipeline log
+     below the graph; the outcome is announced through the existing
+     aria-live detail line. Motion is a moving dot following route
+     segments with getPointAtLength, so it needs no animation library.
+     Under reduced motion the record arrives at once: the log and the
+     outcome are the same, there is just no travel. */
+  (function () {
+    var svg = document.getElementById('lineageSvg');
+    var cleanBtn = document.getElementById('sendClean');
+    var badBtn = document.getElementById('sendBad');
+    var log = document.getElementById('linLog');
+    var count = document.getElementById('linCount');
+    var detail = document.getElementById('lineageDetail');
+    if (!svg || !cleanBtn || !badBtn || !log || !count || !detail || !svg.createSVGPoint) return;
+    var NS = 'http://www.w3.org/2000/svg';
+
+    // Route segments, each ending at the stage it delivers to. They trace
+    // the drawn edges, passing through each stage box's centre.
+    var SEGMENTS = {
+      fromFeed: ['M85,70 L150,70 C240,70 240,120 330,120 L400,135', 'ingest'],
+      fromClick: ['M85,200 L150,200 C240,200 240,150 330,150 L400,135', 'ingest'],
+      toTransform: ['M400,135 L625,135', 'transform'],
+      toGate: ['M625,135 L690,120 C750,120 740,110 800,110 L870,110', 'gate'],
+      toLake: ['M870,110 C910,110 900,150 880,185 L810,225', 'lake'],
+      toApi: ['M810,225 L555,225', 'api'],
+      toAnalytics: ['M555,225 L245,225', 'analytics'],
+      toAnomaly: ['M870,110 L830,118 L830,140 C830,200 830,215 830,240 L830,261', 'anomaly']
+    };
+    // Geometry only: invisible paths used to measure the routes.
+    var guides = document.createElementNS(NS, 'g');
+    guides.setAttribute('class', 'rec-guides');
+    guides.setAttribute('aria-hidden', 'true');
+    svg.appendChild(guides);
+    var layer = document.createElementNS(NS, 'g');
+    layer.setAttribute('class', 'rec-layer');
+    layer.setAttribute('aria-hidden', 'true');
+    svg.appendChild(layer);
+    Object.keys(SEGMENTS).forEach(function (key) {
+      var p = document.createElementNS(NS, 'path');
+      p.setAttribute('d', SEGMENTS[key][0]);
+      guides.appendChild(p);
+      SEGMENTS[key].path = p;
+      SEGMENTS[key].len = p.getTotalLength();
+    });
+
+    var CHECKS = ['null campaign_id', 'schema drift: spend arrived as text', 'event time three days late', 'duplicate event_id'];
+    var now = new Date();
+    var partition = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
+    var SAY = {
+      ingest: function (r) { return 'arrived from ' + r.source + ', stamped with source and arrival time'; },
+      transform: function () { return 'joined to its campaign and deduplicated'; },
+      gate: function (r) { return r.bad ? 'failed check: ' + r.check : 'passed freshness, volume, and schema checks'; },
+      lake: function () { return 'written to partition dt=' + partition; },
+      api: function () { return 'available to certified consumers'; },
+      analytics: function () { return 'counted in advertiser analytics'; },
+      anomaly: function () { return 'held for review with the failing check attached'; }
+    };
+    var passed = 0, flagged = 0, seq = 0;
+
+    function clock() {
+      var d = new Date();
+      function two(n) { return ('0' + n).slice(-2); }
+      return two(d.getHours()) + ':' + two(d.getMinutes()) + ':' + two(d.getSeconds()) + '.' + ('00' + d.getMilliseconds()).slice(-3);
+    }
+    function writeLog(r, stage, failed) {
+      var li = document.createElement('li');
+      if (failed) li.className = 'fail';
+      var t = document.createElement('time'); t.textContent = clock();
+      var s = document.createElement('b'); s.textContent = stage;
+      var m = document.createElement('span'); m.textContent = r.id + ' ' + SAY[stage](r);
+      li.appendChild(t); li.appendChild(s); li.appendChild(m);
+      log.appendChild(li);
+      while (log.children.length > 8) log.removeChild(log.firstChild);
+      log.hidden = false;
+    }
+    function pulse(stage, cls) {
+      var n = svg.querySelector('.lnode[data-node="' + stage + '"]');
+      if (!n) return;
+      n.classList.remove('hit', 'fail');
+      n.getBoundingClientRect();
+      n.classList.add(cls);
+      clearTimeout(n._pulse);
+      n._pulse = setTimeout(function () { n.classList.remove(cls); }, 650);
+    }
+    function arrive(r, stage) {
+      var failed = r.bad && (stage === 'gate' || stage === 'anomaly');
+      if (!motionOff()) pulse(stage, failed ? 'fail' : 'hit');
+      writeLog(r, stage, failed);
+    }
+    function finish(r) {
+      if (r.bad) flagged++; else passed++;
+      count.textContent = 'Passed ' + passed + ' · Flagged ' + flagged;
+      detail.textContent = r.bad
+        ? 'Record ' + r.id + ' failed the quality gate (' + r.check + ') and was held in Flagged anomalies. Nothing downstream received it.'
+        : 'Record ' + r.id + ' passed the quality gate and reached Advertiser analytics.';
+    }
+    function place(dot, pt) { dot.setAttribute('cx', pt.x.toFixed(1)); dot.setAttribute('cy', pt.y.toFixed(1)); }
+
+    function send(bad) {
+      seq++;
+      var r = {
+        id: 'evt_' + (4800 + seq * 7 + Math.floor(Math.random() * 7)),
+        bad: bad,
+        check: bad ? CHECKS[Math.floor(Math.random() * CHECKS.length)] : null,
+        source: Math.random() < 0.5 ? 'clickstream' : 'advertiser feeds'
+      };
+      var route = [r.source === 'clickstream' ? 'fromClick' : 'fromFeed', 'toTransform', 'toGate']
+        .concat(bad ? ['toAnomaly'] : ['toLake', 'toApi', 'toAnalytics']);
+
+      if (motionOff()) {
+        route.forEach(function (k) { arrive(r, SEGMENTS[k][1]); });
+        finish(r);
+        return;
+      }
+      var dot = document.createElementNS(NS, 'circle');
+      dot.setAttribute('r', '7');
+      dot.setAttribute('class', 'rec');
+      layer.appendChild(dot);
+      place(dot, SEGMENTS[route[0]].path.getPointAtLength(0));
+
+      var SPEED = 0.42;  // px per ms: the clean route takes about 4 s
+      var si = 0, along = 0, last = null, hold = 0;
+      (function frame(t) {
+        // Cap each step so a backgrounded tab does not teleport the dot.
+        var dt = last === null ? 16 : Math.min(48, t - last);
+        last = t;
+        if (hold > 0) { hold -= dt; requestAnimationFrame(frame); return; }
+        var seg = SEGMENTS[route[si]];
+        along += dt * SPEED;
+        if (along < seg.len) { place(dot, seg.path.getPointAtLength(along)); requestAnimationFrame(frame); return; }
+        place(dot, seg.path.getPointAtLength(seg.len));
+        var stage = seg[1];
+        arrive(r, stage);
+        if (stage === 'gate') { hold = 420; if (bad) dot.classList.add('caught'); }
+        si++; along = 0;
+        if (si < route.length) { requestAnimationFrame(frame); return; }
+        finish(r);
+        dot.classList.add('done');
+        setTimeout(function () { dot.remove(); }, 450);
+      })(performance.now());
+    }
+
+    cleanBtn.addEventListener('click', function () { send(false); });
+    badBtn.addEventListener('click', function () { send(true); });
+  })();
 })();

@@ -489,8 +489,21 @@
       <circle class="packet" r="5"><animateMotion dur="7s" repeatCount="indefinite" path="M150,70 C240,70 240,120 330,120 L470,135 L560,135 L690,120 C750,120 740,110 800,110"/></circle>
       <circle class="packet anomaly-packet" r="5"><animateMotion dur="7s" begin="3.5s" repeatCount="indefinite" path="M150,200 C240,200 240,150 330,150 L470,135 L560,135 L690,120 C750,120 740,110 800,110 L870,110 C910,110 900,150 880,185 L790,225"/></circle>
     </svg>
+    <!-- Send a record (v5, Nov 2026). A visitor sends one record through
+         the pipeline. A clean record reaches Advertiser analytics. A bad
+         record looks exactly the same until the quality gate stops it
+         and holds it in Flagged anomalies: the Marketplace Risk talk's
+         point (governance inside the pipeline) as something you do.
+         The failing checks are examples, like the stage tags, and the
+         note under the log says so. -->
+    <div class="lin-controls">
+      <button type="button" class="lin-btn" id="sendClean">Send a clean record</button>
+      <button type="button" class="lin-btn lin-btn-bad" id="sendBad">Send a bad record</button>
+      <p class="lin-count" id="linCount">Passed 0 &middot; Flagged 0</p>
+    </div>
     <p id="lineageDetail" class="lineage-detail" aria-live="polite">Pick a stage to see its place in the chain.</p>
-    <p class="meta">Illustrative diagram of the pipeline architecture described in my writing. Stage tags in the detail line are examples, not live metadata from a production job.</p>
+    <ol id="linLog" class="lin-log" aria-label="Pipeline log, newest last" hidden></ol>
+    <p class="meta">Illustrative diagram of the pipeline architecture described in my writing. Stage tags and the checks a sent record fails are examples, not live metadata from a production job.</p>
   </section>
 
   <section id="trace" class="panel">
