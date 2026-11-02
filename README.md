@@ -19,10 +19,11 @@ The site is a hand-built static page: plain HTML, CSS, and JavaScript. No framew
 | About | Short professional summary aligned with his LinkedIn profile. |
 | Experience | Full verified timeline from LinkedIn: Amazon (Sep 2022 to present), Uptycs intern, TA Digital associate and intern, Augmented Byte intern. |
 | Engineering Work | Four case files: data quality at petabyte scale, advertiser analytics after identifiers, the LedgerLens payment anomaly agent, and graph-based lineage research. |
-| Lineage, drawn out | An interactive SVG lineage graph. Hover, tap, or keyboard-focus a stage to trace its upstream and downstream edges. Labelled on the page as an illustrative diagram. |
+| Lineage, drawn out | An interactive SVG lineage graph. Hover, tap, or keyboard-focus a stage to trace its upstream and downstream edges. Send a clean or a bad record through it and watch the quality gate route the bad one to Flagged anomalies, with a pipeline log. Labelled on the page as an illustrative diagram. |
 | 2026, as a trace | His 2026 publications and talk as tracing spans. Selecting a span opens its case file. |
 | Writing / Featured In | Three trade articles with exact titles and dates, and a 5-second auto-advancing carousel of screenshots of his two Label Your Data expert quotes, each linked to the live article. |
 | Speaking / Contact | Marketplace Risk New York 2026, and contact by email (Gmail) or LinkedIn. |
+| Query this page | A SQL console over eight tables built from the page's own HTML at load. Trace jumps from a result row to its source on the page; `#q=` links run a query on arrival. |
 
 ### Files
 
@@ -30,7 +31,7 @@ The site is a hand-built static page: plain HTML, CSS, and JavaScript. No framew
 | --- | --- |
 | `index.html` | All content and structure. Architecture, content rules, and accessibility notes are documented in comments at the top of the file and on each section. |
 | `style.css` | The dual light/dark theme system (CSS custom properties) and all layout. The theme system is documented in the stylesheet header. |
-| `app.js` | Theme toggle (persisted), New York clock, background lineage canvas, boot log typing, trace case files, lineage explorer, quotes carousel, scrollspy and scroll progress. Each feature is documented where it lives. |
+| `app.js` | Theme toggle (persisted), New York clock, background lineage canvas, trace case files, lineage explorer and send-a-record, quotes carousel, scrollspy and scroll progress, and the query console (tables, lexer, parser, executor). Each feature is documented where it lives. |
 | `assets/favicon.svg` | The only brand mark. |
 | `assets/quote-eu-ai-act.png`, `assets/quote-golden-dataset.png` | Screenshots of the published Label Your Data quote blocks, used in the Featured In carousel. |
 | `CNAME` | The custom domain for GitHub Pages: `stackhidden.com`. |
@@ -86,7 +87,8 @@ flowchart TD
     Trace --> Writing
     Writing --> Featured["Featured In: quote screenshot carousel, 5s"]
     Featured --> Speaking
-    Speaking --> Contact["Contact: email + LinkedIn"]
+    Speaking --> Query["Query this page: SQL over the page itself"]
+    Query --> Contact["Contact: email + LinkedIn"]
 ```
 
 ### The lineage diagram's subject
@@ -193,6 +195,40 @@ Extra pre-push checks for v4: open and close each case file, follow a
 `#case=` link, run two palette commands by keyboard, click the page
 background for the burst, toggle Reduce motion and confirm the canvas
 and packets stop, and print-preview to confirm case files print open.
+
+## V5 (November 2026)
+
+Two features a visitor does, not more motion that plays on its own,
+plus fixes for bugs that had shipped silently.
+
+- **Query this page.** A SQL console (SELECT with WHERE, GROUP BY,
+  ORDER BY, LIMIT, DISTINCT, aggregates, and a few functions, plus
+  SHOW TABLES, DESCRIBE, HELP) over eight tables built from the page's
+  HTML at load. Every run shows its plan. Trace jumps from a row to its
+  source element. Tab completes names, errors suggest the nearest
+  table or column, and the query lives in the URL as `#q=` (via
+  replaceState, after Datasette, so Back is never trapped). The Cmd+K
+  palette runs SQL typed into it.
+- **Send a record.** Clean and bad records travel the lineage graph; the
+  gate holds the bad one in Flagged anomalies, and a log records every
+  stage.
+- **Fixes.** The background canvas painted nothing until a resize (a
+  shared `var nodes` in app.js), and hovering the explorer threw after a
+  resize. Scrollspy matched no links, and Contact could never light up.
+  The footer Reduce motion control did not stop the carousel, and the
+  hero core stayed frozen after motion was turned back on. Each toggle
+  stacked another canvas loop. The hero video border used an undefined
+  variable. The amber packet flowed into the data lake.
+- **Phones.** The header went from 146px to 90px tall (links scroll in
+  one row), and the lineage graph keeps legible labels and scrolls
+  sideways.
+- **Tests.** Three new modules: `test_regressions` (each test failed on
+  the pre-v5 code first), `test_query`, and `test_records`. The suite
+  is 11 modules, 49 tests.
+
+Extra pre-push checks for v5: run two example queries and a typo, Trace
+a featured quote, open a `#q=` link, send one clean and one bad record,
+and check the header and lineage graph at 360px.
 
 ## License and artwork
 
