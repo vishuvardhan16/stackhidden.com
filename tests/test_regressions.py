@@ -90,12 +90,18 @@ class RegressionTest(BrowserTestCase):
         self.assertLess(after, baseline * 1.4)
 
     def test_core_resumes_when_motion_is_turned_back_on(self) -> None:
-        frame = "document.getElementById('coreAnim').toDataURL().length"
+        # Compare whole frames, not their encoded length (two different
+        # frames can encode to the same number of bytes), and wait for a
+        # new frame rather than a fixed time, because CI runners are slow.
+        # A core that stays frozen still fails: no new frame within 4s.
         self.click_motion()
         self.click_motion()
-        first = self.page.evaluate(frame)
-        self.page.wait_for_timeout(700)
-        self.assertNotEqual(first, self.page.evaluate(frame))
+        first = self.page.evaluate("document.getElementById('coreAnim').toDataURL()")
+        self.page.wait_for_function(
+            "(first) => document.getElementById('coreAnim').toDataURL() !== first",
+            arg=first,
+            timeout=4000,
+        )
 
     def test_footer_reduce_motion_holds_the_carousel(self) -> None:
         active = (
