@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 64" width="320" height="64" role="img" aria-label="NICE-TEAS ASIA">
+  <!-- The conference publishes no logo file; its own site renders the
+       wordmark as styled text (white and pink on navy). This file
+       reproduces that rendering with the colours sampled from
+       asia.nice-teas.com on Nov 2, 2026: navy #101130, ASIA #E5157D.
+       Added at the site owner's direction, Nov 2, 2026. -->
+  <rect width="320" height="64" rx="10" fill="#101130"/>
+  <text x="160" y="42" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="bold" letter-spacing="1" fill="#ffffff">NICE-TEAS <tspan fill="#E5157D">ASIA</tspan></text>
+</svg>
