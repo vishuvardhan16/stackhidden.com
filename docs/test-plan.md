@@ -33,3 +33,7 @@ Responsive behaviour at 360px, 768px, and 1400px. At each width there is no hori
 ## test_motion
 
 Motion, and its absence. The cursor bot's pupils move toward the pointer; the animated lineage core keeps drawing new frames; the footer motion toggle puts the bot to sleep; and with reduced motion emulated, the core stills and the bot sleeps. Reduced motion is a promise the site makes in its own copy, and this module is what keeps the promise honest in both directions: things move when they should, and stop when they must.
+
+## test_regressions
+
+Bugs that shipped silently before v5 (November 2026), one test each. A shared `var nodes` let the lineage explorer overwrite the background canvas's particle array, so the background painted nothing until a resize and the explorer threw after one; the scrollspy selector matched no links; Contact never lit up at the bottom of the page; the footer Reduce motion control did not stop the carousel; the hero core stayed frozen after motion was turned back on; and every toggle stacked another canvas loop. Each test was run against the pre-v5 code and failed there before it passed on the fix, so it guards the real failure rather than a guess at it. None of these bugs threw at load or changed how the page looked in a screenshot, which is why they need tests to stay fixed.

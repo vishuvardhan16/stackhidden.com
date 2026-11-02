@@ -18,7 +18,7 @@ set -u
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TESTS_DIR="$ROOT/tests"
-BROWSER_MODULES="test_theme test_palette test_cases test_carousel test_explorer test_layout test_motion"
+BROWSER_MODULES="test_theme test_palette test_cases test_carousel test_explorer test_layout test_motion test_regressions"
 
 if [ -x /tmp/pwenv/bin/python ]; then
   BROWSER_PY=/tmp/pwenv/bin/python
