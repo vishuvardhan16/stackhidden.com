@@ -151,6 +151,23 @@ class LogoSystemLightTest(BrowserTestCase):
 
     color_scheme = "light"
 
+    def setUp(self) -> None:
+        super().setUp()
+        # Logos are lazy-loaded (v5): bring each section near the viewport
+        # so the browser fetches them, then wait for the visible ones.
+        for sec in ("writing", "featured", "speaking"):
+            self.page.evaluate(f"document.getElementById('{sec}').scrollIntoView({{block:'center'}})")
+            self.page.wait_for_timeout(60)
+        try:
+            self.page.wait_for_function(
+                """() => [...document.querySelectorAll('.pub-logo')]
+                    .filter(i => getComputedStyle(i).display !== 'none')
+                    .every(i => i.complete && i.naturalWidth > 0)""",
+                timeout=5000,
+            )
+        except Exception:
+            pass  # the per-logo assertion below names the one that failed
+
     def test_every_logo_loads_and_has_its_own_size(self) -> None:
         logos = self.page.evaluate(VISIBLE_LOGOS)
         self.assertGreaterEqual(len(logos), 8)

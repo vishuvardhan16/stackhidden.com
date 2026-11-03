@@ -301,6 +301,22 @@
       dotsWrap.appendChild(d);
     });
     var dots = dotsWrap.children;
+    // The quotes and their logos are loading="lazy", which defers a hidden
+    // slide's images until it slides into view: a blank card for a moment.
+    // So once the carousel comes within a screen of the viewport, every
+    // slide's images load together, before any of them is shown.
+    var lazyImgs = carousel.querySelectorAll('img[loading="lazy"]');
+    function loadSlides() {
+      Array.prototype.forEach.call(lazyImgs, function (img) { img.loading = 'eager'; });
+    }
+    if ('IntersectionObserver' in window) {
+      var slidesIo = new IntersectionObserver(function (es) {
+        if (es[0].isIntersecting) { loadSlides(); slidesIo.disconnect(); }
+      }, { rootMargin: '100% 0px' });
+      slidesIo.observe(carousel);
+    } else {
+      loadSlides();
+    }
     function render(prev) {
       slides.forEach(function (s, i) {
         s.classList.toggle("on", i === idx);
