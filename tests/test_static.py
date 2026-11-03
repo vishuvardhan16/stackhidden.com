@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 INDEX = ROOT / "index.html"
 STYLE = ROOT / "style.css"
 SCRIPT = ROOT / "app.js"
+NOT_FOUND = ROOT / "404.html"
 
 
 def read(path: Path) -> str:
@@ -54,6 +55,7 @@ class StaticContentRulesTest(unittest.TestCase):
             "index.html": cls.index,
             "style.css": cls.style,
             "app.js": cls.script,
+            "404.html": read(NOT_FOUND),
         }
 
     def test_forbidden_senior_word_is_absent_from_site_sources(self) -> None:
@@ -125,3 +127,77 @@ class StaticContentRulesTest(unittest.TestCase):
         # too closely for a public page. Guard against it coming back.
         self.assertNotIn('hero-flow', self.index)
         self.assertNotIn('hfPackets', self.index)
+
+
+def theme_tokens(source: str, selector: str) -> dict[str, str]:
+    """The colour tokens in the first rule whose selector starts with
+    ``selector``, as {name: value}."""
+
+    match = re.search(r"(?m)^" + re.escape(selector) + r"\s*\{([^}]*)\}", source)
+    if match is None:
+        raise AssertionError(f"No rule for {selector}")
+    return dict(re.findall(r"--([a-z0-9]+):\s*(#[0-9a-fA-F]{3,8})", match.group(1)))
+
+
+class FinishingTouchesTest(unittest.TestCase):
+    """robots.txt, sitemap.xml, the 404 page, and the home-screen icon (v5)."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.index = read(INDEX)
+        cls.style = read(STYLE)
+        cls.not_found = read(NOT_FOUND)
+
+    def test_robots_allows_everything_and_names_the_sitemap(self) -> None:
+        robots = read(ROOT / "robots.txt")
+        self.assertIn("User-agent: *\nAllow: /", robots)
+        self.assertNotIn("Disallow", robots)
+        self.assertIn("Sitemap: https://stackhidden.com/sitemap.xml", robots)
+
+    def test_sitemap_lists_the_canonical_page(self) -> None:
+        import xml.etree.ElementTree as ET
+
+        tree = ET.parse(ROOT / "sitemap.xml")
+        ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+        locs = [el.text for el in tree.getroot().findall("s:url/s:loc", ns)]
+        canonical = re.search(r'<link rel="canonical" href="([^"]+)"', self.index).group(1)
+        self.assertEqual([canonical], locs)
+
+    def test_404_page_is_noindex_and_uses_only_absolute_urls(self) -> None:
+        # GitHub Pages serves 404.html at whatever depth was asked for,
+        # so a relative URL would break on /a/b/c.
+        self.assertIn('<meta name="robots" content="noindex">', self.not_found)
+        urls = re.findall(r'(?:href|src)="([^"]*)"', self.not_found)
+        self.assertTrue(urls)
+        for url in urls:
+            with self.subTest(url=url):
+                self.assertTrue(url.startswith("/"), url)
+
+    def test_404_section_links_point_at_real_sections(self) -> None:
+        ids = set(re.findall(r'id="([^"]+)"', self.index))
+        for anchor in re.findall(r'href="/#([a-z-]+)"', self.not_found):
+            with self.subTest(anchor=anchor):
+                self.assertIn(anchor, ids)
+
+    def test_404_colours_match_the_site_theme(self) -> None:
+        for selector in (':root,:root[data-theme="dark"]', ':root[data-theme="light"]'):
+            with self.subTest(theme=selector):
+                site = theme_tokens(self.style.replace(":root, :root", ":root,:root"), selector)
+                page = theme_tokens(self.not_found, selector)
+                self.assertTrue(page)
+                for name, value in page.items():
+                    self.assertEqual(site.get(name), value, name)
+
+    def test_theme_colour_tags_agree_with_app_js(self) -> None:
+        script = read(SCRIPT)
+        for source in (self.index, self.not_found):
+            light = re.search(r'name="theme-color" content="(#\w+)" media="\(prefers-color-scheme: light\)"', source).group(1)
+            dark = re.search(r'name="theme-color" content="(#\w+)" media="\(prefers-color-scheme: dark\)"', source).group(1)
+            self.assertIn(f"light: '{light}', dark: '{dark}'", script)
+
+    def test_home_screen_icon_is_a_180px_png(self) -> None:
+        data = (ROOT / "assets" / "apple-touch-icon.png").read_bytes()
+        self.assertEqual(b"\x89PNG\r\n\x1a\n", data[:8])
+        width, height = int.from_bytes(data[16:20], "big"), int.from_bytes(data[20:24], "big")
+        self.assertEqual((180, 180), (width, height))
+        self.assertIn('<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">', self.index)
