@@ -17,11 +17,11 @@ The site is a hand-built static page: plain HTML, CSS, and JavaScript. No framew
 | --- | --- |
 | Hero | Name, current role (Software Development Engineer, Advertising Analytics and Insights at Amazon), his tech stack in his own words: Back-End Engineering, Java, APIs, Big Data. Live New York clock, the animated data hero figure, and the At a glance panel with the animated lineage core. The hero's lines rise into place once on load. |
 | About | Short professional summary aligned with his LinkedIn profile. |
-| Experience | Full verified timeline from LinkedIn: Amazon (Sep 2022 to present), Uptycs intern, TA Digital associate and intern, Augmented Byte intern. |
+| Experience | Full verified timeline from LinkedIn: Amazon (Sep 2022 to present), Uptycs intern, TA Digital associate and intern, Augmented Byte intern. It opens with the career as a trace: every role since 2019, and the graduate degree, as a span on a year axis that ends at today. Selecting a row gives its length and place, with a link to the full entry. |
 | Engineering Work | Four case files from his Amazon record: insight ingestion orchestration, the Insights API, custom brands (ICM) in the Insights Store, and the Mosaic and Kaleidoscope agents. Each opens in place and answers to a `#case=` deep link. |
 | Lineage, drawn out | An interactive SVG lineage graph that draws itself along the data flow on first view. Hover, tap, or keyboard-focus a stage to trace its upstream and downstream edges. Send a clean or a bad record through it and watch the quality gate route the bad one to Flagged anomalies, with a pipeline log. Labelled on the page as an illustrative diagram. |
 | 2026, as a trace | Seven 2026 spans (articles, a roundtable, a talk, and press quotes) on a Jul 1 to Dec 1 axis, each bar ending on its date. The bars render in date order on first view. Selecting a span shows its details. |
-| Writing / Featured In | Three trade pieces and the site's build log, in date order, each under a publisher masthead with a logo slot. Featured In is a 5-second carousel of three expert-quote screenshots (two from Label Your Data, one from Informatics Magazine), each linked to the live article, with captions under the same masthead. |
+| Writing / Featured In | Three trade pieces and the site's build log, in date order, each under a publisher masthead with the publisher's logo. Featured In is a 5-second carousel of three expert-quote screenshots (two from Label Your Data, one from Informatics Magazine), each linked to the live article, with captions under the same masthead. |
 | Speaking / Contact | Two cards under the same masthead: the Marketplace Risk New York 2026 talk, and the paper accepted at NICE-TEAS ASIA 2026. Contact by email (Gmail) or LinkedIn. |
 | Query this page | A SQL console over eight tables built from the page's own HTML at load. Trace jumps from a result row to its source on the page; `#q=` links run a query on arrival. |
 
@@ -33,11 +33,14 @@ The site is a hand-built static page: plain HTML, CSS, and JavaScript. No framew
 | `style.css` | The dual light/dark theme system (CSS custom properties) and all layout. The theme system is documented in the stylesheet header. |
 | `app.js` | Theme toggle (persisted), New York clock, background lineage canvas, trace case files, lineage explorer and send-a-record, quotes carousel, scrollspy and scroll progress, the query console (tables, lexer, parser, executor), and the first-view reveals. Each feature is documented where it lives. |
 | `assets/favicon.svg` | The only brand mark. |
+| `assets/apple-touch-icon.png` | The home-screen icon: the favicon drawn full-bleed at 180px. `scripts/render-touch-icon.py` renders it from the favicon. |
 | `assets/quote-eu-ai-act.webp`, `assets/quote-golden-dataset.webp` | Screenshots of the published Label Your Data quote blocks, used in the Featured In carousel. Lossless WebP (v5): every pixel of the original PNG, at less than half the size. |
 | `assets/quote-informatics-access-privacy.webp` | The quote card for the Informatics Magazine quote, made for this site in the same style. Lossless WebP, like the two above. |
 | `assets/data-hero.webp`, `assets/data-hero-loop.mp4` | The hero figure: the still is the video's poster. |
 | `assets/og-card.png` | The social share card. |
-| `assets/logos/` | Official publisher logos, added by the owner. Not present until the first one is added; see `docs/publisher-logos.md`. |
+| `assets/logos/` | Official publisher logos, added by the owner on Nov 2, 2026. See `docs/publisher-logos.md`. |
+| `404.html` | The page GitHub Pages serves, with status 404, for any address that has no file. Self-contained, with absolute URLs, because Pages serves it at any depth. |
+| `robots.txt`, `sitemap.xml` | Crawl rules (everything allowed) and the one canonical URL. |
 | `CNAME` | The custom domain for GitHub Pages: `stackhidden.com`. |
 
 ### Content rules (owner's standing instructions)
@@ -52,9 +55,9 @@ The site is a hand-built static page: plain HTML, CSS, and JavaScript. No framew
 
 | Folder | What it holds |
 | --- | --- |
-| `assets/` | The site's images: the favicon, the data hero figure, the share card, the lineage core artwork, the three quote images, and (once added) publisher logos. |
+| `assets/` | The site's images: the favicon and home-screen icon, the data hero figure, the share card, the lineage core artwork, the three quote images, and the publisher logos. |
 | `tests/` | The automated test suite: one module per area, plus shared browser helpers. `docs/test-plan.md` says what each module protects. |
-| `scripts/` | `run-tests.sh`, the one command that runs the whole suite locally. |
+| `scripts/` | `run-tests.sh`, the one command that runs the whole suite locally, and `render-touch-icon.py`, which renders the home-screen icon from the favicon. |
 | `docs/` | The working documents, kept in the repo: how the site works, motion, the query console, publisher logos, the cursor bot, the lineage core, the content rules, deployment, testing, and the test plan. |
 | `.github/workflows/` | The CI workflow (`site-checks`) that runs the same suite on every push and pull request. |
 
@@ -83,7 +86,7 @@ flowchart TD
     H["Header: brand, section nav, theme toggle, scroll progress"]
     H --> Hero["Hero: role, tech stack, stats, animated lineage core, intro"]
     Hero --> About
-    About --> Experience["Experience timeline (LinkedIn-verified)"]
+    About --> Experience["Experience: career trace, then the LinkedIn-verified entries"]
     Experience --> Work["Engineering Work: four case files"]
     Work --> Scope["Engineering Scope"]
     Scope --> Lineage["Lineage, drawn out: interactive SVG graph"]
@@ -125,7 +128,7 @@ Both themes are one layout driven by CSS custom properties (`--bg`, `--panel`, `
 scripts/run-tests.sh
 ```
 
-One command runs the automated suite: the static content-rule checks first, then the browser modules against the local files (theme, palette, case files, carousel, explorer, layout, motion, regressions, query console, records, animations, and publishers; `docs/test-plan.md` says what each protects), with a pass/fail line per module and a non-zero exit if anything fails. The browser modules need Playwright; the script uses the venv at `/tmp/pwenv` when it is present, and python3 otherwise. CI (`.github/workflows/ci.yml`) runs the same suite on every push and pull request, against the site served locally in the runner.
+One command runs the automated suite: the static content-rule checks first, then the browser modules against the local files (theme, palette, case files, carousel, explorer, layout, motion, regressions, query console, records, animations, publishers, career, finishing touches, and loading; `docs/test-plan.md` says what each protects), with a pass/fail line per module and a non-zero exit if anything fails. The browser modules need Playwright; the script uses the venv at `/tmp/pwenv` when it is present, and python3 otherwise. CI (`.github/workflows/ci.yml`) runs the same suite on every push and pull request, against the site served locally in the runner.
 
 ### Run it locally
 
@@ -141,14 +144,14 @@ No build step. Editing a file and refreshing the browser is the whole loop.
 1. **HTML structure.** Parse `index.html` (for example with Python's `html.parser`): zero errors, nothing unclosed, exactly one `h1`, landmarks present (`header`, `nav`, `main`, `footer`), every section has a heading.
 2. **JavaScript syntax.** `node --check app.js` passes.
 3. **Structured data.** The JSON-LD block in the head parses as valid JSON.
-4. **Assets resolve.** Serve locally and confirm `index.html`, `style.css`, `app.js`, `assets/favicon.svg`, all three quote images, and any publisher logos return HTTP 200.
+4. **Assets resolve.** Serve locally and confirm `index.html`, `style.css`, `app.js`, `404.html`, `robots.txt`, `sitemap.xml`, `assets/favicon.svg`, `assets/apple-touch-icon.png`, all three quote images, and every publisher logo return HTTP 200.
 5. **No photo.** `grep -ri "profile.jpg" .` over the site files returns nothing, and no image of the owner exists in `assets/`.
 6. **No forbidden wording.** `grep -ri "journal of big data" index.html` returns nothing; `grep -c "Senior" index.html` is 0; his title is never written as Data Engineer.
 7. **Links.** Every external link is `https://` and has been opened and verified live (the three trade pieces, both Label Your Data articles, the Informatics Magazine Q&A, both speaking links, LinkedIn).
 8. **Both themes.** Load the page, toggle light and dark: layout identical, all text readable in both, the secondary (outline) button label clearly visible in dark mode, the canvas and the lineage graph recolour.
 9. **Widths.** Check at 360px, 480px, 768px, and desktop: no horizontal scrolling at any width (`document.documentElement.scrollWidth` equals the viewport width).
 10. **Motion.** With `prefers-reduced-motion` on, and again with the footer's Reduce motion: the canvases are still, the hero intro does not play, the trace and graph are drawn in place, and the carousel does not auto-advance. With it off: the carousel advances every 5 seconds, moving left to right, and pauses on hover and on keyboard focus. `docs/motion.md` lists every moving piece.
-11. **Keyboard.** Tab through the page: theme toggle, lineage stages, the send-a-record buttons, trace rows, carousel arrows and dots, and the query console (editor, Run, examples, Trace buttons) are all reachable and operable with Enter or Space.
+11. **Keyboard.** Tab through the page: the skip link (the first stop), theme toggle, career rows (the arrow keys move between them), lineage stages, the send-a-record buttons, trace rows, carousel arrows and dots, and the query console (editor, Run, examples, Trace buttons) are all reachable and operable with Enter or Space.
 12. **Accessibility audit.** For a visual change, run axe-core over the changed sections in both themes. It must report no violations.
 
 ### Verify the live site after a push
@@ -157,6 +160,7 @@ No build step. Editing a file and refreshing the browser is the whole loop.
 curl -s -o /dev/null -w "%{http_code} %{size_download}\n" https://stackhidden.com/
 curl -s https://stackhidden.com/ | grep -c "For opportunities or questions about my work"
 curl -s -o /dev/null -w "%{http_code}\n" https://stackhidden.com/assets/profile.jpg   # must be 404
+curl -s https://stackhidden.com/no-such-page | grep -c "Page not found"           # must be 1: the site's own 404 page
 curl -s https://api.github.com/repos/vishuvardhan16/stackhidden.com/commits?per_page=5
 ```
 
@@ -246,6 +250,16 @@ and check the header and lineage graph at 360px.
 
 Extra pre-push checks for this pass: load the page and watch the hero intro once; scroll to the trace and the graph and watch each reveal; turn Reduce motion on and confirm none of them play; check the Featured carousel at 360px.
 
+## V5, third pass (November 2026)
+
+- **Career, as a trace.** Experience opens with every role since 2019, and the graduate degree, as a span on a year axis, after the interactive timeline on jaredmchester.com. app.js recomputes each bar from its dates, so the Amazon span ends at today and the axis gains a year each January. Select a row, or move with the arrow keys, for its length (counted as LinkedIn counts) and place, with a link to the full entry. The spans render in date order on first view. Every date restates the entries below it.
+- **Jumps land below the header.** Every nav link used to put its section's top under the sticky header, and a section that had not revealed yet then rose 22px further, so the Writing heading ended above the viewport. Jumps now stop 12px below the header at every width.
+- **Finishing touches.** A skip link as the first Tab stop; the browser's bar matches the header in each theme; a home-screen icon; a 404 page in the query console's voice ("0 rows. Did you mean /?"); robots.txt and a sitemap.
+- **Mobile loading.** Every image is lazy and declares its size. The three quote screenshots are lossless WebP: the same pixels, 83 KB instead of 191 KB. The carousel loads all its slides together, so none shows blank. The hero loop downloads only when it will play, so never under reduced motion, Data Saver, or 2G. Mobile Lighthouse went from 89 to 95 (LCP 3.8s to 2.9s, page weight 602 KB to 372 KB); desktop from 99 to 100.
+- **Tests.** Three new modules, `test_career`, `test_finishing`, and `test_loading`, plus new static and regression checks. The suite is 16 modules, 127 tests.
+
+Extra pre-push checks for this pass: Tab once from the top and confirm the skip link shows; click Writing in the nav and confirm its heading sits below the header; select a career row with the keyboard; open a missing address (for example `/nope`) and confirm the 404 page; check the career chart at 360px in both themes.
+
 ## License and artwork
 
 The site's code is released under the MIT License (see `LICENSE`),
@@ -256,6 +270,6 @@ the owner's own.
 The hero artwork (`assets/lineage-core-dark.png` and
 `assets/lineage-core-light.png`) was generated for this site: a
 halftone core with orbiting graph nodes, drawn from the owner's
-lineage work. One version per theme; CSS shows the matching one.
+lineage work, one version per theme. Since Oct 26, 2026 the page draws the core live on a canvas (`docs/the-lineage-core.md`); the two PNGs stay in `assets/`, unreferenced, as the static originals.
 Contact is links only (Email me, LinkedIn) by the owner's direction;
 the print stylesheet remains so a visitor's own print stays clean.
