@@ -201,3 +201,35 @@ class FinishingTouchesTest(unittest.TestCase):
         width, height = int.from_bytes(data[16:20], "big"), int.from_bytes(data[20:24], "big")
         self.assertEqual((180, 180), (width, height))
         self.assertIn('<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">', self.index)
+
+
+class LoadingRulesTest(unittest.TestCase):
+    """Mobile loading (v5): every image is sized and lazy, the loop waits."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.index = read(INDEX)
+
+    def test_every_image_is_sized_lazy_and_async(self) -> None:
+        # Nothing on the page above the fold is an <img>: the hero figure
+        # is a video poster. A new image above the fold should drop
+        # loading="lazy" and say why here.
+        markup = re.sub(r"<!--.*?-->", "", self.index, flags=re.DOTALL)
+        imgs = re.findall(r"<img\b[^>]*>", markup)
+        self.assertGreaterEqual(len(imgs), 13)
+        for tag in imgs:
+            with self.subTest(img=re.search(r'src="([^"]+)"', tag).group(1)):
+                self.assertRegex(tag, r'\swidth="\d+"')
+                self.assertRegex(tag, r'\sheight="\d+"')
+                self.assertIn('loading="lazy"', tag)
+                self.assertIn('decoding="async"', tag)
+
+    def test_every_referenced_asset_exists(self) -> None:
+        for path in re.findall(r'(?:src|poster|href)="(assets/[^"]+)"', self.index):
+            with self.subTest(path=path):
+                self.assertTrue((ROOT / path).is_file(), path)
+
+    def test_the_hero_loop_waits_for_app_js(self) -> None:
+        video = re.search(r'<video id="heroVideo"[^>]*>', self.index).group(0)
+        self.assertIn('preload="none"', video)
+        self.assertNotIn("autoplay", video)
