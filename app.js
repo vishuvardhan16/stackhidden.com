@@ -495,8 +495,13 @@
   if (heroVideo) {
     heroVideo.muted = true;
     var hvVisible = true;
+    // Data Saver, or a 2G connection, keeps the still: the loop is 1.2MB
+    // and the poster is the same illustration. The video is preload="none",
+    // so in that case none of it is downloaded.
+    var conn = navigator.connection;
+    var saveData = !!(conn && (conn.saveData || /2g$/.test(conn.effectiveType || '')));
     function hvSync() {
-      if (!motionOff() && hvVisible && !document.hidden) {
+      if (!saveData && !motionOff() && hvVisible && !document.hidden) {
         var promise = heroVideo.play();
         if (promise && promise.catch) promise.catch(function () {});
       } else {

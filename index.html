@@ -143,9 +143,11 @@
            not a portrait; the no-photo rule is about photographs of the
            owner and stands. app.js plays it only when motion is allowed
            and the hero is on screen; under reduced motion the poster
-           still is all anyone gets. -->
+           still is all anyone gets. preload="none" (v5): no byte of the
+           video loads until app.js decides to play it, so a visitor with
+           motion off, or with Data Saver on, never downloads it. -->
       <figure class="hero-figure">
-        <video id="heroVideo" muted loop playsinline preload="metadata" poster="assets/data-hero.webp" aria-label="Animated illustration of a software engineer action figure on a display stand, laptop in hand, commanding glowing streams of data, database stacks, charts, and a network graph.">
+        <video id="heroVideo" muted loop playsinline preload="none" poster="assets/data-hero.webp" aria-label="Animated illustration of a software engineer action figure on a display stand, laptop in hand, commanding glowing streams of data, database stacks, charts, and a network graph.">
           <source src="assets/data-hero-loop.mp4" type="video/mp4">
         </video>
       </figure>
