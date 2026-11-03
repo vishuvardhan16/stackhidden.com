@@ -18,13 +18,8 @@
     style.css           Theme variables (dark + light) and all layout.
     app.js              All behavior: theme, clock, canvases, explorer,
                         case files, carousel, palette, query console.
-    assets/             Favicon, home-screen icon, quote screenshots,
-                        publisher logos, share card. See the photo rule
-                        below.
-    404.html            The page GitHub Pages serves for a missing
-                        address. Self-contained; see its own header.
-    robots.txt,         Crawl rules and the one canonical URL.
-      sitemap.xml
+    assets/             Favicon, quote screenshots, share card.
+                        See the photo rule below.
 
   THEME
     The tiny inline script in <head> is the ONE deliberate exception to
@@ -42,9 +37,9 @@
        live, his published articles, or a real build artefact. Titles,
        dates, roles, and tech stacks are never invented or padded.
     3. Do not name the Journal of Big Data in any bio or profile text.
-    4. Earned-media quotes (Label Your Data, Informatics Magazine) are
-       linked to their live articles; trade articles are titled and
-       dated exactly as published.
+    4. Earned-media quotes (Label Your Data, Informatics Magazine,
+       CTO Sync) are linked to their live articles; trade articles are
+       titled and dated exactly as published.
     5. Never state his level, his office or building, or his manager's
        name. Internal package and repository names are not site copy.
        Program and system names (Insights Store, Mosaic, Kaleidoscope)
@@ -77,12 +72,6 @@
 <meta name="twitter:image" content="https://stackhidden.com/assets/og-card.png">
 <link rel="canonical" href="https://stackhidden.com/">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<!-- The browser's own bar (on phones, the address bar) matches the sticky
-     header in either theme. app.js keeps both tags on the visitor's chosen
-     theme; the media queries cover visitors without JavaScript. -->
-<meta name="theme-color" content="#fdfefe" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#151923" media="(prefers-color-scheme: dark)">
 <script>
 (function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);if(localStorage.getItem('motion')==='reduced'){document.documentElement.setAttribute('data-motion','reduced');}}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
 </script>
@@ -92,8 +81,6 @@
 </script>
 </head>
 <body>
-<!-- Skip link: the first stop for keyboard users, hidden until focused. -->
-<a class="skip-link" href="#top">Skip to content</a>
 <canvas id="graph" aria-hidden="true"></canvas>
 <div id="cursorGlow" aria-hidden="true"></div>
 
@@ -123,7 +110,7 @@
 </header>
 
   <!-- Hero: engineer first. Role and pipelines lead; publications are evidence further down, not the headline. -->
-<main id="top" tabindex="-1">
+<main id="top">
   <section class="hero">
     <div class="hero-text">
       <p class="eyebrow">New York City &middot; <span id="clock">--:--</span> ET</p>
@@ -148,11 +135,9 @@
            not a portrait; the no-photo rule is about photographs of the
            owner and stands. app.js plays it only when motion is allowed
            and the hero is on screen; under reduced motion the poster
-           still is all anyone gets. preload="none" (v5): no byte of the
-           video loads until app.js decides to play it, so a visitor with
-           motion off, or with Data Saver on, never downloads it. -->
+           still is all anyone gets. -->
       <figure class="hero-figure">
-        <video id="heroVideo" muted loop playsinline preload="none" poster="assets/data-hero.webp" aria-label="Animated illustration of a software engineer action figure on a display stand, laptop in hand, commanding glowing streams of data, database stacks, charts, and a network graph.">
+        <video id="heroVideo" muted loop playsinline preload="metadata" poster="assets/data-hero.webp" aria-label="Animated illustration of a software engineer action figure on a display stand, laptop in hand, commanding glowing streams of data, database stacks, charts, and a network graph.">
           <source src="assets/data-hero-loop.mp4" type="video/mp4">
         </video>
       </figure>
@@ -184,40 +169,15 @@
     <h2>About</h2>
     <p>I'm a Software Development Engineer at Amazon Advertising, on the Advertising Analytics and Insights team in New York. For four years I have built the systems that turn raw advertising data into the audience insights advertisers plan campaigns with: the Insights Store platform, the ingestion orchestration service behind it, and the Insights API on top. The pipelines run at petabyte scale, and the hard part is trust: every number has to be traceable back to where it came from.</p>
     <p>I design before I build, so the design documents and one-pagers come first. When the team needs something new, I build it end to end, and I stay on call for what I ship. The receipts are on this page: a platform built from scratch, a metadata lookup cut from seconds to milliseconds, an agent program taken from design document to live playbooks.</p>
-    <p>Separate from Amazon, in my own name, I research graph-based lineage reconstruction and anomaly detection. That research became a second body of work: articles in TDWI Upside and ExchangeWire on data-layer AI governance, a talk at Marketplace Risk 2026 in New York on automated data quality, and expert quotes in Label Your Data on EU AI Act training data requirements and on golden datasets, and in Informatics Magazine on balancing data access with privacy. It has its own part of this page below.</p>
+    <p>Separate from Amazon, in my own name, I research graph-based lineage reconstruction and anomaly detection. That research became a second body of work: articles in TDWI Upside and ExchangeWire on data-layer AI governance, a talk at Marketplace Risk 2026 in New York on automated data quality, and expert quotes in Label Your Data on EU AI Act training data requirements and on golden datasets, in Informatics Magazine on balancing data access with privacy and on turning data into everyday decisions, and in CTO Sync on making room for technical debt. It has its own part of this page below.</p>
     <p>Before Amazon I shipped machine learning projects at TA Digital and interned at Uptycs. I hold a Master's in Data Science from the University at Buffalo and a Bachelor's in Computer Science from GITAM. On the side I build tools of my own; the latest is LedgerLens, an agent that watches payment data for anomalies.</p>
   </section>
 
     <!-- Experience: roles and dates must match LinkedIn exactly. Do not add employers, titles, or dates from memory. -->
 <section id="experience" class="panel">
     <h2>Experience</h2>
-    <!-- Career, as a trace (v5, Nov 2026). Every role and the graduate
-         degree since 2019 as a span on a year axis, oldest first, after the
-         interactive experience timeline on jaredmchester.com and in the
-         page's own trace language. Every date restates the role blocks and
-         the Education section below; nothing here is new. The axis runs
-         from Jan 2019 to Jan 1 of next year, and app.js recomputes every
-         bar from its data-start/data-end when the page loads, so Amazon's
-         bar always ends at today. The inline positions are the same
-         computation as of Nov 2, 2026, so the chart still reads with
-         JavaScript off. Rows are buttons: arrow keys move, Enter opens the
-         detail line, and its link jumps to the full entry. -->
-    <div class="career">
-      <p class="career-note">Every role since 2019, and the degree in between, as a span. Select a row, or use the arrow keys, for its length and place.</p>
-      <p class="career-legend" aria-hidden="true"><span><i class="career-swatch kind-role"></i>Role</span><span><i class="career-swatch kind-internship"></i>Internship</span><span><i class="career-swatch kind-degree"></i>Degree</span></p>
-      <ol class="career-rows" aria-label="Career timeline, oldest first">
-        <li><button type="button" class="career-row" data-start="2019-05" data-end="2019-05" data-kind="internship" data-target="role-augmentedbyte" aria-pressed="false"><span class="career-head"><span class="career-org">Augmented Byte</span><span class="career-title">Data Scientist, Intern</span><span class="career-when">May 2019</span></span><span class="career-track" aria-hidden="true"><span class="career-bar kind-internship" style="left:4.11%;width:1.06%"></span></span></button></li>
-        <li><button type="button" class="career-row" data-start="2019-12" data-end="2020-02" data-kind="internship" data-target="role-tadigital" aria-pressed="false"><span class="career-head"><span class="career-org">TA Digital</span><span class="career-title">Intern</span><span class="career-when">Dec 2019 to Feb 2020</span></span><span class="career-track" aria-hidden="true"><span class="career-bar kind-internship" style="left:11.43%;width:3.11%"></span></span></button></li>
-        <li><button type="button" class="career-row" data-start="2020-03" data-end="2021-04" data-kind="role" data-target="role-tadigital" aria-pressed="false"><span class="career-head"><span class="career-org">TA Digital</span><span class="career-title">Associate Software Engineer</span><span class="career-when">Mar 2020 to Apr 2021</span></span><span class="career-track" aria-hidden="true"><span class="career-bar kind-role" style="left:14.54%;width:14.58%"></span></span></button></li>
-        <li><button type="button" class="career-row" data-start="2021-08" data-end="2022-08" data-kind="degree" data-target="edu-buffalo" aria-pressed="false"><span class="career-head"><span class="career-org">University at Buffalo</span><span class="career-title">Master of Engineering Science, Data Science (MS)</span><span class="career-when">Aug 2021 to Aug 2022</span></span><span class="career-track" aria-hidden="true"><span class="career-bar kind-degree" style="left:32.27%;width:13.55%"></span></span></button></li>
-        <li><button type="button" class="career-row" data-start="2022-06" data-end="2022-08" data-kind="internship" data-target="role-uptycs" aria-pressed="false"><span class="career-head"><span class="career-org">Uptycs</span><span class="career-title">SDE Intern</span><span class="career-when">Jun 2022 to Aug 2022</span></span><span class="career-track" aria-hidden="true"><span class="career-bar kind-internship" style="left:42.68%;width:3.14%"></span></span></button></li>
-        <li><button type="button" class="career-row" data-start="2022-09" data-end="now" data-kind="role" data-target="role-amazon" aria-pressed="false"><span class="career-head"><span class="career-org">Amazon Advertising</span><span class="career-title">Software Development Engineer</span><span class="career-when">Sep 2022 to now</span></span><span class="career-track" aria-hidden="true"><span class="career-bar kind-role" style="left:45.82%;width:52.13%"></span></span></button></li>
-      </ol>
-      <div class="career-axis" aria-hidden="true"><span style="left:0%">2019</span><span style="left:12.49%">2020</span><span style="left:25.02%">2021</span><span style="left:37.51%">2022</span><span style="left:50%">2023</span><span style="left:62.49%">2024</span><span style="left:75.02%">2025</span><span style="left:87.51%">2026</span><span class="career-now" style="left:97.95%">now</span></div>
-      <p id="careerDetail" class="career-detail" aria-live="polite">Select a row to see its dates, length, and place.</p>
-    </div>
     <!-- Roles, employers, dates, and work details below are copied in substance from his LinkedIn profile, read live on Oct 26, 2026. Wording is condensed; no employer, title, date, or result has been added. -->
-    <div class="role-block" id="role-amazon">
+    <div class="role-block">
       <p class="meta">Amazon Advertising &middot; New York City Metropolitan Area &middot; Hybrid</p>
       <h3>Software Development Engineer, Advertising Analytics and Insights &middot; Sep 2022 to Present</h3>
       <p>Four years on the same team, through three names for the org and one constant problem: getting trustworthy audience insights from raw advertising data to the people who plan campaigns. The work, in points:</p>
@@ -236,19 +196,19 @@
       <p>The case files under Engineering Work tell four of these stories in full, with the decisions and the numbers.</p>
       <p class="stack">Java &middot; Scala and Spark &middot; TypeScript CDK &middot; Python &middot; DynamoDB &middot; OpenSearch &middot; Step Functions &middot; Lambda &middot; Glue</p>
     </div>
-    <div class="role-block" id="role-uptycs">
+    <div class="role-block">
       <p class="meta">Uptycs &middot; Remote, Massachusetts</p>
       <h3>SDE Intern &middot; Jun 2022 to Aug 2022</h3>
       <p>Built and fixed user interface stories in React, integrated backend APIs with the frontend, and built data visualization dashboards with ECharts against business requirements.</p>
       <p class="stack">React &middot; API integration &middot; Data visualization</p>
     </div>
-    <div class="role-block" id="role-tadigital">
+    <div class="role-block">
       <p class="meta">TA Digital &middot; Hyderabad, India</p>
       <h3>Associate Software Engineer &middot; Mar 2020 to Apr 2021</h3>
       <p>Built data collection from multiple upstream sources, parsing records and sending them downstream for storage and visualization, in Java, REST, and Spring Boot on Oracle DB. Shipped 15 end-to-end machine learning projects to production, and turned a monolithic email spam classifier into an extensible Python API. Before that, interned there from Dec 2019 to Feb 2020 on Java EE and Spring MVC applications.</p>
       <p class="stack">Java &middot; Spring Boot &middot; REST &middot; Oracle DB &middot; Python &middot; NLP &middot; Machine learning</p>
     </div>
-    <div class="role-block" id="role-augmentedbyte">
+    <div class="role-block">
       <p class="meta">Augmented Byte &middot; Hyderabad, India</p>
       <h3>Data Scientist, Intern &middot; May 2019</h3>
       <p>Data mining and integration for actionable insights. Removing 25 percent redundant data lifted model accuracy by 15 percent, and time series work reached a 2 percent mean squared error.</p>
@@ -259,7 +219,7 @@
   <section id="education" class="panel">
     <h2>Education</h2>
     <!-- Degree names, schools, and dates exactly as listed on LinkedIn. No campus is named for either school there, so none is stated here. -->
-    <div class="role-block" id="edu-buffalo">
+    <div class="role-block">
       <h3>University at Buffalo</h3>
       <p>Master of Engineering Science, Data Science (MS) &middot; Aug 2021 to Aug 2022</p>
     </div>
@@ -566,8 +526,8 @@
        screen reader. -->
 <section id="trace" class="panel">
     <h2>2026, as a trace</h2>
-    <p class="trace-note">Every span below is an article, a roundtable, a talk, or a press quote, in date order: seven spans, July to November 2026. Select a row to open its case file.</p>
-    <div class="trace" role="group" aria-label="Timeline of 2026 publications and speaking: TDWI Upside on July 8, AI Loves Data on August 25, ExchangeWire on August 27, Marketplace Risk New York on September 16, Label Your Data EU AI Act on September 30, Label Your Data Golden Dataset on October 23, Informatics Magazine on November 2. Each row is selectable and opens a case file.">
+    <p class="trace-note">Every span below is an article, a roundtable, a talk, or a press quote, in date order: nine spans, July to November 2026. Select a row to open its case file.</p>
+    <div class="trace" role="group" aria-label="Timeline of 2026 publications and speaking: TDWI Upside on July 8, AI Loves Data on August 25, ExchangeWire on August 27, Marketplace Risk New York on September 16, Label Your Data EU AI Act on September 30, Label Your Data Golden Dataset on October 23, Informatics Magazine on November 2, Informatics Magazine on November 3, CTO Sync on November 3. Each row is selectable and opens a case file.">
       <div class="trace-row"><div class="trace-head"><span class="trace-label">TDWI Upside</span><span class="trace-result">Data quality, automated</span><span class="trace-date">Jul 8 &middot; Writing</span></div><div class="trace-track"><span class="trace-bar" style="width:4.6%"></span></div></div>
       <div class="trace-row"><div class="trace-head"><span class="trace-label">AI Loves Data</span><span class="trace-result">Batch to streaming, honestly</span><span class="trace-date">Aug 25 &middot; Roundtable</span></div><div class="trace-track"><span class="trace-bar" style="width:35.9%"></span></div></div>
       <div class="trace-row"><div class="trace-head"><span class="trace-label">ExchangeWire</span><span class="trace-result">Post-identifier analytics</span><span class="trace-date">Aug 27 &middot; Writing</span></div><div class="trace-track"><span class="trace-bar" style="width:37.3%"></span></div></div>
@@ -575,6 +535,8 @@
       <div class="trace-row"><div class="trace-head"><span class="trace-label">Label Your Data, EU AI Act</span><span class="trace-result">Expert quote, on lineage</span><span class="trace-date">Sep 30 &middot; Featured</span></div><div class="trace-track"><span class="trace-bar" style="width:59.5%"></span></div></div>
       <div class="trace-row"><div class="trace-head"><span class="trace-label">Label Your Data, Golden Dataset</span><span class="trace-result">Expert quote, auditable lineage</span><span class="trace-date">Oct 23 &middot; Featured</span></div><div class="trace-track"><span class="trace-bar" style="width:74.5%"></span></div></div>
       <div class="trace-row"><div class="trace-head"><span class="trace-label">Informatics Magazine</span><span class="trace-result">Expert quote, data access and privacy</span><span class="trace-date">Nov 2 &middot; Featured</span></div><div class="trace-track"><span class="trace-bar" style="width:81.0%"></span></div></div>
+      <div class="trace-row"><div class="trace-head"><span class="trace-label">Informatics Magazine</span><span class="trace-result">Expert quote, data in everyday decisions</span><span class="trace-date">Nov 3 &middot; Featured</span></div><div class="trace-track"><span class="trace-bar" style="width:81.7%"></span></div></div>
+      <div class="trace-row"><div class="trace-head"><span class="trace-label">CTO Sync</span><span class="trace-result">Expert quote, room for technical debt</span><span class="trace-date">Nov 3 &middot; Featured</span></div><div class="trace-track"><span class="trace-bar" style="width:81.7%"></span></div></div>
       <div class="trace-axis" aria-hidden="true"><span style="left:0%">Jul</span><span style="left:20.3%">Aug</span><span style="left:40.5%">Sep</span><span style="left:60.1%">Oct</span><span style="left:80.4%">Nov</span></div>
     </div>
     <p id="traceDetail" class="lineage-detail" aria-live="polite">Case file: select any row above.</p>
@@ -594,7 +556,7 @@
     <div class="cards">
       <article class="card pub-card">
         <div class="pub-head">
-          <span class="pub-mark"><img class="pub-logo" src="assets/logos/tdwi.svg" alt="" width="61" height="30" loading="lazy" decoding="async"></span>
+          <span class="pub-mark"><img class="pub-logo" src="assets/logos/tdwi.svg" alt="" width="120" height="24"></span>
           <p class="pub-name">TDWI Upside</p>
           <span class="pub-kind">Article</span>
         </div>
@@ -605,8 +567,8 @@
       </article>
       <article class="card pub-card">
         <div class="pub-head">
-          <span class="pub-mark"><img class="pub-logo for-light" src="assets/logos/ailovesdata.png" alt="" width="118" height="20" loading="lazy" decoding="async">
-          <img class="pub-logo for-dark" src="assets/logos/ailovesdata-dark.svg" alt="" width="133" height="19" loading="lazy" decoding="async"></span>
+          <span class="pub-mark"><img class="pub-logo for-light" src="assets/logos/ailovesdata.png" alt="" width="141" height="24">
+          <img class="pub-logo for-dark" src="assets/logos/ailovesdata-dark.svg" alt="" width="150" height="24"></span>
           <p class="pub-name">AI Loves Data</p>
           <span class="pub-kind">Roundtable</span>
         </div>
@@ -617,7 +579,7 @@
       </article>
       <article class="card pub-card">
         <div class="pub-head">
-          <span class="pub-mark"><img class="pub-logo" src="assets/logos/exchangewire.svg" alt="" width="148" height="21" loading="lazy" decoding="async"></span>
+          <span class="pub-mark"><img class="pub-logo" src="assets/logos/exchangewire.svg" alt="" width="120" height="24"></span>
           <p class="pub-name">ExchangeWire</p>
           <span class="pub-kind">Article</span>
         </div>
@@ -650,7 +612,12 @@
          owner's no-photo rule for this site. The third slide is a quote
          card made for this site in the same style, carrying his
          Informatics Magazine quote as published on Nov 2, 2026; it has
-         no photo either. Each slide links to the live article. The full
+         no photo either. The fourth and fifth slides are quote cards
+         in the same style for his second Informatics Magazine quote
+         and his CTO Sync quote, both published Nov 3, 2026. CTO Sync's
+         caption carries its official logo file from ctosync.com's
+         site header; see docs/publisher-logos.md. Each slide links to
+         the live article. The full
          quote text stays in the alt text and in the Writing/Featured
          records on this page, so the content survives with images
          off. Each caption opens with the publisher masthead used by
@@ -660,21 +627,33 @@
       <div class="carousel-track">
         <figure class="slide">
           <a href="https://labelyourdata.com/articles/eu-artificial-intelligence-act" target="_blank" rel="noopener">
-            <img src="assets/quote-eu-ai-act.webp" width="1720" height="366" loading="lazy" decoding="async" alt="Screenshot of Vishnu's published quote in Label Your Data, EU AI Act: Training Data Requirements in 2026: 'In practice, most teams have a labeling pipeline and a policy document, but no lineage. They can't tell you where a given training row came from, what transformations it went through, or whether the distribution that produced it has drifted since. A policy on paper and a safeguard inside the pipeline are not the same thing.' Credited: Software Development Engineer, Amazon.">
+            <img src="assets/quote-eu-ai-act.png" alt="Screenshot of Vishnu's published quote in Label Your Data, EU AI Act: Training Data Requirements in 2026: 'In practice, most teams have a labeling pipeline and a policy document, but no lineage. They can't tell you where a given training row came from, what transformations it went through, or whether the distribution that produced it has drifted since. A policy on paper and a safeguard inside the pipeline are not the same thing.' Credited: Software Development Engineer, Amazon.">
           </a>
-          <figcaption><div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/labelyourdata.svg" alt="" width="66" height="34" loading="lazy" decoding="async"></span><p class="pub-name">Label Your Data</p><span class="pub-kind">Expert quote</span></div><a href="https://labelyourdata.com/articles/eu-artificial-intelligence-act" target="_blank" rel="noopener">EU AI Act: Training Data Requirements in 2026</a> &middot; September 30, 2026</figcaption>
+          <figcaption><div class="pub-head"><span class="pub-mark"><img class="pub-logo tall" src="assets/logos/labelyourdata.svg" alt="" width="78" height="40"></span><p class="pub-name">Label Your Data</p><span class="pub-kind">Expert quote</span></div><a href="https://labelyourdata.com/articles/eu-artificial-intelligence-act" target="_blank" rel="noopener">EU AI Act: Training Data Requirements in 2026</a> &middot; September 30, 2026</figcaption>
         </figure>
         <figure class="slide">
           <a href="https://labelyourdata.com/articles/machine-learning/golden-dataset" target="_blank" rel="noopener">
-            <img src="assets/quote-golden-dataset.webp" width="1720" height="366" loading="lazy" decoding="async" alt="Screenshot of Vishnu's published quote in Label Your Data, Golden Dataset: How to Build Trusted AI Evaluation Data: 'A golden dataset is one whose lineage is auditable and whose behavior is continuously validated against the world it claims to represent. If you can't reconstruct how a dataset was built or detect when it stops matching production reality, the label accuracy is decoration.' Credited: Software Development Engineer, Amazon.">
+            <img src="assets/quote-golden-dataset.png" alt="Screenshot of Vishnu's published quote in Label Your Data, Golden Dataset: How to Build Trusted AI Evaluation Data: 'A golden dataset is one whose lineage is auditable and whose behavior is continuously validated against the world it claims to represent. If you can't reconstruct how a dataset was built or detect when it stops matching production reality, the label accuracy is decoration.' Credited: Software Development Engineer, Amazon.">
           </a>
-          <figcaption><div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/labelyourdata.svg" alt="" width="66" height="34" loading="lazy" decoding="async"></span><p class="pub-name">Label Your Data</p><span class="pub-kind">Expert quote</span></div><a href="https://labelyourdata.com/articles/machine-learning/golden-dataset" target="_blank" rel="noopener">Golden Dataset: How to Build Trusted AI Evaluation Data</a> &middot; October 23, 2026</figcaption>
+          <figcaption><div class="pub-head"><span class="pub-mark"><img class="pub-logo tall" src="assets/logos/labelyourdata.svg" alt="" width="78" height="40"></span><p class="pub-name">Label Your Data</p><span class="pub-kind">Expert quote</span></div><a href="https://labelyourdata.com/articles/machine-learning/golden-dataset" target="_blank" rel="noopener">Golden Dataset: How to Build Trusted AI Evaluation Data</a> &middot; October 23, 2026</figcaption>
         </figure>
         <figure class="slide">
           <a href="https://informaticsmagazine.com/qa/how-data-teams-balance-access-and-privacy/" target="_blank" rel="noopener">
-            <img src="assets/quote-informatics-access-privacy.webp" width="1720" height="366" loading="lazy" decoding="async" alt="Quote card for Vishnu's published quote in Informatics Magazine, How Data Teams Balance Access and Privacy, under the heading Validate Pipelines at Ingestion: 'Take one defect - a column renamed by an upstream team, or the loss of 20% of a day's events due to partial outages.' Credited: Vishnuvardhan Reddy Kaithapuram, Software Development Engineer, Amazon.">
+            <img src="assets/quote-informatics-access-privacy.png" alt="Quote card for Vishnu's published quote in Informatics Magazine, How Data Teams Balance Access and Privacy, under the heading Validate Pipelines at Ingestion: 'Take one defect - a column renamed by an upstream team, or the loss of 20% of a day's events due to partial outages.' Credited: Vishnuvardhan Reddy Kaithapuram, Software Development Engineer, Amazon.">
           </a>
-          <figcaption><div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div><a href="https://informaticsmagazine.com/qa/how-data-teams-balance-access-and-privacy/" target="_blank" rel="noopener">How Data Teams Balance Access and Privacy</a> &middot; November 2, 2026</figcaption>
+          <figcaption><div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="120" height="24"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div><a href="https://informaticsmagazine.com/qa/how-data-teams-balance-access-and-privacy/" target="_blank" rel="noopener">How Data Teams Balance Access and Privacy</a> &middot; November 2, 2026</figcaption>
+        </figure>
+        <figure class="slide">
+          <a href="https://informaticsmagazine.com/qa/how-analytics-teams-turn-data-into-everyday-decisions/" target="_blank" rel="noopener">
+            <img src="assets/quote-informatics-everyday-decisions.png" alt="Quote card for Vishnu's published quote in Informatics Magazine, How Analytics Teams Turn Data Into Everyday Decisions, under the heading Create a Ritual Around Core Figures: 'A dashboard becomes part of regular decisions when it stops being a place people visit and starts showing up where the decision already happens.' Credited: Vishnuvardhan Reddy Kaithapuram, Software Development Engineer, Amazon.">
+          </a>
+          <figcaption><div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="120" height="24"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div><a href="https://informaticsmagazine.com/qa/how-analytics-teams-turn-data-into-everyday-decisions/" target="_blank" rel="noopener">How Analytics Teams Turn Data Into Everyday Decisions</a> &middot; November 3, 2026</figcaption>
+        </figure>
+        <figure class="slide">
+          <a href="https://ctosync.com/qa/how-software-leaders-make-room-for-technical-debt/" target="_blank" rel="noopener">
+            <img src="assets/quote-cto-sync-technical-debt.png" alt="Quote card for Vishnu's published quote in CTO Sync, How Software Leaders Make Room for Technical Debt, under the heading Treat Platform Health as System Rent: 'Technical debt gets roadmap space on our team because we stopped asking for it as a favour and started planning it as a category.' Credited: Vishnuvardhan Reddy Kaithapuram, Software Development Engineer, Amazon.">
+          </a>
+          <figcaption><div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/ctosync.svg" alt="" width="105" height="24"></span><p class="pub-name">CTO Sync</p><span class="pub-kind">Expert quote</span></div><a href="https://ctosync.com/qa/how-software-leaders-make-room-for-technical-debt/" target="_blank" rel="noopener">How Software Leaders Make Room for Technical Debt</a> &middot; November 3, 2026</figcaption>
         </figure>
       </div>
       </div>
@@ -684,7 +663,7 @@
         <button type="button" class="carousel-btn" id="quoteNext" aria-label="Next quote">&#8250;</button>
       </div>
     </div>
-    <p class="featured-note">The Label Your Data articles were written by Karyna Naminas, CEO of Label Your Data, who quoted me as an expert source. The Informatics Magazine Q&amp;A quoted me as an expert source too.</p>
+    <p class="featured-note">The Label Your Data articles were written by Karyna Naminas, CEO of Label Your Data, who quoted me as an expert source. The Informatics Magazine and CTO Sync Q&amp;As quoted me as an expert source too.</p>
   </section>
 
     <!-- Speaking: confirmed engagements only, with the venue and date as announced.
@@ -695,8 +674,8 @@
     <div class="cards">
       <article class="card pub-card talk">
         <div class="pub-head">
-          <span class="pub-mark"><img class="pub-logo for-light" src="assets/logos/marketplacerisk.png" alt="" width="113" height="58" loading="lazy" decoding="async">
-          <img class="pub-logo for-dark" src="assets/logos/marketplacerisk-dark.png" alt="" width="125" height="44" loading="lazy" decoding="async"></span>
+          <span class="pub-mark"><img class="pub-logo for-light tall" src="assets/logos/marketplacerisk.png" alt="" width="78" height="40">
+          <img class="pub-logo for-dark tall" src="assets/logos/marketplacerisk-dark.png" alt="" width="114" height="40"></span>
           <p class="pub-name">Marketplace Risk</p>
           <span class="pub-kind">Conference talk</span>
         </div>
@@ -708,7 +687,7 @@
       </article>
       <article class="card pub-card talk">
         <div class="pub-head">
-          <span class="pub-mark"><img class="pub-logo noplate" src="assets/logos/niceteas.svg" alt="" width="190" height="38" loading="lazy" decoding="async"></span>
+          <span class="pub-mark"><img class="pub-logo nt noplate" src="assets/logos/niceteas.svg" alt="" width="180" height="36"></span>
           <p class="pub-name">NICE-TEAS ASIA 2026</p>
           <span class="pub-kind">Accepted paper</span>
         </div>
