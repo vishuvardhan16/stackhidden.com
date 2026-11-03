@@ -72,6 +72,12 @@
 <meta name="twitter:image" content="https://stackhidden.com/assets/og-card.png">
 <link rel="canonical" href="https://stackhidden.com/">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<!-- The browser's own bar (on phones, the address bar) matches the sticky
+     header in either theme. app.js keeps both tags on the visitor's chosen
+     theme; the media queries cover visitors without JavaScript. -->
+<meta name="theme-color" content="#fdfefe" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#151923" media="(prefers-color-scheme: dark)">
 <script>
 (function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);if(localStorage.getItem('motion')==='reduced'){document.documentElement.setAttribute('data-motion','reduced');}}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
 </script>

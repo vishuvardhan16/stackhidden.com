@@ -47,6 +47,19 @@
       drawColors();
     });
   }
+  // The browser's own bar matches the header in the chosen theme. The two
+  // theme-color tags in the head follow the OS setting for visitors
+  // without JavaScript; this keeps both on the theme actually showing,
+  // whichever control changed it.
+  var THEME_COLOR = { light: '#fdfefe', dark: '#151923' };
+  function syncThemeColor() {
+    var c = THEME_COLOR[root.getAttribute('data-theme')] || THEME_COLOR.dark;
+    Array.prototype.forEach.call(document.querySelectorAll('meta[name="theme-color"]'), function (m) {
+      m.setAttribute('content', c);
+    });
+  }
+  syncThemeColor();
+  new MutationObserver(syncThemeColor).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
 
   // New York clock in the hero eyebrow.
   var clock = document.getElementById('clock');
