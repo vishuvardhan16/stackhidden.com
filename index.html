@@ -176,8 +176,33 @@
     <!-- Experience: roles and dates must match LinkedIn exactly. Do not add employers, titles, or dates from memory. -->
 <section id="experience" class="panel">
     <h2>Experience</h2>
+    <!-- Career, as a trace (v5, Nov 2026). Every role and the graduate
+         degree since 2019 as a span on a year axis, oldest first, after the
+         interactive experience timeline on jaredmchester.com and in the
+         page's own trace language. Every date restates the role blocks and
+         the Education section below; nothing here is new. The axis runs
+         from Jan 2019 to Jan 1 of next year, and app.js recomputes every
+         bar from its data-start/data-end when the page loads, so Amazon's
+         bar always ends at today. The inline positions are the same
+         computation as of Nov 2, 2026, so the chart still reads with
+         JavaScript off. Rows are buttons: arrow keys move, Enter opens the
+         detail line, and its link jumps to the full entry. -->
+    <div class="career">
+      <p class="career-note">Every role since 2019, and the degree in between, as a span. Select a row, or use the arrow keys, for its length and place.</p>
+      <p class="career-legend" aria-hidden="true"><span><i class="career-swatch kind-role"></i>Role</span><span><i class="career-swatch kind-internship"></i>Internship</span><span><i class="career-swatch kind-degree"></i>Degree</span></p>
+      <ol class="career-rows" aria-label="Career timeline, oldest first">
+        <li><button type="button" class="career-row" data-start="2019-05" data-end="2019-05" data-kind="internship" data-target="role-augmentedbyte" aria-pressed="false"><span class="career-head"><span class="career-org">Augmented Byte</span><span class="career-title">Data Scientist, Intern</span><span class="career-when">May 2019</span></span><span class="career-track" aria-hidden="true"><span class="career-bar kind-internship" style="left:4.11%;width:1.06%"></span></span></button></li>
+        <li><button type="button" class="career-row" data-start="2019-12" data-end="2020-02" data-kind="internship" data-target="role-tadigital" aria-pressed="false"><span class="career-head"><span class="career-org">TA Digital</span><span class="career-title">Intern</span><span class="career-when">Dec 2019 to Feb 2020</span></span><span class="career-track" aria-hidden="true"><span class="career-bar kind-internship" style="left:11.43%;width:3.11%"></span></span></button></li>
+        <li><button type="button" class="career-row" data-start="2020-03" data-end="2021-04" data-kind="role" data-target="role-tadigital" aria-pressed="false"><span class="career-head"><span class="career-org">TA Digital</span><span class="career-title">Associate Software Engineer</span><span class="career-when">Mar 2020 to Apr 2021</span></span><span class="career-track" aria-hidden="true"><span class="career-bar kind-role" style="left:14.54%;width:14.58%"></span></span></button></li>
+        <li><button type="button" class="career-row" data-start="2021-08" data-end="2022-08" data-kind="degree" data-target="edu-buffalo" aria-pressed="false"><span class="career-head"><span class="career-org">University at Buffalo</span><span class="career-title">Master of Engineering Science, Data Science (MS)</span><span class="career-when">Aug 2021 to Aug 2022</span></span><span class="career-track" aria-hidden="true"><span class="career-bar kind-degree" style="left:32.27%;width:13.55%"></span></span></button></li>
+        <li><button type="button" class="career-row" data-start="2022-06" data-end="2022-08" data-kind="internship" data-target="role-uptycs" aria-pressed="false"><span class="career-head"><span class="career-org">Uptycs</span><span class="career-title">SDE Intern</span><span class="career-when">Jun 2022 to Aug 2022</span></span><span class="career-track" aria-hidden="true"><span class="career-bar kind-internship" style="left:42.68%;width:3.14%"></span></span></button></li>
+        <li><button type="button" class="career-row" data-start="2022-09" data-end="now" data-kind="role" data-target="role-amazon" aria-pressed="false"><span class="career-head"><span class="career-org">Amazon Advertising</span><span class="career-title">Software Development Engineer</span><span class="career-when">Sep 2022 to now</span></span><span class="career-track" aria-hidden="true"><span class="career-bar kind-role" style="left:45.82%;width:52.13%"></span></span></button></li>
+      </ol>
+      <div class="career-axis" aria-hidden="true"><span style="left:0%">2019</span><span style="left:12.49%">2020</span><span style="left:25.02%">2021</span><span style="left:37.51%">2022</span><span style="left:50%">2023</span><span style="left:62.49%">2024</span><span style="left:75.02%">2025</span><span style="left:87.51%">2026</span><span class="career-now" style="left:97.95%">now</span></div>
+      <p id="careerDetail" class="career-detail" aria-live="polite">Select a row to see its dates, length, and place.</p>
+    </div>
     <!-- Roles, employers, dates, and work details below are copied in substance from his LinkedIn profile, read live on Oct 26, 2026. Wording is condensed; no employer, title, date, or result has been added. -->
-    <div class="role-block">
+    <div class="role-block" id="role-amazon">
       <p class="meta">Amazon Advertising &middot; New York City Metropolitan Area &middot; Hybrid</p>
       <h3>Software Development Engineer, Advertising Analytics and Insights &middot; Sep 2022 to Present</h3>
       <p>Four years on the same team, through three names for the org and one constant problem: getting trustworthy audience insights from raw advertising data to the people who plan campaigns. The work, in points:</p>
@@ -196,19 +221,19 @@
       <p>The case files under Engineering Work tell four of these stories in full, with the decisions and the numbers.</p>
       <p class="stack">Java &middot; Scala and Spark &middot; TypeScript CDK &middot; Python &middot; DynamoDB &middot; OpenSearch &middot; Step Functions &middot; Lambda &middot; Glue</p>
     </div>
-    <div class="role-block">
+    <div class="role-block" id="role-uptycs">
       <p class="meta">Uptycs &middot; Remote, Massachusetts</p>
       <h3>SDE Intern &middot; Jun 2022 to Aug 2022</h3>
       <p>Built and fixed user interface stories in React, integrated backend APIs with the frontend, and built data visualization dashboards with ECharts against business requirements.</p>
       <p class="stack">React &middot; API integration &middot; Data visualization</p>
     </div>
-    <div class="role-block">
+    <div class="role-block" id="role-tadigital">
       <p class="meta">TA Digital &middot; Hyderabad, India</p>
       <h3>Associate Software Engineer &middot; Mar 2020 to Apr 2021</h3>
       <p>Built data collection from multiple upstream sources, parsing records and sending them downstream for storage and visualization, in Java, REST, and Spring Boot on Oracle DB. Shipped 15 end-to-end machine learning projects to production, and turned a monolithic email spam classifier into an extensible Python API. Before that, interned there from Dec 2019 to Feb 2020 on Java EE and Spring MVC applications.</p>
       <p class="stack">Java &middot; Spring Boot &middot; REST &middot; Oracle DB &middot; Python &middot; NLP &middot; Machine learning</p>
     </div>
-    <div class="role-block">
+    <div class="role-block" id="role-augmentedbyte">
       <p class="meta">Augmented Byte &middot; Hyderabad, India</p>
       <h3>Data Scientist, Intern &middot; May 2019</h3>
       <p>Data mining and integration for actionable insights. Removing 25 percent redundant data lifted model accuracy by 15 percent, and time series work reached a 2 percent mean squared error.</p>
@@ -219,7 +244,7 @@
   <section id="education" class="panel">
     <h2>Education</h2>
     <!-- Degree names, schools, and dates exactly as listed on LinkedIn. No campus is named for either school there, so none is stated here. -->
-    <div class="role-block">
+    <div class="role-block" id="edu-buffalo">
       <h3>University at Buffalo</h3>
       <p>Master of Engineering Science, Data Science (MS) &middot; Aug 2021 to Aug 2022</p>
     </div>

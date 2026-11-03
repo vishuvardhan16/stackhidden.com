@@ -1880,4 +1880,150 @@
     new MutationObserver(function () { if (motionOff()) cleanUp(); })
       .observe(document.documentElement, { attributes: true, attributeFilter: ['data-motion'] });
   })();
+
+  /* ---- Career, as a trace (v5, Nov 2026) ------------------------------
+     Positions every career span from its data-start / data-end (YYYY-MM,
+     or "now") on an axis from Jan 1, 2019 to Jan 1 of next year, so the
+     Amazon span always ends at today and the axis grows a year each
+     January. Rows are buttons: arrow keys (and Home / End) move focus,
+     Enter or a click selects a row and writes its detail line: the
+     organization, title, dates, length counted the way LinkedIn counts
+     (inclusive months, "4 yrs 3 mos"), and the place from its role
+     block, with a link to that full entry. The bars render in order on
+     first view through revealOnce(), like the 2026 trace. */
+  (function () {
+    var career = document.querySelector('.career');
+    if (!career) return;
+    var rows = Array.prototype.slice.call(career.querySelectorAll('.career-row'));
+    var detail = document.getElementById('careerDetail');
+    var axis = career.querySelector('.career-axis');
+    var today = new Date();
+    var FIRST = 2019, LAST = today.getFullYear() + 1;
+    var t0 = Date.UTC(FIRST, 0, 1), t1 = Date.UTC(LAST, 0, 1);
+    var nowMs = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
+    function pct(ms) { return Math.max(0, Math.min(100, (ms - t0) / (t1 - t0) * 100)); }
+    function ym(text) { var p = text.split('-'); return [+p[0], +p[1]]; }
+    function startOf(text) { var p = ym(text); return Date.UTC(p[0], p[1] - 1, 1); }
+    function endOf(text) { if (text === 'now') return nowMs; var p = ym(text); return Date.UTC(p[0], p[1], 1); }
+
+    career.style.setProperty('--years', String(LAST - FIRST));
+    rows.forEach(function (row) {
+      var bar = row.querySelector('.career-bar');
+      var a = pct(startOf(row.getAttribute('data-start')));
+      var b = pct(endOf(row.getAttribute('data-end')));
+      bar.style.left = a.toFixed(2) + '%';
+      bar.style.width = (b - a).toFixed(2) + '%';
+    });
+    if (axis) {
+      axis.textContent = '';
+      for (var y = FIRST; y < LAST; y++) {
+        var tick = document.createElement('span');
+        tick.textContent = String(y);
+        tick.style.left = pct(Date.UTC(y, 0, 1)).toFixed(2) + '%';
+        axis.appendChild(tick);
+      }
+      var nowTick = document.createElement('span');
+      nowTick.className = 'career-now';
+      nowTick.textContent = 'now';
+      nowTick.style.left = pct(nowMs).toFixed(2) + '%';
+      axis.appendChild(nowTick);
+    }
+
+    // Year labels that would touch each other, or "now", are hidden; the
+    // rest stay. Left to right, so a phone shows every other year and the
+    // label just before "now" gives way to it. Rerun on resize, and once
+    // fonts settle, since both change label widths.
+    function fitAxis() {
+      if (!axis || !axis.offsetWidth) return;
+      var ticks = Array.prototype.slice.call(axis.children);
+      var nowEl = axis.querySelector('.career-now');
+      ticks.forEach(function (t) { t.classList.remove('is-crowded'); });
+      axis.classList.add('is-fitted');
+      var GAP = 10;
+      var limit = nowEl ? nowEl.getBoundingClientRect().left - GAP : Infinity;
+      var lastRight = -Infinity;
+      ticks.forEach(function (t) {
+        if (t === nowEl) return;
+        var r = t.getBoundingClientRect();
+        if (r.left < lastRight + GAP || r.right > limit) { t.classList.add('is-crowded'); return; }
+        lastRight = r.right;
+      });
+    }
+    fitAxis();
+    var fitQueued = false;
+    window.addEventListener('resize', function () {
+      if (fitQueued) return;
+      fitQueued = true;
+      requestAnimationFrame(function () { fitQueued = false; fitAxis(); });
+    });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAxis);
+
+    function lengthOf(row) {
+      var s = ym(row.getAttribute('data-start'));
+      var endText = row.getAttribute('data-end');
+      var e = endText === 'now' ? [today.getFullYear(), today.getMonth() + 1] : ym(endText);
+      var n = (e[0] - s[0]) * 12 + (e[1] - s[1]) + 1;
+      var yrs = Math.floor(n / 12), mos = n % 12, out = [];
+      if (yrs) out.push(yrs + (yrs === 1 ? ' yr' : ' yrs'));
+      if (mos) out.push(mos + (mos === 1 ? ' mo' : ' mos'));
+      return out.join(' ');
+    }
+    function placeOf(row) {
+      var block = document.getElementById(row.getAttribute('data-target'));
+      var meta = block && block.querySelector('.meta');
+      if (!meta) return '';
+      return meta.textContent.split(/\s*·\s*/).slice(1).map(function (t) { return t.trim(); }).join(', ');
+    }
+    var flashTimer = null;
+    function select(row) {
+      rows.forEach(function (r) { r.setAttribute('aria-pressed', r === row ? 'true' : 'false'); });
+      var text = [
+        row.querySelector('.career-org').textContent,
+        row.querySelector('.career-title').textContent,
+        row.querySelector('.career-when').textContent,
+        lengthOf(row),
+        placeOf(row)
+      ].filter(Boolean).join(' · ') + '.';
+      detail.textContent = text;
+      var id = row.getAttribute('data-target');
+      if (document.getElementById(id)) {
+        var link = document.createElement('a');
+        link.href = '#' + id;
+        link.textContent = 'Read the full entry';
+        link.addEventListener('click', function () {
+          var block = document.getElementById(id);
+          if (!block) return;
+          block.classList.remove('traced'); void block.offsetWidth; block.classList.add('traced');
+          clearTimeout(flashTimer);
+          flashTimer = setTimeout(function () { block.classList.remove('traced'); }, 2800);
+        });
+        detail.appendChild(link);
+      }
+    }
+    rows.forEach(function (row) { row.addEventListener('click', function () { select(row); }); });
+    var list = career.querySelector('.career-rows');
+    if (list) {
+      list.addEventListener('keydown', function (e) {
+        var i = rows.indexOf(document.activeElement);
+        if (i < 0) return;
+        var next = e.key === 'ArrowDown' ? i + 1 : e.key === 'ArrowUp' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? rows.length - 1 : null;
+        if (next === null) return;
+        e.preventDefault();
+        rows[Math.max(0, Math.min(rows.length - 1, next))].focus();
+      });
+    }
+
+    var bars = career.querySelectorAll('.career-bar');
+    var armed = revealOnce(list, 0.3, function () {
+      career.classList.add('career-drawn');
+      setTimeout(function () {
+        career.classList.remove('career-armed', 'career-drawn');
+        bars.forEach(function (b) { b.style.removeProperty('--i'); });
+      }, 800 + bars.length * 110 + 100);
+    });
+    if (armed) {
+      bars.forEach(function (b, i) { b.style.setProperty('--i', i); });
+      career.classList.add('career-armed');
+    }
+  })();
 })();

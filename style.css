@@ -581,3 +581,52 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
 .carousel-track{display:grid}
 .carousel .slide{grid-area:1/1;position:relative;inset:auto}
 .carousel .slide img{max-height:340px}
+
+/* =====================================================================
+   Career, as a trace (v5). Experience opens with every role, and the
+   graduate degree in between, as a span on a year axis: flat rows
+   divided by hairlines, a thin accent bar on the left edge for the
+   hovered or selected row, and three bar styles (role, internship,
+   degree) with a legend. app.js positions every bar from its dates and
+   keeps the Amazon span ending at today; the inline positions are the
+   no-JavaScript fallback.
+   ===================================================================== */
+.career{margin:2px 0 22px;--years:8}
+.career-note{color:var(--muted);margin:0 0 8px;max-width:72ch}
+.career-legend{display:flex;flex-wrap:wrap;gap:4px 18px;margin:0 0 8px;color:var(--muted);font-size:.8rem}
+.career-legend span{display:inline-flex;align-items:center;gap:7px}
+.career-swatch{display:inline-block;width:20px;height:8px;border-radius:999px}
+.career-rows{list-style:none;margin:0;padding:0;border-top:1px dashed var(--border)}
+.career-row{position:relative;display:block;width:100%;margin:0;padding:10px 10px 11px 14px;border:0;border-bottom:1px dashed var(--border);border-radius:0;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.career-row::before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--accent);transform:scaleY(0);transition:transform .2s ease}
+.career-row:hover::before,.career-row:focus-visible::before,.career-row[aria-pressed="true"]::before{transform:scaleY(1)}
+.career-row:hover,.career-row[aria-pressed="true"]{background:var(--panel)}
+.career-row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.career-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px}
+.career-org{font-weight:650;font-size:.95rem}
+.career-title{margin-right:auto;color:var(--muted);font-size:.88rem}
+.career-when{color:var(--muted);font-size:.84rem;font-variant-numeric:tabular-nums}
+.career-track{position:relative;display:block;height:10px;margin-top:8px;border-radius:999px;background:
+  repeating-linear-gradient(to right,transparent 0,transparent calc(100% / var(--years) - 1px),var(--bg) calc(100% / var(--years) - 1px),var(--bg) calc(100% / var(--years))),
+  var(--border)}
+.career-bar{position:absolute;top:0;bottom:0;min-width:6px;border-radius:999px}
+.career-bar.kind-role,.career-swatch.kind-role{background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.career-bar.kind-internship,.career-swatch.kind-internship{background:var(--accent2)}
+.career-bar.kind-degree,.career-swatch.kind-degree{background:repeating-linear-gradient(135deg,var(--accent) 0 3px,transparent 3px 6px);box-shadow:inset 0 0 0 1.5px var(--accent)}
+.career-axis{position:relative;height:1.5em;margin:8px 10px 0 14px;color:var(--muted);font-size:.78rem}
+.career-axis span{position:absolute;top:0}
+/* "now" ends at today's position, so it never runs past the axis. */
+.career-axis .career-now{color:var(--accent);font-weight:650;transform:translateX(-100%)}
+.career-detail{min-height:2.6em;margin:10px 0 0;font-size:.95rem}
+.career-detail a{margin-left:6px;white-space:nowrap}
+/* app.js hides any year label that would touch its neighbour or "now". */
+.career-axis .is-crowded{visibility:hidden}
+@media (max-width:560px){
+  /* Without JavaScript: eight year labels do not fit a phone, so show
+     every other year. */
+  .career-axis:not(.is-fitted) span:nth-child(even):not(.career-now){visibility:hidden}
+}
+/* First view: the spans render in order, like the 2026 trace. */
+.career-armed .career-bar{clip-path:inset(0 100% 0 0)}
+.career-armed.career-drawn .career-bar{clip-path:inset(0 0 0 0);transition:clip-path .8s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--i,0) * 110ms)}
+@media print{.career-bar{clip-path:none!important}.career-detail,.career-note,.career-legend{display:none!important}}
