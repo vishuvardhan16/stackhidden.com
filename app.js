@@ -645,6 +645,39 @@
     });
   }
 
+  // A jump into a section that has not revealed yet shows that section at
+  // once. Otherwise the browser aims at the section while it still sits
+  // 22px low, the rise then carries the target up, and it ends under the
+  // header. Used by in-page links (below) and the query console's Trace.
+  function revealNow(el) {
+    for (var n = el; n && n.classList; n = n.parentElement) {
+      if (n.classList.contains('reveal') && !n.classList.contains('in')) {
+        n.style.transition = 'none';
+        n.classList.add('in');
+        void n.offsetWidth;
+        n.style.removeProperty('transition');
+        if (!n.style.length) n.removeAttribute('style');
+      }
+    }
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var id = a.getAttribute('href').slice(1), target = null;
+    try { target = id && document.getElementById(decodeURIComponent(id)); } catch (err) {}
+    if (target) revealNow(target);
+  }, true);
+
+  // Keep scroll-padding-top (style.css) equal to the sticky header's real
+  // height, which changes with width and wrapping.
+  var siteHeader = document.querySelector('.site-header');
+  function setHeaderHeight() {
+    if (siteHeader) document.documentElement.style.setProperty('--header-h', siteHeader.offsetHeight + 'px');
+  }
+  setHeaderHeight();
+  if (siteHeader && 'ResizeObserver' in window) new ResizeObserver(setHeaderHeight).observe(siteHeader);
+  else window.addEventListener('resize', setHeaderHeight);
+
   // Cursor glow: a soft accent halo that trails the pointer with a lag
   // (lerp), so it feels like light following the hand, not a sticker.
   // Fine pointers only; touch devices never see it.
@@ -1424,6 +1457,7 @@
       }
       all('.traced').forEach(function (el) { el.classList.remove('traced'); });
       els.forEach(function (el) { void el.offsetWidth; el.classList.add('traced'); });
+      revealNow(first);
       first.scrollIntoView({ block: 'center', behavior: motionOff() ? 'auto' : 'smooth' });
       if (!first.hasAttribute('tabindex')) first.setAttribute('tabindex', '-1');
       try { first.focus({ preventScroll: true }); } catch (e) {}

@@ -133,5 +133,32 @@ class CarouselActiveDotTest(BrowserTestCase):
         self.assertEqual({"out": False, "left": 0}, self.page.evaluate(state))
 
 
+LANDING = """(id) => ({
+    header: Math.round(document.querySelector('.site-header').getBoundingClientRect().bottom),
+    top: Math.round(document.getElementById(id).getBoundingClientRect().top)
+})"""
+
+
+class AnchorLandingTest(BrowserTestCase):
+    """In-page jumps stop just below the sticky header, at every width."""
+
+    def test_nav_jumps_land_below_the_header(self) -> None:
+        # Before the fix there was no scroll padding, so every jump put the
+        # section's top under the header; a section that had not revealed
+        # yet then rose 22px further. Writing's heading ended 16px above
+        # the viewport, hidden, on desktop and on phones.
+        for width, height in ((1400, 900), (390, 844)):
+            for target in ("about", "writing", "query"):
+                with self.subTest(width=width, target=target):
+                    self.page.set_viewport_size({"width": width, "height": height})
+                    self.reload_page()
+                    self.page.add_style_tag(content="html{scroll-behavior:auto!important}")
+                    self.page.evaluate(f"document.querySelector('.site-header nav a[href=\"#{target}\"]').click()")
+                    self.page.wait_for_timeout(900)  # past the 0.7s section reveal
+                    landing = self.page.evaluate(LANDING, target)
+                    self.assertGreaterEqual(landing["top"], landing["header"], landing)
+                    self.assertLess(landing["top"] - landing["header"], 30, landing)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
