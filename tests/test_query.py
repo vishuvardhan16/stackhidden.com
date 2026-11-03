@@ -63,14 +63,14 @@ class QueryConsoleTest(BrowserTestCase):
         )
         self.assertEqual(page_titles, titles)
         dates = [r[0] for r in self.run_sql("SELECT date FROM featured ORDER BY date")]
-        self.assertEqual(["2026-09-30", "2026-10-23", "2026-11-02"], dates)
+        self.assertEqual(["2026-09-30", "2026-10-23", "2026-11-02", "2026-11-03", "2026-11-03"], dates)
 
     def test_grouping_counts_and_sorting(self) -> None:
         result = self.run_sql(
             "SELECT kind, COUNT(*) AS n FROM spans GROUP BY kind ORDER BY n DESC, kind"
         )
         counts = {kind: int(n) for kind, n in result}
-        self.assertEqual(7, sum(counts.values()))
+        self.assertEqual(9, sum(counts.values()))
         self.assertEqual("featured", result[0][0])
         self.assertIn("group by kind", self.status())
 
@@ -200,7 +200,7 @@ class QueryPhoneTest(BrowserTestCase):
                 return r.getClientRects().length;
             })"""
         )
-        self.assertEqual([1, 1, 1], lines)
+        self.assertEqual([1, 1, 1, 1, 1], lines)
 
     def test_header_stays_compact(self) -> None:
         height = self.page.evaluate("document.querySelector('.site-header').offsetHeight")
