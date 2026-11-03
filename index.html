@@ -81,6 +81,8 @@
 </script>
 </head>
 <body>
+<!-- Skip link: the first stop for keyboard users, hidden until focused. -->
+<a class="skip-link" href="#top">Skip to content</a>
 <canvas id="graph" aria-hidden="true"></canvas>
 <div id="cursorGlow" aria-hidden="true"></div>
 
@@ -110,7 +112,7 @@
 </header>
 
   <!-- Hero: engineer first. Role and pipelines lead; publications are evidence further down, not the headline. -->
-<main id="top">
+<main id="top" tabindex="-1">
   <section class="hero">
     <div class="hero-text">
       <p class="eyebrow">New York City &middot; <span id="clock">--:--</span> ET</p>
