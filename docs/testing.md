@@ -19,6 +19,7 @@ Every change is tested locally before it ships and checked live after it lands. 
 - Reload stackhidden.com until the new version serves, then confirm the change is present in the live page, in the owner's terms: the thing he asked for is visible and works. The bare domain can be served from cache for a few minutes after a deploy; `https://stackhidden.com/index.html` shows the new version first.
 - Confirm the commit count and the newest summaries on the repo match what was pushed.
 - Confirm no portrait photo appears anywhere on the live page.
+- Open a missing address, such as `https://stackhidden.com/nope`, and confirm the site's own 404 page answers.
 - Grep the served page for the words that must not appear. The standing one is "Senior", which must be zero everywhere, including comments.
 
 ## A note on honesty

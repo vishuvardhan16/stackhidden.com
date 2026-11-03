@@ -27,16 +27,16 @@ A publisher's logo is its trademark. Logos go in as official files the owner dow
    | Label Your Data | `labelyourdata` | Featured In (two slides) |
    | Informatics Magazine | `informatics` | Featured In |
 
-2. In `index.html`, put the `<img class="pub-logo">` in that publisher's `<span class="pub-mark">`. Set its `width` and `height` attributes to the file's real shape at its display height (for example `width="148" height="21"` for a 7:1 logo shown 21px tall), so the page does not shift while the image loads.
+2. In `index.html`, put the `<img class="pub-logo">` in that publisher's `<span class="pub-mark">`. Set its `width` and `height` attributes to the file's real shape at its display height (for example `width="148" height="21"` for a 7:1 logo shown 21px tall), so the page does not shift while the image loads. Add `loading="lazy" decoding="async"` too: every image on the page is below the fold, and `test_static` fails for one without them.
 3. Keep `alt=""`. The publisher's name stays in the page for screen readers, and is hidden only visually once a logo is present. A descriptive alt would make screen readers say the name twice.
 4. Give the logo its size: one line in `style.css`, in the "Logo sizing" table, such as `.pub-logo[src$="/tdwi.svg"]{--h:30px}`. See "How logos are sized" below for choosing the number. `test_publishers` fails for any visible logo without one.
-5. Run `scripts/run-tests.sh`. `test_publishers` checks that every logo loads and has its size, that cards side by side still line up, that dark-mode chips match, and that no pill overflows its card at 360px. A wrong path fails the suite with a "Failed to load resource" error.
+5. Run `scripts/run-tests.sh`. `test_publishers` checks that every logo loads and has its size, that cards side by side still line up, that dark-mode chips match, and that no pill overflows its card at 360px. A wrong path fails the suite with a "Failed to load resource" error. Logos load lazily, so the hidden file of a light and dark pair is fetched only when its theme is shown.
 6. Look at the card in both themes, on desktop and at 360px.
 7. If the publisher supplies a version made for dark backgrounds, save it as `assets/logos/<slug>-dark.svg` and put both images in the slot, each with its own size line. Each theme then shows its own file, with no chip:
 
    ```html
-   <img class="pub-logo for-light" src="assets/logos/ailovesdata.png" alt="" width="118" height="20">
-   <img class="pub-logo for-dark" src="assets/logos/ailovesdata-dark.svg" alt="" width="133" height="19">
+   <img class="pub-logo for-light" src="assets/logos/ailovesdata.png" alt="" width="118" height="20" loading="lazy" decoding="async">
+   <img class="pub-logo for-dark" src="assets/logos/ailovesdata-dark.svg" alt="" width="133" height="19" loading="lazy" decoding="async">
    ```
 
 ## How logos are sized
