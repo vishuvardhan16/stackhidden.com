@@ -51,8 +51,8 @@ class LazyImagesTest(RequestLog):
         )
 
     def test_the_carousel_loads_every_slide_before_showing_one(self) -> None:
-        # Within a screen of the viewport, all three quotes and every
-        # caption logo load, including the two slides still off stage.
+        # Within a screen of the viewport, all five quotes and every
+        # caption logo load, including the slides still off stage.
         self.page.evaluate(
             "window.scrollTo(0, document.getElementById('quoteCarousel').getBoundingClientRect().top + scrollY - 1.6 * innerHeight)"
         )
@@ -60,7 +60,7 @@ class LazyImagesTest(RequestLog):
             "[...document.querySelectorAll('#quoteCarousel img')].every(i => i.complete && i.naturalWidth)",
             timeout=5000,
         )
-        self.assertEqual(3, len(set(self.asked_for("/assets/quote-"))))
+        self.assertEqual(5, len(set(self.asked_for("/assets/quote-"))))
 
     def test_quote_screenshots_declare_their_real_size(self) -> None:
         self.page.evaluate("document.getElementById('quoteCarousel').scrollIntoView({block:'center'})")
