@@ -1,0 +1,5 @@
+# stackhidden.com is one public page. Every crawler may read all of it.
+User-agent: *
+Allow: /
+
+Sitemap: https://stackhidden.com/sitemap.xml

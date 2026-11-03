@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--
+  404.html: GitHub Pages serves this file, with status 404, for any
+  address on stackhidden.com that has no file behind it.
+
+  It is self-contained on purpose. GitHub Pages serves it at whatever
+  depth the visitor asked for (/a/b/c), so every URL here is absolute
+  and the styles are inline rather than in style.css. The colours are
+  the site's theme tokens from style.css; keep them in step.
+
+  The query line restates the visitor's path as a SQL string, quotes
+  doubled, through textContent only, so nothing typed into an address
+  is ever parsed as HTML. tests/test_finishing.py checks that.
+-->
+<title>Page not found | stackhidden</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="There is no page at this address on stackhidden.com.">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta name="theme-color" content="#fdfefe" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#151923" media="(prefers-color-scheme: dark)">
+<script>
+(function(){var t='dark';try{t=localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');}catch(e){}document.documentElement.setAttribute('data-theme',t);var c=t==='light'?'#fdfefe':'#151923';var m=document.querySelectorAll('meta[name="theme-color"]');for(var i=0;i<m.length;i++){m[i].setAttribute('content',c);}})();
+</script>
+<style>
+:root,:root[data-theme="dark"]{--bg:#0d1017;--bg2:#11151f;--card:#171b26;--text:#eef0f4;--muted:#a3aabd;--accent:#6ea8fe;--border:#272d3d;color-scheme:dark}
+:root[data-theme="light"]{--bg:#f4f6fa;--bg2:#e9edf4;--card:#ffffff;--text:#171a21;--muted:#5a6272;--accent:#1f5fd0;--border:#d8dde8;color-scheme:light}
+:root{--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;flex-direction:column;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65;color:var(--text);background:linear-gradient(160deg,var(--bg),var(--bg2))}
+a{color:var(--accent)}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+header{padding:16px 26px;border-bottom:1px solid var(--border)}
+.brand{font-weight:800;color:var(--text);letter-spacing:.02em;font-size:1.05rem;text-decoration:none}
+.brand span{color:var(--accent)}
+main{flex:1;width:100%;max-width:680px;margin:0 auto;padding:12vh 20px 48px}
+h1{margin:0 0 10px;font-size:clamp(1.7rem,5vw,2.3rem);line-height:1.2}
+.lede{margin:0 0 26px;color:var(--muted);max-width:56ch}
+.query{display:flex;gap:10px;margin:0;padding:13px 16px;background:var(--bg);border:1px solid var(--border);border-radius:14px;font-family:var(--mono);font-size:.92rem;line-height:1.6;overflow-wrap:anywhere}
+.query .prompt{flex:none;color:var(--accent);user-select:none}
+.query code{font:inherit}
+.status{margin:14px 2px 30px;font-family:var(--mono);font-size:.84rem;color:var(--muted)}
+.status strong{color:var(--accent);font-weight:600}
+nav ul{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+nav a{display:inline-block;padding:7px 14px;border:1px solid var(--border);border-radius:999px;background:var(--card);color:var(--text);text-decoration:none;font-size:.92rem}
+nav a:hover{border-color:var(--accent);color:var(--accent)}
+.real{margin:22px 2px 0;color:var(--muted);font-size:.92rem}
+.real code{font-family:var(--mono);font-size:.88rem}
+</style>
+</head>
+<body>
+<header><a class="brand" href="/">stack<span>hidden</span></a></header>
+<main>
+  <h1>Page not found</h1>
+  <p class="lede">This site is a single page, and nothing on it lives at this address. Everything is one jump from the home page.</p>
+  <p class="query"><span class="prompt" aria-hidden="true">sql&gt;</span><code>SELECT * FROM pages WHERE path = <span id="path">:requested</span>;</code></p>
+  <p class="status"><strong>0 rows.</strong> Did you mean <a href="/">/</a>?</p>
+  <nav aria-label="Sections of the home page">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/#engineering">Engineering</a></li>
+      <li><a href="/#writing">Writing</a></li>
+      <li><a href="/#speaking">Speaking</a></li>
+      <li><a href="/#query">Query</a></li>
+      <li><a href="/#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <p class="real">Or run a real query against the home page: <a href="/#q=SHOW%20TABLES"><code>SHOW TABLES</code></a></p>
+</main>
+<script>
+(function(){var el=document.getElementById('path');if(!el)return;var p=location.pathname;try{p=decodeURIComponent(p);}catch(e){}if(p.length>80){p=p.slice(0,79)+'…';}el.textContent="'"+p.replace(/'/g,"''")+"'";})();
+</script>
+</body>
+</html>
