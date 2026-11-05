@@ -27,8 +27,11 @@ A publisher's logo is its trademark. Logos go in as official files the owner dow
    | Label Your Data | `labelyourdata` | Featured In (two slides) |
    | Informatics Magazine | `informatics` | Featured In (two slides) |
    | CTO Sync | `ctosync` | Featured In |
+   | Tech Magazine | `techmagazine` | Featured In |
 
    CTO Sync's logo file is present: `assets/logos/ctosync.svg` is the official file from ctosync.com's site header (black wordmark with a green accent, 175x40 native), added Nov 3, 2026, and its Featured In caption shows it. Do not draw or reproduce one; the two exceptions below are the only ones.
+
+   Tech Magazine's logo file is present: `assets/logos/techmagazine.png` carries the publisher's official header artwork (600x125 native), added Nov 4, 2026, and its Featured In caption shows it. The header file itself is an SVG export of roughly 1 MB carrying an embedded raster image, so the caption uses a transparent PNG rendered from that official file at 1200x250, about nine times its shown height, per the PNG route above; the artwork is otherwise unchanged.
 
 2. In `index.html`, put the `<img class="pub-logo">` in that publisher's `<span class="pub-mark">`. Set its `width` and `height` attributes to the file's real shape at its display height (for example `width="148" height="21"` for a 7:1 logo shown 21px tall), so the page does not shift while the image loads. Add `loading="lazy" decoding="async"` too: every image on the page is below the fold, and `test_static` fails for one without them.
 3. Keep `alt=""`. The publisher's name stays in the page for screen readers, and is hidden only visually once a logo is present. A descriptive alt would make screen readers say the name twice.
@@ -45,7 +48,7 @@ A publisher's logo is its trademark. Logos go in as official files the owner dow
 ## How logos are sized
 
 - **One logo box per section.** Published Writing reserves 36px, Featured In 40px, Speaking 52px (`--logo-box` in `style.css`). Every masthead in a section is that tall, so the dates and titles of cards side by side line up whatever logo each card carries.
-- **Each logo its own height inside the box (`--h`), for equal visual weight.** A long, heavy wordmark is drawn shorter than a compact mark: roughly the equal-area rule, height in proportion to 1 over the square root of the aspect ratio, then checked by eye in both themes. Today: TDWI 30px, AI Loves Data 20px (19px for the dark file), ExchangeWire 21px, informatics 30px, CTO Sync 30px, Label Your Data 34px, NICE-TEAS 38px, Marketplace Risk 58px light (the file has wide transparent margins, trimmed from layout with negative margins) and 44px dark.
+- **Each logo its own height inside the box (`--h`), for equal visual weight.** A long, heavy wordmark is drawn shorter than a compact mark: roughly the equal-area rule, height in proportion to 1 over the square root of the aspect ratio, then checked by eye in both themes. Today: TDWI 30px, AI Loves Data 20px (19px for the dark file), ExchangeWire 21px, informatics 30px, CTO Sync 30px, Tech Magazine 28px, Label Your Data 34px, NICE-TEAS 38px, Marketplace Risk 58px light (the file has wide transparent margins, trimmed from layout with negative margins) and 44px dark.
 - **Logos are only scaled.** No colour, crop, or filter is applied to any file.
 - **Dark mode chips.** A logo drawn for light backgrounds sits on a white chip as tall as the section's logo box, with the logo centred, so every chip in a section matches. Logos that carry their own background (the NICE-TEAS tile, marked `noplate`, and the Label Your Data badge) and files made for dark (`for-dark`) take no chip.
 
