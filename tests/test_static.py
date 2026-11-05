@@ -236,3 +236,24 @@ class LoadingRulesTest(unittest.TestCase):
         video = re.search(r'<video id="heroVideo"[^>]*>', self.index).group(0)
         self.assertIn('preload="none"', video)
         self.assertNotIn("autoplay", video)
+
+    def test_logo_files_stay_light(self) -> None:
+        # The first Tech Magazine PNG was 1200x250, 72 KB, for a logo shown
+        # 28px tall: more than every other logo on the page put together.
+        # A raster logo needs about 2x to 3x its shown height and no more.
+        html = read(INDEX)
+        for path in sorted((ROOT / "assets" / "logos").iterdir()):
+            with self.subTest(logo=path.name):
+                self.assertLessEqual(path.stat().st_size, 24 * 1024)
+                if path.suffix != ".png":
+                    continue
+                data = path.read_bytes()
+                natural = int.from_bytes(data[20:24], "big")
+                shown = re.search(rf'src="assets/logos/{re.escape(path.name)}"[^>]*height="(\d+)"', html)
+                self.assertIsNotNone(shown, "PNG logo not on the page")
+                self.assertLessEqual(natural, 3.2 * int(shown.group(1)))
+
+    def test_quote_images_stay_light(self) -> None:
+        for path in sorted((ROOT / "assets").glob("quote-*.webp")):
+            with self.subTest(image=path.name):
+                self.assertLessEqual(path.stat().st_size, 40 * 1024)
