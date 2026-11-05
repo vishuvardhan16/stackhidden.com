@@ -44,7 +44,7 @@ class MastheadTest(BrowserTestCase):
                 slot: !!el.querySelector('.pub-mark')
             }))"""
         )
-        self.assertEqual(4 + 2 + 5, len(heads))
+        self.assertEqual(4 + 2 + 6, len(heads))
         for head in heads:
             with self.subTest(head=head):
                 self.assertTrue(head["name"] and head["kind"] and head["slot"])
@@ -76,7 +76,32 @@ class MastheadTest(BrowserTestCase):
         # alt, like every other filled slot. Its declared size follows
         # the v5 logo system (--h:30px in style.css, the same as the
         # Informatics wordmark of the same aspect), so it declares
-        # 131 by 30, the file's proportions at that height.
+        # 131 by 30, the file's proportions at that height. A sixth
+        # caption (Tech Magazine) joined on Nov 4, 2026, so this test
+        # now reads the fifth caption rather than the last.
+        state = self.page.evaluate(
+            """() => {
+                const caps = [...document.querySelectorAll('#featured figcaption')];
+                const img = caps[4].querySelector('.pub-mark img');
+                return img ? { src: img.getAttribute('src'), alt: img.getAttribute('alt'),
+                               width: img.getAttribute('width'), height: img.getAttribute('height') } : null;
+            }"""
+        )
+        self.assertEqual(
+            {"src": "assets/logos/ctosync.svg", "alt": "", "width": "131", "height": "30"},
+            state,
+        )
+
+    def test_tech_magazine_caption_shows_its_official_logo(self) -> None:
+        # Tech Magazine's slot was filled on Nov 4, 2026 with the
+        # publisher's official header artwork. The header file is an
+        # SVG export of roughly 1 MB carrying an embedded raster
+        # image, so the caption carries a transparent PNG rendered
+        # from that official file (assets/logos/techmagazine.png,
+        # 1200x250) instead, per the PNG route in
+        # docs/publisher-logos.md. Its declared size follows the v5
+        # logo system (--h:28px in style.css), so it declares 134 by
+        # 28, the file's proportions at that height.
         state = self.page.evaluate(
             """() => {
                 const caps = [...document.querySelectorAll('#featured figcaption')];
@@ -86,7 +111,7 @@ class MastheadTest(BrowserTestCase):
             }"""
         )
         self.assertEqual(
-            {"src": "assets/logos/ctosync.svg", "alt": "", "width": "131", "height": "30"},
+            {"src": "assets/logos/techmagazine.png", "alt": "", "width": "134", "height": "28"},
             state,
         )
 
@@ -139,7 +164,7 @@ class MastheadTest(BrowserTestCase):
         self.assertEqual(
             ["EU AI Act: Training Data Requirements in 2026", "Golden Dataset: How to Build Trusted AI Evaluation Data",
              "How Data Teams Balance Access and Privacy", "How Analytics Teams Turn Data Into Everyday Decisions",
-             "How Software Leaders Make Room for Technical Debt"],
+             "How Software Leaders Make Room for Technical Debt", "How Software Product Teams Prioritize Customer Requests"],
             column("SELECT title FROM featured"),
         )
 
@@ -254,7 +279,7 @@ class CarouselFitTest(BrowserTestCase):
                 self.page.set_viewport_size({"width": width, "height": height})
                 self.reload_page()
                 gaps = self.page.evaluate(CAPTION_GAPS)
-                self.assertEqual(5, len(gaps))
+                self.assertEqual(6, len(gaps))
                 self.assertTrue(all(g >= 8 for g in gaps), gaps)
 
 

@@ -49,7 +49,7 @@ class AnimationTest(BrowserTestCase):
                 width: parseFloat(r.querySelector('.trace-bar').style.width)
             }))"""
         )
-        self.assertEqual(9, len(rows))
+        self.assertEqual(10, len(rows))
         for row in rows:
             with self.subTest(row=row["when"]):
                 month, day = re.match(r"([A-Z][a-z]{2}) (\d+)", row["when"]).groups()
@@ -71,7 +71,7 @@ class AnimationTest(BrowserTestCase):
         self.page.wait_for_timeout(1900)
         self.assertEqual("trace", self.page.evaluate(f"{trace}.className"))
         clips = self.page.evaluate("[...document.querySelectorAll('.trace-bar')].map(b => getComputedStyle(b).clipPath)")
-        self.assertEqual(["none"] * 9, clips)
+        self.assertEqual(["none"] * 10, clips)
 
     def test_lineage_draws_itself_then_restores_the_graph(self) -> None:
         graph = "document.getElementById('lineageSvg')"

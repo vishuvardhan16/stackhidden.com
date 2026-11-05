@@ -114,12 +114,13 @@ class StaticContentRulesTest(unittest.TestCase):
         # carries an Informatics Magazine quote, so the old "Both
         # articles" line no longer covers every item. Updated again
         # Nov 3, 2026, when a second Informatics Magazine quote and a
-        # CTO Sync quote joined the section.
+        # CTO Sync quote joined the section. Updated again Nov 4,
+        # 2026, when a Tech Magazine quote joined the section.
         self.assertIn(
             "The Label Your Data articles were written by Karyna Naminas, "
             "CEO of Label Your Data, who quoted me as an expert source. "
-            "The Informatics Magazine and CTO Sync Q&amp;As quoted me as "
-            "an expert source too.",
+            "The Informatics Magazine, CTO Sync, and Tech Magazine "
+            "Q&amp;As quoted me as an expert source too.",
             self.index,
         )
 
