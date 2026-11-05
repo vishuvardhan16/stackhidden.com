@@ -35,7 +35,7 @@ The site is a hand-built static page: plain HTML, CSS, and JavaScript. No framew
 | `assets/favicon.svg` | The only brand mark. |
 | `assets/apple-touch-icon.png` | The home-screen icon: the favicon drawn full-bleed at 180px. `scripts/render-touch-icon.py` renders it from the favicon. |
 | `assets/quote-eu-ai-act.webp`, `assets/quote-golden-dataset.webp` | Screenshots of the published Label Your Data quote blocks, used in the Featured In carousel. Lossless WebP (v5): every pixel of the original PNG, at less than half the size. |
-| `assets/quote-informatics-access-privacy.webp` | The quote card for the Informatics Magazine quote, made for this site in the same style. Lossless WebP, like the two above. |
+| `assets/quote-informatics-access-privacy.webp` | The quote card for the Informatics Magazine quote, made for this site in the same style. Lossless WebP, like the two above. Every quote card comes from `scripts/render-quote-card.py`, so they share one typeface and layout. |
 | `assets/quote-informatics-everyday-decisions.webp` | The quote card for the second Informatics Magazine quote, made for this site in the same style. Lossless WebP, like the ones above. |
 | `assets/quote-cto-sync-technical-debt.webp` | The quote card for the CTO Sync quote, made for this site in the same style. Lossless WebP, like the ones above. |
 | `assets/quote-tech-magazine-customer-requests.webp` | The quote card for the Tech Magazine quote, made for this site in the same style. Lossless WebP, like the ones above. |
@@ -58,9 +58,9 @@ The site is a hand-built static page: plain HTML, CSS, and JavaScript. No framew
 
 | Folder | What it holds |
 | --- | --- |
-| `assets/` | The site's images: the favicon and home-screen icon, the data hero figure, the share card, the lineage core artwork, the three quote images, and the publisher logos. |
+| `assets/` | The site's images: the favicon and home-screen icon, the data hero figure, the share card, the lineage core artwork, the six quote images, and the publisher logos. |
 | `tests/` | The automated test suite: one module per area, plus shared browser helpers. `docs/test-plan.md` says what each module protects. |
-| `scripts/` | `run-tests.sh`, the one command that runs the whole suite locally, and `render-touch-icon.py`, which renders the home-screen icon from the favicon. |
+| `scripts/` | `run-tests.sh`, the one command that runs the whole suite locally; `render-touch-icon.py`, which renders the home-screen icon from the favicon; and `render-quote-card.py`, which renders a Featured In quote card. |
 | `docs/` | The working documents, kept in the repo: how the site works, motion, the query console, publisher logos, the cursor bot, the lineage core, the content rules, deployment, testing, and the test plan. |
 | `.github/workflows/` | The CI workflow (`site-checks`) that runs the same suite on every push and pull request. |
 
