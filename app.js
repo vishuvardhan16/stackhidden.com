@@ -218,7 +218,7 @@
     "Nov 2, 2026 - Informatics Magazine, 'How Data Teams Balance Access and Privacy.' Named expert quote under 'Validate Pipelines at Ingestion,' on balancing timely access to business data with protecting sensitive information.",
     "Nov 3, 2026 - Informatics Magazine, 'How Analytics Teams Turn Data Into Everyday Decisions.' Named expert quote under 'Create a Ritual Around Core Figures,' on what gets a dashboard into a team's regular decisions.",
     "Nov 3, 2026 - CTO Sync, 'How Software Leaders Make Room for Technical Debt.' Named expert quote under 'Treat Platform Health as System Rent,' on planning technical debt as a fixed share of each cycle, reserved before feature planning begins.",
-    "Nov 4, 2026 - Tech Magazine, 'How Software Product Teams Prioritize Customer Requests.' Named expert quote under 'Measure the Cost of Delay,' on prioritising roadmap requests by what each item makes possible and what waiting costs."
+    "Nov 4, 2026 - Tech Magazine, 'How Software Product Teams Prioritize Customer Requests.' Named expert quote under 'Measure the Cost of Delay,' on prioritizing roadmap requests by what each item makes possible and what waiting costs."
   ];
   if (traceDetail) {
     var rows = document.querySelectorAll("#trace .trace-row");

@@ -21,7 +21,7 @@ The site is a hand-built static page: plain HTML, CSS, and JavaScript. No framew
 | Engineering Work | Four case files from his Amazon record: insight ingestion orchestration, the Insights API, custom brands (ICM) in the Insights Store, and the Mosaic and Kaleidoscope agents. Each opens in place and answers to a `#case=` deep link. |
 | Lineage, drawn out | An interactive SVG lineage graph that draws itself along the data flow on first view. Hover, tap, or keyboard-focus a stage to trace its upstream and downstream edges. Send a clean or a bad record through it and watch the quality gate route the bad one to Flagged anomalies, with a pipeline log. Labelled on the page as an illustrative diagram. |
 | 2026, as a trace | Seven 2026 spans (articles, a roundtable, a talk, and press quotes) on a Jul 1 to Dec 1 axis, each bar ending on its date. The bars render in date order on first view. Selecting a span shows its details. |
-| Writing / Featured In | Three trade pieces and the site's build log, in date order, each under a publisher masthead with the publisher's logo. Featured In is a 5-second carousel of three expert-quote screenshots (two from Label Your Data, one from Informatics Magazine), each linked to the live article, with captions under the same masthead. |
+| Writing / Featured In | Three trade pieces and the site's build log, in date order, each under a publisher masthead with the publisher's logo. Featured In is a 5-second carousel of six expert quotes (screenshots of the two Label Your Data quote blocks, and quote cards for two Informatics Magazine quotes, CTO Sync, and Tech Magazine), each linked to the live article, with captions under the same masthead. |
 | Speaking / Contact | Two cards under the same masthead: the Marketplace Risk New York 2026 talk, and the paper accepted at NICE-TEAS ASIA 2026. Contact by email (Gmail) or LinkedIn. |
 | Query this page | A SQL console over eight tables built from the page's own HTML at load. Trace jumps from a result row to its source on the page; `#q=` links run a query on arrival. |
 
@@ -147,7 +147,7 @@ No build step. Editing a file and refreshing the browser is the whole loop.
 1. **HTML structure.** Parse `index.html` (for example with Python's `html.parser`): zero errors, nothing unclosed, exactly one `h1`, landmarks present (`header`, `nav`, `main`, `footer`), every section has a heading.
 2. **JavaScript syntax.** `node --check app.js` passes.
 3. **Structured data.** The JSON-LD block in the head parses as valid JSON.
-4. **Assets resolve.** Serve locally and confirm `index.html`, `style.css`, `app.js`, `404.html`, `robots.txt`, `sitemap.xml`, `assets/favicon.svg`, `assets/apple-touch-icon.png`, all three quote images, and every publisher logo return HTTP 200.
+4. **Assets resolve.** Serve locally and confirm `index.html`, `style.css`, `app.js`, `404.html`, `robots.txt`, `sitemap.xml`, `assets/favicon.svg`, `assets/apple-touch-icon.png`, every quote image, and every publisher logo return HTTP 200.
 5. **No photo.** `grep -ri "profile.jpg" .` over the site files returns nothing, and no image of the owner exists in `assets/`.
 6. **No forbidden wording.** `grep -ri "journal of big data" index.html` returns nothing; `grep -c "Senior" index.html` is 0; his title is never written as Data Engineer.
 7. **Links.** Every external link is `https://` and has been opened and verified live (the three trade pieces, both Label Your Data articles, the Informatics Magazine Q&A, both speaking links, LinkedIn).
