@@ -38,6 +38,7 @@ The site is a hand-built static page: plain HTML, CSS, and JavaScript. No framew
 | `assets/quote-informatics-access-privacy.webp` | The quote card for the Informatics Magazine quote, made for this site in the same style. Lossless WebP, like the two above. |
 | `assets/quote-informatics-everyday-decisions.webp` | The quote card for the second Informatics Magazine quote, made for this site in the same style. Lossless WebP, like the ones above. |
 | `assets/quote-cto-sync-technical-debt.webp` | The quote card for the CTO Sync quote, made for this site in the same style. Lossless WebP, like the ones above. |
+| `assets/quote-tech-magazine-customer-requests.webp` | The quote card for the Tech Magazine quote, made for this site in the same style. Lossless WebP, like the ones above. |
 | `assets/data-hero.webp`, `assets/data-hero-loop.mp4` | The hero figure: the still is the video's poster. |
 | `assets/og-card.png` | The social share card. |
 | `assets/logos/` | Official publisher logos, added by the owner on Nov 2, 2026. See `docs/publisher-logos.md`. |
