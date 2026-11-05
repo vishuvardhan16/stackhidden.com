@@ -11,7 +11,7 @@ A publisher's logo is its trademark. Logos go in as official files the owner dow
 1. Look for the publisher's media kit, press kit, or brand page. Most publishers have one, often linked from the site footer or an "About" or "Press" page.
 2. Read its usage guidelines: clear space, colours, and whether a contributor or speaker may show the logo.
 3. If there is no kit, or the guidelines are unclear, ask your editor or event contact before using the logo.
-4. Prefer SVG. For PNG, use a file at least twice the height it will be shown at (see the sizes below), so it stays sharp on high-density screens.
+4. Prefer SVG. For PNG, use a file two to three times the height it will be shown at (see the sizes below): enough to stay sharp on high-density screens, and no heavier. `test_static` fails for a PNG more than about three times its shown height, or any logo file over 24 KB.
 
 ## Adding one
 
@@ -29,9 +29,9 @@ A publisher's logo is its trademark. Logos go in as official files the owner dow
    | CTO Sync | `ctosync` | Featured In |
    | Tech Magazine | `techmagazine` | Featured In |
 
-   CTO Sync's logo file is present: `assets/logos/ctosync.svg` is the official file from ctosync.com's site header (black wordmark with a green accent, 175x40 native), added Nov 3, 2026, and its Featured In caption shows it. Do not draw or reproduce one; the two exceptions below are the only ones.
+   CTO Sync's logo file is present: `assets/logos/ctosync.svg` is the official file from ctosync.com's site header (black wordmark with a green accent, 175x40 native), added Nov 3, 2026, and its Featured In caption shows it. Do not draw or reproduce one; NICE-TEAS ASIA, below, is the only reproduction on the site. The file carries wide empty canvas either side of its mark, so `style.css` frames it to its artwork; see the exceptions below.
 
-   Tech Magazine's logo file is present: `assets/logos/techmagazine.png` carries the publisher's official header artwork (600x125 native), added Nov 4, 2026, and its Featured In caption shows it. The header file itself is an SVG export of roughly 1 MB carrying an embedded raster image, so the caption uses a transparent PNG rendered from that official file at 1200x250, about nine times its shown height, per the PNG route above; the artwork is otherwise unchanged.
+   Tech Magazine's logo file is present: `assets/logos/techmagazine.png` carries the publisher's official header artwork (600x125 native), added Nov 4, 2026, and its Featured In caption shows it. The header file itself is an SVG export of roughly 1 MB carrying an embedded raster image, so the caption uses a transparent PNG rendered from that official file. It was first committed at 1200x250 (72 KB), about nine times its shown height; on Nov 4, 2026 it was scaled to 403x84 (19 KB), three times its shown height, per the PNG route above. The artwork is otherwise unchanged.
 
 2. In `index.html`, put the `<img class="pub-logo">` in that publisher's `<span class="pub-mark">`. Set its `width` and `height` attributes to the file's real shape at its display height (for example `width="148" height="21"` for a 7:1 logo shown 21px tall), so the page does not shift while the image loads. Add `loading="lazy" decoding="async"` too: every image on the page is below the fold, and `test_static` fails for one without them.
 3. Keep `alt=""`. The publisher's name stays in the page for screen readers, and is hidden only visually once a logo is present. A descriptive alt would make screen readers say the name twice.
@@ -48,7 +48,7 @@ A publisher's logo is its trademark. Logos go in as official files the owner dow
 ## How logos are sized
 
 - **One logo box per section.** Published Writing reserves 36px, Featured In 40px, Speaking 52px (`--logo-box` in `style.css`). Every masthead in a section is that tall, so the dates and titles of cards side by side line up whatever logo each card carries.
-- **Each logo its own height inside the box (`--h`), for equal visual weight.** A long, heavy wordmark is drawn shorter than a compact mark: roughly the equal-area rule, height in proportion to 1 over the square root of the aspect ratio, then checked by eye in both themes. Today: TDWI 30px, AI Loves Data 20px (19px for the dark file), ExchangeWire 21px, informatics 30px, CTO Sync 30px, Tech Magazine 28px, Label Your Data 34px, NICE-TEAS 38px, Marketplace Risk 58px light (the file has wide transparent margins, trimmed from layout with negative margins) and 44px dark.
+- **Each logo its own height inside the box (`--h`), for equal visual weight.** A long, heavy wordmark is drawn shorter than a compact mark: roughly the equal-area rule, height in proportion to 1 over the square root of the aspect ratio, then checked by eye in both themes. Today: TDWI 30px, AI Loves Data 20px (19px for the dark file), ExchangeWire 21px, informatics 30px, CTO Sync 34px (a compact mark), Tech Magazine 28px, Label Your Data 34px, NICE-TEAS 38px, Marketplace Risk 58px light (the file has wide transparent margins, trimmed from layout with negative margins) and 44px dark.
 - **Logos are only scaled.** No colour, crop, or filter is applied to any file.
 - **Dark mode chips.** A logo drawn for light backgrounds sits on a white chip as tall as the section's logo box, with the logo centred, so every chip in a section matches. Logos that carry their own background (the NICE-TEAS tile, marked `noplate`, and the Label Your Data badge) and files made for dark (`for-dark`) take no chip.
 
@@ -57,6 +57,7 @@ A publisher's logo is its trademark. Logos go in as official files the owner dow
 - **NICE-TEAS ASIA** publishes no logo file anywhere; its own site renders the wordmark as styled text (white and pink on navy). At the owner's direction on Nov 2, 2026, `assets/logos/niceteas.svg` reproduces that rendering as a self-contained tile, using the colours sampled from asia.nice-teas.com that day (navy #101130, ASIA in #E5157D). It is the one logo on the site that is a reproduction rather than a downloaded file, and the file itself carries a comment saying so.
 - **Marketplace Risk** in dark mode sits on a chip in its own brand red (#E84844, sampled from the official red file), because the conference's own header presents the white wordmark on a red block. Every other dark-mode chip is white.
 - **Label Your Data** takes no chip in dark mode: its badge is solid red with its own white keyline, and it reads cleanly on the dark card as it is.
+- **CTO Sync**'s official file has empty canvas around its mark: 31% of its width on the left and 27% on the right. Shown as is, the mark sat about 40px in from the caption under it. `style.css` shows it in a 2:1 box with `object-fit: cover`, centred on the artwork, so the mark starts at the caption's edge and the dark chip fits it. The file itself is untouched. `test_publishers` checks, for every logo, that its artwork starts within 4px of its box's left edge.
 
 ## Removing one
 

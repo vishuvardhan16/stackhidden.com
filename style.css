@@ -534,7 +534,7 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
 .pub-logo[src$="/ailovesdata-dark.svg"]{--h:19px}
 .pub-logo[src$="/exchangewire.svg"]{--h:21px}
 .pub-logo[src$="/informatics.svg"]{--h:30px}
-.pub-logo[src$="/ctosync.svg"]{--h:30px}
+.pub-logo[src$="/ctosync.svg"]{--h:34px}
 .pub-logo[src$="/techmagazine.png"]{--h:28px}
 .pub-logo[src$="/labelyourdata.svg"]{--h:34px}
 .pub-logo[src$="/niceteas.svg"]{--h:38px}
@@ -544,6 +544,13 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
    the file itself is untouched. */
 .pub-logo[src$="/marketplacerisk.png"]{--h:58px;margin:-12px 0 -10px}
 .pub-logo[src$="/marketplacerisk-dark.png"]{--h:44px}
+/* CTO Sync's file, from ctosync.com's site header, carries empty canvas
+   either side of its mark (31% left, 27% right). Its box is cut to the
+   artwork here, so the mark lines up with the caption under it and the
+   dark chip fits it; the file itself is untouched. 53.6% centres the
+   crop on the artwork, which sits a little right of the file's middle. */
+.carousel .slide .pub-logo[src$="/ctosync.svg"]{width:calc(var(--h) * 2);object-fit:cover;object-position:53.6% 50%}
+:root[data-theme="dark"] .carousel .slide .pub-logo[src$="/ctosync.svg"]{width:calc(var(--h) * 2 + 20px)}
 
 /* The Featured carousel styles every <img> in a slide as a screenshot
    (full width, white card, padding, shadow). Caption logos opt out. */

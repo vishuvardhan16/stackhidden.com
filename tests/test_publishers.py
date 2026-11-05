@@ -10,6 +10,7 @@ controls at any width.
 
 from __future__ import annotations
 
+import base64
 import re
 import unittest
 
@@ -73,10 +74,10 @@ class MastheadTest(BrowserTestCase):
         # CTO Sync's slot was filled on Nov 3, 2026 with the official
         # file from ctosync.com's site header (assets/logos/ctosync.svg),
         # so the fifth Featured caption carries that logo with an empty
-        # alt, like every other filled slot. Its declared size follows
-        # the v5 logo system (--h:30px in style.css, the same as the
-        # Informatics wordmark of the same aspect), so it declares
-        # 131 by 30, the file's proportions at that height. A sixth
+        # alt, like every other filled slot. The file carries empty
+        # canvas either side of a compact mark, so style.css frames it
+        # to its artwork at --h:34px in a 2:1 box, and it declares 68 by
+        # 34, the shape it is shown at (Nov 4, 2026). A sixth
         # caption (Tech Magazine) joined on Nov 4, 2026, so this test
         # now reads the fifth caption rather than the last.
         state = self.page.evaluate(
@@ -88,7 +89,7 @@ class MastheadTest(BrowserTestCase):
             }"""
         )
         self.assertEqual(
-            {"src": "assets/logos/ctosync.svg", "alt": "", "width": "131", "height": "30"},
+            {"src": "assets/logos/ctosync.svg", "alt": "", "width": "68", "height": "34"},
             state,
         )
 
@@ -98,7 +99,8 @@ class MastheadTest(BrowserTestCase):
         # SVG export of roughly 1 MB carrying an embedded raster
         # image, so the caption carries a transparent PNG rendered
         # from that official file (assets/logos/techmagazine.png,
-        # 1200x250) instead, per the PNG route in
+        # scaled to 403x84, three times its shown height) instead, per
+        # the PNG route in
         # docs/publisher-logos.md. Its declared size follows the v5
         # logo system (--h:28px in style.css), so it declares 134 by
         # 28, the file's proportions at that height.
@@ -270,6 +272,73 @@ class DarkLogoPlateTest(BrowserTestCase):
             "rgb(255, 255, 255)",
             self.page.evaluate("getComputedStyle(document.querySelector('.pub-logo')).backgroundColor"),
         )
+
+
+# The first column of a logo's box, from the left, that holds artwork:
+# the box is screenshotted, decoded on a canvas (a data URL never taints
+# it), and each column compared with the page just left of the box.
+ARTWORK_START = """async ([shot, bg]) => {
+    const img = new Image(); img.src = 'data:image/png;base64,' + shot; await img.decode();
+    const c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
+    const g = c.getContext('2d'); g.drawImage(img, 0, 0);
+    const d = g.getImageData(0, 0, c.width, c.height).data;
+    for (let x = 0; x < c.width; x++)
+        for (let y = 0; y < c.height; y++) {
+            const i = (y * c.width + x) * 4;
+            if (Math.abs(d[i] - bg[0]) + Math.abs(d[i + 1] - bg[1]) + Math.abs(d[i + 2] - bg[2]) > 120) return x;
+        }
+    return -1;
+}"""
+
+
+class LogoArtworkAlignmentTest(BrowserTestCase):
+    """Each logo's artwork, not only its box, starts at its caption's edge."""
+
+    color_scheme = "light"
+    reduced_motion = "reduce"
+
+    def test_every_logo_starts_at_the_left_edge_of_its_masthead(self) -> None:
+        # The CTO Sync file carries 31% empty canvas on its left; shown as
+        # is, its mark floated about 40px in from the caption link under
+        # it while every other logo sat flush. style.css frames it to its
+        # artwork, and this pins that for every logo on the page.
+        self.page.add_style_tag(content="html{scroll-behavior:auto!important}")
+        for sec in ("writing", "featured", "speaking"):
+            self.page.evaluate(f"document.getElementById('{sec}').scrollIntoView({{block:'center'}})")
+            self.page.wait_for_timeout(80)
+        self.page.wait_for_function(
+            "[...document.querySelectorAll('.pub-logo')].filter(i => getComputedStyle(i).display !== 'none').every(i => i.complete && i.naturalWidth)",
+            timeout=5000,
+        )
+        count = self.page.evaluate("document.querySelectorAll('.pub-logo').length")
+        checked = 0
+        for i in range(count):
+            logo = self.page.locator(".pub-logo").nth(i)
+            if not logo.is_visible():
+                continue
+            src = logo.get_attribute("src")
+            with self.subTest(src=src, index=i):
+                if self.page.evaluate("(i) => !!document.querySelectorAll('.pub-logo')[i].closest('.carousel')", i):
+                    dot = self.page.evaluate(
+                        "(i) => [...document.querySelectorAll('#quoteCarousel .slide')].indexOf(document.querySelectorAll('.pub-logo')[i].closest('.slide'))", i)
+                    self.page.evaluate(f"document.querySelectorAll('#quoteCarousel .carousel-dot')[{dot}].click()")
+                    self.page.wait_for_timeout(120)
+                logo.scroll_into_view_if_needed()
+                box = logo.bounding_box()
+                # The page colour just left of the box is the background.
+                left = self.page.screenshot(clip={"x": box["x"] - 4, "y": box["y"] + box["height"] / 2, "width": 1, "height": 1})
+                bg = self.page.evaluate(
+                    """async (shot) => { const img = new Image(); img.src = 'data:image/png;base64,' + shot; await img.decode();
+                        const c = document.createElement('canvas'); c.width = 1; c.height = 1; const g = c.getContext('2d');
+                        g.drawImage(img, 0, 0); return [...g.getImageData(0, 0, 1, 1).data].slice(0, 3); }""",
+                    base64.b64encode(left).decode(),
+                )
+                shot = logo.screenshot()
+                start = self.page.evaluate(ARTWORK_START, [base64.b64encode(shot).decode(), bg])
+                self.assertGreaterEqual(start, 0, "no artwork found")
+                self.assertLessEqual(start, 4, f"artwork starts {start}px into the box")
+                checked += 1
+        self.assertGreaterEqual(checked, 10)
 
 
 class CarouselFitTest(BrowserTestCase):
