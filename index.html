@@ -515,7 +515,11 @@
          and the clickstream edge grazed Advertiser analytics.
          tests/test_explorer.py pins the geometry: no stage within 20
          units of another, every edge on its two stages and 12 units
-         clear of the rest. The viewBox is 270 tall (was 300) so the
+         clear of the rest. Labels are in each visitor's system font, so
+         every box is sized to give its label 10 units of room on each
+         side in DejaVu Sans, the Linux default and the widest of the
+         common system fonts (the site-checks runner uses it); Apple,
+         Windows, and Android fonts are narrower. The viewBox is 270 tall (was 300) so the
          drawing keeps the same 20-unit margin above Flagged anomalies
          and below the bottom row. Moving a stage means moving its edges
          here, both packet paths below, and the record routes in app.js. -->
@@ -524,32 +528,32 @@
       <g class="edges" fill="none" stroke-width="2">
         <path id="e-feed-ingest" d="M150,70 C240,70 240,120 330,120"/>
         <path id="e-click-ingest" d="M150,200 C240,200 240,150 330,150"/>
-        <path id="e-ingest-transform" d="M470,135 L560,135"/>
-        <path id="e-transform-gate" d="M690,135 L800,135"/>
+        <path id="e-ingest-transform" d="M470,135 L555,135"/>
+        <path id="e-transform-gate" d="M695,135 L800,135"/>
         <path id="e-gate-lake" d="M870,160 L870,200"/>
         <path id="e-lake-api" d="M800,225 L685,225"/>
         <path id="e-api-analytics" d="M515,225 L400,225"/>
         <path id="e-gate-anomaly" d="M870,110 L870,62" stroke-dasharray="5 5"/>
       </g>
       <g class="nodes" font-family="inherit">
-        <g class="lnode" data-node="feed" tabindex="0"><rect x="20" y="45" width="130" height="50" rx="10"/><text x="85" y="75">Advertiser feeds</text></g>
-        <g class="lnode" data-node="click" tabindex="0"><rect x="20" y="175" width="130" height="50" rx="10"/><text x="85" y="205">Clickstream</text></g>
+        <g class="lnode" data-node="feed" tabindex="0"><rect x="10" y="45" width="140" height="50" rx="10"/><text x="80" y="75">Advertiser feeds</text></g>
+        <g class="lnode" data-node="click" tabindex="0"><rect x="10" y="175" width="140" height="50" rx="10"/><text x="80" y="205">Clickstream</text></g>
         <g class="lnode" data-node="ingest" tabindex="0"><rect x="330" y="110" width="140" height="50" rx="10"/><text x="400" y="140">Ingest</text></g>
-        <g class="lnode" data-node="transform" tabindex="0"><rect x="560" y="110" width="130" height="50" rx="10"/><text x="625" y="140">Spark transform</text></g>
+        <g class="lnode" data-node="transform" tabindex="0"><rect x="555" y="110" width="140" height="50" rx="10"/><text x="625" y="140">Spark transform</text></g>
         <g class="lnode" data-node="gate" tabindex="0"><rect x="800" y="110" width="140" height="50" rx="10"/><text x="870" y="140">Quality gate</text></g>
         <g class="lnode" data-node="lake" tabindex="0"><rect x="800" y="200" width="140" height="50" rx="10"/><text x="870" y="230">Data lake</text></g>
         <g class="lnode" data-node="api" tabindex="0"><rect x="515" y="200" width="170" height="50" rx="10"/><text x="600" y="230">Data lake API</text></g>
         <g class="lnode" data-node="analytics" tabindex="0"><rect x="230" y="200" width="170" height="50" rx="10"/><text x="315" y="230">Advertiser analytics</text></g>
-        <g class="lnode anomaly" data-node="anomaly" tabindex="0"><rect x="795" y="20" width="150" height="42" rx="10"/><text x="870" y="46">Flagged anomalies</text></g>
+        <g class="lnode anomaly" data-node="anomaly" tabindex="0"><rect x="790" y="20" width="160" height="42" rx="10"/><text x="870" y="46">Flagged anomalies</text></g>
       </g>
     
-      <circle class="packet" r="5"><animateMotion dur="7s" repeatCount="indefinite" path="M150,70 C240,70 240,120 330,120 L470,135 L560,135 L690,135 L800,135"/></circle>
+      <circle class="packet" r="5"><animateMotion dur="7s" repeatCount="indefinite" path="M150,70 C240,70 240,120 330,120 L470,135 L800,135"/></circle>
       <!-- The amber packet is the flagged traffic: it leaves the quality
            gate up the dashed edge into Flagged anomalies. Before v5 it
            continued into the Data lake, which is what the gate exists to
            prevent; until Nov 7, 2026 it still crossed the lake's box on
            the way down. -->
-      <circle class="packet anomaly-packet" r="5"><animateMotion dur="7s" begin="3.5s" repeatCount="indefinite" path="M150,200 C240,200 240,150 330,150 L470,135 L560,135 L800,135 L870,135 L870,41"/></circle>
+      <circle class="packet anomaly-packet" r="5"><animateMotion dur="7s" begin="3.5s" repeatCount="indefinite" path="M150,200 C240,200 240,150 330,150 L470,135 L870,135 L870,41"/></circle>
     </svg>
     </div>
     <p class="lineage-swipe">Swipe sideways to see the whole pipeline.</p>

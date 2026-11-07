@@ -1780,8 +1780,8 @@
     // Flagged anomalies moved, and a flagged record now goes up from the
     // gate instead of down through the lake).
     var SEGMENTS = {
-      fromFeed: ['M85,70 L150,70 C240,70 240,120 330,120 L400,135', 'ingest'],
-      fromClick: ['M85,200 L150,200 C240,200 240,150 330,150 L400,135', 'ingest'],
+      fromFeed: ['M80,70 L150,70 C240,70 240,120 330,120 L400,135', 'ingest'],
+      fromClick: ['M80,200 L150,200 C240,200 240,150 330,150 L400,135', 'ingest'],
       toTransform: ['M400,135 L625,135', 'transform'],
       toGate: ['M625,135 L870,135', 'gate'],
       toLake: ['M870,135 L870,225', 'lake'],

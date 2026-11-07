@@ -106,10 +106,20 @@ class LineageLayoutTest(BrowserTestCase):
                 self.assertGreaterEqual(pair["gap"], 20)
 
     def test_every_label_sits_inside_its_box_with_room(self) -> None:
-        for name, box in self.geometry["stages"].items():
-            with self.subTest(stage=name):
-                self.assertTrue(box["labelInside"])
-                self.assertGreaterEqual(box["labelPad"], 8)
+        # The labels are in each visitor's system font, so check the font
+        # this machine renders and DejaVu Sans, the Linux default and the
+        # widest common one. On Nov 7, 2026 this passed here in Inter and
+        # failed on the site-checks runner in DejaVu Sans, with Advertiser
+        # feeds, Spark transform, and Flagged anomalies 6 units from their
+        # borders; the boxes were then sized for DejaVu Sans.
+        for font in (None, "DejaVu Sans"):
+            if font:
+                self.page.evaluate("(f) => document.querySelector('#lineageSvg .nodes').setAttribute('font-family', f)", font)
+            stages = self.page.evaluate(GEOMETRY)["stages"]
+            for name, box in stages.items():
+                with self.subTest(font=font or "system font here", stage=name):
+                    self.assertTrue(box["labelInside"])
+                    self.assertGreaterEqual(box["labelPad"], 8)
 
     def test_every_edge_joins_its_two_stages_and_clears_the_rest(self) -> None:
         for edge in self.geometry["edges"]:
@@ -121,13 +131,17 @@ class LineageLayoutTest(BrowserTestCase):
 
     def test_the_drawing_has_even_margins_inside_its_frame(self) -> None:
         # Every stage inside the viewBox, with the same room above the
-        # top stage as below the bottom one.
-        frame = self.page.evaluate("document.getElementById('lineageSvg').viewBox.baseVal.height")
+        # top stage as below the bottom one, and left as right.
+        frame = self.page.evaluate("(() => { const v = document.getElementById('lineageSvg').viewBox.baseVal; return [v.width, v.height]; })()")
         boxes = self.geometry["stages"].values()
         top = min(b["y"] for b in boxes)
-        bottom = frame - max(b["y"] + b["h"] for b in boxes)
+        bottom = frame[1] - max(b["y"] + b["h"] for b in boxes)
+        left = min(b["x"] for b in boxes)
+        right = frame[0] - max(b["x"] + b["w"] for b in boxes)
         self.assertGreaterEqual(min(top, bottom), 12)
         self.assertLessEqual(abs(top - bottom), 6)
+        self.assertGreaterEqual(min(left, right), 8)
+        self.assertLessEqual(abs(left - right), 6)
 
     def test_the_amber_packet_never_crosses_the_data_lake(self) -> None:
         # The gate exists to keep flagged records out of the lake, so the
