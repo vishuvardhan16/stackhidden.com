@@ -425,6 +425,16 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
   .header-tools{margin-left:auto}
   .site-header nav{order:3;flex:1 1 100%;margin-left:0;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:2px 0 4px;
     -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+  /* Once the row has scrolled, the left end fades as well (app.js sets
+     .more-before), so a link cut at either edge fades out rather than
+     stopping in a hard cut. Both fades are 28px: NAV_FADE in app.js
+     scrolls the lit link clear of them. */
+  .site-header nav.more-before{-webkit-mask-image:linear-gradient(to right,transparent,#000 28px,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,transparent,#000 28px,#000 calc(100% - 28px),transparent)}
+  /* A swipe comes to rest with a link starting where the left fade ends,
+     never mid-word. app.js sizes the space after the last link so the
+     end of the row is one of these positions too. */
+  .site-header nav{scroll-snap-type:x mandatory;scroll-padding-left:28px}
+  .site-header nav a{scroll-snap-align:start}
   .site-header nav::-webkit-scrollbar{display:none}
   .site-header nav a{flex:none;margin:0 18px 0 0;padding:2px 0}
   .site-header nav a:last-child{margin-right:28px}

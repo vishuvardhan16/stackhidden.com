@@ -151,13 +151,151 @@ class AnchorLandingTest(BrowserTestCase):
             for target in ("about", "writing", "query"):
                 with self.subTest(width=width, target=target):
                     self.page.set_viewport_size({"width": width, "height": height})
-                    self.reload_page()
+                    # A fresh load at the top, not a reload: a reload
+                    # restores the previous jump's scroll position, and
+                    # under load that restore can land after the click
+                    # below, failing about 1 run in 6 when the suite runs
+                    # alongside other work (seen Nov 7, 2026, on code
+                    # from before that day too).
+                    self.open_page()
                     self.page.add_style_tag(content="html{scroll-behavior:auto!important}")
                     self.page.evaluate(f"document.querySelector('.site-header nav a[href=\"#{target}\"]').click()")
                     self.page.wait_for_timeout(900)  # past the 0.7s section reveal
                     landing = self.page.evaluate(LANDING, target)
                     self.assertGreaterEqual(landing["top"], landing["header"], landing)
                     self.assertLess(landing["top"] - landing["header"], 30, landing)
+
+
+# The phone header's link row, measured against its own box.
+NAV_ROW = """() => {
+    const nav = document.querySelector('.site-header nav'), box = nav.getBoundingClientRect();
+    const mask = getComputedStyle(nav).webkitMaskImage || getComputedStyle(nav).maskImage || 'none';
+    const links = [...nav.querySelectorAll('a')].map(a => {
+        const r = a.getBoundingClientRect();
+        return { text: a.textContent, left: r.left - box.left, right: r.right - box.left, active: a.classList.contains('active') };
+    });
+    return {
+        width: box.width, scrollLeft: nav.scrollLeft, links,
+        // Do the row's ends fade? The mask's first and last colour stops.
+        fadesLeft: /^linear-gradient\\(to right, rgba\\(0, 0, 0, 0\\)/.test(mask),
+        fadesRight: /rgba\\(0, 0, 0, 0\\)\\)$/.test(mask)
+    };
+}"""
+FADE = 28  # px, the width of each edge fade in style.css
+
+
+class PhoneNavRowTest(BrowserTestCase):
+    """On phones the links scroll sideways in one row under the brand.
+
+    Nov 7, 2026: once the row had scrolled, its left edge cut a link in
+    half with a hard edge ("ting" of Writing), the link in view could sit
+    half under the fade, and going back to the top left the last section's
+    link lit and the row still scrolled.
+    """
+
+    viewport = {"width": 390, "height": 844}
+    reduced_motion = "reduce"
+    # At 390px every scroll of the row runs to its end; at 320px it can
+    # stop part way, which is where the lit link's position is chosen.
+    WIDTHS = (320, 390)
+    SECTIONS = ("about", "engineering", "trace", "writing", "featured", "speaking", "query", "contact")
+
+    def at_width(self, width: int) -> None:
+        self.page.set_viewport_size({"width": width, "height": 844})
+        self.reload_page()
+        self.page.add_style_tag(content="html{scroll-behavior:auto!important}")
+
+    def go(self, section_id: str) -> dict:
+        self.page.evaluate(f"document.getElementById('{section_id}').scrollIntoView({{block:'start'}})")
+        self.page.wait_for_timeout(300)
+        return self.page.evaluate(NAV_ROW)
+
+    def test_wherever_the_row_cuts_a_link_that_edge_fades(self) -> None:
+        for width in self.WIDTHS:
+            self.at_width(width)
+            scrolled = False
+            for section_id in self.SECTIONS:
+                with self.subTest(width=width, section=section_id):
+                    row = self.go(section_id)
+                    scrolled = scrolled or row["scrollLeft"] > 0
+                    for link in row["links"]:
+                        if link["left"] < 0 < link["right"]:
+                            self.assertTrue(row["fadesLeft"], f"{link['text']} is cut at the left with no fade")
+                            self.assertLessEqual(link["right"], FADE, f"{link['text']} shows past the fade")
+                        if link["left"] < row["width"] < link["right"]:
+                            self.assertTrue(row["fadesRight"], f"{link['text']} is cut at the right with no fade")
+                    # No fade over the start of the row before it has scrolled.
+                    if row["scrollLeft"] == 0:
+                        self.assertFalse(row["fadesLeft"])
+            self.assertTrue(scrolled, f"the row never scrolled at {width}px, so this checked nothing")
+
+    def test_the_lit_link_sits_clear_of_both_fades(self) -> None:
+        for width in self.WIDTHS:
+            self.at_width(width)
+            for section_id in self.SECTIONS:
+                with self.subTest(width=width, section=section_id):
+                    row = self.go(section_id)
+                    active = [link for link in row["links"] if link["active"]]
+                    self.assertEqual(1, len(active))
+                    start = FADE if row["fadesLeft"] else 0
+                    self.assertGreaterEqual(active[0]["left"], start - 0.5, active[0])
+                    self.assertLessEqual(active[0]["right"], row["width"] - FADE + 0.5, active[0])
+
+    def test_a_swipe_comes_to_rest_on_a_link_not_mid_word(self) -> None:
+        # Swipe the row by hand, in steps that stop between links, and
+        # let it settle: the cut link, if any, lies inside the left fade.
+        for width in self.WIDTHS:
+            self.at_width(width)
+            box = self.page.locator(".site-header nav").bounding_box()
+            self.page.mouse.move(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
+            for step in range(6):
+                with self.subTest(width=width, step=step):
+                    self.page.mouse.wheel(57, 0)
+                    self.page.wait_for_timeout(500)
+                    row = self.page.evaluate(NAV_ROW)
+                    for link in row["links"]:
+                        if link["left"] < 0 < link["right"]:
+                            self.assertLessEqual(link["right"], FADE + 0.5, f"{link['text']} shows past the fade")
+                    starts = [link["left"] for link in row["links"] if link["left"] >= 0]
+                    if row["scrollLeft"] > 0:
+                        self.assertAlmostEqual(FADE, min(starts), delta=1)
+
+    def test_widening_the_window_restores_the_desktop_row(self) -> None:
+        # The space after the last link is sized for the phone row only.
+        trailing = "getComputedStyle(document.querySelector('.site-header nav a:last-child')).marginRight"
+        self.at_width(320)
+        self.assertNotEqual("28px", self.page.evaluate(trailing))
+        self.page.set_viewport_size({"width": 1400, "height": 900})
+        self.page.wait_for_timeout(200)
+        widened = self.page.evaluate(trailing)
+        self.reload_page()
+        self.assertEqual(self.page.evaluate(trailing), widened)
+
+    def test_back_at_the_top_no_link_is_lit_and_the_row_starts_over(self) -> None:
+        for width in self.WIDTHS:
+            with self.subTest(width=width):
+                self.at_width(width)
+                self.go("contact")
+                self.page.evaluate("document.querySelector('.brand').click()")
+                self.page.wait_for_timeout(400)
+                row = self.page.evaluate(NAV_ROW)
+                self.assertEqual([], [link["text"] for link in row["links"] if link["active"]])
+                self.assertEqual(0, row["scrollLeft"])
+                self.assertFalse(row["fadesLeft"])
+
+
+class DesktopNavTopTest(BrowserTestCase):
+    """The same rule on desktop: at the top, above About, nothing is lit."""
+
+    reduced_motion = "reduce"
+
+    def test_back_at_the_top_no_link_is_lit(self) -> None:
+        self.page.add_style_tag(content="html{scroll-behavior:auto!important}")
+        self.page.evaluate("document.getElementById('contact').scrollIntoView({block:'start'})")
+        self.page.wait_for_timeout(300)
+        self.page.evaluate("document.querySelector('.brand').click()")
+        self.page.wait_for_timeout(400)
+        self.assertEqual([], self.page.evaluate("[...document.querySelectorAll('.site-header nav a.active')].map(a => a.textContent)"))
 
 
 if __name__ == "__main__":

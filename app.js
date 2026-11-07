@@ -239,6 +239,47 @@
   // The header nav has no .site-nav class; the old ".site-nav a"
   // selector matched nothing, so scrollspy never ran.
   var spyLinks = document.querySelectorAll('.site-header nav a[href^="#"]');
+  // On phones the links scroll sideways in one row, faded at each end
+  // that has more links past it (style.css). The row starts with only the
+  // right end faded; once it has scrolled, .more-before fades the left
+  // end too, so a link cut at either edge fades out instead of stopping
+  // in a hard cut (Nov 7, 2026: "ting" of Writing showed at the left).
+  // NAV_FADE is the width of each fade in style.css.
+  //
+  // The row rests with a link starting where the left fade ends: the
+  // lit link is scrolled there (markActive below), swipes snap there
+  // (scroll-snap in style.css), and fitRowEnd sizes the space after the
+  // last link so the row's end position follows the same rule. Without
+  // it, at 320px the end of the row left "tured" of Featured showing
+  // past the fade.
+  var NAV_FADE = 28;
+  var navRow = document.querySelector(".site-header nav");
+  if (navRow) {
+    var navEdges = function () {
+      var scrolls = navRow.scrollWidth > navRow.clientWidth + 1;
+      navRow.classList.toggle("more-before", scrolls && navRow.scrollLeft > 1);
+    };
+    var fitRowEnd = function () {
+      var links = navRow.querySelectorAll("a"), last = links[links.length - 1];
+      if (!last) return;
+      last.style.marginRight = "";  // back to the stylesheet's trailing space
+      if (navRow.scrollWidth > navRow.clientWidth + 1) {
+        var box = navRow.getBoundingClientRect(), at = function (a) { return a.getBoundingClientRect().left - box.left + navRow.scrollLeft; };
+        var end = at(last) + last.getBoundingClientRect().width;
+        // The first link that can start the final view, with the last
+        // link still clear of the right fade.
+        for (var i = 0; i < links.length; i++) {
+          var trail = at(links[i]) - NAV_FADE + navRow.clientWidth - end;
+          if (trail >= NAV_FADE) { last.style.marginRight = trail + "px"; break; }
+        }
+      }
+      navEdges();
+    };
+    navRow.addEventListener("scroll", navEdges, { passive: true });
+    window.addEventListener("resize", fitRowEnd);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitRowEnd);
+    fitRowEnd();
+  }
   if ("IntersectionObserver" in window && spyLinks.length) {
     var byId = {};
     spyLinks.forEach(function (a) { byId[a.getAttribute("href").slice(1)] = a; });
@@ -247,31 +288,53 @@
       if (!link || link.classList.contains("active")) return;
       spyLinks.forEach(function (a) { a.classList.remove("active"); });
       link.classList.add("active");
-      // On phones the links scroll sideways in one row; keep the active
-      // one in view. Direct scrollLeft math, not scrollIntoView, which
-      // could also nudge the page.
+      // Keep the active link in view and clear of both fades. Direct
+      // scrollLeft math, not scrollIntoView, which could also nudge the
+      // page. The target leaves a fade's width before the link, so the
+      // link starts where the left fade ends.
       var row = link.parentElement;
       if (row.scrollWidth > row.clientWidth + 1) {
         var left = link.offsetLeft - row.offsetLeft, right = left + link.offsetWidth;
-        if (left < row.scrollLeft || right > row.scrollLeft + row.clientWidth - 28) {
-          row.scrollTo({ left: Math.max(0, left - 16), behavior: motionOff() ? "auto" : "smooth" });
+        var hiddenBefore = row.scrollLeft > 1 && left < row.scrollLeft + NAV_FADE;
+        if (hiddenBefore || right > row.scrollLeft + row.clientWidth - NAV_FADE) {
+          row.scrollTo({ left: Math.max(0, left - NAV_FADE), behavior: motionOff() ? "auto" : "smooth" });
         }
       }
     };
+    // Above the first linked section (the hero) no link is lit, and the
+    // row starts over. Before Nov 7, 2026 the last link stayed lit: back
+    // at the top from Contact, Contact stayed blue and the phone row
+    // stayed scrolled to the end. "Above" means the section's top is
+    // below the observer's band, which ends 45% down the viewport.
+    var firstLinked = document.getElementById(spyLinks[0].getAttribute("href").slice(1));
+    var aboveFirst = function () {
+      return !!firstLinked && firstLinked.getBoundingClientRect().top > window.innerHeight * 0.45;
+    };
+    var clearActive = function () {
+      var lit = false;
+      spyLinks.forEach(function (a) { if (a.classList.contains("active")) { lit = true; a.classList.remove("active"); } });
+      if (lit && navRow && navRow.scrollLeft > 0) navRow.scrollTo({ left: 0, behavior: motionOff() ? "auto" : "smooth" });
+    };
     // The last section is often too short to reach the band below, so
     // at the bottom of the page the last nav link wins. Both paths check
-    // it: observer callbacks land after the scroll event and would
-    // otherwise hand the highlight back to the section above.
+    // it, and the top of the page too: observer callbacks land after the
+    // scroll event and would otherwise hand the highlight back to the
+    // section next to the one in view.
     var lastId = spyLinks[spyLinks.length - 1].getAttribute("href").slice(1);
     var atBottom = function () {
       var h = document.documentElement;
       return h.scrollTop + h.clientHeight >= h.scrollHeight - 2;
     };
+    var syncEnds = function () {
+      if (atBottom()) { markActive(lastId); return true; }
+      if (aboveFirst()) { clearActive(); return true; }
+      return false;
+    };
     var spy = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) { if (en.isIntersecting) markActive(atBottom() ? lastId : en.target.id); });
+      entries.forEach(function (en) { if (en.isIntersecting && !syncEnds()) markActive(en.target.id); });
     }, { rootMargin: "-40% 0px -55% 0px" });
     document.querySelectorAll("main section[id]").forEach(function (s) { spy.observe(s); });
-    document.addEventListener("scroll", function () { if (atBottom()) markActive(lastId); }, { passive: true });
+    document.addEventListener("scroll", syncEnds, { passive: true });
   }
   var bar = document.getElementById("scrollbarFill");
   if (bar) {
@@ -1712,16 +1775,19 @@
     var NS = 'http://www.w3.org/2000/svg';
 
     // Route segments, each ending at the stage it delivers to. They trace
-    // the drawn edges, passing through each stage box's centre.
+    // the drawn edges, passing through each stage box's centre. They move
+    // with the layout in index.html (Nov 7, 2026: the gate, the lake, and
+    // Flagged anomalies moved, and a flagged record now goes up from the
+    // gate instead of down through the lake).
     var SEGMENTS = {
       fromFeed: ['M85,70 L150,70 C240,70 240,120 330,120 L400,135', 'ingest'],
       fromClick: ['M85,200 L150,200 C240,200 240,150 330,150 L400,135', 'ingest'],
       toTransform: ['M400,135 L625,135', 'transform'],
-      toGate: ['M625,135 L690,120 C750,120 740,110 800,110 L870,110', 'gate'],
-      toLake: ['M870,110 C910,110 900,150 880,185 L810,225', 'lake'],
-      toApi: ['M810,225 L555,225', 'api'],
-      toAnalytics: ['M555,225 L245,225', 'analytics'],
-      toAnomaly: ['M870,110 L830,118 L830,140 C830,200 830,215 830,240 L830,261', 'anomaly']
+      toGate: ['M625,135 L870,135', 'gate'],
+      toLake: ['M870,135 L870,225', 'lake'],
+      toApi: ['M870,225 L600,225', 'api'],
+      toAnalytics: ['M600,225 L315,225', 'analytics'],
+      toAnomaly: ['M870,135 L870,41', 'anomaly']
     };
     // Geometry only: invisible paths used to measure the routes.
     var guides = document.createElementNS(NS, 'g');

@@ -270,6 +270,13 @@ Extra pre-push checks for this pass: Tab once from the top and confirm the skip 
 
 Extra pre-push checks for this change: open and close a quote with the mouse and with Enter, at 360px and on desktop, in both themes; leave a quote open with motion on and confirm the slide holds.
 
+## Two layout fixes (November 7, 2026)
+
+- **Lineage, drawn out.** Flagged anomalies sat on top of the Data lake, its label touching its border; the gate's edge to the lake stopped short of it; the dashed edge, the amber packet, and a bad record all crossed the lake, which the gate exists to prevent; and the clickstream edge grazed Advertiser analytics. Now the Quality gate sits in line with Ingest and Spark transform, the Data lake directly under it, and Flagged anomalies branches up out of the gate. The graph's frame is 270 units tall instead of 300, so the margins match top and bottom.
+- **The phone link row.** Once the row had scrolled, its left edge cut a link in half with no fade ("ting" of Writing), and back at the top from Contact, Contact stayed lit and the row stayed scrolled to the end (on desktop too, Contact stayed lit). Now the row fades at each end that has more links past it and always rests with a link starting where the left fade ends. Above About, no link is lit and the row starts over.
+- **Tests.** `test_explorer` grows from 1 test to 8 and `test_regressions` gains 6; the suite is 16 modules, 154 tests. Each new check failed on the code before the fix, and each part of the fix was broken in turn to confirm a check catches it.
+- **A flaky test, fixed.** The in-page jump test reloaded a page scrolled to the previous target, and when the machine was busy the browser's scroll restore landed after the test's click: about 1 run in 6 failed under load, on code from before this change too. Each check now starts from a fresh load. It passed 24 runs of 24 under the same load and still fails when the scroll padding it guards is removed.
+
 ## License and artwork
 
 The site's code is released under the MIT License (see `LICENSE`),

@@ -504,36 +504,52 @@
     <!-- On phones the full-width graph shrank its labels to about 4px.
          Below 760px it keeps a legible minimum width and scrolls
          sideways inside this wrapper instead (style.css). -->
+    <!-- Layout (Nov 7, 2026). The pipeline runs in a U: sources on the
+         left, Ingest, Spark transform, and the Quality gate in one row
+         across the top, then the Data lake directly under the gate and
+         back along the bottom row to Advertiser analytics. Flagged
+         anomalies branches UP out of the gate, dashed, so flagged
+         records never cross the lake. Before, Flagged anomalies sat on
+         top of the Data lake, the gate-to-lake edge stopped short of the
+         lake, the dashed edge and the amber packet ran through the lake,
+         and the clickstream edge grazed Advertiser analytics.
+         tests/test_explorer.py pins the geometry: no stage within 20
+         units of another, every edge on its two stages and 12 units
+         clear of the rest. The viewBox is 270 tall (was 300) so the
+         drawing keeps the same 20-unit margin above Flagged anomalies
+         and below the bottom row. Moving a stage means moving its edges
+         here, both packet paths below, and the record routes in app.js. -->
     <div class="lineage-scroll">
-    <svg id="lineageSvg" viewBox="0 0 960 300" role="img" aria-label="Illustrative data lineage graph: advertiser feeds and clickstream flow through ingest, Spark transform, and a quality gate into a data lake, then out through an API to analytics. One event stream branches off as flagged anomalies." class="lineage-svg">
+    <svg id="lineageSvg" viewBox="0 0 960 270" role="img" aria-label="Illustrative data lineage graph: advertiser feeds and clickstream flow through ingest, Spark transform, and a quality gate into a data lake, then out through an API to analytics. One event stream branches off as flagged anomalies." class="lineage-svg">
       <g class="edges" fill="none" stroke-width="2">
         <path id="e-feed-ingest" d="M150,70 C240,70 240,120 330,120"/>
         <path id="e-click-ingest" d="M150,200 C240,200 240,150 330,150"/>
         <path id="e-ingest-transform" d="M470,135 L560,135"/>
-        <path id="e-transform-gate" d="M690,120 C750,120 740,110 800,110"/>
-        <path id="e-gate-lake" d="M870,110 C910,110 900,150 880,185"/>
-        <path id="e-lake-api" d="M790,225 L640,225"/>
-        <path id="e-api-analytics" d="M470,225 L330,225"/>
-        <path id="e-gate-anomaly" d="M830,140 C830,200 830,215 830,240" stroke-dasharray="5 5"/>
+        <path id="e-transform-gate" d="M690,135 L800,135"/>
+        <path id="e-gate-lake" d="M870,160 L870,200"/>
+        <path id="e-lake-api" d="M800,225 L685,225"/>
+        <path id="e-api-analytics" d="M515,225 L400,225"/>
+        <path id="e-gate-anomaly" d="M870,110 L870,62" stroke-dasharray="5 5"/>
       </g>
       <g class="nodes" font-family="inherit">
         <g class="lnode" data-node="feed" tabindex="0"><rect x="20" y="45" width="130" height="50" rx="10"/><text x="85" y="75">Advertiser feeds</text></g>
         <g class="lnode" data-node="click" tabindex="0"><rect x="20" y="175" width="130" height="50" rx="10"/><text x="85" y="205">Clickstream</text></g>
         <g class="lnode" data-node="ingest" tabindex="0"><rect x="330" y="110" width="140" height="50" rx="10"/><text x="400" y="140">Ingest</text></g>
         <g class="lnode" data-node="transform" tabindex="0"><rect x="560" y="110" width="130" height="50" rx="10"/><text x="625" y="140">Spark transform</text></g>
-        <g class="lnode" data-node="gate" tabindex="0"><rect x="800" y="85" width="140" height="50" rx="10"/><text x="870" y="115">Quality gate</text></g>
-        <g class="lnode" data-node="lake" tabindex="0"><rect x="740" y="200" width="140" height="50" rx="10"/><text x="810" y="230">Data lake</text></g>
-        <g class="lnode" data-node="api" tabindex="0"><rect x="470" y="200" width="170" height="50" rx="10"/><text x="555" y="230">Data lake API</text></g>
-        <g class="lnode" data-node="analytics" tabindex="0"><rect x="160" y="200" width="170" height="50" rx="10"/><text x="245" y="230">Advertiser analytics</text></g>
-        <g class="lnode anomaly" data-node="anomaly" tabindex="0"><rect x="765" y="240" width="130" height="42" rx="10"/><text x="830" y="266">Flagged anomalies</text></g>
+        <g class="lnode" data-node="gate" tabindex="0"><rect x="800" y="110" width="140" height="50" rx="10"/><text x="870" y="140">Quality gate</text></g>
+        <g class="lnode" data-node="lake" tabindex="0"><rect x="800" y="200" width="140" height="50" rx="10"/><text x="870" y="230">Data lake</text></g>
+        <g class="lnode" data-node="api" tabindex="0"><rect x="515" y="200" width="170" height="50" rx="10"/><text x="600" y="230">Data lake API</text></g>
+        <g class="lnode" data-node="analytics" tabindex="0"><rect x="230" y="200" width="170" height="50" rx="10"/><text x="315" y="230">Advertiser analytics</text></g>
+        <g class="lnode anomaly" data-node="anomaly" tabindex="0"><rect x="795" y="20" width="150" height="42" rx="10"/><text x="870" y="46">Flagged anomalies</text></g>
       </g>
     
-      <circle class="packet" r="5"><animateMotion dur="7s" repeatCount="indefinite" path="M150,70 C240,70 240,120 330,120 L470,135 L560,135 L690,120 C750,120 740,110 800,110"/></circle>
+      <circle class="packet" r="5"><animateMotion dur="7s" repeatCount="indefinite" path="M150,70 C240,70 240,120 330,120 L470,135 L560,135 L690,135 L800,135"/></circle>
       <!-- The amber packet is the flagged traffic: it leaves the quality
-           gate down the dashed edge into Flagged anomalies. Before v5 it
+           gate up the dashed edge into Flagged anomalies. Before v5 it
            continued into the Data lake, which is what the gate exists to
-           prevent. -->
-      <circle class="packet anomaly-packet" r="5"><animateMotion dur="7s" begin="3.5s" repeatCount="indefinite" path="M150,200 C240,200 240,150 330,150 L470,135 L560,135 L690,120 C750,120 740,110 800,110 L830,118 L830,140 C830,200 830,215 830,240 L830,258"/></circle>
+           prevent; until Nov 7, 2026 it still crossed the lake's box on
+           the way down. -->
+      <circle class="packet anomaly-packet" r="5"><animateMotion dur="7s" begin="3.5s" repeatCount="indefinite" path="M150,200 C240,200 240,150 330,150 L470,135 L560,135 L800,135 L870,135 L870,41"/></circle>
     </svg>
     </div>
     <p class="lineage-swipe">Swipe sideways to see the whole pipeline.</p>
