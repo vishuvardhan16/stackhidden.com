@@ -109,20 +109,27 @@ class StaticContentRulesTest(unittest.TestCase):
         work = section(self.index, "work")
         self.assertEqual(48, len(list_items(work, "chips")))
 
-    def test_karyna_naminas_credit_line_is_present(self) -> None:
-        # Wording updated Nov 2, 2026: the Featured section now also
-        # carries an Informatics Magazine quote, so the old "Both
-        # articles" line no longer covers every item. Updated again
-        # Nov 3, 2026, when a second Informatics Magazine quote and a
-        # CTO Sync quote joined the section. Updated again Nov 4,
-        # 2026, when a Tech Magazine quote joined the section.
-        self.assertIn(
-            "The Label Your Data articles were written by Karyna Naminas, "
-            "CEO of Label Your Data, who quoted me as an expert source. "
-            "The Informatics Magazine, CTO Sync, and Tech Magazine "
-            "Q&amp;As quoted me as an expert source too.",
-            self.index,
-        )
+    def test_karyna_naminas_is_credited_on_her_articles(self) -> None:
+        # Karyna Naminas, CEO of Label Your Data, wrote both Label Your
+        # Data articles that quoted him, and the page must say so. Until
+        # Nov 6, 2026 a two-sentence note under the carousel did; at the
+        # owner's request the credit moved onto the two slides it
+        # belongs to, as a byline on the date line, and the note went.
+        featured = section(self.index, "featured")
+        slides = re.findall(r'<figure class="slide">(.*?)</figure>', featured, flags=re.DOTALL)
+        self.assertEqual(6, len(slides))
+        for slide in slides:
+            outlet = re.search(r'<p class="pub-name">([^<]+)</p>', slide).group(1)
+            with self.subTest(outlet=outlet):
+                bylined = re.search(
+                    r'<p class="meta pub-date">[^<]+ &middot; <span class="byline">By Karyna Naminas</span></p>',
+                    slide,
+                )
+                if outlet == "Label Your Data":
+                    self.assertIsNotNone(bylined)
+                else:
+                    self.assertNotIn("Naminas", slide)
+        self.assertNotIn("featured-note", featured)
 
     def test_featured_quotes_are_text_behind_read_my_quote(self) -> None:
         # Nov 6, 2026, at the owner's request: each Featured slide leads

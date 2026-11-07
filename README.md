@@ -264,6 +264,7 @@ Extra pre-push checks for this pass: Tab once from the top and confirm the skip 
 
 - **What changed.** Each Featured In slide now leads with the article: the masthead, the date, and the headline, linked to the live article. The quote opens from "Read my quote", a native `<details>`, as text, word for word as published. The screenshots and quote cards, with the owner's name and title on every slide, are off the page; the files stay in `assets/`.
 - **Why.** The owner found the quote cards too much.
+- **Credit.** The two-sentence note under the carousel is gone too. Karyna Naminas, who wrote both Label Your Data articles, is credited on those two slides instead, as a byline on the date line ("By Karyna Naminas"); every slide's "Expert quote" pill says the piece quoted him.
 - **Behaviour.** An open quote holds its slide, so the carousel never moves on from someone reading it. A slide that leaves closes its quote, and the stage settles back to its closed height. Off-stage slides are inert, so Tab never lands on a link that is not showing. A printed page carries every quote.
 - **Tests.** `test_carousel` grows from 1 test to 8, with new checks in `test_publishers`, `test_loading`, and `test_static`. Each new check failed against a matching mutation before it was trusted. The suite is 16 modules, 141 tests.
 

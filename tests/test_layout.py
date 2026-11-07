@@ -40,10 +40,27 @@ class LayoutTest(BrowserTestCase):
                 self.assertGreater(box["width"], 0)
                 self.assertLessEqual(box["width"], width)
 
-                note = self.page.locator(".featured-note")
-                note.scroll_into_view_if_needed()
-                self.assertTrue(note.is_visible())
-                self.assertIn("Karyna Naminas", note.inner_text())
+                # The first slide is a Label Your Data article; its
+                # byline credits the author at every width, inside the
+                # slide. One synchronous call, so the carousel's timer
+                # cannot move to the next slide between the click and the
+                # measurement (the next slide carries the same byline,
+                # which would hide a missing one).
+                byline = self.page.evaluate(
+                    """() => {
+                        document.querySelectorAll('#quoteCarousel .carousel-dot')[0].click();
+                        const slide = document.querySelector('#quoteCarousel .slide.on');
+                        const b = slide.querySelector('.byline');
+                        if (!b) return null;
+                        const r = b.getBoundingClientRect();
+                        return { text: b.innerText.toLowerCase(), width: r.width,
+                                 inside: r.right <= slide.getBoundingClientRect().right + 0.5 };
+                    }"""
+                )
+                self.assertIsNotNone(byline)
+                self.assertEqual("by karyna naminas", byline["text"])
+                self.assertGreater(byline["width"], 0)
+                self.assertTrue(byline["inside"])
 
 
 if __name__ == "__main__":
