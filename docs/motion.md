@@ -19,7 +19,8 @@ Every moving thing on the page: what starts it, how long it runs, and what happe
 | 2026 trace render (v5) | The trace enters view, if it started below the fold | Once, about 1.6s, bars in date order | Drawn in place |
 | Career render (v5) | The career chart enters view, if it started below the fold | Once, about 1.6s, spans in date order | Drawn in place |
 | Sent records (v5) | Send a clean or a bad record | About 4s for a clean record, 3s for a bad one | Arrive at once; the log, counter, and announcement are identical |
-| Quote carousel | Page load | Advances every 5s; pauses on hover and keyboard focus | Holds its slide; arrows and dots still work |
+| Quote carousel | Page load | Advances every 5s; pauses on hover and keyboard focus, and holds while a quote is open | Holds its slide; arrows and dots still work |
+| Read my quote chevron | Opening or closing a quote | Turns over, 0.2s | Turns at once |
 | Trace highlight (query console) | The Trace button | Outline pulses twice; removed after 2.8s | Outline only |
 | Smooth scrolling | Links and jumps | The browser's smooth scroll | Instant |
 

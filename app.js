@@ -290,7 +290,15 @@
      order rotated, so motion is always in the same direction and wraps
      seamlessly. Pauses on hover and on keyboard focus; with
      prefers-reduced-motion there is no auto-advance at all and the
-     buttons/dots do the work. Dots and arrows are real buttons. */
+     buttons/dots do the work. Dots and arrows are real buttons.
+
+     Each slide's quote sits in a native <details> ("Read my quote",
+     Nov 6, 2026). Three rules keep it calm. An open quote holds its
+     slide: the timer never advances away from someone reading. A slide
+     that leaves closes its quote, so the stage settles back to its
+     closed height. And every slide but the active one is inert, so Tab
+     never lands on a link or toggle that is off stage (aria-hidden
+     alone hid them from screen readers but left them focusable). */
   var carousel = document.getElementById("quoteCarousel");
   if (carousel) {
     var slides = Array.prototype.slice.call(carousel.querySelectorAll(".slide"));
@@ -304,10 +312,10 @@
       dotsWrap.appendChild(d);
     });
     var dots = dotsWrap.children;
-    // The quotes and their logos are loading="lazy", which defers a hidden
-    // slide's images until it slides into view: a blank card for a moment.
-    // So once the carousel comes within a screen of the viewport, every
-    // slide's images load together, before any of them is shown.
+    // The caption logos are loading="lazy", which defers a hidden slide's
+    // logo until it slides into view: a blank masthead for a moment. So
+    // once the carousel comes within a screen of the viewport, every
+    // slide's logo loads together, before any of them is shown.
     var lazyImgs = carousel.querySelectorAll('img[loading="lazy"]');
     function loadSlides() {
       Array.prototype.forEach.call(lazyImgs, function (img) { img.loading = 'eager'; });
@@ -320,6 +328,20 @@
     } else {
       loadSlides();
     }
+    // Only the active slide can be reached or read; a slide that is not
+    // active has its quote closed.
+    function setActive(s, active) {
+      s.setAttribute("aria-hidden", active ? "false" : "true");
+      s.inert = !active;
+      if (!active) {
+        var q = s.querySelector("details.slide-quote");
+        if (q && q.open) q.open = false;
+      }
+    }
+    function quoteOpen() {
+      var q = slides[idx].querySelector("details.slide-quote");
+      return !!(q && q.open);
+    }
     function render(prev) {
       slides.forEach(function (s, i) {
         s.classList.toggle("on", i === idx);
@@ -329,7 +351,7 @@
         // the stylesheet, so the visible quote slid away and left the
         // stage empty.
         s.classList.toggle("out", i === prev && i !== idx);
-        s.setAttribute("aria-hidden", i === idx ? "false" : "true");
+        setActive(s, i === idx);
       });
       for (var i = 0; i < dots.length; i++) { dots[i].classList.toggle("on", i === idx); if (i === idx) dots[i].setAttribute("aria-current", "true"); else dots[i].removeAttribute("aria-current"); }
     }
@@ -348,7 +370,7 @@
     // The timer keeps ticking but skips while the footer Reduce motion
     // control is on, so the carousel holds still and resumes when motion
     // is turned back on. Before v5 only the OS setting stopped it.
-    function cstep() { if (!motionOff()) go(idx + 1); }
+    function cstep() { if (!motionOff() && !quoteOpen()) go(idx + 1); }
     function restart() { if (timer) clearInterval(timer); if (!reduced && root.getAttribute('data-motion') !== 'reduced') timer = setInterval(cstep, 5000); }
     document.getElementById("quotePrev").addEventListener("click", function () { go(idx - 1, true); });
     document.getElementById("quoteNext").addEventListener("click", function () { go(idx + 1, true); });
@@ -356,8 +378,19 @@
     carousel.addEventListener("mouseleave", restart);
     carousel.addEventListener("focusin", function () { if (timer) clearInterval(timer); });
     carousel.addEventListener("focusout", restart);
-    slides.forEach(function (s, i) { s.classList.toggle("on", i === 0); s.setAttribute("aria-hidden", i === 0 ? "false" : "true"); });
+    slides.forEach(function (s, i) { s.classList.toggle("on", i === 0); setActive(s, i === 0); });
     for (var i = 0; i < dots.length; i++) { dots[i].classList.toggle("on", i === 0); if (i === 0) dots[i].setAttribute("aria-current", "true"); }
+    // A printed page shows every quote. Open the closed ones for the
+    // print and close exactly those again afterwards.
+    var openedForPrint = [];
+    window.addEventListener("beforeprint", function () {
+      openedForPrint = Array.prototype.filter.call(carousel.querySelectorAll("details.slide-quote"), function (q) { return !q.open; });
+      openedForPrint.forEach(function (q) { q.open = true; });
+    });
+    window.addEventListener("afterprint", function () {
+      openedForPrint.forEach(function (q) { q.open = false; });
+      openedForPrint = [];
+    });
     restart();
   }
 

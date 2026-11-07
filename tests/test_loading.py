@@ -2,9 +2,10 @@
 
 Every image on the page sits below the fold, so none of them loads with
 the page; each comes in as the visitor scrolls near it. The quote
-carousel loads all its slides together, so no slide ever shows a blank
-card. The hero loop (1.2MB) loads only when it will play: never under
-reduced motion, Data Saver, or a 2G connection.
+carousel loads every slide's logo together, so no slide ever shows a
+blank masthead, and since Nov 6, 2026 its quotes are text, so it asks
+for no quote image at all. The hero loop (1.2MB) loads only when it will
+play: never under reduced motion, Data Saver, or a 2G connection.
 """
 
 from __future__ import annotations
@@ -12,12 +13,6 @@ from __future__ import annotations
 import unittest
 
 from helpers import BrowserTestCase
-
-
-LOADED = """(sel) => [...document.querySelectorAll(sel)].map(i => ({
-    src: i.getAttribute('src'), done: i.complete && i.naturalWidth > 0,
-    natural: [i.naturalWidth, i.naturalHeight], attrs: [+i.getAttribute('width'), +i.getAttribute('height')]
-}))"""
 
 
 class RequestLog(BrowserTestCase):
@@ -51,8 +46,8 @@ class LazyImagesTest(RequestLog):
         )
 
     def test_the_carousel_loads_every_slide_before_showing_one(self) -> None:
-        # Within a screen of the viewport, all six quotes and every
-        # caption logo load, including the slides still off stage.
+        # Within a screen of the viewport, every caption logo loads,
+        # including those on the slides still off stage.
         self.page.evaluate(
             "window.scrollTo(0, document.getElementById('quoteCarousel').getBoundingClientRect().top + scrollY - 1.6 * innerHeight)"
         )
@@ -60,28 +55,31 @@ class LazyImagesTest(RequestLog):
             "[...document.querySelectorAll('#quoteCarousel img')].every(i => i.complete && i.naturalWidth)",
             timeout=5000,
         )
-        self.assertEqual(6, len(set(self.asked_for("/assets/quote-"))))
+        logos = self.page.evaluate("[...new Set([...document.querySelectorAll('#quoteCarousel img')].map(i => i.src))]")
+        self.assertEqual(4, len(logos))
+        for logo in logos:
+            with self.subTest(logo=logo):
+                self.assertIn(logo, self.requested)
 
-    def test_quote_screenshots_declare_their_real_size(self) -> None:
+    def test_the_carousel_asks_for_no_quote_image(self) -> None:
+        # The quotes are text (Nov 6, 2026): showing every slide and
+        # opening every quote downloads no screenshot or quote card.
         self.page.evaluate("document.getElementById('quoteCarousel').scrollIntoView({block:'center'})")
-        self.page.wait_for_function(
-            "[...document.querySelectorAll('#quoteCarousel .slide > a > img')].every(i => i.complete && i.naturalWidth)",
-            timeout=5000,
-        )
-        for img in self.page.evaluate(LOADED, "#quoteCarousel .slide > a > img"):
-            with self.subTest(src=img["src"]):
-                self.assertTrue(img["src"].endswith(".webp"))
-                self.assertEqual(img["natural"], img["attrs"])
+        for i in range(6):
+            self.page.evaluate(f"document.querySelectorAll('#quoteCarousel .carousel-dot')[{i}].click()")
+            self.page.evaluate("document.querySelector('#quoteCarousel .slide.on details').open = true")
+        self.page.wait_for_timeout(500)
+        self.assertEqual([], self.asked_for("/assets/quote-"))
 
-    def test_the_carousel_keeps_its_height_while_quotes_load(self) -> None:
-        # The declared sizes reserve each screenshot's box, so nothing
-        # below the carousel moves when the files arrive.
+    def test_the_carousel_keeps_its_height_while_logos_load(self) -> None:
+        # Every caption logo declares its size, so nothing below the
+        # carousel moves when the files arrive.
         height = "Math.round(document.querySelector('#quoteCarousel .carousel-track').getBoundingClientRect().height)"
         before = self.page.evaluate(height)
-        self.assertFalse(self.page.evaluate("document.querySelector('#quoteCarousel .slide > a > img').complete"))
+        self.assertFalse(self.page.evaluate("document.querySelector('#quoteCarousel .pub-logo').complete"))
         self.page.evaluate("document.getElementById('quoteCarousel').scrollIntoView({block:'center'})")
         self.page.wait_for_function(
-            "[...document.querySelectorAll('#quoteCarousel .slide > a > img')].every(i => i.complete && i.naturalWidth)",
+            "[...document.querySelectorAll('#quoteCarousel .pub-logo')].every(i => i.complete && i.naturalWidth)",
             timeout=5000,
         )
         self.assertAlmostEqual(before, self.page.evaluate(height), delta=1)

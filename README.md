@@ -21,7 +21,7 @@ The site is a hand-built static page: plain HTML, CSS, and JavaScript. No framew
 | Engineering Work | Four case files from his Amazon record: insight ingestion orchestration, the Insights API, custom brands (ICM) in the Insights Store, and the Mosaic and Kaleidoscope agents. Each opens in place and answers to a `#case=` deep link. |
 | Lineage, drawn out | An interactive SVG lineage graph that draws itself along the data flow on first view. Hover, tap, or keyboard-focus a stage to trace its upstream and downstream edges. Send a clean or a bad record through it and watch the quality gate route the bad one to Flagged anomalies, with a pipeline log. Labelled on the page as an illustrative diagram. |
 | 2026, as a trace | Seven 2026 spans (articles, a roundtable, a talk, and press quotes) on a Jul 1 to Dec 1 axis, each bar ending on its date. The bars render in date order on first view. Selecting a span shows its details. |
-| Writing / Featured In | Three trade pieces and the site's build log, in date order, each under a publisher masthead with the publisher's logo. Featured In is a 5-second carousel of six expert quotes (screenshots of the two Label Your Data quote blocks, and quote cards for two Informatics Magazine quotes, CTO Sync, and Tech Magazine), each linked to the live article, with captions under the same masthead. |
+| Writing / Featured In | Three trade pieces and the site's build log, in date order, each under a publisher masthead with the publisher's logo. Featured In is a 5-second carousel of six expert quotes (two Label Your Data articles, two Informatics Magazine Q&As, CTO Sync, and Tech Magazine). Each slide leads with the same masthead, the date, and the article's headline, linked to the live article; the quote itself opens from "Read my quote". |
 | Speaking / Contact | Two cards under the same masthead: the Marketplace Risk New York 2026 talk, and the paper accepted at NICE-TEAS ASIA 2026. Contact by email (Gmail) or LinkedIn. |
 | Query this page | A SQL console over eight tables built from the page's own HTML at load. Trace jumps from a result row to its source on the page; `#q=` links run a query on arrival. |
 
@@ -34,11 +34,8 @@ The site is a hand-built static page: plain HTML, CSS, and JavaScript. No framew
 | `app.js` | Theme toggle (persisted), New York clock, background lineage canvas, trace case files, lineage explorer and send-a-record, quotes carousel, scrollspy and scroll progress, the query console (tables, lexer, parser, executor), and the first-view reveals. Each feature is documented where it lives. |
 | `assets/favicon.svg` | The only brand mark. |
 | `assets/apple-touch-icon.png` | The home-screen icon: the favicon drawn full-bleed at 180px. `scripts/render-touch-icon.py` renders it from the favicon. |
-| `assets/quote-eu-ai-act.webp`, `assets/quote-golden-dataset.webp` | Screenshots of the published Label Your Data quote blocks, used in the Featured In carousel. Lossless WebP (v5): every pixel of the original PNG, at less than half the size. |
-| `assets/quote-informatics-access-privacy.webp` | The quote card for the Informatics Magazine quote, made for this site in the same style. Lossless WebP, like the two above. Every quote card comes from `scripts/render-quote-card.py`, so they share one typeface and layout. |
-| `assets/quote-informatics-everyday-decisions.webp` | The quote card for the second Informatics Magazine quote, made for this site in the same style. Lossless WebP, like the ones above. |
-| `assets/quote-cto-sync-technical-debt.webp` | The quote card for the CTO Sync quote, made for this site in the same style. Lossless WebP, like the ones above. |
-| `assets/quote-tech-magazine-customer-requests.webp` | The quote card for the Tech Magazine quote, made for this site in the same style. Lossless WebP, like the ones above. |
+| `assets/quote-eu-ai-act.webp`, `assets/quote-golden-dataset.webp` | Screenshots of the published Label Your Data quote blocks. Lossless WebP (v5): every pixel of the original PNG, at less than half the size. The Featured In carousel showed them until Nov 6, 2026, when its slides went headline first; they stay in `assets/`, unreferenced, as the record of each published quote. |
+| `assets/quote-informatics-access-privacy.webp`, `assets/quote-informatics-everyday-decisions.webp`, `assets/quote-cto-sync-technical-debt.webp`, `assets/quote-tech-magazine-customer-requests.webp` | The quote cards for the two Informatics Magazine quotes, the CTO Sync quote, and the Tech Magazine quote, made in the style of the screenshots by `scripts/render-quote-card.py`. Lossless WebP. Unreferenced since Nov 6, 2026, like the screenshots. |
 | `assets/data-hero.webp`, `assets/data-hero-loop.mp4` | The hero figure: the still is the video's poster. |
 | `assets/og-card.png` | The social share card. |
 | `assets/logos/` | Official publisher logos, added by the owner on Nov 2, 2026. See `docs/publisher-logos.md`. |
@@ -58,7 +55,7 @@ The site is a hand-built static page: plain HTML, CSS, and JavaScript. No framew
 
 | Folder | What it holds |
 | --- | --- |
-| `assets/` | The site's images: the favicon and home-screen icon, the data hero figure, the share card, the lineage core artwork, the six quote images, and the publisher logos. |
+| `assets/` | The site's images: the favicon and home-screen icon, the data hero figure, the share card, the lineage core artwork, the six quote images (unreferenced since Nov 6, 2026), and the publisher logos. |
 | `tests/` | The automated test suite: one module per area, plus shared browser helpers. `docs/test-plan.md` says what each module protects. |
 | `scripts/` | `run-tests.sh`, the one command that runs the whole suite locally; `render-touch-icon.py`, which renders the home-screen icon from the favicon; and `render-quote-card.py`, which renders a Featured In quote card. |
 | `docs/` | The working documents, kept in the repo: how the site works, motion, the query console, publisher logos, the cursor bot, the lineage core, the content rules, deployment, testing, and the test plan. |
@@ -147,14 +144,14 @@ No build step. Editing a file and refreshing the browser is the whole loop.
 1. **HTML structure.** Parse `index.html` (for example with Python's `html.parser`): zero errors, nothing unclosed, exactly one `h1`, landmarks present (`header`, `nav`, `main`, `footer`), every section has a heading.
 2. **JavaScript syntax.** `node --check app.js` passes.
 3. **Structured data.** The JSON-LD block in the head parses as valid JSON.
-4. **Assets resolve.** Serve locally and confirm `index.html`, `style.css`, `app.js`, `404.html`, `robots.txt`, `sitemap.xml`, `assets/favicon.svg`, `assets/apple-touch-icon.png`, every quote image, and every publisher logo return HTTP 200.
+4. **Assets resolve.** Serve locally and confirm `index.html`, `style.css`, `app.js`, `404.html`, `robots.txt`, `sitemap.xml`, `assets/favicon.svg`, `assets/apple-touch-icon.png`, and every publisher logo return HTTP 200.
 5. **No photo.** `grep -ri "profile.jpg" .` over the site files returns nothing, and no image of the owner exists in `assets/`.
 6. **No forbidden wording.** `grep -ri "journal of big data" index.html` returns nothing; `grep -c "Senior" index.html` is 0; his title is never written as Data Engineer.
 7. **Links.** Every external link is `https://` and has been opened and verified live (the three trade pieces, both Label Your Data articles, the Informatics Magazine Q&A, both speaking links, LinkedIn).
 8. **Both themes.** Load the page, toggle light and dark: layout identical, all text readable in both, the secondary (outline) button label clearly visible in dark mode, the canvas and the lineage graph recolour.
 9. **Widths.** Check at 360px, 480px, 768px, and desktop: no horizontal scrolling at any width (`document.documentElement.scrollWidth` equals the viewport width).
-10. **Motion.** With `prefers-reduced-motion` on, and again with the footer's Reduce motion: the canvases are still, the hero intro does not play, the trace and graph are drawn in place, and the carousel does not auto-advance. With it off: the carousel advances every 5 seconds, moving left to right, and pauses on hover and on keyboard focus. `docs/motion.md` lists every moving piece.
-11. **Keyboard.** Tab through the page: the skip link (the first stop), theme toggle, career rows (the arrow keys move between them), lineage stages, the send-a-record buttons, trace rows, carousel arrows and dots, and the query console (editor, Run, examples, Trace buttons) are all reachable and operable with Enter or Space.
+10. **Motion.** With `prefers-reduced-motion` on, and again with the footer's Reduce motion: the canvases are still, the hero intro does not play, the trace and graph are drawn in place, and the carousel does not auto-advance. With it off: the carousel advances every 5 seconds, moving left to right, pauses on hover and on keyboard focus, and holds while a quote is open. `docs/motion.md` lists every moving piece.
+11. **Keyboard.** Tab through the page: the skip link (the first stop), theme toggle, career rows (the arrow keys move between them), lineage stages, the send-a-record buttons, trace rows, the showing slide's headline and "Read my quote" (never a slide that is off stage), the carousel arrows and dots, and the query console (editor, Run, examples, Trace buttons) are all reachable and operable with Enter or Space.
 12. **Accessibility audit.** For a visual change, run axe-core over the changed sections in both themes. It must report no violations.
 
 ### Verify the live site after a push
@@ -262,6 +259,15 @@ Extra pre-push checks for this pass: load the page and watch the hero intro once
 - **Tests.** Three new modules, `test_career`, `test_finishing`, and `test_loading`, plus new static and regression checks. The suite is 16 modules, 127 tests.
 
 Extra pre-push checks for this pass: Tab once from the top and confirm the skip link shows; click Writing in the nav and confirm its heading sits below the header; select a career row with the keyboard; open a missing address (for example `/nope`) and confirm the 404 page; check the career chart at 360px in both themes.
+
+## Featured In, headline first (November 6, 2026)
+
+- **What changed.** Each Featured In slide now leads with the article: the masthead, the date, and the headline, linked to the live article. The quote opens from "Read my quote", a native `<details>`, as text, word for word as published. The screenshots and quote cards, with the owner's name and title on every slide, are off the page; the files stay in `assets/`.
+- **Why.** The owner found the quote cards too much.
+- **Behaviour.** An open quote holds its slide, so the carousel never moves on from someone reading it. A slide that leaves closes its quote, and the stage settles back to its closed height. Off-stage slides are inert, so Tab never lands on a link that is not showing. A printed page carries every quote.
+- **Tests.** `test_carousel` grows from 1 test to 8, with new checks in `test_publishers`, `test_loading`, and `test_static`. Each new check failed against a matching mutation before it was trusted. The suite is 16 modules, 141 tests.
+
+Extra pre-push checks for this change: open and close a quote with the mouse and with Enter, at 360px and on desktop, in both themes; leave a quote open with motion on and confirm the slide holds.
 
 ## License and artwork
 

@@ -4,8 +4,8 @@ Published Writing, Speaking, and the Featured In captions share one
 masthead: publisher name, a pill for the kind of piece, then the date,
 with a logo slot the owner fills with official files.  These tests pin
 the structure, the logo slot's behaviour, the date order of the writing,
-the aligned links, and that no caption ever runs under the carousel's
-controls at any width.
+the aligned links, and that no caption, and no open quote, ever runs
+under the carousel's controls at any width.
 """
 
 from __future__ import annotations
@@ -33,6 +33,10 @@ CAPTION_GAPS = """() => {
     const controls = document.querySelector('#quoteCarousel .carousel-controls').getBoundingClientRect();
     return [...document.querySelectorAll('#quoteCarousel .slide figcaption')]
         .map(c => controls.top - c.getBoundingClientRect().bottom);
+}"""
+OPEN_QUOTE_GAP = """() => {
+    const controls = document.querySelector('#quoteCarousel .carousel-controls').getBoundingClientRect();
+    return controls.top - document.querySelector('#quoteCarousel .slide.on blockquote').getBoundingClientRect().bottom;
 }"""
 
 
@@ -349,6 +353,21 @@ class CarouselFitTest(BrowserTestCase):
                 self.reload_page()
                 gaps = self.page.evaluate(CAPTION_GAPS)
                 self.assertEqual(6, len(gaps))
+                self.assertTrue(all(g >= 8 for g in gaps), gaps)
+
+    def test_an_open_quote_never_runs_under_the_controls(self) -> None:
+        # Since Nov 6, 2026 each slide's quote opens below its headline.
+        # The stage grows to fit it, so the arrows and dots move down
+        # rather than sit on the quote, for every slide at every width.
+        for width, height in ((360, 800), (768, 1024), (1400, 900)):
+            with self.subTest(width=width):
+                self.page.set_viewport_size({"width": width, "height": height})
+                self.reload_page()
+                gaps = []
+                for i in range(6):
+                    self.page.evaluate(f"document.querySelectorAll('#quoteCarousel .carousel-dot')[{i}].click()")
+                    self.page.evaluate("document.querySelector('#quoteCarousel .slide.on details').open = true")
+                    gaps.append(self.page.evaluate(OPEN_QUOTE_GAP))
                 self.assertTrue(all(g >= 8 for g in gaps), gaps)
 
 

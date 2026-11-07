@@ -187,16 +187,39 @@ canvas#graph{opacity:.85}
 /* Featured quotes carousel. Slides are stacked in one stage; the
    active slide sits at rest, the next enters from the LEFT and the old
    one exits RIGHT, so the motion travels left to right as the owner
-   asked. app.js rotates the .on class every 5 seconds. Screenshots sit
-   on white in both themes: they are captures of a light article page
-   and should look like captures, not be recoloured. */
+   asked. app.js rotates the .on class every 5 seconds. */
 .carousel{overflow:hidden}
 .carousel-stage{position:relative;aspect-ratio:16/5.9}
 .carousel .slide{position:absolute;inset:0;margin:0;padding:6px;transform:translateX(-104%);transition:transform .65s ease;pointer-events:none}
 .carousel .slide.on{transform:translateX(0);pointer-events:auto;z-index:2}
 .carousel .slide.out{transform:translateX(104%);z-index:1}
-.carousel .slide img{width:100%;height:auto;max-height:78%;object-fit:contain;display:block;background:#fff;border-radius:12px;padding:14px;box-shadow:var(--shadow)}
-.carousel .slide figcaption{margin-top:10px;font-size:14.5px;color:var(--muted)}
+.carousel .slide figcaption{font-size:14.5px;color:var(--muted)}
+/* Headline first (Nov 6, 2026). A slide is the masthead, the date, and
+   the article's headline, which is the link; the quote opens below it
+   from "Read my quote". The headline reads as a heading, in the text
+   colour, with a quiet underline that turns accent on hover so it still
+   reads as a link. */
+.carousel .slide-title{margin:4px 0 0;font-size:1.3rem;line-height:1.35;font-weight:700}
+.carousel .slide-title a{color:var(--text);text-decoration:underline;text-decoration-color:var(--border);text-decoration-thickness:1px;text-underline-offset:5px}
+.carousel .slide-title a:hover{color:var(--accent);text-decoration-color:currentColor}
+.carousel .slide-title a:focus-visible,.slide-quote summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+/* The quote: a native <details>. Its summary is the "Read my quote"
+   toggle (44px tall, so it is an easy tap), with a chevron drawn in CSS
+   that turns over when it opens. The quote sits in a recessed well in
+   both themes, at a readable measure. */
+.slide-quote{margin:2px 0 0}
+.slide-quote summary{display:inline-flex;align-items:center;gap:8px;min-height:44px;color:var(--accent);font-weight:650;font-size:.95rem;cursor:pointer;list-style:none}
+.slide-quote summary::-webkit-details-marker{display:none}
+.slide-quote summary::after{content:"";width:6px;height:6px;margin-top:-3px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .2s ease}
+.slide-quote[open] summary::after{margin-top:3px;transform:rotate(-135deg)}
+.slide-quote summary:hover .sq-closed,.slide-quote summary:hover .sq-open{text-decoration:underline}
+.slide-quote .sq-open,.slide-quote[open] .sq-closed{display:none}
+.slide-quote[open] .sq-open{display:inline}
+.slide-quote blockquote{max-width:72ch;margin:0 0 6px;padding:14px 18px;background:var(--bg);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:1.05rem;line-height:1.6;quotes:"\201C" "\201D"}
+.slide-quote blockquote p{margin:0}
+.slide-quote blockquote p::before{content:open-quote}
+.slide-quote blockquote p::after{content:close-quote}
+@media (prefers-reduced-motion: reduce){ .slide-quote summary::after{transition:none} }
 .carousel-controls{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:8px}
 .featured-note{margin:10px 0 0;text-align:center;font-size:.82rem;color:var(--muted)}
 .card a{overflow-wrap:anywhere}
@@ -293,7 +316,9 @@ canvas#graph{opacity:.85}
   .impact-row strong,.stats dt,.trace-result{color:#000!important}
   .carousel-stage{position:static;aspect-ratio:auto}
   .carousel .slide{position:static!important;transform:none!important;pointer-events:auto}
-  .carousel .slide img{box-shadow:none;border:1px solid #bbb}
+  /* Every quote prints: app.js opens them on beforeprint. */
+  .slide-quote summary{display:none}
+  .slide-quote blockquote{background:#fff!important;border:1px solid #bbb;color:#000!important}
   .lineage-svg{display:none}
   footer{background:#fff!important;border-top:1px solid #bbb;color:#333}
   h1{font-size:22pt}
@@ -552,10 +577,6 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
 .carousel .slide .pub-logo[src$="/ctosync.svg"]{width:calc(var(--h) * 2);object-fit:cover;object-position:53.6% 50%}
 :root[data-theme="dark"] .carousel .slide .pub-logo[src$="/ctosync.svg"]{width:calc(var(--h) * 2 + 20px)}
 
-/* The Featured carousel styles every <img> in a slide as a screenshot
-   (full width, white card, padding, shadow). Caption logos opt out. */
-.carousel .slide .pub-logo{width:auto;max-width:100%;height:var(--h,24px);max-height:none;padding:0;background:none;border-radius:0;box-shadow:none}
-
 /* Light and dark versions: a publisher's file made for dark backgrounds
    goes beside the usual one as <img class="pub-logo for-dark">, with the
    usual one marked for-light, and each theme shows its own. */
@@ -588,15 +609,15 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
    absolutely positioned slides, so on phones (and once captions grew)
    the caption ran past the box and the arrows and dots sat on top of
    the article title: 57px of overlap at 360px before v5. Now every
-   slide sits in the same grid cell, the stage is as tall as its tallest
-   slide, and the screenshot's height is capped in pixels (the same
-   ~340px it had on desktop). The grid is on .carousel-track, the
-   slides' parent. Slides still move with translateX, and the
-   stage does not change height between slides. */
+   slide sits in the same grid cell, and the stage is as tall as its
+   tallest slide. The grid is on .carousel-track, the slides' parent.
+   Slides still move with translateX, and the stage does not change
+   height between slides. An open quote makes its slide the tallest, so
+   the stage grows to fit it; app.js closes a quote when its slide
+   leaves, and the stage settles back. */
 .carousel-stage{aspect-ratio:auto}
 .carousel-track{display:grid}
 .carousel .slide{grid-area:1/1;position:relative;inset:auto}
-.carousel .slide img{max-height:340px}
 
 /* =====================================================================
    Career, as a trace (v5). Experience opens with every role, and the

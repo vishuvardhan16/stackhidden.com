@@ -124,6 +124,19 @@ class StaticContentRulesTest(unittest.TestCase):
             self.index,
         )
 
+    def test_featured_quotes_are_text_behind_read_my_quote(self) -> None:
+        # Nov 6, 2026, at the owner's request: each Featured slide leads
+        # with the article's headline, and the quote opens from "Read my
+        # quote". The quotes are text, each citing its article, and the
+        # only images left in the section are the caption logos.
+        featured = section(self.index, "featured")
+        self.assertEqual(6, featured.count('<details class="slide-quote">'))
+        self.assertEqual(6, featured.count("<summary><span class=\"sq-closed\">Read my quote</span>"))
+        self.assertEqual(6, len(re.findall(r'<blockquote cite="https://[^"]+"><p>', featured)))
+        for tag in re.findall(r"<img\b[^>]*>", featured):
+            with self.subTest(img=tag):
+                self.assertIn('class="pub-logo"', tag)
+
     def test_hero_flow_absent(self) -> None:
         # The hero flow diagram was removed at the owner's direction on
         # Oct 27, 2026: its stage names described his internal platform

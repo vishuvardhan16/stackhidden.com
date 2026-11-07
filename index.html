@@ -18,9 +18,10 @@
     style.css           Theme variables (dark + light) and all layout.
     app.js              All behavior: theme, clock, canvases, explorer,
                         case files, carousel, palette, query console.
-    assets/             Favicon, home-screen icon, quote screenshots,
-                        publisher logos, share card. See the photo rule
-                        below.
+    assets/             Favicon, home-screen icon, publisher logos,
+                        share card, and the quote screenshots the
+                        Featured carousel no longer shows. See the
+                        photo rule below.
     404.html            The page GitHub Pages serves for a missing
                         address. Self-contained; see its own header.
     robots.txt,         Crawl rules and the one canonical URL.
@@ -646,66 +647,94 @@
 <section id="featured" class="panel">
     <h2>Featured In</h2>
     <!-- Featured quotes in an auto-advancing carousel (5 seconds per
-         slide, app.js). The first two slides are screenshots of the
-         quote blocks exactly as published by Label Your Data, captured
-         Oct 26, 2026 from the live articles; the only edit is that the
-         small avatar in the published block is not shown, per the
-         owner's no-photo rule for this site. The third slide is a quote
-         card made for this site in the same style, carrying his
-         Informatics Magazine quote as published on Nov 2, 2026; it has
-         no photo either. The fourth and fifth slides are quote cards
-         in the same style for his second Informatics Magazine quote
-         and his CTO Sync quote, both published Nov 3, 2026. CTO Sync's
-         caption carries its official logo file from ctosync.com's
-         site header; see docs/publisher-logos.md. The sixth slide is
-         a quote card in the same style for his Tech Magazine quote,
-         published Nov 4, 2026; its caption carries Tech Magazine's
-         official header artwork, as a PNG because the header SVG is
-         a roughly 1 MB export carrying an embedded raster image;
-         see docs/publisher-logos.md. Each slide links to
-         the live article. The full
-         quote text stays in the alt text and in the Writing/Featured
-         records on this page, so the content survives with images
-         off. Each caption opens with the publisher masthead used by
-         Published Writing and Speaking (v5), with a logo slot. -->
+         slide, app.js), one slide per published quote: Label Your Data
+         (Sep 30 and Oct 23, 2026), Informatics Magazine (Nov 2 and
+         Nov 3), CTO Sync (Nov 3), and Tech Magazine (Nov 4).
+
+         Headline first (Nov 6, 2026, at the owner's request: the quote
+         cards, with his name and title on every slide, were too much).
+         Each slide is the publisher masthead used by Published Writing
+         and Speaking, the date, and the article's headline, linked to
+         the live article. The quote waits behind "Read my quote", a
+         native <details>, so it opens from the keyboard, is announced
+         as expanded or collapsed, and works with JavaScript off. Each
+         quote is the text as published, word for word, spelling
+         included ("favour", "prioritise"); tests/test_carousel.py pins
+         all six. An open quote holds its slide: the carousel does not
+         advance away from someone reading it.
+
+         The slides used to show screenshots of the Label Your Data
+         quote blocks and quote cards made in the same style. Those
+         files stay in assets/, unreferenced, as the record of each
+         published quote; see README. -->
     <div class="carousel" id="quoteCarousel">
       <div class="carousel-stage">
       <div class="carousel-track">
         <figure class="slide">
-          <a href="https://labelyourdata.com/articles/eu-artificial-intelligence-act" target="_blank" rel="noopener">
-            <img src="assets/quote-eu-ai-act.webp" width="1720" height="366" loading="lazy" decoding="async" alt="Screenshot of Vishnu's published quote in Label Your Data, EU AI Act: Training Data Requirements in 2026: 'In practice, most teams have a labeling pipeline and a policy document, but no lineage. They can't tell you where a given training row came from, what transformations it went through, or whether the distribution that produced it has drifted since. A policy on paper and a safeguard inside the pipeline are not the same thing.' Credited: Software Development Engineer, Amazon.">
-          </a>
-          <figcaption><div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/labelyourdata.svg" alt="" width="66" height="34" loading="lazy" decoding="async"></span><p class="pub-name">Label Your Data</p><span class="pub-kind">Expert quote</span></div><a href="https://labelyourdata.com/articles/eu-artificial-intelligence-act" target="_blank" rel="noopener">EU AI Act: Training Data Requirements in 2026</a> &middot; September 30, 2026</figcaption>
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/labelyourdata.svg" alt="" width="66" height="34" loading="lazy" decoding="async"></span><p class="pub-name">Label Your Data</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">September 30, 2026</p>
+            <h3 class="slide-title"><a href="https://labelyourdata.com/articles/eu-artificial-intelligence-act" target="_blank" rel="noopener">EU AI Act: Training Data Requirements in 2026</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://labelyourdata.com/articles/eu-artificial-intelligence-act"><p>In practice, most teams have a labeling pipeline and a policy document, but no lineage. They can't tell you where a given training row came from, what transformations it went through, or whether the distribution that produced it has drifted since. A policy on paper and a safeguard inside the pipeline are not the same thing.</p></blockquote>
+          </details>
         </figure>
         <figure class="slide">
-          <a href="https://labelyourdata.com/articles/machine-learning/golden-dataset" target="_blank" rel="noopener">
-            <img src="assets/quote-golden-dataset.webp" width="1720" height="366" loading="lazy" decoding="async" alt="Screenshot of Vishnu's published quote in Label Your Data, Golden Dataset: How to Build Trusted AI Evaluation Data: 'A golden dataset is one whose lineage is auditable and whose behavior is continuously validated against the world it claims to represent. If you can't reconstruct how a dataset was built or detect when it stops matching production reality, the label accuracy is decoration.' Credited: Software Development Engineer, Amazon.">
-          </a>
-          <figcaption><div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/labelyourdata.svg" alt="" width="66" height="34" loading="lazy" decoding="async"></span><p class="pub-name">Label Your Data</p><span class="pub-kind">Expert quote</span></div><a href="https://labelyourdata.com/articles/machine-learning/golden-dataset" target="_blank" rel="noopener">Golden Dataset: How to Build Trusted AI Evaluation Data</a> &middot; October 23, 2026</figcaption>
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/labelyourdata.svg" alt="" width="66" height="34" loading="lazy" decoding="async"></span><p class="pub-name">Label Your Data</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">October 23, 2026</p>
+            <h3 class="slide-title"><a href="https://labelyourdata.com/articles/machine-learning/golden-dataset" target="_blank" rel="noopener">Golden Dataset: How to Build Trusted AI Evaluation Data</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://labelyourdata.com/articles/machine-learning/golden-dataset"><p>A golden dataset is one whose lineage is auditable and whose behavior is continuously validated against the world it claims to represent. If you can't reconstruct how a dataset was built or detect when it stops matching production reality, the label accuracy is decoration.</p></blockquote>
+          </details>
         </figure>
         <figure class="slide">
-          <a href="https://informaticsmagazine.com/qa/how-data-teams-balance-access-and-privacy/" target="_blank" rel="noopener">
-            <img src="assets/quote-informatics-access-privacy.webp" width="1720" height="366" loading="lazy" decoding="async" alt="Quote card for Vishnu's published quote in Informatics Magazine, How Data Teams Balance Access and Privacy, under the heading Validate Pipelines at Ingestion: 'Take one defect - a column renamed by an upstream team, or the loss of 20% of a day's events due to partial outages.' Credited: Vishnuvardhan Reddy Kaithapuram, Software Development Engineer, Amazon.">
-          </a>
-          <figcaption><div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div><a href="https://informaticsmagazine.com/qa/how-data-teams-balance-access-and-privacy/" target="_blank" rel="noopener">How Data Teams Balance Access and Privacy</a> &middot; November 2, 2026</figcaption>
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 2, 2026</p>
+            <h3 class="slide-title"><a href="https://informaticsmagazine.com/qa/how-data-teams-balance-access-and-privacy/" target="_blank" rel="noopener">How Data Teams Balance Access and Privacy</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://informaticsmagazine.com/qa/how-data-teams-balance-access-and-privacy/"><p>Take one defect - a column renamed by an upstream team, or the loss of 20% of a day's events due to partial outages.</p></blockquote>
+          </details>
         </figure>
         <figure class="slide">
-          <a href="https://informaticsmagazine.com/qa/how-analytics-teams-turn-data-into-everyday-decisions/" target="_blank" rel="noopener">
-            <img src="assets/quote-informatics-everyday-decisions.webp" width="1720" height="366" loading="lazy" decoding="async" alt="Quote card for Vishnu's published quote in Informatics Magazine, How Analytics Teams Turn Data Into Everyday Decisions, under the heading Create a Ritual Around Core Figures: 'A dashboard becomes part of regular decisions when it stops being a place people visit and starts showing up where the decision already happens.' Credited: Vishnuvardhan Reddy Kaithapuram, Software Development Engineer, Amazon.">
-          </a>
-          <figcaption><div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div><a href="https://informaticsmagazine.com/qa/how-analytics-teams-turn-data-into-everyday-decisions/" target="_blank" rel="noopener">How Analytics Teams Turn Data Into Everyday Decisions</a> &middot; November 3, 2026</figcaption>
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 3, 2026</p>
+            <h3 class="slide-title"><a href="https://informaticsmagazine.com/qa/how-analytics-teams-turn-data-into-everyday-decisions/" target="_blank" rel="noopener">How Analytics Teams Turn Data Into Everyday Decisions</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://informaticsmagazine.com/qa/how-analytics-teams-turn-data-into-everyday-decisions/"><p>A dashboard becomes part of regular decisions when it stops being a place people visit and starts showing up where the decision already happens.</p></blockquote>
+          </details>
         </figure>
         <figure class="slide">
-          <a href="https://ctosync.com/qa/how-software-leaders-make-room-for-technical-debt/" target="_blank" rel="noopener">
-            <img src="assets/quote-cto-sync-technical-debt.webp" width="1720" height="366" loading="lazy" decoding="async" alt="Quote card for Vishnu's published quote in CTO Sync, How Software Leaders Make Room for Technical Debt, under the heading Treat Platform Health as System Rent: 'Technical debt gets roadmap space on our team because we stopped asking for it as a favour and started planning it as a category.' Credited: Vishnuvardhan Reddy Kaithapuram, Software Development Engineer, Amazon.">
-          </a>
-          <figcaption><div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/ctosync.svg" alt="" width="68" height="34" loading="lazy" decoding="async"></span><p class="pub-name">CTO Sync</p><span class="pub-kind">Expert quote</span></div><a href="https://ctosync.com/qa/how-software-leaders-make-room-for-technical-debt/" target="_blank" rel="noopener">How Software Leaders Make Room for Technical Debt</a> &middot; November 3, 2026</figcaption>
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/ctosync.svg" alt="" width="68" height="34" loading="lazy" decoding="async"></span><p class="pub-name">CTO Sync</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 3, 2026</p>
+            <h3 class="slide-title"><a href="https://ctosync.com/qa/how-software-leaders-make-room-for-technical-debt/" target="_blank" rel="noopener">How Software Leaders Make Room for Technical Debt</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://ctosync.com/qa/how-software-leaders-make-room-for-technical-debt/"><p>Technical debt gets roadmap space on our team because we stopped asking for it as a favour and started planning it as a category.</p></blockquote>
+          </details>
         </figure>
         <figure class="slide">
-          <a href="https://techmagazine.io/qa/how-software-product-teams-prioritize-customer-requests/" target="_blank" rel="noopener">
-            <img src="assets/quote-tech-magazine-customer-requests.webp" width="1720" height="366" loading="lazy" decoding="async" alt="Quote card for Vishnu's published quote in Tech Magazine, How Software Product Teams Prioritize Customer Requests, under the heading Measure the Cost of Delay: 'We prioritise the roadmap by asking what each item makes possible, and what waiting costs.' Credited: Vishnuvardhan Reddy Kaithapuram, Software Development Engineer, Amazon.">
-          </a>
-          <figcaption><div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/techmagazine.png" alt="" width="134" height="28" loading="lazy" decoding="async"></span><p class="pub-name">Tech Magazine</p><span class="pub-kind">Expert quote</span></div><a href="https://techmagazine.io/qa/how-software-product-teams-prioritize-customer-requests/" target="_blank" rel="noopener">How Software Product Teams Prioritize Customer Requests</a> &middot; November 4, 2026</figcaption>
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/techmagazine.png" alt="" width="134" height="28" loading="lazy" decoding="async"></span><p class="pub-name">Tech Magazine</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 4, 2026</p>
+            <h3 class="slide-title"><a href="https://techmagazine.io/qa/how-software-product-teams-prioritize-customer-requests/" target="_blank" rel="noopener">How Software Product Teams Prioritize Customer Requests</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://techmagazine.io/qa/how-software-product-teams-prioritize-customer-requests/"><p>We prioritise the roadmap by asking what each item makes possible, and what waiting costs.</p></blockquote>
+          </details>
         </figure>
       </div>
       </div>
