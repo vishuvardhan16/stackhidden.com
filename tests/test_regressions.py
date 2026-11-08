@@ -60,19 +60,22 @@ class RegressionTest(BrowserTestCase):
                 )
                 self.assertEqual([f"#{section_id}"], active)
 
-    # Counts only frames requested by the background loop (the function
-    # named `step`). Counting every frame mixes in the core, bot, and
-    # glow loops and cannot tell one graph loop from two.
-    GRAPH_FRAMES = """async () => {
-        let calls = 0;
+    # How many background loops are running, counted per animation frame:
+    # every callback the browser runs in one frame gets that frame's
+    # timestamp, so one loop runs `step` once per timestamp and two
+    # stacked loops run it twice. Until Nov 8, 2026 this counted frames
+    # over 600ms and allowed 1.4 times the first count, which a busy
+    # machine could exceed with one loop (17 against 12 on a local run,
+    # and a failed first attempt in CI on Nov 7).
+    GRAPH_LOOPS = """async () => {
+        const perFrame = new Map();
         const raf = window.requestAnimationFrame;
-        window.requestAnimationFrame = cb => {
-            if (cb && cb.name === 'step') calls++;
-            return raf(cb);
-        };
+        window.requestAnimationFrame = cb => raf(cb && cb.name === 'step'
+            ? ts => { perFrame.set(ts, (perFrame.get(ts) || 0) + 1); cb(ts); }
+            : cb);
         await new Promise(r => setTimeout(r, 600));
         window.requestAnimationFrame = raf;
-        return calls;
+        return perFrame.size ? Math.max(...perFrame.values()) : 0;
     }"""
 
     def click_motion(self) -> None:
@@ -81,13 +84,10 @@ class RegressionTest(BrowserTestCase):
     def test_motion_toggle_does_not_stack_canvas_loops(self) -> None:
         # applyMotion() started a new loop on every call (once at load,
         # then on each toggle), so the field sped up each time.
-        baseline = self.page.evaluate(self.GRAPH_FRAMES)
+        self.assertEqual(1, self.page.evaluate(self.GRAPH_LOOPS))
         for _ in range(6):
             self.click_motion()
-        after = self.page.evaluate(self.GRAPH_FRAMES)
-        # One loop runs at the display rate; a stacked loop doubles it.
-        self.assertGreater(baseline, 0)
-        self.assertLess(after, baseline * 1.4)
+        self.assertEqual(1, self.page.evaluate(self.GRAPH_LOOPS))
 
     def test_core_resumes_when_motion_is_turned_back_on(self) -> None:
         # Compare whole frames, not their encoded length (two different
