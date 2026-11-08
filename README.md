@@ -15,7 +15,7 @@ The site is a hand-built static page: plain HTML, CSS, and JavaScript. No framew
 
 | Area | What it is |
 | --- | --- |
-| Hero | Name, current role (Software Development Engineer, Advertising Analytics and Insights at Amazon), his tech stack in his own words: Back-End Engineering, Java, APIs, Big Data. Live New York clock, the animated data hero figure, and the At a glance panel with the animated lineage core. The hero's lines rise into place once on load. |
+| Hero | Name, current role (Software Development Engineer, Advertising Analytics and Insights at Amazon), his tech stack in his own words: Back-End Engineering, Java, APIs, Big Data. Live New York clock, the animated data hero figure, and the At a glance panel with the animated lineage core. The hero's lines rise into place once on load. Since Nov 8, 2026 a looping lineage-network video runs behind the whole top of the page, in the theme's colours. |
 | About | Short professional summary aligned with his LinkedIn profile. |
 | Experience | Full verified timeline from LinkedIn: Amazon (Sep 2022 to present), Uptycs intern, TA Digital associate and intern, Augmented Byte intern. It opens with the career as a trace: every role since 2019, and the graduate degree, as a span on a year axis that ends at today. Selecting a row gives its length and place, with a link to the full entry. |
 | Engineering Work | Four case files from his Amazon record: insight ingestion orchestration, the Insights API, custom brands (ICM) in the Insights Store, and the Mosaic and Kaleidoscope agents. Each opens in place and answers to a `#case=` deep link. |
@@ -31,12 +31,13 @@ The site is a hand-built static page: plain HTML, CSS, and JavaScript. No framew
 | --- | --- |
 | `index.html` | All content and structure. Architecture, content rules, and accessibility notes are documented in comments at the top of the file and on each section. |
 | `style.css` | The dual light/dark theme system (CSS custom properties) and all layout. The theme system is documented in the stylesheet header. |
-| `app.js` | Theme toggle (persisted), New York clock, background lineage canvas, trace case files, lineage explorer and send-a-record, quotes carousel, scrollspy and scroll progress, the query console (tables, lexer, parser, executor), and the first-view reveals. Each feature is documented where it lives. |
+| `app.js` | Theme toggle (persisted), New York clock, background lineage canvas, trace case files, lineage explorer and send-a-record, quotes carousel, the hero background video, scrollspy and scroll progress, the query console (tables, lexer, parser, executor), and the first-view reveals. Each feature is documented where it lives. |
 | `assets/favicon.svg` | The only brand mark. |
 | `assets/apple-touch-icon.png` | The home-screen icon: the favicon drawn full-bleed at 180px. `scripts/render-touch-icon.py` renders it from the favicon. |
 | `assets/quote-eu-ai-act.webp`, `assets/quote-golden-dataset.webp` | Screenshots of the published Label Your Data quote blocks. Lossless WebP (v5): every pixel of the original PNG, at less than half the size. The Featured In carousel showed them until Nov 6, 2026, when its slides went headline first; they stay in `assets/`, unreferenced, as the record of each published quote. |
 | `assets/quote-informatics-access-privacy.webp`, `assets/quote-informatics-everyday-decisions.webp`, `assets/quote-cto-sync-technical-debt.webp`, `assets/quote-tech-magazine-customer-requests.webp` | The quote cards for the two Informatics Magazine quotes, the CTO Sync quote, and the Tech Magazine quote, made in the style of the screenshots by `scripts/render-quote-card.py`. Lossless WebP. Unreferenced since Nov 6, 2026, like the screenshots. |
 | `assets/data-hero.webp`, `assets/data-hero-loop.mp4` | The hero figure: the still is the video's poster. |
+| `assets/hero-network-*.mp4`, `assets/hero-network-*.webp` | The hero background (Nov 8, 2026): a 10-second lineage-network loop per theme, at 1920x1080 for desktop and 720x1080 for 920px and under, each with its first frame as a WebP still. `scripts/render-hero-network.py` renders all eight. See `docs/the-hero-background.md`. |
 | `assets/og-card.png` | The social share card. |
 | `assets/logos/` | Official publisher logos, added by the owner on Nov 2, 2026. See `docs/publisher-logos.md`. |
 | `404.html` | The page GitHub Pages serves, with status 404, for any address that has no file. Self-contained, with absolute URLs, because Pages serves it at any depth. |
@@ -55,10 +56,10 @@ The site is a hand-built static page: plain HTML, CSS, and JavaScript. No framew
 
 | Folder | What it holds |
 | --- | --- |
-| `assets/` | The site's images: the favicon and home-screen icon, the data hero figure, the share card, the lineage core artwork, the six quote images (unreferenced since Nov 6, 2026), and the publisher logos. |
+| `assets/` | The site's images and videos: the favicon and home-screen icon, the data hero figure, the hero background loops and their stills, the share card, the lineage core artwork, the six quote images (unreferenced since Nov 6, 2026), and the publisher logos. |
 | `tests/` | The automated test suite: one module per area, plus shared browser helpers. `docs/test-plan.md` says what each module protects. |
-| `scripts/` | `run-tests.sh`, the one command that runs the whole suite locally; `render-touch-icon.py`, which renders the home-screen icon from the favicon; and `render-quote-card.py`, which renders a Featured In quote card. |
-| `docs/` | The working documents, kept in the repo: how the site works, motion, the query console, publisher logos, the cursor bot, the lineage core, the content rules, deployment, testing, and the test plan. |
+| `scripts/` | `run-tests.sh`, the one command that runs the whole suite locally; `render-touch-icon.py`, which renders the home-screen icon from the favicon; `render-quote-card.py`, which renders a Featured In quote card; and `render-hero-network.py`, which renders the hero background's videos and stills. |
+| `docs/` | The working documents, kept in the repo: how the site works, motion, the query console, publisher logos, the cursor bot, the lineage core, the hero background, the content rules, deployment, testing, and the test plan. |
 | `.github/workflows/` | The CI workflow (`site-checks`) that runs the same suite on every push and pull request. |
 
 ---
@@ -84,7 +85,7 @@ The domain registration stays at Hostinger because GitHub is not a domain regist
 ```mermaid
 flowchart TD
     H["Header: brand, section nav, theme toggle, scroll progress"]
-    H --> Hero["Hero: role, tech stack, stats, animated lineage core, intro"]
+    H --> Hero["Hero: role, tech stack, stats, animated lineage core, intro, network loop behind it"]
     Hero --> About
     About --> Experience["Experience: career trace, then the LinkedIn-verified entries"]
     Experience --> Work["Engineering Work: four case files"]
@@ -128,7 +129,7 @@ Both themes are one layout driven by CSS custom properties (`--bg`, `--panel`, `
 scripts/run-tests.sh
 ```
 
-One command runs the automated suite: the static content-rule checks first, then the browser modules against the local files (theme, palette, case files, carousel, explorer, layout, motion, regressions, query console, records, animations, publishers, career, finishing touches, and loading; `docs/test-plan.md` says what each protects), with a pass/fail line per module and a non-zero exit if anything fails. The browser modules need Playwright; the script uses the venv at `/tmp/pwenv` when it is present, and python3 otherwise. CI (`.github/workflows/ci.yml`) runs the same suite on every push and pull request, against the site served locally in the runner.
+One command runs the automated suite: the static content-rule checks first, then the browser modules against the local files (theme, palette, case files, carousel, explorer, layout, motion, regressions, query console, records, animations, publishers, career, finishing touches, loading, and the hero background; `docs/test-plan.md` says what each protects), with a pass/fail line per module and a non-zero exit if anything fails. The browser modules need Playwright; the script uses the venv at `/tmp/pwenv` when it is present, and python3 otherwise. CI (`.github/workflows/ci.yml`) runs the same suite on every push and pull request, against the site served locally in the runner.
 
 ### Run it locally
 
@@ -144,13 +145,13 @@ No build step. Editing a file and refreshing the browser is the whole loop.
 1. **HTML structure.** Parse `index.html` (for example with Python's `html.parser`): zero errors, nothing unclosed, exactly one `h1`, landmarks present (`header`, `nav`, `main`, `footer`), every section has a heading.
 2. **JavaScript syntax.** `node --check app.js` passes.
 3. **Structured data.** The JSON-LD block in the head parses as valid JSON.
-4. **Assets resolve.** Serve locally and confirm `index.html`, `style.css`, `app.js`, `404.html`, `robots.txt`, `sitemap.xml`, `assets/favicon.svg`, `assets/apple-touch-icon.png`, and every publisher logo return HTTP 200.
+4. **Assets resolve.** Serve locally and confirm `index.html`, `style.css`, `app.js`, `404.html`, `robots.txt`, `sitemap.xml`, `assets/favicon.svg`, `assets/apple-touch-icon.png`, the eight `assets/hero-network-*` files, and every publisher logo return HTTP 200.
 5. **No photo.** `grep -ri "profile.jpg" .` over the site files returns nothing, and no image of the owner exists in `assets/`.
 6. **No forbidden wording.** `grep -ri "journal of big data" index.html` returns nothing; `grep -c "Senior" index.html` is 0; his title is never written as Data Engineer.
 7. **Links.** Every external link is `https://` and has been opened and verified live (the three trade pieces, both Label Your Data articles, the Informatics Magazine Q&A, both speaking links, LinkedIn).
 8. **Both themes.** Load the page, toggle light and dark: layout identical, all text readable in both, the secondary (outline) button label clearly visible in dark mode, the canvas and the lineage graph recolour.
 9. **Widths.** Check at 360px, 480px, 768px, and desktop: no horizontal scrolling at any width (`document.documentElement.scrollWidth` equals the viewport width).
-10. **Motion.** With `prefers-reduced-motion` on, and again with the footer's Reduce motion: the canvases are still, the hero intro does not play, the trace and graph are drawn in place, and the carousel does not auto-advance. With it off: the carousel advances every 5 seconds, moving left to right, pauses on hover and on keyboard focus, and holds while a quote is open. `docs/motion.md` lists every moving piece.
+10. **Motion.** With `prefers-reduced-motion` on, and again with the footer's Reduce motion: the canvases are still, the hero intro does not play, the hero background shows its still and downloads no video, the trace and graph are drawn in place, and the carousel does not auto-advance. With it off: the hero background plays and swaps to the other theme's file on a theme flip; the carousel advances every 5 seconds, moving left to right, pauses on hover and on keyboard focus, and holds while a quote is open. `docs/motion.md` lists every moving piece.
 11. **Keyboard.** Tab through the page: the skip link (the first stop), theme toggle, career rows (the arrow keys move between them), lineage stages, the send-a-record buttons, trace rows, the showing slide's headline and "Read my quote" (never a slide that is off stage), the carousel arrows and dots, and the query console (editor, Run, examples, Trace buttons) are all reachable and operable with Enter or Space.
 12. **Accessibility audit.** For a visual change, run axe-core over the changed sections in both themes. It must report no violations.
 
@@ -161,6 +162,7 @@ curl -s -o /dev/null -w "%{http_code} %{size_download}\n" https://stackhidden.co
 curl -s https://stackhidden.com/ | grep -c "For opportunities or questions about my work"
 curl -s -o /dev/null -w "%{http_code}\n" https://stackhidden.com/assets/profile.jpg   # must be 404
 curl -s https://stackhidden.com/no-such-page | grep -c "Page not found"           # must be 1: the site's own 404 page
+curl -s -o /dev/null -w "%{http_code} %{content_type}\n" https://stackhidden.com/assets/hero-network-dark.mp4   # 200 video/mp4
 curl -s https://api.github.com/repos/vishuvardhan16/stackhidden.com/commits?per_page=5
 ```
 
@@ -276,6 +278,17 @@ Extra pre-push checks for this change: open and close a quote with the mouse and
 - **The phone link row.** Once the row had scrolled, its left edge cut a link in half with no fade ("ting" of Writing), and back at the top from Contact, Contact stayed lit and the row stayed scrolled to the end (on desktop too, Contact stayed lit). Now the row fades at each end that has more links past it and always rests with a link starting where the left fade ends. Above About, no link is lit and the row starts over.
 - **Tests.** `test_explorer` grows from 1 test to 8 and `test_regressions` gains 6; the suite is 16 modules, 154 tests. Each new check failed on the code before the fix, and each part of the fix was broken in turn to confirm a check catches it.
 - **A flaky test, fixed.** The in-page jump test reloaded a page scrolled to the previous target, and when the machine was busy the browser's scroll restore landed after the test's click: about 1 run in 6 failed under load, on code from before this change too. Each check now starts from a fresh load. It passed 24 runs of 24 under the same load and still fails when the scroll padding it guards is removed.
+
+## Hero background (November 8, 2026)
+
+- **What changed.** A looping video now runs behind the top of the page: a lineage network of thin blue lines between scattered nodes, with violet and cyan records travelling it and one amber record, the flagged one. It runs edge to edge from under the header to below the At a glance panel and fades into the page. The action-figure video keeps playing in front of it. The faint graph-paper grid that used to sit behind the hero is gone.
+- **Why.** The owner liked the looping video background on aiasplus.org and asked for something like it. He chose to keep both videos moving, and picked this look from three original options, each shown to him on the page: data streams, drifting light, and the lineage network.
+- **How it loads.** A visitor downloads one still and at most one video, the one for their theme and width: about 1 MB on desktop, 0.4 MB on a phone. The video is given its file only when it may play, after the page has loaded, so it never downloads under reduced motion, the footer's Reduce motion, Data Saver, or 2G. It pauses off screen and in a hidden tab, and swaps files when the theme flips or the width crosses 920px. The still waits for app.js and then fades in: loaded with the stylesheet, it shared a slow phone's bandwidth with app.js and held back the first paint by about 170ms. Now the largest paint on a phone on slow 4G is 2.43s, against 2.39s before this change; desktop stays under a quarter of a second. Without JavaScript the still shows at once.
+- **Readability.** A tint keeps every line of hero text at WCAG AA over every moment of the loop, measured frame by frame at 360, 390, 768, and 1440px in both themes.
+- **The rings.** The rings around the lineage core in the At a glance panel go round twice as fast: a lap now takes about 22 to 39 seconds, where it took 45 to 79. The owner found them too slow to notice.
+- **Tests.** A new module, `test_background` (24 tests), and two new static checks. The suite is 17 modules, 180 tests. Each new check failed against a matching mutation before it was trusted, and the module passes with every video replaced by bytes no decoder accepts, since CI's browser may not decode H.264. `docs/the-hero-background.md` covers the files, the build, and how to change it.
+
+Extra pre-push checks for this change: load the page in both themes at desktop and phone size and watch the background play; flip the theme and confirm the other file takes over with no flash of the old picture; turn on Reduce motion and confirm the still stays and no `hero-network-*.mp4` is requested.
 
 ## License and artwork
 
