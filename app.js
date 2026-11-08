@@ -591,14 +591,15 @@
   // illustration unanimated. The play() promise is caught because a
   // browser may still refuse; a refused autoplay just leaves the still.
   var heroVideo = document.getElementById('heroVideo');
+  // Data Saver, or a 2G connection, keeps the stills: the figure loop is
+  // 1.2MB, the background loop up to 1MB, and each still shows the same
+  // picture. Both videos are preload="none" (the background one has no
+  // src until it may play), so in that case none of either is downloaded.
+  var conn = navigator.connection;
+  var saveData = !!(conn && (conn.saveData || /2g$/.test(conn.effectiveType || '')));
   if (heroVideo) {
     heroVideo.muted = true;
     var hvVisible = true;
-    // Data Saver, or a 2G connection, keeps the still: the loop is 1.2MB
-    // and the poster is the same illustration. The video is preload="none",
-    // so in that case none of it is downloaded.
-    var conn = navigator.connection;
-    var saveData = !!(conn && (conn.saveData || /2g$/.test(conn.effectiveType || '')));
     function hvSync() {
       if (!saveData && !motionOff() && hvVisible && !document.hidden) {
         var promise = heroVideo.play();
@@ -611,6 +612,74 @@
     document.addEventListener('visibilitychange', hvSync);
     new MutationObserver(hvSync).observe(document.documentElement, { attributes: true, attributeFilter: ['data-motion', 'data-theme'] });
     hvSync();
+  }
+
+  // Hero background (Nov 8, 2026): the lineage network loop behind the
+  // top of the page, in three layers (style.css): the still, the video,
+  // and the tint. Two jobs here.
+  //
+  // The still. CSS picks it by theme and width, but only once data-bg is
+  // on <html>, which happens here: loaded with the stylesheet, it shared
+  // a slow phone's bandwidth with this file, which fills in the hero's
+  // clock line, and held back the first paint by about 170ms (slow 4G, 4x
+  // slower CPU, measured Nov 8, 2026). It fades in once its file is in
+  // (.still), and again after a theme flip or a width change picks
+  // another one. Without JavaScript a <noscript> style shows it at once.
+  //
+  // The video, under the figure's rules: motion allowed, the layer on
+  // screen, the tab visible, and no Data Saver or 2G. Its four files, the
+  // theme's at the width's size (narrow up to 920px), are named in data
+  // attributes in index.html. The src is set only when the video may
+  // play, so a visitor with motion off never downloads one, and not
+  // before the page's load event, so its download never competes with
+  // the page's own files. The video stays transparent until it is
+  // playing; a theme flip or a width change hides it at once, so the
+  // stale video never sits over the new still, then loads the matching
+  // file. Each file's first frame is its still, so the fade in is a
+  // seamless hand-over.
+  var heroBg = document.getElementById('heroBg');
+  var bgVideo = document.getElementById('heroBgVideo');
+  if (heroBg && bgVideo) {
+    bgVideo.muted = true;
+    var bgVisible = true;
+    var bgReady = document.readyState === 'complete';
+    var bgNarrow = window.matchMedia('(max-width:920px)');
+    var bgStillUrl = '';
+    function bgFile() {
+      var t = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+      return bgVideo.getAttribute('data-src-' + t + (bgNarrow.matches ? '-narrow' : ''));
+    }
+    function bgStill() {
+      var m = /url\(["']?([^"')]+)/.exec(getComputedStyle(heroBg, '::before').backgroundImage || '');
+      var url = m ? m[1] : '';
+      if (url === bgStillUrl) return;
+      bgStillUrl = url;
+      heroBg.classList.remove('still');
+      if (!url) return;
+      var img = new Image();
+      img.onload = function () { if (bgStillUrl === url) heroBg.classList.add('still'); };
+      img.src = url;
+    }
+    function bgSync() {
+      bgStill();
+      var want = bgFile(), have = bgVideo.getAttribute('src');
+      if (have && have !== want) { heroBg.classList.remove('playing'); bgVideo.pause(); }
+      if (!bgReady || saveData || motionOff() || !bgVisible || document.hidden || !want) { bgVideo.pause(); return; }
+      if (have !== want) bgVideo.setAttribute('src', want);
+      var promise = bgVideo.play();
+      if (promise && promise.catch) promise.catch(function () {});
+    }
+    bgVideo.addEventListener('playing', function () {
+      if (bgVideo.getAttribute('src') === bgFile()) heroBg.classList.add('playing');
+    });
+    root.setAttribute('data-bg', '');
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { bgVisible = es[0].isIntersecting; bgSync(); }).observe(heroBg);
+    document.addEventListener('visibilitychange', bgSync);
+    new MutationObserver(bgSync).observe(root, { attributes: true, attributeFilter: ['data-motion', 'data-theme'] });
+    if (bgNarrow.addEventListener) bgNarrow.addEventListener('change', bgSync);
+    else if (bgNarrow.addListener) bgNarrow.addListener(bgSync);
+    bgSync();
+    if (!bgReady) window.addEventListener('load', function () { setTimeout(function () { bgReady = true; bgSync(); }, 0); });
   }
 
   // The cursor bot (owner's idea, Oct 2026): a small terminal bot fixed

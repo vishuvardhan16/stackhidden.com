@@ -16,10 +16,11 @@
 
    LAYOUT
      Single column, max-width 1020px, CSS grid only where it earns it
-     (stats strip, publication cards). The hero is a plain block: the
-     visual is the fixed full-page lineage-graph canvas behind the
-     content (z-index -1), not a hero image - see the photo rule in
-     index.html.
+     (stats strip, publication cards). Behind the whole page is the fixed
+     lineage-graph canvas (z-index -1). Since Nov 8, 2026 the top of the
+     page also has its own background: a looping lineage-network video
+     behind the hero (#heroBg below). Neither is a photograph; see the
+     photo rule in index.html.
 
    MOTION
      Transitions are colour/background only, 0.35s, and
@@ -71,7 +72,7 @@ h1{font-size:2.6rem;line-height:1.12;margin:.15em 0}
 h2{font-size:1.55rem;margin:.2em 0 .7em}
 h3{margin:.3em 0 .5em;line-height:1.35}
 .panel,.card,.quote-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:var(--shadow);backdrop-filter:blur(6px)}
-.hero{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(320px,.82fr);gap:38px;align-items:start;margin-top:8px;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:26px 26px;border-radius:24px}
+.hero{position:relative;display:grid;grid-template-columns:minmax(0,1.18fr) minmax(320px,.82fr);gap:38px;align-items:start;margin-top:8px}
 .points{padding-left:20px;margin:10px 0}
 .points li{margin:8px 0}
 #cursorBot{position:fixed;right:20px;bottom:16px;width:112px;z-index:30;pointer-events:none;filter:drop-shadow(0 10px 24px rgba(0,0,0,.35))}
@@ -91,8 +92,49 @@ h3{margin:.3em 0 .5em;line-height:1.35}
 :root[data-motion="reduced"] #cursorBot .bot-closed{display:block}
 @media (prefers-reduced-motion: reduce){#cursorBot .bot-pupil{display:none}#cursorBot .bot-closed{display:block}}
 @media (max-width:640px){#cursorBot{width:84px;right:12px;bottom:10px}}
-:root[data-theme="dark"]{--grid:rgba(110,168,254,.07)}
-:root[data-theme="light"]{--grid:rgba(31,95,208,.09)}
+/* Hero background (Nov 8, 2026): the lineage network loop behind the top
+   of the page, edge to edge and up under the translucent header. It is
+   the hero's first child at z-index -1, and .hero is not a stacking
+   context, so the layer sits in the page's own stack: above the fixed
+   #graph canvas (earlier in the page), below every piece of content and
+   the cursor glow. Its top reaches 24px past the top of the page (the
+   hero starts 34px of main padding plus 8px of margin under the header).
+   On desktop it covers the whole hero; at 920px and under, where the
+   hero is one column and very tall, it is a band about one screen high.
+   The bottom 260px fades into the page.
+   Three layers, bottom to top: the still (::before), the video, and the
+   tint (::after). The still is chosen here by theme and width, but only
+   once app.js has set data-bg on <html>: loaded with the stylesheet, it
+   shared a slow phone's bandwidth with app.js, which fills in the hero's
+   clock line, and held back the first paint by about 170ms (slow 4G, 4x
+   slower CPU, Nov 8, 2026). app.js adds .still once the file is in, and
+   it fades in; without JavaScript a <noscript> style in index.html shows
+   it at once. The video fades in over it once it plays, and its first
+   frame is that still. The tint holds the text's contrast: strongest on
+   the text side, lightest behind the side panel, even across on one
+   column. The tints are tokens so they follow the theme like every other
+   colour. */
+:root[data-theme="dark"]{--scrim-a:rgba(13,16,23,.66);--scrim-b:rgba(13,16,23,.42);--scrim-c:rgba(13,16,23,.18);--scrim-n:rgba(13,16,23,.45)}
+:root[data-theme="light"]{--scrim-a:rgba(244,246,250,.66);--scrim-b:rgba(244,246,250,.42);--scrim-c:rgba(244,246,250,.18);--scrim-n:rgba(244,246,250,.64)}
+#heroBg{position:absolute;z-index:-1;left:calc(50% - 50vw);right:calc(50% - 50vw);top:calc(-1 * (var(--header-h,72px) + 66px));bottom:-160px;
+  overflow:hidden;pointer-events:none;
+  -webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 260px),transparent);mask-image:linear-gradient(to bottom,#000 calc(100% - 260px),transparent)}
+#heroBg::before{content:"";position:absolute;inset:0;background:center/cover no-repeat;opacity:0;transition:opacity .6s ease}
+:root[data-bg] #heroBg::before{background-image:url(assets/hero-network-dark.webp)}
+:root[data-bg][data-theme="light"] #heroBg::before{background-image:url(assets/hero-network-light.webp)}
+#heroBg.still::before{opacity:1}
+#heroBg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .4s ease}
+#heroBg.playing video{opacity:1}
+#heroBg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--scrim-a) 0%,var(--scrim-b) 50%,var(--scrim-c) 100%)}
+@media (max-width:920px){
+  #heroBg{bottom:auto;height:clamp(700px,calc(100svh + 64px),1100px)}
+  :root[data-bg] #heroBg::before{background-image:url(assets/hero-network-dark-narrow.webp)}
+  :root[data-bg][data-theme="light"] #heroBg::before{background-image:url(assets/hero-network-light-narrow.webp)}
+  #heroBg::after{background:var(--scrim-n)}
+}
+@media (prefers-reduced-motion:reduce){#heroBg::before{transition:none}}
+:root[data-motion="reduced"] #heroBg::before{transition:none}
+@media (forced-colors:active){#heroBg{display:none}}
 .core-art{margin:0 0 16px}
 .core-art canvas{width:100%;height:auto;display:block}
 .hero-side{position:sticky;top:96px}
@@ -306,7 +348,7 @@ canvas#graph{opacity:.85}
 @media print{
   @page{margin:16mm}
   body{background:#fff!important;color:#000!important;font-size:11pt;line-height:1.5}
-  #graph,#cursorGlow,#cursorBot,.core-art,.site-header,#palette,.carousel-controls,.case-toggle,.burst{display:none!important}
+  #graph,#heroBg,#cursorGlow,#cursorBot,.core-art,.site-header,#palette,.carousel-controls,.case-toggle,.burst{display:none!important}
   main{max-width:none;padding:0}
   section{margin:18px 0}
   .panel,.card,.case,.stats div{background:#fff!important;border:1px solid #bbb!important;box-shadow:none!important;backdrop-filter:none}

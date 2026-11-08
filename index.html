@@ -16,12 +16,14 @@
   FILES
     index.html          This page. All content lives here.
     style.css           Theme variables (dark + light) and all layout.
-    app.js              All behavior: theme, clock, canvases, explorer,
-                        case files, carousel, palette, query console.
+    app.js              All behavior: theme, clock, canvases, hero
+                        videos, explorer, case files, carousel,
+                        palette, query console.
     assets/             Favicon, home-screen icon, publisher logos,
-                        share card, and the quote screenshots the
-                        Featured carousel no longer shows. See the
-                        photo rule below.
+                        share card, the hero figure, the hero
+                        background loops and their stills, and the
+                        quote screenshots the Featured carousel no
+                        longer shows. See the photo rule below.
     404.html            The page GitHub Pages serves for a missing
                         address. Self-contained; see its own header.
     robots.txt,         Crawl rules and the one canonical URL.
@@ -62,8 +64,9 @@
 
   ACCESSIBILITY
     Landmarks (header/nav/main/footer), one <h1>, a labelled theme
-    toggle, a decorative canvas hidden from assistive tech, and
-    prefers-reduced-motion honoured in both CSS and the canvas code.
+    toggle, a decorative canvas and hero background hidden from
+    assistive tech, and prefers-reduced-motion honoured in both CSS and
+    the canvas and video code.
 -->
 <title>Vishnuvardhan Reddy Kaithapuram | Software Development Engineer, Amazon Advertising</title>
 <meta name="description" content="Software Development Engineer at Amazon Advertising in New York. I build the data pipelines behind advertiser analytics and work on data quality, lineage, and data-layer AI governance.">
@@ -88,6 +91,10 @@
 (function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);if(localStorage.getItem('motion')==='reduced'){document.documentElement.setAttribute('data-motion','reduced');}}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
 </script>
 <link rel="stylesheet" href="style.css">
+<!-- Without JavaScript the hero background's still shows at once (with
+     it, app.js loads the still after itself; see style.css). No script
+     means the dark theme, so these are the dark stills. -->
+<noscript><style>#heroBg::before{background-image:url(assets/hero-network-dark.webp);opacity:1}@media (max-width:920px){#heroBg::before{background-image:url(assets/hero-network-dark-narrow.webp)}}</style></noscript>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Vishnuvardhan Reddy Kaithapuram","jobTitle":"Software Development Engineer","worksFor":{"@type":"Organization","name":"Amazon Advertising"},"address":{"@type":"PostalAddress","addressLocality":"New York","addressRegion":"NY"},"url":"https://stackhidden.com/","sameAs":["https://www.linkedin.com/in/vishnu-vardhan-reddy-kaithapuram/"]}
 </script>
@@ -126,6 +133,25 @@
   <!-- Hero: engineer first. Role and pipelines lead; publications are evidence further down, not the headline. -->
 <main id="top" tabindex="-1">
   <section class="hero">
+    <!-- Hero background (Nov 8, 2026, the owner's pick of three looks):
+         a lineage network drifting behind the top of the page, with
+         violet and cyan records travelling its edges and one amber
+         record flagged on the way. It is an original 10-second seamless
+         loop rendered for this site, after the owner admired the looping
+         video background on aiasplus.org. The still for the theme and
+         width showing is CSS (style.css, loaded once app.js runs; the
+         <noscript> style in the head covers no JavaScript), so a visitor
+         without JavaScript, with motion off, or on Data Saver sees the
+         network still and downloads no video. app.js picks the
+         file below for the theme and width (narrow up to 920px, where the
+         hero is one column), plays it under the same rules as the figure
+         video, and swaps it when the theme flips. Decorative only:
+         hidden from assistive tech, gone in print. -->
+    <div id="heroBg" aria-hidden="true">
+      <video id="heroBgVideo" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback tabindex="-1"
+             data-src-dark="assets/hero-network-dark.mp4" data-src-light="assets/hero-network-light.mp4"
+             data-src-dark-narrow="assets/hero-network-dark-narrow.mp4" data-src-light-narrow="assets/hero-network-light-narrow.mp4"></video>
+    </div>
     <div class="hero-text">
       <p class="eyebrow">New York City &middot; <span id="clock">--:--</span> ET</p>
       <h1>Vishnuvardhan Reddy Kaithapuram</h1>
