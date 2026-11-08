@@ -248,7 +248,12 @@ class LoadingRulesTest(unittest.TestCase):
                 self.assertIn('decoding="async"', tag)
 
     def test_every_referenced_asset_exists(self) -> None:
-        for path in re.findall(r'(?:src|poster|href)="(assets/[^"]+)"', self.index):
+        # Markup attributes, including the background video's data-src-*
+        # names that app.js reads, and every url() in the stylesheet.
+        paths = re.findall(r'(?:src|poster|href|data-src-[a-z-]+)="(assets/[^"]+)"', self.index)
+        paths += re.findall(r"url\((assets/[^)]+)\)", read(STYLE) + self.index)
+        self.assertGreaterEqual(len(paths), 20)
+        for path in paths:
             with self.subTest(path=path):
                 self.assertTrue((ROOT / path).is_file(), path)
 
@@ -256,6 +261,40 @@ class LoadingRulesTest(unittest.TestCase):
         video = re.search(r'<video id="heroVideo"[^>]*>', self.index).group(0)
         self.assertIn('preload="none"', video)
         self.assertNotIn("autoplay", video)
+
+    def test_the_background_loop_waits_for_app_js(self) -> None:
+        # Nov 8, 2026: no src in the markup at all, so no browser can start
+        # the download before app.js has checked motion and Data Saver.
+        video = re.search(r'<video id="heroBgVideo"[^>]*>', self.index, flags=re.DOTALL).group(0)
+        for attr in ('preload="none"', "muted", "loop", "playsinline", 'tabindex="-1"'):
+            self.assertIn(attr, video)
+        self.assertNotIn("autoplay", video)
+        self.assertNotIn("controls", video)
+        self.assertIsNone(re.search(r"\ssrc=", video))
+        names = dict(re.findall(r'data-src-([a-z-]+)="assets/([^"]+)"', video))
+        self.assertEqual(
+            {"dark": "hero-network-dark.mp4", "light": "hero-network-light.mp4",
+             "dark-narrow": "hero-network-dark-narrow.mp4", "light-narrow": "hero-network-light-narrow.mp4"},
+            names,
+        )
+        self.assertIn('<div id="heroBg" aria-hidden="true">', self.index)
+
+    def test_the_background_files_stay_light_and_start_fast(self) -> None:
+        # A visitor downloads one video: about 1MB on desktop, 0.4MB narrow.
+        # Each file keeps its index (moov) ahead of the frames (mdat), so
+        # playback can start before the whole file arrives; each still is
+        # a webp of tens of KB.
+        budgets = {"hero-network-dark.mp4": 1_100_000, "hero-network-light.mp4": 1_100_000,
+                   "hero-network-dark-narrow.mp4": 450_000, "hero-network-light-narrow.mp4": 450_000}
+        for name, budget in budgets.items():
+            with self.subTest(file=name):
+                data = (ROOT / "assets" / name).read_bytes()
+                self.assertLessEqual(len(data), budget)
+                self.assertLess(data.find(b"moov"), data.find(b"mdat"))
+                self.assertGreater(data.find(b"moov"), 0)
+                still = ROOT / "assets" / name.replace(".mp4", ".webp")
+                self.assertLessEqual(still.stat().st_size, 50 * 1024)
+                self.assertEqual(b"WEBP", still.read_bytes()[8:12])
 
     def test_logo_files_stay_light(self) -> None:
         # The first Tech Magazine PNG was 1200x250, 72 KB, for a logo shown
