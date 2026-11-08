@@ -523,10 +523,13 @@
       var lx = -0.55, ly = -0.75, lz = 0.6, ll = Math.sqrt(lx * lx + ly * ly + lz * lz);
       coreDots.push({ x: xx, y: yy, b: Math.max(0, (xx / CR * lx + yy / CR * ly + nz * lz) / ll) });
     }
+    // Speeds are radians per second. Nov 8, 2026: doubled at the owner's
+    // request (he found the rings too slow to notice): a lap now takes
+    // about 22, 31, and 39 seconds, where it took 45, 63, and 79.
     var coreOrbits = [
-      { rx: 385, ry: 120, rot: -0.30, speed: 0.14, nodes: [{ p: 0.3, r: 15 }, { p: 3.6, r: 11 }] },
-      { rx: 340, ry: 95, rot: 0.22, speed: -0.10, nodes: [{ p: 1.8, r: 12 }] },
-      { rx: 410, ry: 150, rot: -0.62, speed: 0.08, nodes: [{ p: 5.2, r: 13 }, { p: 2.2, r: 9 }] }
+      { rx: 385, ry: 120, rot: -0.30, speed: 0.28, nodes: [{ p: 0.3, r: 15 }, { p: 3.6, r: 11 }] },
+      { rx: 340, ry: 95, rot: 0.22, speed: -0.20, nodes: [{ p: 1.8, r: 12 }] },
+      { rx: 410, ry: 150, rot: -0.62, speed: 0.16, nodes: [{ p: 5.2, r: 13 }, { p: 2.2, r: 9 }] }
     ];
     function corePt(o, a) {
       var x = Math.cos(a) * o.rx, y = Math.sin(a) * o.ry;

@@ -14,7 +14,8 @@ Plain Canvas 2D in `app.js`, no libraries and no GPU shader. A shader would be h
 
 - The dot field is computed once at load: a grid clipped to a circle, each dot sized and faded by a simple light calculation, so the sphere reads as round.
 - Three elliptical orbits are drawn as paths, tilted at different angles. Five nodes ride them, two rings one way and one ring the other, each node with a short fading trail.
-- The core brightens and dims very slowly, a shimmer rather than a pulse. A full orbit takes the better part of a minute. The aim is calm, closer to a slow instrument than a screensaver.
+- The core brightens and dims very slowly, a shimmer rather than a pulse. The aim is calm, closer to a slow instrument than a screensaver.
+- The rings go round in about 22, 31, and 39 seconds. Until Nov 8, 2026 they took 45, 63, and 79, and the owner found them too slow to notice, so their speeds (`speed` in `coreOrbits`, in radians per second) were doubled.
 
 ## How it behaves
 
