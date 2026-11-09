@@ -328,6 +328,25 @@ class LoadingRulesTest(unittest.TestCase):
                 self.assertIsNotNone(shown, "PNG logo not on the page")
                 self.assertLessEqual(natural, 3.2 * int(shown.group(1)))
 
+    def test_the_corner_friend_is_cut_out_of_his_backdrop(self) -> None:
+        # Nov 8, 2026: the owner's drawing, lifted out of its golden backdrop
+        # so the page shows round him (scripts/cut-corner-friend.py). He has
+        # no frame, so an opaque picture here would sit on the page as a hard
+        # square. A WebP keeps transparency in an ALPH chunk, announced by
+        # the alpha flag (0x10) in its VP8X header. 240px square, because the
+        # blink lids in index.html are drawn in that space.
+        tag = re.search(r'<img class="bot-face" src="assets/([^"]+)"[^>]*>', self.index)
+        self.assertIsNotNone(tag)
+        self.assertEqual("corner-friend.webp", tag.group(1))
+        self.assertNotIn("corner-drawing.webp", self.index, "the old, framed picture")
+        data = (ROOT / "assets" / "corner-friend.webp").read_bytes()
+        self.assertEqual((b"RIFF", b"WEBP", b"VP8X"), (data[0:4], data[8:12], data[12:16]))
+        self.assertTrue(data[20] & 0x10, "no alpha flag: the picture is opaque")
+        self.assertIn(b"ALPH", data[30:64], "no alpha chunk: the picture is opaque")
+        size = (int.from_bytes(data[24:27], "little") + 1, int.from_bytes(data[27:30], "little") + 1)
+        self.assertEqual((240, 240), size)
+        self.assertLessEqual(len(data), 24 * 1024)
+
     def test_quote_images_stay_light(self) -> None:
         for path in sorted((ROOT / "assets").glob("quote-*.webp")):
             with self.subTest(image=path.name):

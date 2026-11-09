@@ -45,6 +45,7 @@ jobs:
           test_regressions test_query test_records
           test_animations test_publishers test_career
           test_finishing test_loading test_background
+          test_friend
 
       - name: Stop the local server
         if: always()
