@@ -75,20 +75,34 @@ h3{margin:.3em 0 .5em;line-height:1.35}
 .hero{position:relative;display:grid;grid-template-columns:minmax(0,1.18fr) minmax(320px,.82fr);gap:38px;align-items:start;margin-top:8px}
 .points{padding-left:20px;margin:10px 0}
 .points li{margin:8px 0}
-/* Corner friend (Nov 8, 2026): the owner's drawing in a round frame with a
-   white edge and a thin accent ring. Four nested layers so no two motions
-   fight over one transform: .bot-head leans toward the pointer (app.js),
-   .bot-float breathes, .bot-hop hops when he laughs, .bot-frame holds the
-   drawing and the painted lids. app.js sets .blink for 150ms every few
-   seconds and .happy for 1.2s now and then, or when the pointer comes near.
-   Every motion here is gated on motion being allowed, both ways (the OS
-   setting and data-motion); under reduced motion he dims and shows "z z". */
-#cursorBot{position:fixed;right:20px;bottom:16px;width:100px;z-index:30;pointer-events:none;filter:drop-shadow(0 10px 22px rgba(0,0,0,.35))}
+/* Corner friend (Nov 8, 2026): the owner's drawing, cut out of its golden
+   backdrop (scripts/cut-corner-friend.py) so he sits on the page itself,
+   with no frame, ring or disc. Behind him a soft glow in the page's own
+   accent, like the cursor glow, over a pool of the page's own background
+   colour, invisible on bare page, so text scrolling past him fades out
+   before it reaches him instead of running into his hair (at 1280px the
+   text column ends under him); under him a shadow that follows his
+   silhouette; his crown and shoulders, where the drawing's edge cuts
+   them, fade into the page. Four nested layers so no two motions fight
+   over one transform: .bot-head leans toward the pointer (app.js) and
+   carries the glow, .bot-float breathes, .bot-hop hops when he laughs and
+   casts the shadow, .bot-frame holds the drawing and the painted lids and
+   does the fade. app.js sets .blink for 150ms every few seconds and .happy
+   for 1.2s now and then, or when the pointer comes near. Every motion here
+   is gated on motion being allowed, both ways (the OS setting and
+   data-motion); under reduced motion he dims and shows "z z". */
+:root,:root[data-theme="dark"]{--friend-glow:rgba(110,168,254,.26);--friend-pool:rgba(13,16,23,.95);--friend-shade:rgba(0,0,0,.35)}
+:root[data-theme="light"]{--friend-glow:rgba(31,95,208,.14);--friend-pool:rgba(244,246,250,.95);--friend-shade:rgba(30,41,82,.14)}
+#cursorBot{position:fixed;right:20px;bottom:16px;width:100px;z-index:30;pointer-events:none}
 #cursorBot .bot-head{position:relative;width:100%;aspect-ratio:1;transform-origin:50% 90%}
+#cursorBot .bot-head::before{content:"";position:absolute;inset:-18%;border-radius:50%;background:radial-gradient(circle at 50% 46%,var(--friend-glow),transparent 62%),radial-gradient(circle at 50% 52%,var(--friend-pool) 36%,transparent 70%)}
 #cursorBot .bot-float,#cursorBot .bot-hop{position:relative;width:100%;height:100%;transform-origin:50% 90%}
-#cursorBot .bot-frame{position:relative;width:100%;height:100%;border-radius:50%;overflow:hidden;border:3px solid #fff;box-shadow:0 0 0 2px var(--accent);background:#fff}
+#cursorBot .bot-hop{filter:drop-shadow(0 6px 10px var(--friend-shade))}
+#cursorBot .bot-frame{position:relative;width:100%;height:100%;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 6%,#000 80%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 6%,#000 80%,transparent 100%);
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
 #cursorBot .bot-face,#cursorBot .bot-lids{position:absolute;inset:0;width:100%;height:100%;display:block}
-#cursorBot .bot-face{object-fit:cover;transition:filter .4s ease}
+#cursorBot .bot-face{transition:filter .4s ease}
 #cursorBot .bot-blink,#cursorBot .bot-squint{opacity:0}
 #cursorBot .bot-blink{transition:opacity 50ms linear}
 #cursorBot .bot-squint{transition:opacity .14s ease}
@@ -98,7 +112,7 @@ h3{margin:.3em 0 .5em;line-height:1.35}
 #cursorBot .bot-spark-1{left:-4px;top:12%}
 #cursorBot .bot-spark-2{right:-2px;top:2%;width:7px;height:7px}
 #cursorBot .bot-spark-3{right:-6px;top:56%;width:6px;height:6px}
-#cursorBot .bot-spark-4{left:6%;bottom:-2px;width:6px;height:6px}
+#cursorBot .bot-spark-4{left:2%;top:60%;width:6px;height:6px}
 #cursorBot .bot-zz{position:absolute;right:-6px;top:-10px;font:800 15px/1 system-ui,sans-serif;letter-spacing:2px;color:var(--muted);display:none}
 @keyframes bot-breathe{from{transform:translateY(0) scale(1)}to{transform:translateY(-2px) scale(1.012)}}
 @keyframes bot-hop{0%{transform:none}28%{transform:translateY(-7px) rotate(-3deg)}52%{transform:translateY(0) rotate(0)}72%{transform:translateY(-3px) rotate(2deg)}100%{transform:none}}

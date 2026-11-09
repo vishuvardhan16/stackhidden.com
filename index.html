@@ -94,7 +94,7 @@
      start of each file's SHA-256), so a fresh page never runs with a
      copy cached from before a deploy. scripts/stamp-assets.py writes
      the versions; tests/test_static.py fails while they are stale. -->
-<link rel="stylesheet" href="style.css?v=b9d5249876">
+<link rel="stylesheet" href="style.css?v=4cd74a3cb0">
 <!-- Without JavaScript the hero background's still shows at once (with
      it, app.js loads the still after itself; see style.css). No script
      means the dark theme, so these are the dark stills. -->
@@ -895,7 +895,10 @@
 <!-- The corner friend (Nov 8, 2026): the owner's own drawing, an anime-style
      boy with a big smile, in place of the terminal bot. It is an illustration,
      not a photograph; the no-photo rule is about photographs of the owner and
-     stands. It is alive in four ways, all from app.js and style.css: it leans
+     stands. He is cut out of the drawing's golden backdrop, so he sits on the
+     page in its own light (scripts/cut-corner-friend.py; a new file name, so a
+     cached copy of the old, framed picture never meets the frameless style).
+     It is alive in four ways, all from app.js and style.css: it leans
      and shifts toward the pointer, breathes, blinks, and now and then (and
      whenever the pointer comes near) laughs, its eyes squinting into happy
      crescents with a little hop, while sparkles twinkle round it. The eyes
@@ -910,7 +913,7 @@
     <div class="bot-float">
       <div class="bot-hop">
         <div class="bot-frame">
-          <img class="bot-face" src="assets/corner-drawing.webp" width="240" height="240" alt="" loading="lazy" decoding="async">
+          <img class="bot-face" src="assets/corner-friend.webp" width="240" height="240" alt="" loading="lazy" decoding="async">
           <svg class="bot-lids" viewBox="0 0 240 240">
             <defs>
               <linearGradient id="botLidL" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5e3628"/><stop offset=".55" stop-color="#8a5139"/><stop offset="1" stop-color="#a1613f"/></linearGradient>
