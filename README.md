@@ -38,6 +38,7 @@ The site is a hand-built static page: plain HTML, CSS, and JavaScript. No framew
 | `assets/quote-informatics-access-privacy.webp`, `assets/quote-informatics-everyday-decisions.webp`, `assets/quote-cto-sync-technical-debt.webp`, `assets/quote-tech-magazine-customer-requests.webp` | The quote cards for the two Informatics Magazine quotes, the CTO Sync quote, and the Tech Magazine quote, made in the style of the screenshots by `scripts/render-quote-card.py`. Lossless WebP. Unreferenced since Nov 6, 2026, like the screenshots. |
 | `assets/data-hero.webp`, `assets/data-hero-loop.mp4` | The hero figure: the still is the video's poster. |
 | `assets/hero-network-*.mp4`, `assets/hero-network-*.webp` | The hero background (Nov 8, 2026): a 10-second lineage-network loop per theme, at 1920x1080 for desktop and 720x1080 for 920px and under, each with its first frame as a WebP still. `scripts/render-hero-network.py` renders all eight. See `docs/the-hero-background.md`. |
+| `assets/corner-drawing.webp` | The corner friend (Nov 8, 2026): the owner's own drawing, cropped to a 240px square. An illustration, not a photograph. See `docs/the-cursor-bot.md`. |
 | `assets/og-card.png` | The social share card. |
 | `assets/logos/` | Official publisher logos, added by the owner on Nov 2, 2026. See `docs/publisher-logos.md`. |
 | `404.html` | The page GitHub Pages serves, with status 404, for any address that has no file. Self-contained, with absolute URLs, because Pages serves it at any depth. |
@@ -59,7 +60,7 @@ The site is a hand-built static page: plain HTML, CSS, and JavaScript. No framew
 | `assets/` | The site's images and videos: the favicon and home-screen icon, the data hero figure, the hero background loops and their stills, the share card, the lineage core artwork, the six quote images (unreferenced since Nov 6, 2026), and the publisher logos. |
 | `tests/` | The automated test suite: one module per area, plus shared browser helpers. `docs/test-plan.md` says what each module protects. |
 | `scripts/` | `run-tests.sh`, the one command that runs the whole suite locally; `render-touch-icon.py`, which renders the home-screen icon from the favicon; `render-quote-card.py`, which renders a Featured In quote card; `render-hero-network.py`, which renders the hero background's videos and stills; and `stamp-assets.py`, which stamps the stylesheet and script links in `index.html` with each file's content version. |
-| `docs/` | The working documents, kept in the repo: how the site works, motion, the query console, publisher logos, the cursor bot, the lineage core, the hero background, the content rules, deployment, testing, and the test plan. |
+| `docs/` | The working documents, kept in the repo: how the site works, motion, the query console, publisher logos, the cursor bot (the corner friend), the lineage core, the hero background, the content rules, deployment, testing, and the test plan. |
 | `.github/workflows/` | The CI workflow (`site-checks`) that runs the same suite on every push and pull request. |
 
 ---
@@ -292,6 +293,13 @@ Extra pre-push checks for this change: open and close a quote with the mouse and
 - **Live, the first ten minutes.** Just after the deploy, the owner's browser ran the new page with its cached stylesheet from before it, and the hero fell apart: the unstyled background layer took the first column, his name and intro moved right, and the panel dropped below, until the cache ran out. Two fixes: `index.html` now asks for `style.css` and `app.js` by content version (`?v=`, stamped by `scripts/stamp-assets.py` and checked by `test_static`), so a fresh page always loads its own files; and the layer carries its position inline, so even an older stylesheet leaves the hero whole (`test_background` checks it). The suite is 17 modules, 182 tests.
 
 Extra pre-push checks for this change: load the page in both themes at desktop and phone size and watch the background play; flip the theme and confirm the other file takes over with no flash of the old picture; turn on Reduce motion and confirm the still stays and no `hero-network-*.mp4` is requested.
+
+## The corner friend (November 8, 2026)
+
+- **What changed.** The terminal bot in the bottom-right corner is now the owner's own drawing: an anime-style boy with messy brown hair and a big smile, in a round frame with a white edge and an accent ring. It leans and shifts toward the pointer, breathes, blinks, laughs (eyes squinting into happy crescents, with a little hop) every so often and whenever the pointer comes near, and sparkles twinkle round it. Under reduced motion it holds still, dims, and shows "z z".
+- **Why.** The owner wanted an anime character there instead of the bot, and gave his own drawing for it. He then asked for it to blink and smile.
+- **How the eyes move.** The drawing is one image, so the closed lids and the crescents are painted over its eyes in an SVG in the image's own pixel space, with colours sampled from the skin round each eye. Between blinks they are invisible. `docs/the-cursor-bot.md` has the details, and what to redo for a new drawing.
+- **Tests.** `test_motion` now checks the friend's lean, laugh, blink, and sleep, each against a matching mutation. The lean eases by elapsed time rather than per frame, which also removed a flaky check. The suite is 17 modules, 184 tests.
 
 ## License and artwork
 

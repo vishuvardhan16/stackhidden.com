@@ -5,9 +5,9 @@ Every change is tested locally before it ships and checked live after it lands. 
 ## Before a push
 
 - The page loads with zero JavaScript errors and zero console errors.
-- The specific feature changed gets a specific check. Examples from past rounds: case files open and deep links land on the right file; the palette opens with Ctrl+K and lists the right commands; the bot's pupils move toward the cursor in both directions; the animated core produces different frames over time; the quote carousel advances and loops.
-- Both themes get checked when a visual change lands. Colors, artwork, and the bot all follow the theme.
-- Reduced motion gets checked when anything animated changes: one still frame, sleeping bot, no movement.
+- The specific feature changed gets a specific check. Examples from past rounds: case files open and deep links land on the right file; the palette opens with Ctrl+K and lists the right commands; the corner friend leans toward the cursor in both directions; the animated core produces different frames over time; the quote carousel advances and loops.
+- Both themes get checked when a visual change lands. Colors and artwork follow the theme; the corner friend's ring takes the theme's accent.
+- Reduced motion gets checked when anything animated changes: one still frame, the corner friend asleep, no movement.
 - Widths: desktop wide, a medium window, and a 360px phone width. Horizontal overflow must be zero at every width.
 - Counts that the copy claims are counted in the DOM, not eyeballed: experience points, chips, case files.
 - A visual change gets an accessibility audit: axe-core over the changed sections, in both themes, with no violations.

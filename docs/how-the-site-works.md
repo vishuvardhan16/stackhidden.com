@@ -7,13 +7,13 @@
 - `robots.txt` and `sitemap.xml`: every crawler may read everything; the sitemap lists the one canonical URL.
 - `style.css`: every style, both themes, the print stylesheet, and the reduced-motion rules.
 - Versions: `index.html` asks for `style.css` and `app.js` by content version (`?v=`, the start of each file's SHA-256), so a page never runs with a copy cached from before a deploy. After editing either file, run `python3 scripts/stamp-assets.py`; the static tests fail until the versions match.
-- `app.js`: all behavior: the background graph, the theme toggle, the case files, the command palette, the lineage explorer and its send-a-record buttons, the quote carousel, the animated core, the hero background video, the cursor bot, the query console, and the first-view reveals.
+- `app.js`: all behavior: the background graph, the theme toggle, the case files, the command palette, the lineage explorer and its send-a-record buttons, the quote carousel, the animated core, the hero background video, the corner friend (the cursor bot), the query console, and the first-view reveals.
 - `assets/`: the six quote images (lossless WebP; the four quote cards come from `scripts/render-quote-card.py`), which the page no longer shows but keeps as the record of each published quote, the favicon and the home-screen icon rendered from it, the hero figure and its video, the hero background's four network videos and their stills (from `scripts/render-hero-network.py`), the share card, the original still versions of the lineage core artwork, and the publisher logos in `assets/logos/`.
 - `LICENSE`: MIT, for the code. The words on the page are not part of the license.
 
 ## Themes
 
-Two themes, dark and light, driven by CSS variables on the root element. The visitor's choice is stored locally in the browser. Nothing about the visit is sent anywhere. The animated pieces read their colors from the same variables, so a theme switch recolors everything at once, including the artwork and the bot.
+Two themes, dark and light, driven by CSS variables on the root element. The visitor's choice is stored locally in the browser. Nothing about the visit is sent anywhere. The animated pieces read their colors from the same variables, so a theme switch recolors everything at once, including the artwork. The corner friend is the owner's drawing, the same in both themes, in a frame ringed in the theme's accent.
 
 ## Layout
 
@@ -36,4 +36,4 @@ The page column is 1280px wide. The hero is two columns on a desktop: the story 
 
 ## Motion rules
 
-The site respects reduced motion everywhere. The visitor can switch it off from the footer, and the operating system setting is honored too. Under reduced motion the background stops, neither the hero video nor the hero background video is downloaded, the animated core draws one still frame, the bot closes its eyes, the carousel holds its slide, the hero intro and the first-view reveals do not play, a sent record arrives without travelling, and nothing on the page moves. [[Motion]] lists every moving piece, and the rules for adding one.
+The site respects reduced motion everywhere. The visitor can switch it off from the footer, and the operating system setting is honored too. Under reduced motion the background stops, neither the hero video nor the hero background video is downloaded, the animated core draws one still frame, the corner friend holds still, dims, and shows "z z", the carousel holds its slide, the hero intro and the first-view reveals do not play, a sent record arrives without travelling, and nothing on the page moves. [[Motion]] lists every moving piece, and the rules for adding one.
