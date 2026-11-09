@@ -685,42 +685,78 @@
     if (!bgReady) window.addEventListener('load', function () { setTimeout(function () { bgReady = true; bgSync(); }, 0); });
   }
 
-  // The cursor bot (owner's idea, Oct 2026): a small terminal bot fixed
-  // in the corner. Its pupils ease toward the pointer, the head leans a
-  // few degrees that way, and it blinks on a random timer. Under
-  // reduced motion the block never starts and CSS closes its eyes: the
-  // sleeping state. Hidden in print via style.css.
+  // The corner friend (Nov 8, 2026): the owner's drawing, in the corner
+  // where the terminal bot sat (owner's idea, Oct 2026). It leans and
+  // shifts toward the pointer, easing rather than snapping; blinks every
+  // 2.6 to 5.8 seconds; and laughs (eyes squint into crescents, a little
+  // hop, the sparkles quicken) every 11 to 18 seconds, and whenever the
+  // pointer comes within 140px, at most once every 4 seconds. The lids and
+  // crescents are painted over the drawing in index.html; CSS shows them
+  // for .blink and .happy, and does the breathing and the sparkles. The
+  // pointer loop runs only while motion is allowed: turning motion off
+  // stops it and sets him straight, and turning it back on restarts it,
+  // never a second copy. Under reduced motion he never blinks or laughs,
+  // and CSS dims him with "z z". Hidden in print via style.css.
   var bot = document.getElementById('cursorBot');
-  if (bot && !motionOff()) {
+  if (bot) {
     var bHead = bot.querySelector('.bot-head');
-    var bPupils = bot.querySelectorAll('.bot-pupil');
-    var bEyes = bot.querySelectorAll('.bot-eye-g');
-    var bTx = window.innerWidth / 2, bTy = window.innerHeight / 2, bPx = 0, bPy = 0, bLean = 0;
-    document.addEventListener('pointermove', function (e) { bTx = e.clientX; bTy = e.clientY; }, { passive: true });
-    (function bLoop() {
-      if (!motionOff()) {
-        var r = bot.getBoundingClientRect();
-        var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-        var dx = bTx - cx, dy = bTy - cy;
-        var d = Math.sqrt(dx * dx + dy * dy) || 1;
-        var gx = (dx / d) * Math.min(2.8, d / 40), gy = (dy / d) * Math.min(2.8, d / 40);
-        bPx += (gx - bPx) * 0.12; bPy += (gy - bPy) * 0.12;
-        for (var i = 0; i < bPupils.length; i++) bPupils[i].setAttribute('transform', 'translate(' + bPx.toFixed(2) + ',' + bPy.toFixed(2) + ')');
-        var targetLean = Math.max(-4, Math.min(4, dx / 90));
-        bLean += (targetLean - bLean) * 0.06;
-        if (bHead) bHead.style.transform = 'rotate(' + bLean.toFixed(2) + 'deg)';
+    var bTx = window.innerWidth / 2, bTy = window.innerHeight / 2;
+    var bLean = 0, bShift = 0, bLift = 0, bRunning = false, bLastHappy = -1e9, bLastT = 0;
+    function bClamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+    function botMood(cls, ms) {
+      if (motionOff() || document.hidden) return;
+      bot.classList.add(cls);
+      setTimeout(function () { bot.classList.remove(cls); }, ms);
+    }
+    function botHappy() {
+      var now = Date.now();
+      if (now - bLastHappy < 4000) return;
+      bLastHappy = now;
+      bot.classList.remove('blink');
+      botMood('happy', 1200);
+    }
+    document.addEventListener('pointermove', function (e) {
+      bTx = e.clientX; bTy = e.clientY;
+      var r = bot.getBoundingClientRect();
+      var dx = bTx - (r.left + r.width / 2), dy = bTy - (r.top + r.height / 2);
+      if (dx * dx + dy * dy < 140 * 140) botHappy();
+    }, { passive: true });
+    // Easing by elapsed time, not per frame: the same glide at 30, 60, or
+    // 120 frames a second. Per frame, he turned slowly on a slow phone and
+    // quickly on a fast screen, and a busy test machine caught him halfway.
+    function bLoop(t) {
+      if (motionOff()) {
+        bRunning = false;
+        bLastT = 0;
+        bLean = bShift = bLift = 0;
+        if (bHead) bHead.style.transform = '';
+        bot.classList.remove('blink', 'happy');
+        return;
       }
+      var k = 1 - Math.pow(0.94, (bLastT ? Math.min(100, t - bLastT) : 16.7) / 16.7);
+      bLastT = t;
+      var r = bot.getBoundingClientRect();
+      var dx = bTx - (r.left + r.width / 2), dy = bTy - (r.top + r.height / 2);
+      bLean += (bClamp(dx / 90, -5, 5) - bLean) * k;
+      bShift += (bClamp(dx / 60, -4, 4) - bShift) * k;
+      bLift += (bClamp(dy / 120, -3, 1.5) - bLift) * k;
+      if (bHead) bHead.style.transform = 'translate(' + bShift.toFixed(2) + 'px,' + bLift.toFixed(2) + 'px) rotate(' + bLean.toFixed(2) + 'deg)';
       requestAnimationFrame(bLoop);
-    })();
+    }
+    function botStart() {
+      if (!bRunning && !motionOff()) { bRunning = true; requestAnimationFrame(bLoop); }
+    }
     (function bBlink() {
       setTimeout(function () {
-        if (!motionOff()) {
-          for (var i = 0; i < bEyes.length; i++) bEyes[i].style.transform = 'scaleY(0.08)';
-          setTimeout(function () { for (var j = 0; j < bEyes.length; j++) bEyes[j].style.transform = 'scaleY(1)'; }, 130);
-        }
+        if (!bot.classList.contains('happy')) botMood('blink', 150);
         bBlink();
-      }, 2400 + Math.random() * 3200);
+      }, 2600 + Math.random() * 3200);
     })();
+    (function bJoy() {
+      setTimeout(function () { botHappy(); bJoy(); }, 11000 + Math.random() * 7000);
+    })();
+    new MutationObserver(botStart).observe(root, { attributes: true, attributeFilter: ['data-motion'] });
+    botStart();
   }
 
   // Contact is links only (Email me, LinkedIn). The copy-email and

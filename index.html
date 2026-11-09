@@ -94,7 +94,7 @@
      start of each file's SHA-256), so a fresh page never runs with a
      copy cached from before a deploy. scripts/stamp-assets.py writes
      the versions; tests/test_static.py fails while they are stale. -->
-<link rel="stylesheet" href="style.css?v=f36f7cdd77">
+<link rel="stylesheet" href="style.css?v=b9d5249876">
 <!-- Without JavaScript the hero background's still shows at once (with
      it, app.js loads the still after itself; see style.css). No script
      means the dark theme, so these are the dark stills. -->
@@ -892,23 +892,50 @@
        the list is rebuilt on every keystroke from a static command
        table, so there is nothing to keep in sync by hand beyond the
        commands themselves. -->
+<!-- The corner friend (Nov 8, 2026): the owner's own drawing, an anime-style
+     boy with a big smile, in place of the terminal bot. It is an illustration,
+     not a photograph; the no-photo rule is about photographs of the owner and
+     stands. It is alive in four ways, all from app.js and style.css: it leans
+     and shifts toward the pointer, breathes, blinks, and now and then (and
+     whenever the pointer comes near) laughs, its eyes squinting into happy
+     crescents with a little hop, while sparkles twinkle round it. The eyes
+     are the drawing's own; the closed lids and the crescents are painted
+     over them below, in the drawing's 240-pixel space, from colours sampled
+     round each eye, and stay invisible until a blink or a laugh. Under
+     reduced motion none of it runs: it holds still, dims, and shows "z z".
+     Decorative: hidden from assistive tech, out of the pointer's way, gone
+     in print. -->
 <div id="cursorBot" aria-hidden="true">
-  <svg viewBox="0 0 120 106" aria-hidden="true">
-    <g class="bot-head">
-      <line class="bot-ant" x1="60" y1="14" x2="60" y2="27"/>
-      <circle class="bot-ant-dot" cx="60" cy="10" r="4"/>
-      <rect class="bot-shell" x="14" y="27" width="92" height="60" rx="20"/>
-      <rect class="bot-screen" x="24" y="36" width="72" height="42" rx="14"/>
-      <g class="bot-eye-g"><circle class="bot-eye-ball" cx="47" cy="55" r="7.5"/><circle class="bot-pupil" cx="47" cy="55" r="3.4"/></g>
-      <g class="bot-eye-g"><circle class="bot-eye-ball" cx="73" cy="55" r="7.5"/><circle class="bot-pupil" cx="73" cy="55" r="3.4"/></g>
-      <line class="bot-closed" x1="40" y1="55" x2="54" y2="55"/>
-      <line class="bot-closed" x1="66" y1="55" x2="80" y2="55"/>
-      <circle class="bot-cheek" cx="35" cy="67" r="3.4"/>
-      <circle class="bot-cheek" cx="85" cy="67" r="3.4"/>
-      <path class="bot-smile" d="M52 68 Q60 75 68 68"/>
-    </g>
-    <rect class="bot-base" x="42" y="92" width="36" height="6" rx="3"/>
-  </svg>
+  <div class="bot-head">
+    <div class="bot-float">
+      <div class="bot-hop">
+        <div class="bot-frame">
+          <img class="bot-face" src="assets/corner-drawing.webp" width="240" height="240" alt="" loading="lazy" decoding="async">
+          <svg class="bot-lids" viewBox="0 0 240 240">
+            <defs>
+              <linearGradient id="botLidL" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5e3628"/><stop offset=".55" stop-color="#8a5139"/><stop offset="1" stop-color="#a1613f"/></linearGradient>
+              <linearGradient id="botLidR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b3426"/><stop offset=".55" stop-color="#8c5139"/><stop offset="1" stop-color="#a4613f"/></linearGradient>
+              <filter id="botLidSoft" x="-20%" y="-30%" width="140%" height="160%"><feGaussianBlur stdDeviation="1.1"/></filter>
+            </defs>
+            <g class="bot-blink">
+              <ellipse cx="96.5" cy="106.6" rx="15.6" ry="9.2" transform="rotate(-4 96.5 106.6)" fill="url(#botLidL)" filter="url(#botLidSoft)"/>
+              <ellipse cx="154.4" cy="103.6" rx="16.8" ry="9.4" transform="rotate(-4 154.4 103.6)" fill="url(#botLidR)" filter="url(#botLidSoft)"/>
+              <path d="M81.8 106.2 Q96 114 111 105" fill="none" stroke="#2c1813" stroke-width="2.6" stroke-linecap="round"/>
+              <path d="M138 103.8 Q153.6 112 170 101.8" fill="none" stroke="#321913" stroke-width="2.6" stroke-linecap="round"/>
+            </g>
+            <g class="bot-squint">
+              <ellipse cx="96.5" cy="106.6" rx="15.6" ry="9.2" transform="rotate(-4 96.5 106.6)" fill="url(#botLidL)" filter="url(#botLidSoft)"/>
+              <ellipse cx="154.4" cy="103.6" rx="16.8" ry="9.4" transform="rotate(-4 154.4 103.6)" fill="url(#botLidR)" filter="url(#botLidSoft)"/>
+              <path d="M82.4 110.4 Q96 99.6 110.6 108.6" fill="none" stroke="#2c1813" stroke-width="2.8" stroke-linecap="round"/>
+              <path d="M138.8 107.6 Q153.6 96.6 169.4 105" fill="none" stroke="#321913" stroke-width="2.8" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <span class="bot-spark bot-spark-1"></span><span class="bot-spark bot-spark-2"></span><span class="bot-spark bot-spark-3"></span><span class="bot-spark bot-spark-4"></span>
+    </div>
+    <span class="bot-zz">z z</span>
+  </div>
 </div>
 
 <div id="palette" class="palette" hidden role="dialog" aria-modal="true" aria-label="Command palette">
@@ -923,6 +950,6 @@
      again once the console is back in view. -->
 <button type="button" id="backToQuery" hidden>Back to your query</button>
 
-<script src="app.js?v=667d756da1"></script>
+<script src="app.js?v=66c24172a0"></script>
 </body>
 </html>
