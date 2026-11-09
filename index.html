@@ -90,7 +90,11 @@
 <script>
 (function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);if(localStorage.getItem('motion')==='reduced'){document.documentElement.setAttribute('data-motion','reduced');}}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
 </script>
-<link rel="stylesheet" href="style.css">
+<!-- The stylesheet and script are asked for by content version (?v=, the
+     start of each file's SHA-256), so a fresh page never runs with a
+     copy cached from before a deploy. scripts/stamp-assets.py writes
+     the versions; tests/test_static.py fails while they are stale. -->
+<link rel="stylesheet" href="style.css?v=f36f7cdd77">
 <!-- Without JavaScript the hero background's still shows at once (with
      it, app.js loads the still after itself; see style.css). No script
      means the dark theme, so these are the dark stills. -->
@@ -147,7 +151,12 @@
          hero is one column), plays it under the same rules as the figure
          video, and swaps it when the theme flips. Decorative only:
          hidden from assistive tech, gone in print. -->
-    <div id="heroBg" aria-hidden="true">
+    <!-- The inline style is the layer's own position, repeated from
+         style.css so the layer stays out of the hero's grid even under a
+         stylesheet that predates it. Without it, that is what a cached
+         stylesheet did on Nov 8, 2026: the empty layer took the first
+         column and pushed the hero text aside. -->
+    <div id="heroBg" aria-hidden="true" style="position:absolute;z-index:-1;pointer-events:none">
       <video id="heroBgVideo" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback tabindex="-1"
              data-src-dark="assets/hero-network-dark.mp4" data-src-light="assets/hero-network-light.mp4"
              data-src-dark-narrow="assets/hero-network-dark-narrow.mp4" data-src-light-narrow="assets/hero-network-light-narrow.mp4"></video>
@@ -914,6 +923,6 @@
      again once the console is back in view. -->
 <button type="button" id="backToQuery" hidden>Back to your query</button>
 
-<script src="app.js"></script>
+<script src="app.js?v=667d756da1"></script>
 </body>
 </html>

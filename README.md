@@ -58,7 +58,7 @@ The site is a hand-built static page: plain HTML, CSS, and JavaScript. No framew
 | --- | --- |
 | `assets/` | The site's images and videos: the favicon and home-screen icon, the data hero figure, the hero background loops and their stills, the share card, the lineage core artwork, the six quote images (unreferenced since Nov 6, 2026), and the publisher logos. |
 | `tests/` | The automated test suite: one module per area, plus shared browser helpers. `docs/test-plan.md` says what each module protects. |
-| `scripts/` | `run-tests.sh`, the one command that runs the whole suite locally; `render-touch-icon.py`, which renders the home-screen icon from the favicon; `render-quote-card.py`, which renders a Featured In quote card; and `render-hero-network.py`, which renders the hero background's videos and stills. |
+| `scripts/` | `run-tests.sh`, the one command that runs the whole suite locally; `render-touch-icon.py`, which renders the home-screen icon from the favicon; `render-quote-card.py`, which renders a Featured In quote card; `render-hero-network.py`, which renders the hero background's videos and stills; and `stamp-assets.py`, which stamps the stylesheet and script links in `index.html` with each file's content version. |
 | `docs/` | The working documents, kept in the repo: how the site works, motion, the query console, publisher logos, the cursor bot, the lineage core, the hero background, the content rules, deployment, testing, and the test plan. |
 | `.github/workflows/` | The CI workflow (`site-checks`) that runs the same suite on every push and pull request. |
 
@@ -142,6 +142,7 @@ No build step. Editing a file and refreshing the browser is the whole loop.
 
 ### Pre-push checklist (every item must pass)
 
+0. **Versions.** If `style.css` or `app.js` changed, run `python3 scripts/stamp-assets.py` (the static tests fail until you do).
 1. **HTML structure.** Parse `index.html` (for example with Python's `html.parser`): zero errors, nothing unclosed, exactly one `h1`, landmarks present (`header`, `nav`, `main`, `footer`), every section has a heading.
 2. **JavaScript syntax.** `node --check app.js` passes.
 3. **Structured data.** The JSON-LD block in the head parses as valid JSON.
@@ -287,6 +288,8 @@ Extra pre-push checks for this change: open and close a quote with the mouse and
 - **Readability.** A tint keeps every line of hero text at WCAG AA over every moment of the loop, measured frame by frame at 360, 390, 768, and 1440px in both themes.
 - **The rings.** The rings around the lineage core in the At a glance panel go round twice as fast: a lap now takes about 22 to 39 seconds, where it took 45 to 79. The owner found them too slow to notice.
 - **Tests.** A new module, `test_background` (24 tests), and two new static checks. The suite is 17 modules, 180 tests. Each new check failed against a matching mutation before it was trusted, and the module passes with every video replaced by bytes no decoder accepts, since CI's browser may not decode H.264. `docs/the-hero-background.md` covers the files, the build, and how to change it.
+
+- **Live, the first ten minutes.** Just after the deploy, the owner's browser ran the new page with its cached stylesheet from before it, and the hero fell apart: the unstyled background layer took the first column, his name and intro moved right, and the panel dropped below, until the cache ran out. Two fixes: `index.html` now asks for `style.css` and `app.js` by content version (`?v=`, stamped by `scripts/stamp-assets.py` and checked by `test_static`), so a fresh page always loads its own files; and the layer carries its position inline, so even an older stylesheet leaves the hero whole (`test_background` checks it). The suite is 17 modules, 182 tests.
 
 Extra pre-push checks for this change: load the page in both themes at desktop and phone size and watch the background play; flip the theme and confirm the other file takes over with no flash of the old picture; turn on Reduce motion and confirm the still stays and no `hero-network-*.mp4` is requested.
 

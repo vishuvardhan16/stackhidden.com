@@ -19,9 +19,10 @@ frames: the Chromium that CI installs may have no H.264 decoder.
 from __future__ import annotations
 
 import base64
+import re
 import unittest
 
-from helpers import BrowserTestCase
+from helpers import ROOT, BrowserTestCase
 
 
 FILES = {
@@ -116,10 +117,10 @@ class DesktopDarkTest(BackgroundCase):
         context = self.browser.new_context(viewport=self.viewport, color_scheme="dark")
         # Over HTTP (as in CI) app.js arrives 600ms late; a file:// page
         # cannot be routed, and there the order alone is checked.
-        context.route("**/app.js", lambda route: (time.sleep(0.6), route.continue_()))
+        context.route("**/app.js?v=*", lambda route: (time.sleep(0.6), route.continue_()))
         page = context.new_page()
         events: list[str] = []
-        page.on("requestfinished", lambda r: events.append("app.js in") if r.url.endswith("/app.js") else None)
+        page.on("requestfinished", lambda r: events.append("app.js in") if "/app.js?v=" in r.url else None)
         page.on("request", lambda r: events.append("still asked") if r.url.endswith("/hero-network-dark.webp") else None)
         try:
             page.goto(self.page.url, wait_until="load")
@@ -238,6 +239,38 @@ class DesktopDarkTest(BackgroundCase):
         self.assertEqual("none", self.page.evaluate("getComputedStyle(document.getElementById('heroBg')).display"))
         self.page.emulate_media(media="screen", forced_colors="none")
         self.assertEqual("block", self.page.evaluate("getComputedStyle(document.getElementById('heroBg')).display"))
+
+
+class StaleStylesheetTest(BackgroundCase):
+    # Reduced motion, so the hero intro (which restarts when a stylesheet
+    # is swapped in) cannot move a box mid-measurement.
+    reduced_motion = "reduce"
+
+    def test_the_hero_holds_its_layout_under_an_older_stylesheet(self) -> None:
+        # Nov 8, 2026: just after the deploy, the owner's browser ran the
+        # new page with its cached stylesheet from before the background.
+        # Styled by nothing, the layer was a grid item: it took the hero's
+        # first column, the text moved right, and the panel dropped below.
+        # The versioned stylesheet link stops the mismatch; the layer's
+        # inline position keeps the hero whole even if one happens.
+        def boxes() -> dict:
+            return self.page.evaluate(
+                """() => { const r = s => document.querySelector(s).getBoundingClientRect(), h = r('.hero'), t = r('.hero-text'), d = r('.hero-side');
+                     return {textLeft: Math.round(t.left - h.left), textTop: Math.round(t.top - h.top), sideTop: Math.round(d.top - h.top), sideLeft: Math.round(d.left - h.left)}; }"""
+            )
+
+        current = boxes()
+        older = re.sub(r"[^{}]*#heroBg[^{}]*\{[^{}]*\}", "", (ROOT / "style.css").read_text(encoding="utf-8"))
+        older = older.replace(".hero{position:relative;", ".hero{")
+        self.assertNotIn("heroBg", older)
+        self.page.evaluate(
+            """css => { document.querySelector('link[rel=stylesheet]').remove(); const s = document.createElement('style'); s.textContent = css; document.head.appendChild(s); }""",
+            older,
+        )
+        self.page.wait_for_timeout(200)
+        self.assertEqual(current, boxes())
+        layer = self.page.evaluate("(() => { const b = document.getElementById('heroBg'); return [getComputedStyle(b).position, getComputedStyle(b).zIndex]; })()")
+        self.assertEqual(["absolute", "-1"], layer)
 
 
 class DesktopLightTest(BackgroundCase):

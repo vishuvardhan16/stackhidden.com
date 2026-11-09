@@ -26,11 +26,12 @@ TTL 14400. Nameservers unchanged. HTTPS is enforced in the repo's Pages settings
 ## How a change goes live
 
 1. Edit locally, in `~/workspace/portfolio-stackhidden/`.
-2. Test locally (see [[Testing]]). Nothing ships untested.
-3. Commit locally with a detailed message: a short summary line, then the what and the why.
-4. Push through the GitHub web UI, one commit at a time, in order, files exactly as tested. If an upload reports a size mismatch, stop. Do not improvise a fix mid-push.
-5. Wait for Pages to rebuild, reload the live site, and run the live checks from [[Testing]] against stackhidden.com itself.
+2. If `style.css` or `app.js` changed, run `python3 scripts/stamp-assets.py`. `index.html` asks for both by content version (`style.css?v=` and `app.js?v=`, the start of each file's SHA-256), and the static tests fail until the versions match. GitHub Pages lets browsers and its CDN reuse a file for 10 minutes, so an unversioned file can arrive stale with a fresh page: on Nov 8, 2026 the owner's browser ran the new page with the stylesheet from before it, and the hero fell apart until the cache ran out.
+3. Test locally (see [[Testing]]). Nothing ships untested.
+4. Commit locally with a detailed message: a short summary line, then the what and the why.
+5. Push through the GitHub web UI, one commit at a time, in order, files exactly as tested. If an upload reports a size mismatch, stop. Do not improvise a fix mid-push.
+6. Wait for Pages to rebuild, reload the live site, and run the live checks from [[Testing]] against stackhidden.com itself.
 
-When a Claude session makes the change, steps 3 to 5 run from the session instead: it commits with the same conventions, waits for the owner to say push, pushes with git through the Claude GitHub App, then confirms both Actions runs (`site-checks` and `pages build and deployment`) succeeded and checks the live page.
+When a Claude session makes the change, steps 4 to 6 run from the session instead: it commits with the same conventions, waits for the owner to say push, pushes with git through the Claude GitHub App, then confirms both Actions runs (`site-checks` and `pages build and deployment`) succeeded and checks the live page.
 
 Only the stackhidden.com repo is ever touched on this GitHub account. No other repository is opened or changed, for any reason.

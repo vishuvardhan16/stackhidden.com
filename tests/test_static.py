@@ -277,7 +277,23 @@ class LoadingRulesTest(unittest.TestCase):
              "dark-narrow": "hero-network-dark-narrow.mp4", "light-narrow": "hero-network-light-narrow.mp4"},
             names,
         )
-        self.assertIn('<div id="heroBg" aria-hidden="true">', self.index)
+        self.assertIn('<div id="heroBg" aria-hidden="true" style="position:absolute;z-index:-1;pointer-events:none">', self.index)
+
+    def test_the_stylesheet_and_script_are_stamped_with_their_version(self) -> None:
+        # Nov 8, 2026: right after a deploy, the owner's browser ran the new
+        # page with a stylesheet cached from before it, and the hero fell
+        # apart. GitHub Pages lets browsers and its CDN reuse a file for 10
+        # minutes, so each is asked for by the start of its SHA-256.
+        import hashlib
+
+        for name, attr in (("style.css", "href"), ("app.js", "src")):
+            with self.subTest(file=name):
+                want = hashlib.sha256((ROOT / name).read_bytes()).hexdigest()[:10]
+                tags = re.findall(rf'{attr}="{re.escape(name)}[^"]*"', self.index)
+                self.assertEqual(
+                    [f'{attr}="{name}?v={want}"'], tags,
+                    f"run python3 scripts/stamp-assets.py after editing {name}",
+                )
 
     def test_the_background_files_stay_light_and_start_fast(self) -> None:
         # A visitor downloads one video: about 1MB on desktop, 0.4MB narrow.

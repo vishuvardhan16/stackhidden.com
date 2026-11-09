@@ -6,6 +6,7 @@
 - `404.html`: the page GitHub Pages serves, with status 404, for an address with no file. It is self-contained, with inline styles and absolute URLs, because Pages serves it at whatever depth was asked for.
 - `robots.txt` and `sitemap.xml`: every crawler may read everything; the sitemap lists the one canonical URL.
 - `style.css`: every style, both themes, the print stylesheet, and the reduced-motion rules.
+- Versions: `index.html` asks for `style.css` and `app.js` by content version (`?v=`, the start of each file's SHA-256), so a page never runs with a copy cached from before a deploy. After editing either file, run `python3 scripts/stamp-assets.py`; the static tests fail until the versions match.
 - `app.js`: all behavior: the background graph, the theme toggle, the case files, the command palette, the lineage explorer and its send-a-record buttons, the quote carousel, the animated core, the hero background video, the cursor bot, the query console, and the first-view reveals.
 - `assets/`: the six quote images (lossless WebP; the four quote cards come from `scripts/render-quote-card.py`), which the page no longer shows but keeps as the record of each published quote, the favicon and the home-screen icon rendered from it, the hero figure and its video, the hero background's four network videos and their stills (from `scripts/render-hero-network.py`), the share card, the original still versions of the lineage core artwork, and the publisher logos in `assets/logos/`.
 - `LICENSE`: MIT, for the code. The words on the page are not part of the license.
