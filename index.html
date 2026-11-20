@@ -654,8 +654,15 @@
          docs/publisher-logos.md has the details. -->
 <section id="writing">
     <h2>Published Writing</h2>
-    <div class="cards">
-      <article class="card pub-card">
+    <!-- Published Writing is a carousel like Featured In (Nov 20, 2026,
+         at the owner's request): one article per slide, auto-advancing
+         every 5 seconds, with dots and arrows; app.js runs both
+         carousels from the same initializer. The build-log card is not
+         an article, so it stays below the carousel as a plain card. -->
+    <div class="carousel" id="writingCarousel">
+      <div class="carousel-stage">
+      <div class="carousel-track">
+      <article class="card pub-card slide">
         <div class="pub-head">
           <span class="pub-mark"><img class="pub-logo" src="assets/logos/tdwi.svg" alt="" width="61" height="30" loading="lazy" decoding="async"></span>
           <p class="pub-name">TDWI Upside</p>
@@ -666,7 +673,7 @@
         <p>How automated checks catch schema drift, volume anomalies, and distribution shift before they reach a dashboard.</p>
         <p><a href="https://tdwi.org/articles/2026/07/08/diq-all-automating-data-quality-in-petabytescale-analytics-pipelines.aspx" target="_blank" rel="noopener">Read the article at TDWI Upside</a></p>
       </article>
-      <article class="card pub-card">
+      <article class="card pub-card slide">
         <div class="pub-head">
           <span class="pub-mark"><img class="pub-logo for-light" src="assets/logos/ailovesdata.png" alt="" width="118" height="20" loading="lazy" decoding="async">
           <img class="pub-logo for-dark" src="assets/logos/ailovesdata-dark.svg" alt="" width="133" height="19" loading="lazy" decoding="async"></span>
@@ -678,7 +685,7 @@
         <p>A roundtable on the real failure modes of moving from batch to streaming, and when the move pays off.</p>
         <p><a href="https://roundtable.ailovesdata.com/batch-to-streaming-what-actually-breaks-and-when-its-worth-it" target="_blank" rel="noopener">Read the roundtable at AI Loves Data</a></p>
       </article>
-      <article class="card pub-card">
+      <article class="card pub-card slide">
         <div class="pub-head">
           <span class="pub-mark"><img class="pub-logo" src="assets/logos/exchangewire.svg" alt="" width="148" height="21" loading="lazy" decoding="async"></span>
           <p class="pub-name">ExchangeWire</p>
@@ -689,7 +696,7 @@
         <p>What changes for advertiser analytics when the identifiers the industry relied on go away.</p>
         <p><a href="https://www.exchangewire.com/blog/2026/08/27/building-advertiser-analytics-in-a-post-identifier-world/" target="_blank" rel="noopener">Read the article at ExchangeWire</a></p>
       </article>
-      <article class="card pub-card">
+      <article class="card pub-card slide">
         <div class="pub-head">
           <span class="pub-mark"></span>
           <p class="pub-name">Platform Engineering</p>
@@ -700,7 +707,7 @@
         <p>What platform teams should demand before an AI agent ships: the controls that keep a workload governed once it is in production.</p>
         <p><a href="https://platformengineering.com/contributed-content/the-agent-is-a-workload-what-platform-teams-should-demand-before-one-ships/" target="_blank" rel="noopener">Read the article at Platform Engineering</a></p>
       </article>
-      <article class="card pub-card">
+      <article class="card pub-card slide">
         <div class="pub-head">
           <span class="pub-mark"></span>
           <p class="pub-name">eSecurity Planet</p>
@@ -711,7 +718,7 @@
         <p>An AI agent is an API client with a budget and a blast radius. Defend its access, its spend, and its scope the way you would any client.</p>
         <p><a href="https://www.esecurityplanet.com/agentic-ai/your-agent-is-an-api-client-defend-it-like-one/" target="_blank" rel="noopener">Read the article at eSecurity Planet</a></p>
       </article>
-      <article class="card pub-card">
+      <article class="card pub-card slide">
         <div class="pub-head">
           <span class="pub-mark"></span>
           <p class="pub-name">Foojay</p>
@@ -722,7 +729,7 @@
         <p>Idempotency and evaluation gates for AI agent tool calls in Java services, drawn from operating production agents.</p>
         <p><a href="https://foojay.io/today/agent-tool-calls-run-twice/" target="_blank" rel="noopener">Read the article at Foojay</a></p>
       </article>
-      <article class="card pub-card">
+      <article class="card pub-card slide">
         <div class="pub-head">
           <span class="pub-mark"></span>
           <p class="pub-name">CRM Magazine</p>
@@ -733,6 +740,15 @@
         <p>What must be in place before an AI agent answers customers: governed playbooks, evaluation gates that hold a release, and written scope over the records it reads.</p>
         <p><a href="https://www.destinationcrm.com/Articles/Web-Exclusives/Viewpoints/What-Needs-to-Be-in-Place-Before-an-Agent-Answers-the-Customer-177606.aspx" target="_blank" rel="noopener">Read the article at CRM Magazine</a></p>
       </article>
+      </div>
+      </div>
+      <div class="carousel-controls">
+        <button type="button" class="carousel-btn" id="writingPrev" aria-label="Previous article">&#8249;</button>
+        <div class="carousel-dots" role="group" aria-label="Choose article"></div>
+        <button type="button" class="carousel-btn" id="writingNext" aria-label="Next article">&#8250;</button>
+      </div>
+    </div>
+    <div class="cards">
       <article class="card pub-card">
         <div class="pub-head">
           <span class="pub-mark"></span>
@@ -1001,6 +1017,6 @@
      again once the console is back in view. -->
 <button type="button" id="backToQuery" hidden>Back to your query</button>
 
-<script src="app.js?v=a98f2354db"></script>
+<script src="app.js?v=b0bc57a366"></script>
 </body>
 </html>
