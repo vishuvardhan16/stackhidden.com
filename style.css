@@ -635,7 +635,7 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
 .pub-mark{display:inline-flex;align-items:center;flex:none;max-width:100%}
 .pub-mark:empty{display:none}
 .pub-head .pub-name,.cards .card .pub-head .pub-name{margin:0;color:var(--text);font-weight:750;font-size:1.02rem;line-height:1.3;letter-spacing:.005em}
-.pub-head:has(.pub-logo) .pub-name{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.pub-head:has(.pub-logo:not(.mark)) .pub-name{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .pub-kind{margin-left:auto;flex:none;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:1px 9px;font-size:.74rem;font-weight:650;line-height:1.6;white-space:nowrap}
 .pub-date{margin:0 0 8px}
 
@@ -658,6 +658,10 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
 .pub-logo[src$="/esecurityplanet.png"]{--h:27px}
 .pub-logo[src$="/foojay.png"]{--h:33px}
 .pub-logo[src$="/crmmagazine.svg"]{--h:36px}
+/* A mark-only logo (class .mark) carries no wordmark, so the publisher
+   name stays visible beside it: the hiding rule above skips .mark. The
+   Platform Engineering diamond is 28px, sized to sit with the name. */
+.pub-logo[src$="/platformengineering.png"]{--h:28px}
 .pub-logo[src$="/informatics.svg"]{--h:30px}
 .pub-logo[src$="/ctosync.svg"]{--h:34px}
 .pub-logo[src$="/techmagazine.png"]{--h:28px}
