@@ -323,9 +323,14 @@ class LogoArtworkAlignmentTest(BrowserTestCase):
             src = logo.get_attribute("src")
             with self.subTest(src=src, index=i):
                 if self.page.evaluate("(i) => !!document.querySelectorAll('.pub-logo')[i].closest('.carousel')", i):
-                    dot = self.page.evaluate(
-                        "(i) => [...document.querySelectorAll('#quoteCarousel .slide')].indexOf(document.querySelectorAll('.pub-logo')[i].closest('.slide'))", i)
-                    self.page.evaluate(f"document.querySelectorAll('#quoteCarousel .carousel-dot')[{dot}].click()")
+                    # Activate the slide holding this logo, in whichever
+                    # carousel holds it: the writing carousel's logos are
+                    # not in #quoteCarousel, so a quote-only lookup returns
+                    # -1 and the dot click throws. (Failed run #51 this way.)
+                    self.page.evaluate(
+                        """(i) => { const slide = document.querySelectorAll('.pub-logo')[i].closest('.slide');
+                            const carousel = slide.closest('.carousel');
+                            carousel.querySelectorAll('.carousel-dot')[[...carousel.querySelectorAll('.slide')].indexOf(slide)].click(); }""", i)
                     self.page.wait_for_timeout(120)
                 logo.scroll_into_view_if_needed()
                 box = logo.bounding_box()

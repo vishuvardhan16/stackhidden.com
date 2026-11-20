@@ -22,6 +22,9 @@ A publisher's logo is its trademark. Logos go in as official files the owner dow
    | TDWI Upside | `tdwi` | Published Writing |
    | AI Loves Data | `ailovesdata` | Published Writing |
    | ExchangeWire | `exchangewire` | Published Writing |
+   | eSecurity Planet | `esecurityplanet` | Published Writing |
+   | Foojay | `foojay` | Published Writing |
+   | CRM Magazine | `crmmagazine` | Published Writing |
    | Marketplace Risk | `marketplacerisk` | Speaking |
    | NICE-TEAS ASIA | `niceteas` | Speaking |
    | Label Your Data | `labelyourdata` | Featured In (two slides) |
@@ -48,7 +51,7 @@ A publisher's logo is its trademark. Logos go in as official files the owner dow
 ## How logos are sized
 
 - **One logo box per section.** Published Writing reserves 36px, Featured In 40px, Speaking 52px (`--logo-box` in `style.css`). Every masthead in a section is that tall, so the dates and titles of cards side by side line up whatever logo each card carries.
-- **Each logo its own height inside the box (`--h`), for equal visual weight.** A long, heavy wordmark is drawn shorter than a compact mark: roughly the equal-area rule, height in proportion to 1 over the square root of the aspect ratio, then checked by eye in both themes. Today: TDWI 30px, AI Loves Data 20px (19px for the dark file), ExchangeWire 21px, informatics 30px, CTO Sync 34px (a compact mark), Tech Magazine 28px, Label Your Data 34px, NICE-TEAS 38px, Marketplace Risk 58px light (the file has wide transparent margins, trimmed from layout with negative margins) and 44px dark.
+- **Each logo its own height inside the box (`--h`), for equal visual weight.** A long, heavy wordmark is drawn shorter than a compact mark: roughly the equal-area rule, height in proportion to 1 over the square root of the aspect ratio, then checked by eye in both themes. Today: TDWI 30px, AI Loves Data 20px (19px for the dark file), ExchangeWire 21px, eSecurity Planet 27px, Foojay 33px (a compact mark), informatics 30px, CTO Sync 34px (a compact mark), Tech Magazine 28px, Label Your Data 34px, NICE-TEAS 38px, Marketplace Risk 58px light (the file has wide transparent margins, trimmed from layout with negative margins) and 44px dark.
 - **Logos are only scaled.** No colour, crop, or filter is applied to any file.
 - **Dark mode chips.** A logo drawn for light backgrounds sits on a white chip as tall as the section's logo box, with the logo centred, so every chip in a section matches. Logos that carry their own background (the NICE-TEAS tile, marked `noplate`, and the Label Your Data badge) and files made for dark (`for-dark`) take no chip.
 
@@ -57,6 +60,10 @@ A publisher's logo is its trademark. Logos go in as official files the owner dow
 - **NICE-TEAS ASIA** publishes no logo file anywhere; its own site renders the wordmark as styled text (white and pink on navy). At the owner's direction on Nov 2, 2026, `assets/logos/niceteas.svg` reproduces that rendering as a self-contained tile, using the colours sampled from asia.nice-teas.com that day (navy #101130, ASIA in #E5157D). It is the one logo on the site that is a reproduction rather than a downloaded file, and the file itself carries a comment saying so.
 - **Marketplace Risk** in dark mode sits on a chip in its own brand red (#E84844, sampled from the official red file), because the conference's own header presents the white wordmark on a red block. Every other dark-mode chip is white.
 - **Label Your Data** takes no chip in dark mode: its badge is solid red with its own white keyline, and it reads cleanly on the dark card as it is.
+- **Foojay** takes no chip in dark mode: its sky-blue letters with a white outline read cleanly on the dark card as they are. Its file is the official header file from foojay.io, scaled Nov 20, 2026 from 1022x352 (65 KB) to 260x90 (23 KB), about 2.7 times its shown height, per the PNG route above; the artwork is otherwise unchanged.
+- **eSecurity Planet**'s file is the official header PNG from esecurityplanet.com (300x70 native, 17 KB), added Nov 20, 2026; it is drawn for light backgrounds, so in dark mode it sits on the usual white chip.
+- **CRM Magazine**'s file is the official desktop header SVG from destinationcrm.com (`logo_desktop.svg`, 235x137, 17 KB), added Nov 20, 2026. It is the full stacked lockup (destination / CRM / FROM THE EDITORS OF CRM MAGAZINE), shown at the full 36px logo-box height; drawn for light backgrounds, so in dark mode it sits on the usual white chip.
+- **Platform Engineering** has no logo file: no clean wordmark exists on platformengineering.com — the only wordmark file is the header's sponsored lockup, which carries a "Founding Sponsor Checkmarx" line under it, and the only other asset is the 32x32 favicon diamond with no wordmark. The masthead shows the name in the site's own type, which stands on its own; do not use the sponsored file, and do not crop it — logos are only scaled.
 - **CTO Sync**'s official file has empty canvas around its mark: 31% of its width on the left and 27% on the right. Shown as is, the mark sat about 40px in from the caption under it. `style.css` shows it in a 2:1 box with `object-fit: cover`, centred on the artwork, so the mark starts at the caption's edge and the dark chip fits it. The file itself is untouched. `test_publishers` checks, for every logo, that its artwork starts within 4px of its box's left edge.
 
 ## Removing one

@@ -70,6 +70,11 @@ main{max-width:1280px;margin:0 auto;padding:34px 28px 60px}
 section{margin:52px 0}
 h1{font-size:2.6rem;line-height:1.12;margin:.15em 0}
 h2{font-size:1.55rem;margin:.2em 0 .7em}
+/* Section counts (Nov 20, 2026): a small number beside the heading
+   for the two counted sections — Published Writing and Featured In.
+   The number is content, not computed: update it in the heading when
+   an article or a quote is added. */
+.section-count{font-size:.82rem;font-weight:650;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:1px 9px;margin-left:10px;vertical-align:.18em;white-space:nowrap}
 h3{margin:.3em 0 .5em;line-height:1.35}
 .panel,.card,.quote-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:var(--shadow);backdrop-filter:blur(6px)}
 .hero{position:relative;display:grid;grid-template-columns:minmax(0,1.18fr) minmax(320px,.82fr);gap:38px;align-items:start;margin-top:8px}
@@ -650,6 +655,9 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
 .pub-logo[src$="/ailovesdata.png"]{--h:20px}
 .pub-logo[src$="/ailovesdata-dark.svg"]{--h:19px}
 .pub-logo[src$="/exchangewire.svg"]{--h:21px}
+.pub-logo[src$="/esecurityplanet.png"]{--h:27px}
+.pub-logo[src$="/foojay.png"]{--h:33px}
+.pub-logo[src$="/crmmagazine.svg"]{--h:36px}
 .pub-logo[src$="/informatics.svg"]{--h:30px}
 .pub-logo[src$="/ctosync.svg"]{--h:34px}
 .pub-logo[src$="/techmagazine.png"]{--h:28px}
