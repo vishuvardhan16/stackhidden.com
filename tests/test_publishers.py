@@ -49,7 +49,7 @@ class MastheadTest(BrowserTestCase):
                 slot: !!el.querySelector('.pub-mark')
             }))"""
         )
-        self.assertEqual(4 + 2 + 6, len(heads))
+        self.assertEqual(8 + 2 + 6, len(heads))
         for head in heads:
             with self.subTest(head=head):
                 self.assertTrue(head["name"] and head["kind"] and head["slot"])
@@ -164,7 +164,7 @@ class MastheadTest(BrowserTestCase):
                 "[...document.querySelectorAll('#sqlResult tbody tr')].map(tr => tr.cells[0].textContent)"
             )
 
-        self.assertEqual(["TDWI Upside", "AI Loves Data", "ExchangeWire", "stackhidden.com"], column("SELECT outlet FROM writing"))
+        self.assertEqual(["TDWI Upside", "AI Loves Data", "ExchangeWire", "Platform Engineering", "eSecurity Planet", "Foojay", "CRM Magazine", "stackhidden.com"], column("SELECT outlet FROM writing"))
         self.assertEqual(["Marketplace Risk", "NICE-TEAS ASIA 2026"], column("SELECT venue FROM talks"))
         self.assertEqual(["delivered", "upcoming"], column("SELECT status FROM talks"))
         self.assertEqual(
