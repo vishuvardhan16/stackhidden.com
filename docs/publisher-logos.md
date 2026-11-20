@@ -25,6 +25,7 @@ A publisher's logo is its trademark. Logos go in as official files the owner dow
    | eSecurity Planet | `esecurityplanet` | Published Writing |
    | Foojay | `foojay` | Published Writing |
    | CRM Magazine | `crmmagazine` | Published Writing |
+   | Platform Engineering | `platformengineering` | Published Writing |
    | Marketplace Risk | `marketplacerisk` | Speaking |
    | NICE-TEAS ASIA | `niceteas` | Speaking |
    | Label Your Data | `labelyourdata` | Featured In (two slides) |
@@ -63,7 +64,7 @@ A publisher's logo is its trademark. Logos go in as official files the owner dow
 - **Foojay** takes no chip in dark mode: its sky-blue letters with a white outline read cleanly on the dark card as they are. Its file is the official header file from foojay.io, scaled Nov 20, 2026 from 1022x352 (65 KB) to 260x90 (23 KB), about 2.7 times its shown height, per the PNG route above; the artwork is otherwise unchanged.
 - **eSecurity Planet**'s file is the official header PNG from esecurityplanet.com (300x70 native, 17 KB), added Nov 20, 2026; it is drawn for light backgrounds, so in dark mode it sits on the usual white chip.
 - **CRM Magazine**'s file is the official desktop header SVG from destinationcrm.com (`logo_desktop.svg`, 235x137, 17 KB), added Nov 20, 2026. It is the full stacked lockup (destination / CRM / FROM THE EDITORS OF CRM MAGAZINE), shown at the full 36px logo-box height; drawn for light backgrounds, so in dark mode it sits on the usual white chip.
-- **Platform Engineering** has no logo file: no clean wordmark exists on platformengineering.com — the only wordmark file is the header's sponsored lockup, which carries a "Founding Sponsor Checkmarx" line under it, and the only other asset is the 32x32 favicon diamond with no wordmark. The masthead shows the name in the site's own type, which stands on its own; do not use the sponsored file, and do not crop it — logos are only scaled.
+- **Platform Engineering** has no clean wordmark: its only wordmark file carries a "Founding Sponsor Checkmarx" line, so that file is not used. The masthead instead carries the site's official diamond mark (`favicon-32x32-1.png` from platformengineering.com, 32x32, 2 KB), shown at 28px beside the publisher name in type — a mark-only logo (class `.mark`) never hides the name, because the mark alone does not name the publisher. Do not use the sponsored file, and do not crop it — logos are only scaled.
 - **CTO Sync**'s official file has empty canvas around its mark: 31% of its width on the left and 27% on the right. Shown as is, the mark sat about 40px in from the caption under it. `style.css` shows it in a 2:1 box with `object-fit: cover`, centred on the artwork, so the mark starts at the caption's edge and the dark chip fits it. The file itself is untouched. `test_publishers` checks, for every logo, that its artwork starts within 4px of its box's left edge.
 
 ## Removing one
