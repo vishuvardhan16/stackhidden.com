@@ -70,7 +70,7 @@ class QueryConsoleTest(BrowserTestCase):
             "SELECT kind, COUNT(*) AS n FROM spans GROUP BY kind ORDER BY n DESC, kind"
         )
         counts = {kind: int(n) for kind, n in result}
-        self.assertEqual(10, sum(counts.values()))
+        self.assertEqual(14, sum(counts.values()))
         self.assertEqual("featured", result[0][0])
         self.assertIn("group by kind", self.status())
 

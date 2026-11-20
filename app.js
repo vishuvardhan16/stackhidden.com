@@ -218,7 +218,11 @@
     "Nov 2, 2026 - Informatics Magazine, 'How Data Teams Balance Access and Privacy.' Named expert quote under 'Validate Pipelines at Ingestion,' on balancing timely access to business data with protecting sensitive information.",
     "Nov 3, 2026 - Informatics Magazine, 'How Analytics Teams Turn Data Into Everyday Decisions.' Named expert quote under 'Create a Ritual Around Core Figures,' on what gets a dashboard into a team's regular decisions.",
     "Nov 3, 2026 - CTO Sync, 'How Software Leaders Make Room for Technical Debt.' Named expert quote under 'Treat Platform Health as System Rent,' on planning technical debt as a fixed share of each cycle, reserved before feature planning begins.",
-    "Nov 4, 2026 - Tech Magazine, 'How Software Product Teams Prioritize Customer Requests.' Named expert quote under 'Measure the Cost of Delay,' on prioritizing roadmap requests by what each item makes possible and what waiting costs."
+    "Nov 4, 2026 - Tech Magazine, 'How Software Product Teams Prioritize Customer Requests.' Named expert quote under 'Measure the Cost of Delay,' on prioritizing roadmap requests by what each item makes possible and what waiting costs.",
+    "Nov 9, 2026 - Platform Engineering. 'The Agent Is a Workload: What Platform Teams Should Demand Before One Ships.' What platform teams should demand before an AI agent ships, drawn from production agent work.",
+    "Nov 9, 2026 - eSecurity Planet. 'Your Agent Is an API Client. Defend It Like One.' An agent is an API client: defend its access, its spend, and its scope the way you would any client.",
+    "Nov 19, 2026 - Foojay. 'Your Agent's Tool Calls Will Run Twice: Idempotency and Evaluation Gates in Java Services.' Idempotency and evaluation gates for agent tool calls in Java services.",
+    "Nov 20, 2026 - CRM Magazine. 'What Needs to Be in Place Before an Agent Answers the Customer.' What must be in place before an agent answers customers: governed playbooks, evaluation gates that hold a release, and written scope over the records it reads."
   ];
   if (traceDetail) {
     var rows = document.querySelectorAll("#trace .trace-row");
