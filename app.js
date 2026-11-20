@@ -350,7 +350,7 @@
     document.addEventListener("scroll", onScroll, { passive: true }); onScroll();
   }
 
-  /* ---- Featured quotes carousel (section #featured) -------------------
+  /* ---- Carousels (sections #featured and #writing) -------------------
      Slides move left to right: the incoming slide enters from the left
      and the track settles moving rightward, one slide every 5 seconds.
      Implementation: the track is shifted by one slide width with the
@@ -359,22 +359,25 @@
      prefers-reduced-motion there is no auto-advance at all and the
      buttons/dots do the work. Dots and arrows are real buttons.
 
-     Each slide's quote sits in a native <details> ("Read my quote",
-     Nov 6, 2026). Three rules keep it calm. An open quote holds its
-     slide: the timer never advances away from someone reading. A slide
-     that leaves closes its quote, so the stage settles back to its
-     closed height. And every slide but the active one is inert, so Tab
-     never lands on a link or toggle that is off stage (aria-hidden
-     alone hid them from screen readers but left them focusable). */
-  var carousel = document.getElementById("quoteCarousel");
-  if (carousel) {
+     One initializer runs both carousels. What differs is passed in:
+     the button ids and the dots' label. The quote carousel also passes
+     its <details> rules ("Read my quote", Nov 6, 2026): an open quote
+     holds its slide, so the timer never advances away from someone
+     reading, and a slide that leaves closes its quote, so the stage
+     settles back to its closed height. Articles have no <details>, so
+     a writing slide never holds. Every slide but the active one is
+     inert, so Tab never lands on a link or toggle that is off stage
+     (aria-hidden alone hid them from screen readers but left them
+     focusable). */
+  function makeCarousel(carousel, opts) {
+    if (!carousel) return;
     var slides = Array.prototype.slice.call(carousel.querySelectorAll(".slide"));
     var dotsWrap = carousel.querySelector(".carousel-dots");
     var idx = 0, timer = null;
     slides.forEach(function (_, i) {
       var d = document.createElement("button");
       d.type = "button"; d.className = "carousel-dot";
-      d.setAttribute("aria-label", "Show quote " + (i + 1));
+      d.setAttribute("aria-label", opts.dotLabel + " " + (i + 1));
       d.addEventListener("click", function () { go(i, true); });
       dotsWrap.appendChild(d);
     });
@@ -400,14 +403,10 @@
     function setActive(s, active) {
       s.setAttribute("aria-hidden", active ? "false" : "true");
       s.inert = !active;
-      if (!active) {
-        var q = s.querySelector("details.slide-quote");
-        if (q && q.open) q.open = false;
-      }
+      if (!active && opts.onLeave) opts.onLeave(s);
     }
-    function quoteOpen() {
-      var q = slides[idx].querySelector("details.slide-quote");
-      return !!(q && q.open);
+    function heldOpen() {
+      return !!(opts.holdOpen && opts.holdOpen(slides[idx]));
     }
     function render(prev) {
       slides.forEach(function (s, i) {
@@ -437,29 +436,51 @@
     // The timer keeps ticking but skips while the footer Reduce motion
     // control is on, so the carousel holds still and resumes when motion
     // is turned back on. Before v5 only the OS setting stopped it.
-    function cstep() { if (!motionOff() && !quoteOpen()) go(idx + 1); }
+    function cstep() { if (!motionOff() && !heldOpen()) go(idx + 1); }
     function restart() { if (timer) clearInterval(timer); if (!reduced && root.getAttribute('data-motion') !== 'reduced') timer = setInterval(cstep, 5000); }
-    document.getElementById("quotePrev").addEventListener("click", function () { go(idx - 1, true); });
-    document.getElementById("quoteNext").addEventListener("click", function () { go(idx + 1, true); });
+    document.getElementById(opts.prev).addEventListener("click", function () { go(idx - 1, true); });
+    document.getElementById(opts.next).addEventListener("click", function () { go(idx + 1, true); });
     carousel.addEventListener("mouseenter", function () { if (timer) clearInterval(timer); });
     carousel.addEventListener("mouseleave", restart);
     carousel.addEventListener("focusin", function () { if (timer) clearInterval(timer); });
     carousel.addEventListener("focusout", restart);
     slides.forEach(function (s, i) { s.classList.toggle("on", i === 0); setActive(s, i === 0); });
     for (var i = 0; i < dots.length; i++) { dots[i].classList.toggle("on", i === 0); if (i === 0) dots[i].setAttribute("aria-current", "true"); }
-    // A printed page shows every quote. Open the closed ones for the
-    // print and close exactly those again afterwards.
-    var openedForPrint = [];
-    window.addEventListener("beforeprint", function () {
-      openedForPrint = Array.prototype.filter.call(carousel.querySelectorAll("details.slide-quote"), function (q) { return !q.open; });
-      openedForPrint.forEach(function (q) { q.open = true; });
-    });
-    window.addEventListener("afterprint", function () {
-      openedForPrint.forEach(function (q) { q.open = false; });
-      openedForPrint = [];
-    });
+    // A printed page shows every quote (quotes only: articles have no
+    // <details> to open). Open the closed ones for the print and close
+    // exactly those again afterwards.
+    if (opts.onPrint) {
+      var openedForPrint = [];
+      window.addEventListener("beforeprint", function () {
+        openedForPrint = opts.onPrint(carousel);
+      });
+      window.addEventListener("afterprint", function () {
+        openedForPrint.forEach(function (q) { q.open = false; });
+        openedForPrint = [];
+      });
+    }
     restart();
   }
+
+  makeCarousel(document.getElementById("quoteCarousel"), {
+    prev: "quotePrev", next: "quoteNext", dotLabel: "Show quote",
+    holdOpen: function (slide) {
+      var q = slide.querySelector("details.slide-quote");
+      return !!(q && q.open);
+    },
+    onLeave: function (slide) {
+      var q = slide.querySelector("details.slide-quote");
+      if (q && q.open) q.open = false;
+    },
+    onPrint: function (carousel) {
+      var opened = Array.prototype.filter.call(carousel.querySelectorAll("details.slide-quote"), function (q) { return !q.open; });
+      opened.forEach(function (q) { q.open = true; });
+      return opened;
+    }
+  });
+  makeCarousel(document.getElementById("writingCarousel"), {
+    prev: "writingPrev", next: "writingNext", dotLabel: "Show article"
+  });
 
   /* ---- V4: case files, command palette, contact actions, motion
      control, and pointer/scroll/click graphics --------------------------
