@@ -361,20 +361,23 @@ class LogoArtworkAlignmentTest(BrowserTestCase):
         checked = 0
         for i in range(count):
             logo = self.page.locator(".pub-logo").nth(i)
+            if self.page.evaluate("(i) => !!document.querySelectorAll('.pub-logo')[i].closest('.carousel')", i):
+                # Activate the slide holding this logo, in whichever
+                # carousel holds it: the writing carousel's logos are
+                # not in #quoteCarousel, so a quote-only lookup returns
+                # -1 and the jump throws. (Failed run #51 this way.)
+                # Activate before the visibility check: since Nov 26,
+                # 2026 a slide waiting off stage is visibility:hidden.
+                self.page.evaluate(
+                    """(i) => { const slide = document.querySelectorAll('.pub-logo')[i].closest('.slide');
+                        const carousel = slide.closest('.carousel');
+                        carousel.goToSlide([...carousel.querySelectorAll('.slide')].indexOf(slide)); }""", i)
+                self.page.wait_for_timeout(120)
+            # The light theme hides each .for-dark logo, and the reverse.
             if not logo.is_visible():
                 continue
             src = logo.get_attribute("src")
             with self.subTest(src=src, index=i):
-                if self.page.evaluate("(i) => !!document.querySelectorAll('.pub-logo')[i].closest('.carousel')", i):
-                    # Activate the slide holding this logo, in whichever
-                    # carousel holds it: the writing carousel's logos are
-                    # not in #quoteCarousel, so a quote-only lookup returns
-                    # -1 and the dot click throws. (Failed run #51 this way.)
-                    self.page.evaluate(
-                        """(i) => { const slide = document.querySelectorAll('.pub-logo')[i].closest('.slide');
-                            const carousel = slide.closest('.carousel');
-                            carousel.querySelectorAll('.carousel-dot')[[...carousel.querySelectorAll('.slide')].indexOf(slide)].click(); }""", i)
-                    self.page.wait_for_timeout(120)
                 logo.scroll_into_view_if_needed()
                 box = logo.bounding_box()
                 # The page colour just left of the box is the background.
@@ -420,7 +423,7 @@ class CarouselFitTest(BrowserTestCase):
                 self.reload_page()
                 gaps = []
                 for i in range(46):
-                    self.page.evaluate(f"document.querySelectorAll('#quoteCarousel .carousel-dot')[{i}].click()")
+                    self.page.evaluate(f"document.getElementById('quoteCarousel').goToSlide({i})")
                     self.page.evaluate("document.querySelector('#quoteCarousel .slide.on details').open = true")
                     gaps.append(self.page.evaluate(OPEN_QUOTE_GAP))
                 self.assertTrue(all(g >= 8 for g in gaps), gaps)

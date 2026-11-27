@@ -320,15 +320,16 @@
 
   /* ---- Carousels (sections #featured and #writing) -------------------
      Slides move left to right: the incoming slide enters from the left
-     and the track settles moving rightward, one slide every 5 seconds.
-     Implementation: the track is shifted by one slide width with the
-     order rotated, so motion is always in the same direction and wraps
-     seamlessly. Pauses on hover and on keyboard focus; with
+     and the old one leaves to the right, one slide every 5 seconds.
+     Implementation: the active slide has .on and the one leaving has
+     .out; style.css moves only those two and keeps every other slide
+     hidden on the left, so motion is always in the same direction and
+     wraps seamlessly. Pauses on hover and on keyboard focus; with
      prefers-reduced-motion there is no auto-advance at all and the
-     buttons/dots do the work. Dots and arrows are real buttons.
+     arrow buttons do the work.
 
      One initializer runs both carousels. What differs is passed in:
-     the button ids and the dots' label. The quote carousel also passes
+     the button ids. The quote carousel also passes
      its <details> rules ("Read my quote", Nov 6, 2026): an open quote
      holds its slide, so the timer never advances away from someone
      reading, and a slide that leaves closes its quote, so the stage
@@ -336,20 +337,25 @@
      a writing slide never holds. Every slide but the active one is
      inert, so Tab never lands on a link or toggle that is off stage
      (aria-hidden alone hid them from screen readers but left them
-     focusable). */
+     focusable).
+
+     Position (Nov 26, 2026): a counter ("12 / 46", read as "Quote 12
+     of 46") and a meter that fills to the same point. They replaced one
+     dot per slide, which stopped working at 46 quotes. The counter is a
+     live region that is off while the carousel moves itself and turns
+     polite once the visitor presses an arrow, the WAI carousel pattern:
+     auto-advance never talks over a screen reader, and a visitor who
+     moves it hears where they landed. carousel.goToSlide(n) is how the
+     query console's Trace (and the tests) bring a slide forward. */
   function makeCarousel(carousel, opts) {
     if (!carousel) return;
     var slides = Array.prototype.slice.call(carousel.querySelectorAll(".slide"));
-    var dotsWrap = carousel.querySelector(".carousel-dots");
+    var count = carousel.querySelector(".carousel-count");
+    var countNow = carousel.querySelector(".cc-now");
+    var countTotal = carousel.querySelector(".cc-total");
+    var meter = carousel.querySelector(".carousel-meter-fill");
     var idx = 0, timer = null;
-    slides.forEach(function (_, i) {
-      var d = document.createElement("button");
-      d.type = "button"; d.className = "carousel-dot";
-      d.setAttribute("aria-label", opts.dotLabel + " " + (i + 1));
-      d.addEventListener("click", function () { go(i, true); });
-      dotsWrap.appendChild(d);
-    });
-    var dots = dotsWrap.children;
+    if (countTotal) countTotal.textContent = slides.length;
     // The caption logos are loading="lazy", which defers a hidden slide's
     // logo until it slides into view: a blank masthead for a moment. So
     // once the carousel comes within a screen of the viewport, every
@@ -376,25 +382,31 @@
     function heldOpen() {
       return !!(opts.holdOpen && opts.holdOpen(slides[idx]));
     }
-    function render(prev) {
+    function showPosition(manual) {
+      if (count) count.setAttribute("aria-live", manual ? "polite" : "off");
+      if (countNow) countNow.textContent = idx + 1;
+      if (meter) meter.style.setProperty("--pos", ((idx + 1) / slides.length).toFixed(4));
+    }
+    function render(prev, manual) {
       slides.forEach(function (s, i) {
         s.classList.toggle("on", i === idx);
         // Only a slide that is leaving gets "out". Choosing the slide that
-        // is already showing (its own dot, or a Trace from the query
-        // console) used to mark it both "on" and "out", and "out" won in
-        // the stylesheet, so the visible quote slid away and left the
-        // stage empty.
+        // is already showing (a Trace from the query console, say) used
+        // to mark it both "on" and "out", and "out" won in the
+        // stylesheet, so the visible quote slid away and left the stage
+        // empty.
         s.classList.toggle("out", i === prev && i !== idx);
         setActive(s, i === idx);
       });
-      for (var i = 0; i < dots.length; i++) { dots[i].classList.toggle("on", i === idx); if (i === idx) dots[i].setAttribute("aria-current", "true"); else dots[i].removeAttribute("aria-current"); }
+      showPosition(manual);
     }
     function go(n, manual) {
       var prev = idx;
       idx = ((n % slides.length) + slides.length) % slides.length;
-      render(prev);
+      render(prev, manual);
       if (manual) restart();
     }
+    carousel.goToSlide = function (n) { go(n, true); };
     /* Named cstep, not step: the canvas animation in this same IIFE
        also defines a step(), and the shared name let animation-frame
        calls advance the carousel twice at load. With two slides that
@@ -413,7 +425,7 @@
     carousel.addEventListener("focusin", function () { if (timer) clearInterval(timer); });
     carousel.addEventListener("focusout", restart);
     slides.forEach(function (s, i) { s.classList.toggle("on", i === 0); setActive(s, i === 0); });
-    for (var i = 0; i < dots.length; i++) { dots[i].classList.toggle("on", i === 0); if (i === 0) dots[i].setAttribute("aria-current", "true"); }
+    showPosition(false);
     // A printed page shows every quote (quotes only: articles have no
     // <details> to open). Open the closed ones for the print and close
     // exactly those again afterwards.
@@ -431,7 +443,7 @@
   }
 
   makeCarousel(document.getElementById("quoteCarousel"), {
-    prev: "quotePrev", next: "quoteNext", dotLabel: "Show quote",
+    prev: "quotePrev", next: "quoteNext",
     holdOpen: function (slide) {
       var q = slide.querySelector("details.slide-quote");
       return !!(q && q.open);
@@ -447,7 +459,7 @@
     }
   });
   makeCarousel(document.getElementById("writingCarousel"), {
-    prev: "writingPrev", next: "writingNext", dotLabel: "Show article"
+    prev: "writingPrev", next: "writingNext"
   });
 
   /* ---- V4: case files, command palette, contact actions, motion
@@ -1674,13 +1686,12 @@
       els = els.filter(function (el) { return el && el.isConnected; });
       if (!els.length) return;
       var first = els[0];
-      // A quote lives in the carousel: bring its slide forward first.
-      var slide = first.closest && first.closest('#quoteCarousel .slide');
-      if (slide) {
-        var idx = all('#quoteCarousel .slide').indexOf(slide);
-        var dot = all('#quoteCarousel .carousel-dot')[idx];
-        if (dot) dot.click();
-      }
+      // Quotes and articles live in carousels: bring the slide forward
+      // first. Before Nov 26, 2026 only the quote carousel did this, so a
+      // Trace to an article that was not showing outlined a hidden card.
+      var slide = first.closest && first.closest('.carousel .slide');
+      var deck = slide && slide.closest('.carousel');
+      if (deck && deck.goToSlide) deck.goToSlide(all('.slide', deck).indexOf(slide));
       all('.traced').forEach(function (el) { el.classList.remove('traced'); });
       els.forEach(function (el) { void el.offsetWidth; el.classList.add('traced'); });
       revealNow(first);

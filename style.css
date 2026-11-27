@@ -260,12 +260,22 @@ canvas#graph{opacity:.85}
 /* Featured quotes carousel. Slides are stacked in one stage; the
    active slide sits at rest, the next enters from the LEFT and the old
    one exits RIGHT, so the motion travels left to right as the owner
-   asked. app.js rotates the .on class every 5 seconds. */
-.carousel{overflow:hidden}
-.carousel-stage{position:relative;aspect-ratio:16/5.9}
-.carousel .slide{position:absolute;inset:0;margin:0;padding:6px;transform:translateX(-104%);transition:transform .65s ease;pointer-events:none}
+   asked. app.js rotates the .on class every 5 seconds.
+   Only two slides ever move: the one arriving (.on) and the one leaving
+   (.out). Every other slide waits on the left, hidden, and gets there
+   with no transition. Before Nov 26, 2026 a slide that had just left
+   slid all the way back across the stage on the next move, so three
+   slides showed at once, cut off at both edges. The stage clips the
+   slides; the controls sit outside it, so their focus rings are never
+   cut off. */
+.carousel-stage{position:relative;overflow:hidden;aspect-ratio:16/5.9}
+.carousel .slide{position:absolute;inset:0;margin:0;padding:6px;transform:translateX(-104%);visibility:hidden;transition:none;pointer-events:none}
+.carousel .slide.on,.carousel .slide.out{visibility:visible;transition:transform .65s ease}
 .carousel .slide.on{transform:translateX(0);pointer-events:auto;z-index:2}
 .carousel .slide.out{transform:translateX(104%);z-index:1}
+/* A writing slide is a card: it keeps the card's own padding (the 6px
+   above beat it, so logos sat against the border until Nov 26, 2026). */
+.carousel .card.slide{padding:24px}
 .carousel .slide figcaption{font-size:14.5px;color:var(--muted)}
 /* Headline first (Nov 6, 2026). A slide is the masthead, the date, and
    the article's headline, which is the link; the quote opens below it
@@ -296,13 +306,36 @@ canvas#graph{opacity:.85}
 .slide-quote blockquote p::before{content:open-quote}
 .slide-quote blockquote p::after{content:close-quote}
 @media (prefers-reduced-motion: reduce){ .slide-quote summary::after{transition:none} }
-.carousel-controls{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:8px}
+/* Carousel controls (Nov 26, 2026). One row at every width: the
+   position as a counter ("12 / 46") and a thin meter that fills to it,
+   then the two arrows. They replaced one dot per slide, which at 46
+   quotes ran past the panel on phones and pushed the arrows out of
+   reach. The arrows are 44px round targets with drawn chevrons, so
+   they sit dead centre in either theme and at any zoom. */
+.carousel-controls{display:flex;align-items:center;gap:16px;margin-top:12px;padding:0 6px}
+.carousel-count{margin:0;flex:none;min-width:4.6em;color:var(--muted);font-size:.9rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.carousel-count .cc-now{color:var(--text);font-weight:700}
+.carousel-meter{position:relative;flex:1 1 auto;min-width:40px;height:3px;border-radius:999px;background:var(--border);overflow:hidden}
+.carousel-meter-fill{position:absolute;inset:0;border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--accent2));transform-origin:left center;transform:scaleX(var(--pos,0));transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.carousel-arrows{display:flex;flex:none;gap:10px}
+.carousel-btn{display:inline-grid;place-items:center;width:44px;height:44px;padding:0;border-radius:50%;background:var(--card);color:var(--text);border:1px solid var(--border);cursor:pointer;transition:border-color .2s ease,color .2s ease,background-color .2s ease}
+.carousel-btn svg{display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.carousel-btn:hover{border-color:var(--accent);color:var(--accent)}
+.carousel-btn:active{background:var(--panel)}
+.carousel-btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+/* Published Writing: the slide is a card, so the row lines up with the
+   card's edges and keeps the cards' 18px gap from the build log below. */
+#writingCarousel{margin-bottom:18px}
+#writingCarousel .carousel-controls{padding:0}
+/* Small phones: tighter gaps, so the row fits a 320px screen. */
+@media (max-width:400px){
+  .carousel-controls{gap:12px;padding:0 2px}
+  .carousel-count{min-width:0}
+  .carousel-meter{min-width:24px}
+  .carousel-arrows{gap:8px}
+}
 .card a{overflow-wrap:anywhere}
-.carousel-btn{background:var(--card);color:var(--accent);border:1px solid var(--border);width:38px;height:38px;border-radius:50%;font-size:20px;line-height:1;cursor:pointer}
-.carousel-dots{display:flex;gap:8px}
-.carousel-dot{width:10px;height:10px;border-radius:50%;border:1px solid var(--accent);background:transparent;cursor:pointer;padding:0}
-.carousel-dot.on{background:var(--accent)}
-@media (prefers-reduced-motion: reduce){ .carousel .slide{transition:none} }
+@media (prefers-reduced-motion: reduce){ .carousel .slide,.carousel .slide.on,.carousel .slide.out,.carousel-meter-fill{transition:none} }
 .goal-line{font-size:16px;color:var(--text);font-weight:600;margin:8px 0 0}
 
 /* =====================================================================
@@ -386,8 +419,12 @@ canvas#graph{opacity:.85}
   a{color:#000!important;text-decoration:none}
   .meta,.lede,.cards .card p,.case-body p,.case-body li,.case-body dd,.impact-row span,.trace-note{color:#333!important}
   .impact-row strong,.stats dt{color:#000!important}
-  .carousel-stage{position:static;aspect-ratio:auto}
-  .carousel .slide{position:static!important;transform:none!important;pointer-events:auto}
+  .carousel-stage{position:static;aspect-ratio:auto;overflow:visible}
+  /* Every slide prints, one after another: out of the shared grid cell
+     and visible, whatever the carousel was showing. */
+  .carousel-track{display:block!important}
+  .carousel .slide{position:static!important;transform:none!important;visibility:visible!important;pointer-events:auto}
+  .carousel .slide+.slide{margin-top:12px}
   /* Every quote prints: app.js opens them on beforeprint. */
   .slide-quote summary{display:none}
   .slide-quote blockquote{background:#fff!important;border:1px solid #bbb;color:#000!important}

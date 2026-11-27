@@ -300,30 +300,29 @@ ACTIVE = "[...document.querySelectorAll('#quoteCarousel .slide')].findIndex(s =>
 TRACK_HEIGHT = "Math.round(document.querySelector('#quoteCarousel .carousel-track').getBoundingClientRect().height)"
 
 
+# The counter as a sighted visitor sees it: everything but the
+# screen-reader words ("Quote", "of").
+COUNT_SHOWN = """() => { const c = document.querySelector('#quoteCarousel .carousel-count');
+    return [...c.childNodes].filter(n => !(n.classList && n.classList.contains('sr-only'))).map(n => n.textContent).join('').replace(/\\s+/g, ' ').trim(); }"""
+
 class CarouselTest(BrowserTestCase):
-    def test_dots_track_the_active_slide_and_next_advances(self) -> None:
+    def test_the_counter_tracks_the_active_slide_and_next_advances(self) -> None:
         carousel = self.page.locator("#quoteCarousel")
         carousel.scroll_into_view_if_needed()
 
-        dots_wrap = carousel.locator(".carousel-dots")
-        dots = carousel.locator(".carousel-dot")
         slides = carousel.locator(".slide")
 
-        self.assertEqual("group", dots_wrap.get_attribute("role"))
         # 46 slides since Nov 26, 2026: the six from Sep 30 to Nov 4,
         # then twenty-nine more, placements #7 to #35, and eleven more,
-        # placements #36 to #46.
-        self.assertEqual(46, dots.count())
+        # placements #36 to #46. The counter replaced 46 dots that day.
         self.assertEqual(46, slides.count())
-        self.assertEqual("true", dots.nth(0).get_attribute("aria-current"))
-        self.assertIsNone(dots.nth(1).get_attribute("aria-current"))
+        self.assertEqual("1 / 46", self.page.evaluate(COUNT_SHOWN))
         self.assertIn("on", slides.nth(0).get_attribute("class") or "")
         self.assertEqual("false", slides.nth(0).get_attribute("aria-hidden"))
 
         self.page.click("#quoteNext")
 
-        self.assertEqual("true", dots.nth(1).get_attribute("aria-current"))
-        self.assertIsNone(dots.nth(0).get_attribute("aria-current"))
+        self.assertEqual("2 / 46", self.page.evaluate(COUNT_SHOWN))
         self.assertIn("on", slides.nth(1).get_attribute("class") or "")
         self.assertNotIn("on", (slides.nth(0).get_attribute("class") or "").split())
         self.assertEqual("false", slides.nth(1).get_attribute("aria-hidden"))
@@ -446,12 +445,20 @@ class PrintTest(BrowserTestCase):
         printed = self.page.evaluate(
             # checkVisibility(), not the box: the content of a closed
             # <details> keeps its layout box but is not rendered.
+            # visibilityProperty too: slides waiting off stage are
+            # visibility:hidden on screen, and print must undo that.
             """() => [...document.querySelectorAll('#quoteCarousel .slide')].map(s => ({
-                quote: s.querySelector('blockquote').checkVisibility(),
+                quote: s.querySelector('blockquote').checkVisibility({ visibilityProperty: true }),
                 toggle: getComputedStyle(s.querySelector('summary')).display
             }))"""
         )
         self.assertEqual([{"quote": True, "toggle": "none"}] * 46, printed)
+        # One after another, not stacked in the carousel's shared cell.
+        overlaps = self.page.evaluate(
+            """() => { const r = [...document.querySelectorAll('#quoteCarousel .slide')].map(s => s.getBoundingClientRect());
+                       return r.slice(1).filter((b, i) => b.top < r[i].bottom - 1).length; }"""
+        )
+        self.assertEqual(0, overlaps)
         self.page.evaluate("window.dispatchEvent(new Event('afterprint'))")
         self.page.emulate_media(media="screen")
         self.assertEqual(

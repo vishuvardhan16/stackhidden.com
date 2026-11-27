@@ -128,7 +128,7 @@ class CarouselActiveDotTest(BrowserTestCase):
             const st = document.querySelector('#quoteCarousel .carousel-stage').getBoundingClientRect();
             return { out: s.classList.contains('out'), left: Math.round(s.getBoundingClientRect().left - st.left) };
         }"""
-        self.page.evaluate("document.querySelectorAll('#quoteCarousel .carousel-dot')[0].click()")
+        self.page.evaluate("document.getElementById('quoteCarousel').goToSlide(0)")
         self.page.wait_for_timeout(100)
         self.assertEqual({"out": False, "left": 0}, self.page.evaluate(state))
 

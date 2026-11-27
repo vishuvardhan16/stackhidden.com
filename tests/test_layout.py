@@ -48,7 +48,7 @@ class LayoutTest(BrowserTestCase):
                 # which would hide a missing one).
                 byline = self.page.evaluate(
                     """() => {
-                        document.querySelectorAll('#quoteCarousel .carousel-dot')[0].click();
+                        document.getElementById('quoteCarousel').goToSlide(0);
                         const slide = document.querySelector('#quoteCarousel .slide.on');
                         const b = slide.querySelector('.byline');
                         if (!b) return null;

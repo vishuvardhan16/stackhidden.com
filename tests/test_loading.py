@@ -68,7 +68,7 @@ class LazyImagesTest(RequestLog):
         # opening every quote downloads no screenshot or quote card.
         self.page.evaluate("document.getElementById('quoteCarousel').scrollIntoView({block:'center'})")
         for i in range(6):
-            self.page.evaluate(f"document.querySelectorAll('#quoteCarousel .carousel-dot')[{i}].click()")
+            self.page.evaluate(f"document.getElementById('quoteCarousel').goToSlide({i})")
             self.page.evaluate("document.querySelector('#quoteCarousel .slide.on details').open = true")
         self.page.wait_for_timeout(500)
         self.assertEqual([], self.asked_for("/assets/quote-"))

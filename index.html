@@ -94,11 +94,11 @@
      start of each file's SHA-256), so a fresh page never runs with a
      copy cached from before a deploy. scripts/stamp-assets.py writes
      the versions; tests/test_static.py fails while they are stale. -->
-<link rel="stylesheet" href="style.css?v=019089107e">
+<link rel="stylesheet" href="style.css?v=c5fb0d9e3a">
 <!-- Without JavaScript the hero background's still shows at once (with
      it, app.js loads the still after itself; see style.css). No script
      means the dark theme, so these are the dark stills. -->
-<noscript><style>#heroBg::before{background-image:url(assets/hero-network-dark.webp);opacity:1}@media (max-width:920px){#heroBg::before{background-image:url(assets/hero-network-dark-narrow.webp)}}</style></noscript>
+<noscript><style>#heroBg::before{background-image:url(assets/hero-network-dark.webp);opacity:1}@media (max-width:920px){#heroBg::before{background-image:url(assets/hero-network-dark-narrow.webp)}}.carousel-track{display:block!important}.carousel .slide{position:static!important;transform:none!important;visibility:visible!important;transition:none!important}.carousel .slide+.slide{margin-top:18px}.carousel-controls{display:none!important}</style></noscript>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Vishnuvardhan Reddy Kaithapuram","jobTitle":"Software Development Engineer","worksFor":{"@type":"Organization","name":"Amazon Advertising"},"address":{"@type":"PostalAddress","addressLocality":"New York","addressRegion":"NY"},"url":"https://stackhidden.com/","sameAs":["https://www.linkedin.com/in/vishnu-vardhan-reddy-kaithapuram/"]}
 </script>
@@ -621,7 +621,7 @@
     <h2>Published Writing <span class="section-count">7</span></h2>
     <!-- Published Writing is a carousel like Featured In (Nov 20, 2026,
          at the owner's request): one article per slide, auto-advancing
-         every 5 seconds, with dots and arrows; app.js runs both
+         every 5 seconds, with a counter and arrows; app.js runs both
          carousels from the same initializer. The build-log card is not
          an article, so it stays below the carousel as a plain card. -->
     <div class="carousel" id="writingCarousel">
@@ -707,10 +707,18 @@
       </article>
       </div>
       </div>
+      <!-- Controls (Nov 26, 2026): a counter and a thin meter for the
+           position, then the two arrows. app.js keeps both in step and
+           sets the total from the slides; aria-live turns polite only
+           when the visitor moves the carousel, so auto-advance stays
+           quiet. Hidden without JavaScript, when every slide shows. -->
       <div class="carousel-controls">
-        <button type="button" class="carousel-btn" id="writingPrev" aria-label="Previous article">&#8249;</button>
-        <div class="carousel-dots" role="group" aria-label="Choose article"></div>
-        <button type="button" class="carousel-btn" id="writingNext" aria-label="Next article">&#8250;</button>
+        <p class="carousel-count" aria-live="off" aria-atomic="true"><span class="sr-only">Article </span><span class="cc-now">1</span><span aria-hidden="true"> / </span><span class="sr-only"> of </span><span class="cc-total">7</span></p>
+        <span class="carousel-meter" aria-hidden="true"><span class="carousel-meter-fill"></span></span>
+        <div class="carousel-arrows">
+          <button type="button" class="carousel-btn" id="writingPrev" aria-label="Previous article"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><path d="M10 3.5 5.5 8l4.5 4.5"/></svg></button>
+          <button type="button" class="carousel-btn" id="writingNext" aria-label="Next article"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><path d="M6 3.5 10.5 8 6 12.5"/></svg></button>
+        </div>
       </div>
     </div>
     <div class="cards">
@@ -1274,10 +1282,18 @@
         </figure>
       </div>
       </div>
+      <!-- Controls (Nov 26, 2026): a counter and a thin meter for the
+           position, then the two arrows. app.js keeps both in step and
+           sets the total from the slides; aria-live turns polite only
+           when the visitor moves the carousel, so auto-advance stays
+           quiet. Hidden without JavaScript, when every slide shows. -->
       <div class="carousel-controls">
-        <button type="button" class="carousel-btn" id="quotePrev" aria-label="Previous quote">&#8249;</button>
-        <div class="carousel-dots" role="group" aria-label="Choose quote"></div>
-        <button type="button" class="carousel-btn" id="quoteNext" aria-label="Next quote">&#8250;</button>
+        <p class="carousel-count" aria-live="off" aria-atomic="true"><span class="sr-only">Quote </span><span class="cc-now">1</span><span aria-hidden="true"> / </span><span class="sr-only"> of </span><span class="cc-total">46</span></p>
+        <span class="carousel-meter" aria-hidden="true"><span class="carousel-meter-fill"></span></span>
+        <div class="carousel-arrows">
+          <button type="button" class="carousel-btn" id="quotePrev" aria-label="Previous quote"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><path d="M10 3.5 5.5 8l4.5 4.5"/></svg></button>
+          <button type="button" class="carousel-btn" id="quoteNext" aria-label="Next quote"><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><path d="M6 3.5 10.5 8 6 12.5"/></svg></button>
+        </div>
       </div>
     </div>
   </section>
@@ -1427,6 +1443,6 @@
      again once the console is back in view. -->
 <button type="button" id="backToQuery" hidden>Back to your query</button>
 
-<script src="app.js?v=02dc380c9b"></script>
+<script src="app.js?v=b1bcb08b12"></script>
 </body>
 </html>

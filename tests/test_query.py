@@ -135,6 +135,23 @@ class QueryConsoleTest(BrowserTestCase):
         )
         self.assertEqual(2, active)
 
+    def test_trace_brings_an_article_slide_forward(self) -> None:
+        # Articles are slides too since Nov 20, 2026. Until Nov 26 only
+        # the quote carousel was brought forward, so tracing an article
+        # that was not showing outlined a hidden card.
+        self.run_sql("SELECT outlet FROM writing WHERE outlet = 'CRM Magazine'")
+        self.page.click("#sqlResult .sql-row-btn")
+        state = self.page.evaluate(
+            """() => {
+                const slides = [...document.querySelectorAll('#writingCarousel .slide')];
+                const traced = document.querySelector('.traced');
+                return { active: slides.findIndex(s => s.classList.contains('on')),
+                         traced: slides.indexOf(traced),
+                         count: document.querySelector('#writingCarousel .cc-now').textContent };
+            }"""
+        )
+        self.assertEqual({"active": 6, "traced": 6, "count": "7"}, state)
+
     def test_tab_completes_and_otherwise_moves_focus(self) -> None:
         self.page.fill("#sqlInput", "SELECT * FROM wr")
         self.page.press("#sqlInput", "End")

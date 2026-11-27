@@ -2,8 +2,8 @@
 
 Since Nov 20, 2026 Published Writing is a carousel like Featured In,
 at the owner's request: one article per slide, auto-advancing every
-5 seconds, with dots and arrows, run by the same initializer as the
-quote carousel. The build-log card is not an article, so it stays
+5 seconds, with arrows (and dots until Nov 26, 2026, when a counter
+replaced them), run by the same initializer as the quote carousel. The build-log card is not an article, so it stays
 below the carousel as a plain card and is not a slide.
 """
 
@@ -58,29 +58,28 @@ SLIDE_STATE = """() => [...document.querySelectorAll('#writingCarousel .slide')]
 ACTIVE = "[...document.querySelectorAll('#writingCarousel .slide')].findIndex(s => s.classList.contains('on'))"
 
 
+# The counter as a sighted visitor sees it: everything but the
+# screen-reader words ("Quote", "of").
+COUNT_SHOWN = """() => { const c = document.querySelector('#writingCarousel .carousel-count');
+    return [...c.childNodes].filter(n => !(n.classList && n.classList.contains('sr-only'))).map(n => n.textContent).join('').replace(/\\s+/g, ' ').trim(); }"""
+
 class WritingCarouselTest(BrowserTestCase):
-    def test_dots_track_the_active_slide_and_next_advances(self) -> None:
+    def test_the_counter_tracks_the_active_slide_and_next_advances(self) -> None:
         carousel = self.page.locator("#writingCarousel")
         carousel.scroll_into_view_if_needed()
 
-        dots_wrap = carousel.locator(".carousel-dots")
-        dots = carousel.locator(".carousel-dot")
         slides = carousel.locator(".slide")
 
-        self.assertEqual("group", dots_wrap.get_attribute("role"))
         # 7 slides: the three July-August articles and the four
         # November articles, oldest first.
-        self.assertEqual(7, dots.count())
         self.assertEqual(7, slides.count())
-        self.assertEqual("true", dots.nth(0).get_attribute("aria-current"))
-        self.assertIsNone(dots.nth(1).get_attribute("aria-current"))
+        self.assertEqual("1 / 7", self.page.evaluate(COUNT_SHOWN))
         self.assertIn("on", slides.nth(0).get_attribute("class") or "")
         self.assertEqual("false", slides.nth(0).get_attribute("aria-hidden"))
 
         self.page.click("#writingNext")
 
-        self.assertEqual("true", dots.nth(1).get_attribute("aria-current"))
-        self.assertIsNone(dots.nth(0).get_attribute("aria-current"))
+        self.assertEqual("2 / 7", self.page.evaluate(COUNT_SHOWN))
         self.assertIn("on", slides.nth(1).get_attribute("class") or "")
         self.assertNotIn("on", (slides.nth(0).get_attribute("class") or "").split())
         self.assertEqual("false", slides.nth(1).get_attribute("aria-hidden"))
