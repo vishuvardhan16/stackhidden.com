@@ -346,7 +346,14 @@
      polite once the visitor presses an arrow, the WAI carousel pattern:
      auto-advance never talks over a screen reader, and a visitor who
      moves it hears where they landed. carousel.goToSlide(n) is how the
-     query console's Trace (and the tests) bring a slide forward. */
+     query console's Trace (and the tests) bring a slide forward.
+
+     Pause (Nov 26, 2026): the first control stops auto-advance until it
+     is pressed again, so a visitor on a phone, with no hover to hold a
+     slide, can read at their own pace (WCAG 2.2.2). Hover and focus
+     still hold the carousel for a moment as before; pause holds it for
+     good. The button names what it will do: "Pause the quotes", then
+     "Play the quotes". */
   function makeCarousel(carousel, opts) {
     if (!carousel) return;
     var slides = Array.prototype.slice.call(carousel.querySelectorAll(".slide"));
@@ -354,7 +361,14 @@
     var countNow = carousel.querySelector(".cc-now");
     var countTotal = carousel.querySelector(".cc-total");
     var meter = carousel.querySelector(".carousel-meter-fill");
-    var idx = 0, timer = null;
+    var playBtn = opts.play ? document.getElementById(opts.play) : null;
+    var idx = 0, timer = null, userPaused = false;
+    function showPlay() {
+      if (!playBtn) return;
+      playBtn.classList.toggle("is-paused", userPaused);
+      playBtn.setAttribute("aria-label", (userPaused ? "Play the " : "Pause the ") + opts.items);
+    }
+    if (playBtn) playBtn.addEventListener("click", function () { userPaused = !userPaused; showPlay(); restart(); });
     if (countTotal) countTotal.textContent = slides.length;
     // The caption logos are loading="lazy", which defers a hidden slide's
     // logo until it slides into view: a blank masthead for a moment. So
@@ -417,7 +431,7 @@
     // control is on, so the carousel holds still and resumes when motion
     // is turned back on. Before v5 only the OS setting stopped it.
     function cstep() { if (!motionOff() && !heldOpen()) go(idx + 1); }
-    function restart() { if (timer) clearInterval(timer); if (!reduced && root.getAttribute('data-motion') !== 'reduced') timer = setInterval(cstep, 5000); }
+    function restart() { if (timer) clearInterval(timer); timer = null; if (!userPaused && !reduced && root.getAttribute('data-motion') !== 'reduced') timer = setInterval(cstep, 5000); }
     document.getElementById(opts.prev).addEventListener("click", function () { go(idx - 1, true); });
     document.getElementById(opts.next).addEventListener("click", function () { go(idx + 1, true); });
     carousel.addEventListener("mouseenter", function () { if (timer) clearInterval(timer); });
@@ -443,7 +457,7 @@
   }
 
   makeCarousel(document.getElementById("quoteCarousel"), {
-    prev: "quotePrev", next: "quoteNext",
+    prev: "quotePrev", next: "quoteNext", play: "quotePlay", items: "quotes",
     holdOpen: function (slide) {
       var q = slide.querySelector("details.slide-quote");
       return !!(q && q.open);
@@ -459,7 +473,7 @@
     }
   });
   makeCarousel(document.getElementById("writingCarousel"), {
-    prev: "writingPrev", next: "writingNext"
+    prev: "writingPrev", next: "writingNext", play: "writingPlay", items: "articles"
   });
 
   /* ---- V4: case files, command palette, contact actions, motion

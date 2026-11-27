@@ -41,6 +41,9 @@ VISIBLE_SLIDES = """(id) => {
 
 ACTIVE = "(id) => [...document.querySelectorAll('#' + id + ' .slide')].findIndex(s => s.classList.contains('on'))"
 
+# Each carousel's pause button and the word its label uses.
+PLAY = {"quoteCarousel": ("quotePlay", "quotes"), "writingCarousel": ("writingPlay", "articles")}
+
 
 class ControlsTest(BrowserTestCase):
     reduced_motion = "reduce"
@@ -155,9 +158,8 @@ class NewestFirstTest(BrowserTestCase):
 
 
 class ControlsFitTest(BrowserTestCase):
-    """The controls stay on one row, inside the carousel, at any width."""
-
-    reduced_motion = "reduce"
+    """The controls stay on one row, inside the carousel, at any width,
+    with motion on, so the pause button is in the row too."""
 
     def test_controls_fit_at_every_width(self) -> None:
         for width in (320, 390, 768, 1288):
@@ -165,7 +167,7 @@ class ControlsFitTest(BrowserTestCase):
             for cid, prev, nxt, _, _ in CAROUSELS:
                 with self.subTest(width=width, carousel=cid):
                     fit = self.page.evaluate(
-                        """([cid, prev, next]) => {
+                        """([cid, prev, next, play]) => {
                             const c = document.getElementById(cid).getBoundingClientRect();
                             const row = document.querySelector('#' + cid + ' .carousel-controls');
                             const inside = id => {
@@ -174,14 +176,81 @@ class ControlsFitTest(BrowserTestCase):
                             };
                             return { overflow: row.scrollWidth - row.clientWidth,
                                      height: row.getBoundingClientRect().height,
-                                     prev: inside(prev), next: inside(next) };
+                                     prev: inside(prev), next: inside(next), play: inside(play) };
                         }""",
-                        [cid, prev, nxt],
+                        [cid, prev, nxt, PLAY[cid][0]],
                     )
                     self.assertLessEqual(fit["overflow"], 0)
                     self.assertLessEqual(fit["height"], 64)
                     self.assertTrue(fit["prev"])
                     self.assertTrue(fit["next"])
+                    self.assertTrue(fit["play"])
+
+
+class PauseTest(BrowserTestCase):
+    """Pause stops auto-advance until it is pressed again (WCAG 2.2.2).
+    Before Nov 26, 2026 only hover, focus, or the footer's Reduce motion
+    held the carousels, and a phone has no hover."""
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.page.add_style_tag(content="html{scroll-behavior:auto!important}")
+
+    def leave(self) -> None:
+        # Neither hover nor focus may be what holds the carousel.
+        self.page.mouse.move(2, 2)
+        self.page.evaluate("document.activeElement && document.activeElement.blur()")
+
+    def label(self, bid: str) -> str:
+        return self.page.get_attribute(f"#{bid}", "aria-label")
+
+    def test_pause_holds_the_slide_and_play_resumes(self) -> None:
+        cid = "quoteCarousel"
+        bid, items = PLAY[cid]
+        self.page.evaluate(f"document.getElementById('{cid}').scrollIntoView({{block:'center'}})")
+        box = self.page.locator(f"#{bid}").bounding_box()
+        self.assertGreaterEqual(box["width"], 44)
+        self.assertGreaterEqual(box["height"], 44)
+        self.assertEqual(f"Pause the {items}", self.label(bid))
+        self.page.click(f"#{bid}")
+        self.assertEqual(f"Play the {items}", self.label(bid))
+        self.leave()
+        held = self.page.evaluate(ACTIVE, cid)
+        self.page.wait_for_timeout(5600)
+        self.assertEqual(held, self.page.evaluate(ACTIVE, cid))
+        # The arrows still work while paused, and do not restart it.
+        self.page.click("#quoteNext")
+        self.leave()
+        self.page.wait_for_timeout(5600)
+        self.assertEqual(held + 1, self.page.evaluate(ACTIVE, cid))
+        self.page.click(f"#{bid}")
+        self.assertEqual(f"Pause the {items}", self.label(bid))
+        self.leave()
+        self.page.wait_for_function(f"({ACTIVE})('{cid}') === {held + 2}", timeout=6500)
+
+    def test_each_carousel_has_its_own_pause(self) -> None:
+        for cid, (bid, items) in PLAY.items():
+            with self.subTest(carousel=cid):
+                self.assertTrue(self.page.is_visible(f"#{bid}"))
+                self.assertEqual(f"Pause the {items}", self.label(bid))
+        self.page.click("#writingPlay")
+        self.assertEqual("Play the articles", self.label("writingPlay"))
+        self.assertEqual("Pause the quotes", self.label("quotePlay"))
+
+    def test_with_motion_off_there_is_nothing_to_pause(self) -> None:
+        self.page.evaluate("document.getElementById('motionBtn').click()")
+        for cid, (bid, _) in PLAY.items():
+            with self.subTest(carousel=cid):
+                self.assertFalse(self.page.is_visible(f"#{bid}"))
+
+
+class ReducedMotionPauseTest(BrowserTestCase):
+    reduced_motion = "reduce"
+
+    def test_no_pause_button_when_nothing_advances(self) -> None:
+        for cid, (bid, _) in PLAY.items():
+            with self.subTest(carousel=cid):
+                self.assertFalse(self.page.is_visible(f"#{bid}"))
 
 
 class NoBleedTest(BrowserTestCase):

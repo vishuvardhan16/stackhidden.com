@@ -317,22 +317,36 @@ canvas#graph{opacity:.85}
 .carousel-count .cc-now{color:var(--text);font-weight:700}
 .carousel-meter{position:relative;flex:1 1 auto;min-width:40px;height:3px;border-radius:999px;background:var(--border);overflow:hidden}
 .carousel-meter-fill{position:absolute;inset:0;border-radius:inherit;background:linear-gradient(90deg,var(--accent),var(--accent2));transform-origin:left center;transform:scaleX(var(--pos,0));transition:transform .45s cubic-bezier(.2,.7,.2,1)}
-.carousel-arrows{display:flex;flex:none;gap:10px}
+.carousel-arrows{display:flex;flex:none;gap:10px;margin-left:auto}
 .carousel-btn{display:inline-grid;place-items:center;width:44px;height:44px;padding:0;border-radius:50%;background:var(--card);color:var(--text);border:1px solid var(--border);cursor:pointer;transition:border-color .2s ease,color .2s ease,background-color .2s ease}
 .carousel-btn svg{display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .carousel-btn:hover{border-color:var(--accent);color:var(--accent)}
 .carousel-btn:active{background:var(--panel)}
 .carousel-btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+/* Pause and play: the same round button, its icon swapped by app.js
+   (.is-paused). Hidden while motion is off, OS setting or footer
+   control, since then nothing advances. After .carousel-btn, whose display
+   these override. */
+.carousel-play .icon-play,.carousel-play.is-paused .icon-pause{display:none}
+.carousel-play.is-paused .icon-play{display:block}
+.carousel-play .icon-play path{fill:currentColor}
+:root[data-motion="reduced"] .carousel-play{display:none}
+@media (prefers-reduced-motion: reduce){ .carousel-play{display:none} }
 /* Published Writing: the slide is a card, so the row lines up with the
    card's edges and keeps the cards' 18px gap from the build log below. */
 #writingCarousel{margin-bottom:18px}
 #writingCarousel .carousel-controls{padding:0}
-/* Small phones: tighter gaps, so the row fits a 320px screen. */
+/* Small phones: tighter gaps, so the row fits a 320px screen. Under
+   340px the meter steps aside; the counter still gives the position. */
 @media (max-width:400px){
   .carousel-controls{gap:12px;padding:0 2px}
   .carousel-count{min-width:0}
   .carousel-meter{min-width:24px}
   .carousel-arrows{gap:8px}
+}
+@media (max-width:340px){
+  .carousel-controls{gap:8px}
+  .carousel-meter{display:none}
 }
 .card a{overflow-wrap:anywhere}
 @media (prefers-reduced-motion: reduce){ .carousel .slide,.carousel .slide.on,.carousel .slide.out,.carousel-meter-fill{transition:none} }

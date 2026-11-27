@@ -94,7 +94,7 @@
      start of each file's SHA-256), so a fresh page never runs with a
      copy cached from before a deploy. scripts/stamp-assets.py writes
      the versions; tests/test_static.py fails while they are stale. -->
-<link rel="stylesheet" href="style.css?v=c5fb0d9e3a">
+<link rel="stylesheet" href="style.css?v=b28e515a38">
 <!-- Without JavaScript the hero background's still shows at once (with
      it, app.js loads the still after itself; see style.css). No script
      means the dark theme, so these are the dark stills. -->
@@ -708,12 +708,16 @@
       </article>
       </div>
       </div>
-      <!-- Controls (Nov 26, 2026): a counter and a thin meter for the
-           position, then the two arrows. app.js keeps both in step and
-           sets the total from the slides; aria-live turns polite only
-           when the visitor moves the carousel, so auto-advance stays
-           quiet. Hidden without JavaScript, when every slide shows. -->
+      <!-- Controls (Nov 26, 2026): pause, then a counter and a thin
+           meter for the position, then the two arrows. app.js keeps them
+           in step and sets the total from the slides; aria-live turns
+           polite only when the visitor moves the carousel, so
+           auto-advance stays quiet. Pause stops auto-advance until it is
+           pressed again (WCAG 2.2.2); it is hidden while motion is off,
+           when nothing advances. Hidden without JavaScript, when every
+           slide shows. -->
       <div class="carousel-controls">
+        <button type="button" class="carousel-btn carousel-play" id="writingPlay" aria-label="Pause the articles"><svg class="icon-pause" viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><path d="M5.5 3.5v9M10.5 3.5v9"/></svg><svg class="icon-play" viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><path d="M5.5 3.6v8.8L12.3 8z"/></svg></button>
         <p class="carousel-count" aria-live="off" aria-atomic="true"><span class="sr-only">Article </span><span class="cc-now">1</span><span aria-hidden="true"> / </span><span class="sr-only"> of </span><span class="cc-total">7</span></p>
         <span class="carousel-meter" aria-hidden="true"><span class="carousel-meter-fill"></span></span>
         <div class="carousel-arrows">
@@ -1293,6 +1297,7 @@
            when the visitor moves the carousel, so auto-advance stays
            quiet. Hidden without JavaScript, when every slide shows. -->
       <div class="carousel-controls">
+        <button type="button" class="carousel-btn carousel-play" id="quotePlay" aria-label="Pause the quotes"><svg class="icon-pause" viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><path d="M5.5 3.5v9M10.5 3.5v9"/></svg><svg class="icon-play" viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><path d="M5.5 3.6v8.8L12.3 8z"/></svg></button>
         <p class="carousel-count" aria-live="off" aria-atomic="true"><span class="sr-only">Quote </span><span class="cc-now">1</span><span aria-hidden="true"> / </span><span class="sr-only"> of </span><span class="cc-total">46</span></p>
         <span class="carousel-meter" aria-hidden="true"><span class="carousel-meter-fill"></span></span>
         <div class="carousel-arrows">
@@ -1451,6 +1456,6 @@
      again once the console is back in view. -->
 <button type="button" id="backToQuery" hidden>Back to your query</button>
 
-<script src="app.js?v=66dca694ee"></script>
+<script src="app.js?v=3307a313d8"></script>
 </body>
 </html>

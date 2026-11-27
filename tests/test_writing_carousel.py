@@ -116,6 +116,9 @@ class WritingCarouselTest(BrowserTestCase):
         )
         self.page.focus("#writingCarousel .slide.on p:last-child a")
         self.page.keyboard.press("Tab")
+        # Pause comes first among the controls (Nov 26, 2026).
+        self.assertEqual("writingPlay", self.page.evaluate("document.activeElement.id"))
+        self.page.keyboard.press("Tab")
         self.assertEqual("writingPrev", self.page.evaluate("document.activeElement.id"))
 
         # The next slide becomes the only reachable one.
