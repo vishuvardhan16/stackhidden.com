@@ -19,7 +19,7 @@ Every moving thing on the page: what starts it, how long it runs, and what happe
 | Lineage draw-in (v5) | The graph enters view, if it started below the fold | Once, about 2.7s, in the order data flows | Drawn in place |
 | Career render (v5) | The career chart enters view, if it started below the fold | Once, about 1.6s, spans in date order | Drawn in place |
 | Sent records (v5) | Send a clean or a bad record | About 4s for a clean record, 3s for a bad one | Arrive at once; the log, counter, and announcement are identical |
-| Quote and writing carousels | Page load | Advance every 5s; pause on hover and keyboard focus, and the quotes hold while a quote is open. Only the arriving and the leaving slide move; the meter eases to the new position in 0.45s | Hold their slide; the arrows still work and every change is instant |
+| Quote and writing carousels | Page load | Advance every 5s; pause on hover and keyboard focus, and the quotes hold while a quote is open. The pause button stops auto-advance until it is pressed again. Only the arriving and the leaving slide move; the meter eases to the new position in 0.45s | Hold their slide; the pause button is hidden, the arrows still work, and every change is instant |
 | Read my quote chevron | Opening or closing a quote | Turns over, 0.2s | Turns at once |
 | Trace highlight (query console) | The Trace button | Outline pulses twice; removed after 2.8s | Outline only |
 | Smooth scrolling | Links and jumps | The browser's smooth scroll | Instant |

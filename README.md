@@ -20,7 +20,7 @@ The site is a hand-built static page: plain HTML, CSS, and JavaScript. No framew
 | Experience | Full verified timeline from LinkedIn: Amazon (Sep 2022 to present), Uptycs intern, TA Digital associate and intern, Augmented Byte intern. It opens with the career as a trace: every role since 2019, and the graduate degree, as a span on a year axis that ends at today. Selecting a row gives its length and place, with a link to the full entry. |
 | Engineering Work | Four case files from his Amazon record: insight ingestion orchestration, the Insights API, custom brands (ICM) in the Insights Store, and the Mosaic and Kaleidoscope agents. Each opens in place and answers to a `#case=` deep link. |
 | Lineage, drawn out | An interactive SVG lineage graph that draws itself along the data flow on first view. Hover, tap, or keyboard-focus a stage to trace its upstream and downstream edges. Send a clean or a bad record through it and watch the quality gate route the bad one to Flagged anomalies, with a pipeline log. Labelled on the page as an illustrative diagram. |
-| Writing / Featured In | Published Writing is a 5-second carousel of seven pieces, newest first, each under a publisher masthead with the publisher's logo, with the site's build log as a card below it. Featured In is a 5-second carousel of 46 expert quotes, newest first. Each slide leads with the same masthead, the date, and the article's headline, linked to the live article; the quote itself opens from "Read my quote". Both carousels show their position as a counter and a thin meter beside two arrow buttons. |
+| Writing / Featured In | Published Writing is a 5-second carousel of seven pieces, newest first, each under a publisher masthead with the publisher's logo, with the site's build log as a card below it. Featured In is a 5-second carousel of 46 expert quotes, newest first. Each slide leads with the same masthead, the date, and the article's headline, linked to the live article; the quote itself opens from "Read my quote". Both carousels have a pause button, then their position as a counter and a thin meter, then two arrow buttons. |
 | Speaking / Contact | Two cards under the same masthead: the Marketplace Risk New York 2026 talk, and the paper accepted at NICE-TEAS ASIA 2026. Contact by email (Gmail) or LinkedIn. |
 | Query this page | A SQL console over seven tables built from the page's own HTML at load. Trace jumps from a result row to its source on the page; `#q=` links run a query on arrival. |
 
@@ -313,6 +313,17 @@ Extra pre-push checks for this change: load the page in both themes at desktop a
 - **Tests.** A new module, `test_carousel_controls` (8 tests), plus new checks in `test_query`, `test_animations`, and `test_carousel`. Each new check failed on the code before the change. The suite is 20 modules, 205 tests.
 
 Extra pre-push checks for this change: at 320px, 390px, and desktop, in both themes, step through both carousels with the arrows and confirm the counter, meter, and slide agree; press Previous on the first slide and land on the last; let Featured In auto-advance with the pointer elsewhere and confirm only two slides ever show mid-move.
+
+## Newest first, a pause button, and two small fixes (November 26, 2026, later)
+
+- **Newest first.** Both carousels open on their latest piece, at the owner's request; Featured In used to open on Sep 30, with the latest quote 45 clicks away. The slides are reversed in `index.html`, so the page, the query console, print, and the no-JavaScript view share one order.
+- **Pause.** The controls row opens with a pause button, like a media player. It stops auto-advance until it is pressed again, so a visitor on a phone, with no hover to hold a slide, can read at their own pace (WCAG 2.2.2). The arrows still work while paused. It is hidden while motion is off, since then nothing advances.
+- **The corner friend loads at once.** He is fixed in the corner, always on screen, so lazy loading only made him arrive late: on a phone he was the first view's largest paint. He now starts downloading with the page, about 290ms sooner in Lighthouse's trace; Lighthouse's simulated mobile score stays around 84, held by the page's animation work, not by him.
+- **Every header section is one jump away.** The command palette gained "Go to Speaking" and the 404 page gained Featured; a static check now compares both against the header.
+- **Audit.** HTML validates (the validator does not know the two video attributes `disablepictureinpicture` and `disableremoteplayback`, which browsers support). axe-core is clean on the whole home page and the 404 page at 1288px and 390px in both themes. Lighthouse: accessibility, best practices, and SEO 100 on mobile and desktop; performance 99 on desktop.
+- **Tests.** New checks in `test_carousel_controls` (order and pause) and `test_static` (nav, image loading); each failed on the code before. Tests that found a slide by its place now find it by what it holds. The suite is 20 modules, 211 tests.
+
+Extra pre-push checks for this change: with motion on, press pause on Featured In on a phone and confirm the slide holds; turn on Reduce motion and confirm the pause button goes; open `/nope` and confirm Featured is in the list.
 
 ## License and artwork
 
