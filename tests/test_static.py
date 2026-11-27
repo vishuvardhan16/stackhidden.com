@@ -110,22 +110,25 @@ class StaticContentRulesTest(unittest.TestCase):
         self.assertEqual(48, len(list_items(work, "chips")))
 
     def test_karyna_naminas_is_credited_on_her_articles(self) -> None:
-        # Karyna Naminas, CEO of Label Your Data, wrote both Label Your
-        # Data articles that quoted him, and the page must say so. Until
-        # Nov 6, 2026 a two-sentence note under the carousel did; at the
-        # owner's request the credit moved onto the two slides it
-        # belongs to, as a byline on the date line, and the note went.
+        # Karyna Naminas, CEO of Label Your Data, wrote the first two
+        # Label Your Data articles that quoted him, and the page must say
+        # so. Until Nov 6, 2026 a two-sentence note under the carousel
+        # did; at the owner's request the credit moved onto the two slides
+        # it belongs to, as a byline on the date line, and the note went.
+        # The third Label Your Data slide (scaling managed labeling,
+        # Nov 9, 2026) carries no byline: its author was not verified.
         featured = section(self.index, "featured")
         slides = re.findall(r'<figure class="slide">(.*?)</figure>', featured, flags=re.DOTALL)
-        self.assertEqual(6, len(slides))
+        self.assertEqual(46, len(slides))
         for slide in slides:
-            outlet = re.search(r'<p class="pub-name">([^<]+)</p>', slide).group(1)
-            with self.subTest(outlet=outlet):
+            title = re.search(r'<h3 class="slide-title"><a href="[^"]+"[^>]*>([^<]+)</a></h3>', slide).group(1)
+            with self.subTest(title=title):
                 bylined = re.search(
                     r'<p class="meta pub-date">[^<]+ &middot; <span class="byline">By Karyna Naminas</span></p>',
                     slide,
                 )
-                if outlet == "Label Your Data":
+                if title in ("EU AI Act: Training Data Requirements in 2026",
+                             "Golden Dataset: How to Build Trusted AI Evaluation Data"):
                     self.assertIsNotNone(bylined)
                 else:
                     self.assertNotIn("Naminas", slide)
@@ -137,12 +140,15 @@ class StaticContentRulesTest(unittest.TestCase):
         # quote". The quotes are text, each citing its article, and the
         # only images left in the section are the caption logos.
         featured = section(self.index, "featured")
-        self.assertEqual(6, featured.count('<details class="slide-quote">'))
-        self.assertEqual(6, featured.count("<summary><span class=\"sq-closed\">Read my quote</span>"))
-        self.assertEqual(6, len(re.findall(r'<blockquote cite="https://[^"]+"><p>', featured)))
+        self.assertEqual(46, featured.count('<details class="slide-quote">'))
+        self.assertEqual(46, featured.count("<summary><span class=\"sq-closed\">Read my quote</span>"))
+        self.assertEqual(46, len(re.findall(r'<blockquote cite="https://[^"]+"><p>', featured)))
         for tag in re.findall(r"<img\b[^>]*>", featured):
             with self.subTest(img=tag):
-                self.assertIn('class="pub-logo"', tag)
+                # A caption logo is class="pub-logo", or class="pub-logo
+                # darkplate" for white/light artwork (CIO Grid, Block
+                # Telegraph, Nov 20, 2026).
+                self.assertIn('class="pub-logo', tag)
 
     def test_hero_flow_absent(self) -> None:
         # The hero flow diagram was removed at the owner's direction on

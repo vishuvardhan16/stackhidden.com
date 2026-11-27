@@ -56,7 +56,9 @@ class LazyImagesTest(RequestLog):
             timeout=5000,
         )
         logos = self.page.evaluate("[...new Set([...document.querySelectorAll('#quoteCarousel img')].map(i => i.src))]")
-        self.assertEqual(4, len(logos))
+        # 13 distinct outlet logos across the 46 slides: the 12 from the
+        # Nov 20 build, plus Customer Relations, added Nov 26, 2026.
+        self.assertEqual(13, len(logos))
         for logo in logos:
             with self.subTest(logo=logo):
                 self.assertIn(logo, self.requested)

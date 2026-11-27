@@ -49,7 +49,7 @@ class MastheadTest(BrowserTestCase):
                 slot: !!el.querySelector('.pub-mark')
             }))"""
         )
-        self.assertEqual(8 + 2 + 6, len(heads))
+        self.assertEqual(8 + 2 + 46, len(heads))
         for head in heads:
             with self.subTest(head=head):
                 self.assertTrue(head["name"] and head["kind"] and head["slot"])
@@ -107,11 +107,13 @@ class MastheadTest(BrowserTestCase):
         # the PNG route in
         # docs/publisher-logos.md. Its declared size follows the v5
         # logo system (--h:28px in style.css), so it declares 134 by
-        # 28, the file's proportions at that height.
+        # 28, the file's proportions at that height. It is the sixth
+        # caption, not the last: twenty-nine more captions joined on
+        # Nov 20-21, 2026, so the last one is now CIO Grid.
         state = self.page.evaluate(
             """() => {
                 const caps = [...document.querySelectorAll('#featured figcaption')];
-                const img = caps[caps.length - 1].querySelector('.pub-mark img');
+                const img = caps[5].querySelector('.pub-mark img');
                 return img ? { src: img.getAttribute('src'), alt: img.getAttribute('alt'),
                                width: img.getAttribute('width'), height: img.getAttribute('height') } : null;
             }"""
@@ -170,7 +172,46 @@ class MastheadTest(BrowserTestCase):
         self.assertEqual(
             ["EU AI Act: Training Data Requirements in 2026", "Golden Dataset: How to Build Trusted AI Evaluation Data",
              "How Data Teams Balance Access and Privacy", "How Analytics Teams Turn Data Into Everyday Decisions",
-             "How Software Leaders Make Room for Technical Debt", "How Software Product Teams Prioritize Customer Requests"],
+             "How Software Leaders Make Room for Technical Debt", "How Software Product Teams Prioritize Customer Requests",
+             "22 Ways to Justify Major IT Investments to Skeptical Executives",
+             "How Software Teams Build Trust During Outages", "How IT Leaders Build Trust in Business Data",
+             "How Data Leaders Communicate Uncertainty With Confidence",
+             "How Engineering Teams Reduce Single-Person Knowledge Risk",
+             "How to Help High School Graduates with Limited Work Experience Answer Behavioral Interview Questions",
+             "How to Scale Managed Data Labeling for Computer Vision",
+             "How Engineering Teams Keep Technical Debt From Slowing Product Delivery",
+             "Turn Artificial Intelligence Pilots Into Lasting Business Value",
+             "How Analytics Teams Turn Dashboards Into Daily Decisions",
+             "Cybersecurity Compliance: Essential Tools and Resources",
+             "The Biggest Concerns About Autonomous Vehicle Security",
+             "Email Personalization for Every Customer: Tips and Examples",
+             "Community Engagement In Smart Infrastructure: Best Practices & Success Stories",
+             "Decoding Web3 Success: Insights from Industry Leaders",
+             "Blockchain for Good: Real-World Examples of Transparency in Charity",
+             "How Software Teams Keep Customer Trust During Incidents",
+             "22 Unconventional Contract Clauses That Protected Businesses From Major Problems",
+             "How Business Leaders Protect High Performers From Burnout",
+             "Prioritize Technology Modernization Before Risk Grows",
+             "How Data Teams Make Better Data Retention Decisions",
+             "How Engineering and Product Teams Resolve Customer Priority Conflicts",
+             "Software Team Onboarding Practices That Help New Hires Contribute Sooner",
+             "Data Leaders Share Ways to Build Lasting Adoption",
+             "How IT Leaders Build Shared Priorities Across the Business",
+             "How Software Leaders Reduce Technical Debt Without Stalling Delivery",
+             "How Software Teams Reduce Risk From Critical Knowledge Gaps",
+             "Where Teams Let AI Act Without Asking",
+             "25 Due Diligence Techniques for Evaluating Software Vendors Beyond Sales Presentations",
+             "How Software Teams Build Customer Trust During Outages",
+             "How Customer Service Teams Rebuild Trust After Negative Feedback",
+             "How IT Leaders Make Everyday Work More Secure",
+             "How Software Teams Build Better Engineering and Product Alignment",
+             "How Analytics Teams Keep Work Focused on Business Value",
+             "How to Build Trust With Proactive Customer Communication",
+             "How Analytics Teams Catch Data Quality Problems Earlier",
+             "How IT Leaders Build Trust During Service Outages",
+             "How Engineering Leaders Build Trust Through Better Feedback",
+             "6 Nervous Habits and Communication Mistakes High School Graduates Should Eliminate Before Interviews: How to Address Them",
+             "How Software Teams Keep Technical Debt From Stalling Progress"],
             column("SELECT title FROM featured"),
         )
 
@@ -247,7 +288,9 @@ class LogoSystemDarkTest(LogoSystemLightTest):
                 if logo["bg"] in ("rgba(0, 0, 0, 0)", "transparent"):
                     continue  # carries its own background, or made for dark
                 self.assertEqual(logo["box"], logo["height"])
-                self.assertIn(logo["bg"], ("rgb(255, 255, 255)", "rgb(232, 72, 68)"))
+                # White chip, Marketplace Risk's brand-red chip, or a
+                # dark plate (CIO Grid, Block Telegraph: rgb(15, 23, 42)).
+                self.assertIn(logo["bg"], ("rgb(255, 255, 255)", "rgb(232, 72, 68)", "rgb(15, 23, 42)"))
 
 
 class LogoPhoneTest(BrowserTestCase):
@@ -364,7 +407,7 @@ class CarouselFitTest(BrowserTestCase):
                 self.page.set_viewport_size({"width": width, "height": height})
                 self.reload_page()
                 gaps = self.page.evaluate(CAPTION_GAPS)
-                self.assertEqual(6, len(gaps))
+                self.assertEqual(46, len(gaps))
                 self.assertTrue(all(g >= 8 for g in gaps), gaps)
 
     def test_an_open_quote_never_runs_under_the_controls(self) -> None:
@@ -376,7 +419,7 @@ class CarouselFitTest(BrowserTestCase):
                 self.page.set_viewport_size({"width": width, "height": height})
                 self.reload_page()
                 gaps = []
-                for i in range(6):
+                for i in range(46):
                     self.page.evaluate(f"document.querySelectorAll('#quoteCarousel .carousel-dot')[{i}].click()")
                     self.page.evaluate("document.querySelector('#quoteCarousel .slide.on details').open = true")
                     gaps.append(self.page.evaluate(OPEN_QUOTE_GAP))
