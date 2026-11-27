@@ -14,8 +14,13 @@ from helpers import BrowserTestCase
 
 
 # Every slide in order: its headline, and the quote word for word as
-# published, spelling included ("favour", "prioritise"). These are the
-# quotes the slides' screenshots and quote cards showed before Nov 6, 2026.
+# published, spelling included ("favour", "prioritise"). The first six
+# are the quotes the slides' screenshots and quote cards showed before
+# Nov 6, 2026. The twenty-nine added Nov 20-21, 2026 were read off the
+# live publisher pages, not the submitted-answer files: the published
+# text can differ from what was submitted, and three of the seventeen
+# file-sourced candidates did. The eleven added Nov 26, 2026, placements
+# #36 to #46, were read off the live publisher pages the same way.
 SLIDES = [
     (
         "EU AI Act: Training Data Requirements in 2026",
@@ -50,6 +55,232 @@ SLIDES = [
         "How Software Product Teams Prioritize Customer Requests",
         "We prioritise the roadmap by asking what each item makes possible, and what waiting costs.",
     ),
+    (
+        "22 Ways to Justify Major IT Investments to Skeptical Executives",
+        "IT investment cases fail when they are written in IT language: platforms, versions, architecture. "
+        "They succeed when they are written as the business outcome the spending protects or creates.",
+    ),
+    (
+        "How Software Teams Build Trust During Outages",
+        "Silence is what customers fill with their worst guesses. A short message on schedule, saying what "
+        "we know, what we do not know yet, and what we are doing next, reads as competence because it is "
+        "verifiable.",
+    ),
+    (
+        "How IT Leaders Build Trust in Business Data",
+        "In my work, trust improves when every shared metric has one certified definition, calculated in "
+        "one place, with its lineage visible.",
+    ),
+    (
+        "How Data Leaders Communicate Uncertainty With Confidence",
+        "It helps to state what the data cannot prove alongside the estimate itself, in the same view, so "
+        "stakeholders act on the number with its limits in front of them.",
+    ),
+    (
+        "How Engineering Teams Reduce Single-Person Knowledge Risk",
+        "The risk is rarely that the one engineer leaves. It is that they go on holiday during the one "
+        "incident their system produces all year.",
+    ),
+    (
+        "How to Help High School Graduates with Limited Work Experience Answer Behavioral Interview Questions",
+        "The mistake I correct first, with the early-career people I mentor, is the belief that behavioral "
+        "questions require a job. They do not. They require evidence, and a high school graduate has more "
+        "of it than they think.",
+    ),
+    (
+        "How to Scale Managed Data Labeling for Computer Vision",
+        "In annotation work, the bottleneck is validation at volume: labels keep arriving, but checking "
+        "them takes longer than producing them, so errors found late mean rework across the whole dataset "
+        "instead of a quarantined batch caught at intake.",
+    ),
+    (
+        "How Engineering Teams Keep Technical Debt From Slowing Product Delivery",
+        "Technical debt becomes urgent at a specific moment: when it starts charging interest on every "
+        "unrelated change.",
+    ),
+    (
+        "Turn Artificial Intelligence Pilots Into Lasting Business Value",
+        "My test for a new initiative is simple. Name the weekly decision it changes, name the owner of "
+        "the data it stands on, and name how you will know in ninety days whether it worked.",
+    ),
+    (
+        "How Analytics Teams Turn Dashboards Into Daily Decisions",
+        "We cut the front page down to the handful of numbers tied to decisions people made every week, "
+        "and moved everything else a click away.",
+    ),
+    (
+        "Cybersecurity Compliance: Essential Tools and Resources",
+        "The resource I rely on most is not a vendor product. It is the practice of writing data validation "
+        "and policy checks as code inside the pipeline, backed by a lineage record that shows where a field "
+        "came from and which checks it passed.",
+    ),
+    (
+        "The Biggest Concerns About Autonomous Vehicle Security",
+        "The honest answer is that a hacked autonomous vehicle is not mainly a driving problem. It is a "
+        "data problem.",
+    ),
+    (
+        "Email Personalization for Every Customer: Tips and Examples",
+        "Personalization that earns its keep is not using someone's name. It is proving you looked at their "
+        "actual situation before you wrote.",
+    ),
+    (
+        "Community Engagement In Smart Infrastructure: Best Practices & Success Stories",
+        "When the community's fingerprints are on the definitions, later disagreements are about trade-offs "
+        "everyone already understands.",
+    ),
+    (
+        "Decoding Web3 Success: Insights from Industry Leaders",
+        "A Web3 business that wants to last should publish how each headline figure was produced.",
+    ),
+    (
+        "Blockchain for Good: Real-World Examples of Transparency in Charity",
+        "Donors do not really have a transparency problem. They have a provenance problem.",
+    ),
+    (
+        "How Software Teams Keep Customer Trust During Incidents",
+        "Trust is protected by the corrections too. When our early understanding turns out wrong, we say so "
+        "in the same channel, at the same prominence, without burying it in a longer update.",
+    ),
+    (
+        "22 Unconventional Contract Clauses That Protected Businesses From Major Problems",
+        "The clause I push for in platform and data tooling contracts is an evidence checkpoint with a clean "
+        "exit: staged payments tied to the tool proving itself on our data at set intervals, and a no-penalty "
+        "termination right if the evidence does not arrive.",
+    ),
+    (
+        "How Business Leaders Protect High Performers From Burnout",
+        "When a high performer starts showing signs of burnout, my first decision is to treat it as a "
+        "workload design problem, not a resilience problem.",
+    ),
+    (
+        "Prioritize Technology Modernization Before Risk Grows",
+        "An aging system earns modernization when the cost of staying starts exceeding the cost of moving, "
+        "and in my experience that crossover shows up in three places before it shows up in any strategy "
+        "document.",
+    ),
+    (
+        "How Data Teams Make Better Data Retention Decisions",
+        "My rule is simple. Keep the trusted, well described output that teams actually query. Keep the raw "
+        "input only long enough to reprocess it if a check fails or a source changes. After that, retention "
+        "should be a decision, not a default.",
+    ),
+    (
+        "How Engineering and Product Teams Resolve Customer Priority Conflicts",
+        "Our principle is to split the request by trust, not by effort. We ask which part of the feature "
+        "can be built on data we already validate and would defend to the customer today, and which part "
+        "depends on data that still needs work.",
+    ),
+    (
+        "Software Team Onboarding Practices That Help New Hires Contribute Sooner",
+        "The change that made the biggest practical difference for us was treating onboarding as a "
+        "documentation problem before treating it as a mentoring problem.",
+    ),
+    (
+        "Data Leaders Share Ways to Build Lasting Adoption",
+        "Teams will adopt a slower process that they trust. They will not keep using a faster one that "
+        "leaves them guessing.",
+    ),
+    (
+        "How IT Leaders Build Shared Priorities Across the Business",
+        "Shared priorities do not come from a meeting where everyone lists what they want. They come from "
+        "agreeing, in advance, on how competing requests will be judged.",
+    ),
+    (
+        "How Software Leaders Reduce Technical Debt Without Stalling Delivery",
+        "I rank technical debt by how often it touches customers. Debt in a part of the product that ships "
+        "changes every week costs far more than debt in code nobody opens.",
+    ),
+    (
+        "How Software Teams Reduce Risk From Critical Knowledge Gaps",
+        "Reducing key person risk is not about spreading people thin. It is about making sure critical "
+        "knowledge is shared through real work, clear notes on checks and failures, and gradual ownership.",
+    ),
+    (
+        "Where Teams Let AI Act Without Asking",
+        "The playbook had to be bounded, so it could only act inside its own scope. It had to pass an "
+        "evaluation set written for that specific playbook.",
+    ),
+    (
+        "25 Due Diligence Techniques for Evaluating Software Vendors Beyond Sales Presentations",
+        "I never evaluate a data or AI tool on the vendor's demo data. My due diligence technique is to "
+        "hand the vendor a test set we built ourselves: real-shaped data with known defects planted in it, "
+        "duplicates, broken joins, values that drift out of range, records that should never pass "
+        "validation.",
+    ),
+    (
+        "How Software Teams Build Customer Trust During Outages",
+        "I'm a software development engineer at Amazon Advertising, and I have been the person writing "
+        "customer-facing updates during incidents on the insights platform my team runs. My rule for the "
+        "first message is simple: say what is affected, say what we know, and say when the next update "
+        "will come. I do not wait for the root cause, because customers are making decisions with or "
+        "without us, and silence just hands the explanation to rumour.",
+    ),
+    (
+        "How Customer Service Teams Rebuild Trust After Negative Feedback",
+        "I start with what I can say is true, and I say it plainly. When a customer gives negative "
+        "feedback after a disappointing experience, I name the specific change that caused it, its likely "
+        "cause, and one concrete next step. I do not defend the old numbers and I do not promise a fix "
+        "I cannot guarantee.",
+    ),
+    (
+        "How IT Leaders Make Everyday Work More Secure",
+        "The secure choice has to be the easy choice, or people will route around it under deadline "
+        "pressure, and they will be right to. Where I work, the approach that holds up is to move "
+        "security into the defaults of the systems people already use, instead of adding review steps "
+        "they have to remember.",
+    ),
+    (
+        "How Software Teams Build Better Engineering and Product Alignment",
+        "The habit that made the biggest difference on my team is a short monthly review where every "
+        "roadmap item has to restate its case in three lines: who it serves, what changes for them, and "
+        "what it costs to delay by one quarter. Requests arrive as features. The honest unit is a "
+        "decision or an outcome: a launch that cannot happen, a customer workflow that stays manual, a "
+        "platform deadline that does not move.",
+    ),
+    (
+        "How Analytics Teams Keep Work Focused on Business Value",
+        "My test is simple: name the decision the initiative changes, and the date that decision gets "
+        "made. If nobody can name both, the work is producing reports, not solving a problem.",
+    ),
+    (
+        "How to Build Trust With Proactive Customer Communication",
+        "I contact them right away if the problem affects a decision the customer is about to make. I "
+        "only wait when the problem is still a suspicion and I have nothing concrete to tell them yet. "
+        "The test is easy.",
+    ),
+    (
+        "How Analytics Teams Catch Data Quality Problems Earlier",
+        "I rank data quality issues by decision exposure: what decision is being made from this data, and "
+        "when. An error in a feed behind a live advertiser report outranks a larger error in a dataset "
+        "nobody has opened in a month. The second question is blast radius.",
+    ),
+    (
+        "How IT Leaders Build Trust During Service Outages",
+        "The practice that preserved trust in our incidents is a fixed update rhythm with honest content: "
+        "what we know, what we do not know yet, and when the next update lands. Leaders can absorb bad "
+        "news.",
+    ),
+    (
+        "How Engineering Leaders Build Trust Through Better Feedback",
+        "Feedback stops being a surprise when it attaches to the work while the work is still current. On "
+        "my team that means the review cycle carries it: code reviews and design reviews where comments "
+        "land on a specific decision, in writing, within days of the decision being made.",
+    ),
+    (
+        "6 Nervous Habits and Communication Mistakes High School Graduates Should Eliminate Before Interviews: How to Address Them",
+        "The habit I coach my mentees out of first is narrating their own nervousness. Opening with an "
+        "apology for having no experience, or filling every pause with commentary about how nervous they "
+        "are, spends the interviewer's attention on the apology instead of the evidence.",
+    ),
+    (
+        "How Software Teams Keep Technical Debt From Stalling Progress",
+        "We decide by cost of delay, stated out loud. A debt item earns attention now when it is blocking "
+        "something with a date on it, a launch, a version deadline, a partner commitment, or when it is "
+        "quietly taxing every change the team makes. Debt that is merely ugly, in a part of the system "
+        "nobody is touching, we live with on purpose, and we say so, so living with it is a decision "
+        "rather than drift.",
+    ),
 ]
 
 SLIDE_STATE = """() => [...document.querySelectorAll('#quoteCarousel .slide')].map(s => {
@@ -79,11 +310,11 @@ class CarouselTest(BrowserTestCase):
         slides = carousel.locator(".slide")
 
         self.assertEqual("group", dots_wrap.get_attribute("role"))
-        # 6 slides since Nov 4, 2026: the two Label Your Data quotes,
-        # two Informatics Magazine quotes, the CTO Sync quote, and the
-        # Tech Magazine quote.
-        self.assertEqual(6, dots.count())
-        self.assertEqual(6, slides.count())
+        # 46 slides since Nov 26, 2026: the six from Sep 30 to Nov 4,
+        # then twenty-nine more, placements #7 to #35, and eleven more,
+        # placements #36 to #46.
+        self.assertEqual(46, dots.count())
+        self.assertEqual(46, slides.count())
         self.assertEqual("true", dots.nth(0).get_attribute("aria-current"))
         self.assertIsNone(dots.nth(1).get_attribute("aria-current"))
         self.assertIn("on", slides.nth(0).get_attribute("class") or "")
@@ -152,7 +383,7 @@ class HeadlineFirstTest(BrowserTestCase):
         # headline to its toggle and then to the arrows, never into a
         # slide that is not showing.
         self.assertEqual(
-            [False, True, True, True, True, True],
+            [False] + [True] * 45,
             self.page.evaluate("[...document.querySelectorAll('#quoteCarousel .slide')].map(s => s.inert)"),
         )
         self.page.focus("#quoteCarousel .slide.on .slide-title a")
@@ -169,7 +400,7 @@ class HeadlineFirstTest(BrowserTestCase):
         # The next slide becomes the only reachable one.
         self.page.click("#quoteNext")
         self.assertEqual(
-            [True, False, True, True, True, True],
+            [True, False] + [True] * 44,
             self.page.evaluate("[...document.querySelectorAll('#quoteCarousel .slide')].map(s => s.inert)"),
         )
 
@@ -178,7 +409,7 @@ class HeadlineFirstTest(BrowserTestCase):
         self.page.click("#quoteCarousel .slide.on summary")
         self.assertGreater(self.page.evaluate(TRACK_HEIGHT), closed)
         self.page.click("#quoteNext")
-        self.assertEqual([False] * 6, [s["open"] for s in self.page.evaluate(SLIDE_STATE)])
+        self.assertEqual([False] * 46, [s["open"] for s in self.page.evaluate(SLIDE_STATE)])
         self.assertEqual(closed, self.page.evaluate(TRACK_HEIGHT))
         self.page.click("#quotePrev")
         self.assertEqual("Read my quote", self.summary_text())
@@ -220,11 +451,11 @@ class PrintTest(BrowserTestCase):
                 toggle: getComputedStyle(s.querySelector('summary')).display
             }))"""
         )
-        self.assertEqual([{"quote": True, "toggle": "none"}] * 6, printed)
+        self.assertEqual([{"quote": True, "toggle": "none"}] * 46, printed)
         self.page.evaluate("window.dispatchEvent(new Event('afterprint'))")
         self.page.emulate_media(media="screen")
         self.assertEqual(
-            [True, False, False, False, False, False],
+            [True] + [False] * 45,
             [s["open"] for s in self.page.evaluate(SLIDE_STATE)],
         )
 

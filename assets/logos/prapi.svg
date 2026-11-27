@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 120" width="360" height="120" role="img" aria-label="prapi.dev">
+  <title>prapi.dev</title>
+  <g fill="none" stroke="#0F0F0F" stroke-width="6" stroke-linejoin="miter" stroke-linecap="square">
+    <path d="M 30 20 L 30 52 L 18 56 L 6 60 L 18 64 L 30 68 L 30 100"/>
+    <path d="M 296 20 L 330 60 L 296 100"/>
+  </g>
+  <text x="50" y="78" font-family="Inter, -apple-system, system-ui, sans-serif" font-size="62" font-weight="600" fill="#0F0F0F" letter-spacing="-1">prapi</text>
+  <text x="50" y="108" font-family="Inter, -apple-system, system-ui, sans-serif" font-size="22" font-weight="400" fill="#0F0F0F" opacity="0.55">.dev</text>
+</svg>

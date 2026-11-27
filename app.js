@@ -219,10 +219,50 @@
     "Nov 3, 2026 - Informatics Magazine, 'How Analytics Teams Turn Data Into Everyday Decisions.' Named expert quote under 'Create a Ritual Around Core Figures,' on what gets a dashboard into a team's regular decisions.",
     "Nov 3, 2026 - CTO Sync, 'How Software Leaders Make Room for Technical Debt.' Named expert quote under 'Treat Platform Health as System Rent,' on planning technical debt as a fixed share of each cycle, reserved before feature planning begins.",
     "Nov 4, 2026 - Tech Magazine, 'How Software Product Teams Prioritize Customer Requests.' Named expert quote under 'Measure the Cost of Delay,' on prioritizing roadmap requests by what each item makes possible and what waiting costs.",
+    "Nov 6, 2026 - CIO Grid, '22 Ways to Justify Major IT Investments to Skeptical Executives.' Named expert quote on justifying major IT investments to skeptical executives.",
+    "Nov 9, 2026 - Tech Magazine, 'How Software Teams Build Trust During Outages.' Named expert quote on building trust during outages.",
+    "Nov 9, 2026 - CIO Grid, 'How IT Leaders Build Trust in Business Data.' Named expert quote on building trust in business data.",
+    "Nov 9, 2026 - Informatics Magazine, 'How Data Leaders Communicate Uncertainty With Confidence.' Named expert quote on communicating uncertainty with confidence.",
+    "Nov 9, 2026 - CTO Sync, 'How Engineering Teams Reduce Single-Person Knowledge Risk.' Named expert quote under 'Record Lessons at Discovery,' on the real single-person knowledge risk.",
+    "Nov 9, 2026 - Interview Focus, 'How to Help High School Graduates with Limited Work Experience Answer Behavioral Interview Questions.' Named expert quote under 'Translate Life Evidence Into Interview Proof,' on answering behavioral questions without a job history.",
+    "Nov 9, 2026 - Label Your Data, 'How to Scale Managed Data Labeling for Computer Vision.' Named expert quote under 'Keep QA findings connected to daily annotation,' on validation at volume as the labeling bottleneck.",
     "Nov 9, 2026 - Platform Engineering. 'The Agent Is a Workload: What Platform Teams Should Demand Before One Ships.' What platform teams should demand before an AI agent ships, drawn from production agent work.",
     "Nov 9, 2026 - eSecurity Planet. 'Your Agent Is an API Client. Defend It Like One.' An agent is an API client: defend its access, its spend, and its scope the way you would any client.",
+    "Nov 10, 2026 - CTO Sync, 'How Engineering Teams Keep Technical Debt From Slowing Product Delivery.' Named expert quote under 'Price Legacy Burdens Like Taxes,' on the moment technical debt becomes urgent.",
+    "Nov 10, 2026 - CIO Grid, 'Turn Artificial Intelligence Pilots Into Lasting Business Value.' Named expert quote on turning AI pilots into lasting business value.",
+    "Nov 10, 2026 - Informatics Magazine, 'How Analytics Teams Turn Dashboards Into Daily Decisions.' Named expert quote on turning dashboards into daily decisions.",
+    "Nov 10, 2026 - Block Telegraph, 'Cybersecurity Compliance: Essential Tools and Resources.' Named expert quote under 'Prove Data Compliance Through Pipeline Checks,' on writing validation and policy checks as code inside the pipeline.",
+    "Nov 10, 2026 - Transit Tomorrow, 'The Biggest Concerns About Autonomous Vehicle Security.' Named expert quote under 'Check Sensor Data Before Decisions,' on autonomous vehicle security as a data problem.",
+    "Nov 10, 2026 - Grit Daily, 'Email Personalization for Every Customer: Tips and Examples.' Named expert quote under 'Surface Advertiser Risks Before They Notice,' on email personalization that earns its keep.",
+    "Nov 10, 2026 - Transit Tomorrow, 'Community Engagement In Smart Infrastructure: Best Practices & Success Stories.' Named expert quote under 'Define Shared Needs Up Front,' on community engagement in smart infrastructure.",
+    "Nov 10, 2026 - Block Telegraph, 'Decoding Web3 Success: Insights from Industry Leaders.' Named expert quote under 'Publish Verifiable Business Metrics,' on what a Web3 business should publish.",
+    "Nov 10, 2026 - Smartech Daily, 'Blockchain for Good: Real-World Examples of Transparency in Charity.' Named expert quote under 'Establish Fund Provenance,' on the donor provenance problem.",
+    "Nov 11, 2026 - Tech Magazine, 'How Software Teams Keep Customer Trust During Incidents.' Named expert quote under 'Use Templates and Correct Publicly,' on keeping customer trust during incidents.",
+    "Nov 13, 2026 - CIO Grid, '22 Unconventional Contract Clauses That Protected Businesses From Major Problems.' Named expert quote on contract clauses that protect businesses.",
+    "Nov 14, 2026 - AZ Big Media, 'How Business Leaders Protect High Performers From Burnout.' Named expert quote under 'Cut Scope and Reassess Load,' on protecting high performers from burnout.",
+    "Nov 16, 2026 - CIO Grid, 'Prioritize Technology Modernization Before Risk Grows.' Named expert quote on prioritizing technology modernization before risk grows.",
+    "Nov 16, 2026 - Informatics Magazine, 'How Data Teams Make Better Data Retention Decisions.' Named expert quote on data retention decisions.",
+    "Nov 16, 2026 - CTO Sync, 'How Engineering and Product Teams Resolve Customer Priority Conflicts.' Named expert quote under 'Split Features Along Trust Boundaries,' on resolving customer priority conflicts by trust.",
+    "Nov 16, 2026 - Tech Magazine, 'Software Team Onboarding Practices That Help New Hires Contribute Sooner.' Named expert quote on onboarding practices that help new hires contribute sooner.",
+    "Nov 17, 2026 - Informatics Magazine, 'Data Leaders Share Ways to Build Lasting Adoption.' Named expert quote on building lasting adoption.",
+    "Nov 17, 2026 - CIO Grid, 'How IT Leaders Build Shared Priorities Across the Business.' Named expert quote on building shared priorities across the business.",
+    "Nov 17, 2026 - CTO Sync, 'How Software Leaders Reduce Technical Debt Without Stalling Delivery.' Named expert quote under 'Quantify Frequent Team Taxes,' on reducing technical debt without stalling delivery.",
+    "Nov 18, 2026 - Tech Magazine, 'How Software Teams Reduce Risk From Critical Knowledge Gaps.' Named expert quote on reducing risk from critical knowledge gaps.",
     "Nov 19, 2026 - Foojay. 'Your Agent's Tool Calls Will Run Twice: Idempotency and Evaluation Gates in Java Services.' Idempotency and evaluation gates for agent tool calls in Java services.",
-    "Nov 20, 2026 - CRM Magazine. 'What Needs to Be in Place Before an Agent Answers the Customer.' What must be in place before an agent answers customers: governed playbooks, evaluation gates that hold a release, and written scope over the records it reads."
+    "Nov 19, 2026 - PRAPI, 'Where Teams Let AI Act Without Asking.' Named expert quote on where teams let AI act without asking.",
+    "Nov 20, 2026 - CRM Magazine. 'What Needs to Be in Place Before an Agent Answers the Customer.' What must be in place before an agent answers customers: governed playbooks, evaluation gates that hold a release, and written scope over the records it reads.",
+    "Nov 20, 2026 - CIO Grid, '25 Due Diligence Techniques for Evaluating Software Vendors Beyond Sales Presentations.' Named expert quote under 'Use Versioned Defect Datasets,' on evaluating software vendors with a planted-defect test set.",
+    "Nov 23, 2026 - Tech Magazine, 'How Software Teams Build Customer Trust During Outages.' Named expert quote under 'Correct Mistakes Openly and Promptly,' on the first incident message: what is affected, what is known, and when the next update comes.",
+    "Nov 23, 2026 - Customer Relations, 'How Customer Service Teams Rebuild Trust After Negative Feedback.' Named expert quote under 'Maintain Scheduled Communication Cadence,' on rebuilding trust with a fixed update rhythm.",
+    "Nov 23, 2026 - CIO Grid, 'How IT Leaders Make Everyday Work More Secure.' Named expert quote under 'Explain Pipeline Blocks in Plain Language,' on making the secure choice the easy choice.",
+    "Nov 23, 2026 - CTO Sync, 'How Software Teams Build Better Engineering and Product Alignment.' Named expert quote under 'Restate Each Roadmap Item's Case,' on restating each roadmap item in three lines: who it serves, what changes for them, and what it costs to delay.",
+    "Nov 23, 2026 - Informatics Magazine, 'How Analytics Teams Keep Work Focused on Business Value.' Named expert quote under 'Establish a Weekly Figure Ritual,' on naming the decision an initiative changes and the date that decision gets made.",
+    "Nov 24, 2026 - Customer Relations, 'How to Build Trust With Proactive Customer Communication.' Named expert quote under 'Provide Safe Workarounds During Refresh Failures,' on reaching out when a problem affects a decision the customer is about to make.",
+    "Nov 24, 2026 - Informatics Magazine, 'How Analytics Teams Catch Data Quality Problems Earlier.' Named expert quote under 'Halt Corrupt Streams at Origin,' on ranking data quality issues by decision exposure.",
+    "Nov 24, 2026 - CIO Grid, 'How IT Leaders Build Trust During Service Outages.' Named expert quote under 'Frame Impact in Business Terms,' on a fixed update rhythm with honest content.",
+    "Nov 24, 2026 - CTO Sync, 'How Engineering Leaders Build Trust Through Better Feedback.' Named expert quote under 'Link Notes to Decisions,' on feedback that attaches to the work while the work is still current.",
+    "Nov 24, 2026 - Interview Focus, '6 Nervous Habits and Communication Mistakes High School Graduates Should Eliminate Before Interviews: How to Address Them.' Named expert quote under 'Trade Self-Doubt for Ready Stories,' on coaching mentees out of narrating their nervousness.",
+    "Nov 25, 2026 - Tech Magazine, 'How Software Teams Keep Technical Debt From Stalling Progress.' Named expert quote under 'PROTECT BUDGET FROM SCHEDULE DRAG,' on deciding by cost of delay, stated out loud."
   ];
   if (traceDetail) {
     var rows = document.querySelectorAll("#trace .trace-row");
@@ -2070,11 +2110,16 @@
   }
 
   // 2026 trace: bars render left to right, one after another, 110ms apart.
+  // The reveal threshold is 0.25, not 0.35: at 54 spans the trace is
+  // 2677px tall, and 35% of it (937px) is barely more than a viewport
+  // shows with the section scrolled to the top, so the draw started a
+  // hair too late. A quarter of it is in view as soon as the section
+  // arrives.
   (function () {
     var trace = document.querySelector('#trace .trace');
     if (!trace) return;
     var bars = trace.querySelectorAll('.trace-bar');
-    var armed = revealOnce(trace, 0.35, function () {
+    var armed = revealOnce(trace, 0.25, function () {
       trace.classList.add('trace-drawn');
       // Leave the page as if it had never animated once the last bar lands.
       setTimeout(function () {

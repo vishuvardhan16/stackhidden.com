@@ -49,7 +49,7 @@ class AnimationTest(BrowserTestCase):
                 width: parseFloat(r.querySelector('.trace-bar').style.width)
             }))"""
         )
-        self.assertEqual(14, len(rows))
+        self.assertEqual(54, len(rows))
         for row in rows:
             with self.subTest(row=row["when"]):
                 month, day = re.match(r"([A-Z][a-z]{2}) (\d+)", row["when"]).groups()
@@ -68,10 +68,12 @@ class AnimationTest(BrowserTestCase):
         self.scroll_to("#trace")
         self.page.wait_for_timeout(400)
         self.assertIn("trace-drawn", self.page.evaluate(f"{trace}.className"))
-        self.page.wait_for_timeout(2400)
+        # The bars land 110ms apart, and the cleanup runs 100ms after
+        # the last one: 900 + 54 * 110 + 100 = 6940ms from the draw.
+        self.page.wait_for_timeout(7500)
         self.assertEqual("trace", self.page.evaluate(f"{trace}.className"))
         clips = self.page.evaluate("[...document.querySelectorAll('.trace-bar')].map(b => getComputedStyle(b).clipPath)")
-        self.assertEqual(["none"] * 14, clips)
+        self.assertEqual(["none"] * 54, clips)
 
     def test_lineage_draws_itself_then_restores_the_graph(self) -> None:
         graph = "document.getElementById('lineageSvg')"

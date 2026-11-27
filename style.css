@@ -666,6 +666,15 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
 .pub-logo[src$="/ctosync.svg"]{--h:34px}
 .pub-logo[src$="/techmagazine.png"]{--h:28px}
 .pub-logo[src$="/labelyourdata.svg"]{--h:34px}
+.pub-logo[src$="/ciogrid.svg"]{--h:30px}
+.pub-logo[src$="/azbigmedia.png"]{--h:27px}
+.pub-logo[src$="/prapi.svg"]{--h:36px}
+.pub-logo[src$="/interviewfocus.png"]{--h:22px}
+.pub-logo[src$="/blocktelegraph.svg"]{--h:31px}
+.pub-logo[src$="/transittomorrow.png"]{--h:28px}
+.pub-logo[src$="/gritdaily.png"]{--h:35px}
+.pub-logo[src$="/smartechdaily.png"]{--h:32px}
+.pub-logo[src$="/customerrelations.svg"]{--h:28px}
 .pub-logo[src$="/niceteas.svg"]{--h:38px}
 /* The Marketplace Risk PNGs carry transparent margins: the light file's
    mark fills only 63% of its height. So the light logo is drawn taller
@@ -694,12 +703,22 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
    docs/publisher-logos.md: logos that carry their own background (the
    NICE-TEAS tile, marked .noplate, and the Label Your Data badge) and
    versions made for dark (.for-dark) take no chip; Marketplace Risk's
-   white wordmark takes a chip in its own brand red (#E84844). */
+   white wordmark takes a chip in its own brand red (#E84844); white or
+   light artwork (CIO Grid, Block Telegraph) takes a dark plate in both
+   themes, class .darkplate, below. */
 :root[data-theme="dark"] .pub-logo{box-sizing:border-box;height:var(--logo-box,32px);padding:calc((var(--logo-box,32px) - var(--h,24px)) / 2) 10px;background:#fff;border-radius:8px}
 :root[data-theme="dark"] .pub-logo.noplate,
 :root[data-theme="dark"] .pub-logo[src$="/labelyourdata.svg"],
 :root[data-theme="dark"] .pub-logo.for-dark{display:block;box-sizing:content-box;height:var(--h,24px);padding:0;background:none;border-radius:0}
 :root[data-theme="dark"] .pub-logo.for-dark[src$="/marketplacerisk-dark.png"]{box-sizing:border-box;height:var(--logo-box);padding:calc((var(--logo-box) - var(--h)) / 2) 12px;background:#E84844;border-radius:8px}
+
+/* Dark plates. A logo drawn in white or light colours (CIO Grid's
+   white wordmark, Block Telegraph's light-blue letters and white icon
+   details) is invisible on a light page and on the white dark-mode
+   chip, so it sits on a dark plate in both themes: the full logo-box
+   height, slate #0f172a, the same geometry as the dark-mode chip. */
+.pub-logo.darkplate{box-sizing:border-box;height:var(--logo-box,32px);padding:calc((var(--logo-box,32px) - var(--h,24px)) / 2) 10px;background:#0f172a;border-radius:8px}
+:root[data-theme="dark"] .pub-logo.darkplate{background:#0f172a}
 
 /* Cards are equal height in a grid row; the closing link sits on the
    bottom edge, so the links of one row line up. */
