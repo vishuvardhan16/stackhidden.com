@@ -240,17 +240,25 @@ class LoadingRulesTest(unittest.TestCase):
         cls.index = read(INDEX)
 
     def test_every_image_is_sized_lazy_and_async(self) -> None:
-        # Nothing on the page above the fold is an <img>: the hero figure
-        # is a video poster. A new image above the fold should drop
-        # loading="lazy" and say why here.
+        # The hero figure is a video poster, so the only <img> always on
+        # screen at load is the corner friend: fixed in the corner, he is
+        # in every first view, and lazy loading only delayed him (on a
+        # phone he was the first view's largest paint, at 3.6s in
+        # Lighthouse). He loads eagerly. A new image above the fold should
+        # drop loading="lazy" too and be named here.
+        always_on_screen = {"assets/corner-friend.webp"}
         markup = re.sub(r"<!--.*?-->", "", self.index, flags=re.DOTALL)
         imgs = re.findall(r"<img\b[^>]*>", markup)
         self.assertGreaterEqual(len(imgs), 13)
         for tag in imgs:
-            with self.subTest(img=re.search(r'src="([^"]+)"', tag).group(1)):
+            src = re.search(r'src="([^"]+)"', tag).group(1)
+            with self.subTest(img=src):
                 self.assertRegex(tag, r'\swidth="\d+"')
                 self.assertRegex(tag, r'\sheight="\d+"')
-                self.assertIn('loading="lazy"', tag)
+                if src in always_on_screen:
+                    self.assertNotIn('loading="lazy"', tag)
+                else:
+                    self.assertIn('loading="lazy"', tag)
                 self.assertIn('decoding="async"', tag)
 
     def test_every_referenced_asset_exists(self) -> None:
