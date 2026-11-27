@@ -208,6 +208,22 @@ class FinishingTouchesTest(unittest.TestCase):
             with self.subTest(anchor=anchor):
                 self.assertIn(anchor, ids)
 
+    def test_every_header_section_is_one_jump_from_the_404_and_the_palette(self) -> None:
+        # Nov 26, 2026: the 404 page had no Featured link and the command
+        # palette had no Speaking command, though the header has both.
+        # The 404 page's Home link stands in for About, which sits right
+        # under the hero.
+        nav = re.search(r'<nav>(.*?)</nav>', self.index, flags=re.DOTALL).group(1)
+        sections = re.findall(r'href="#([a-z-]+)"', nav)
+        self.assertGreaterEqual(len(sections), 7)
+        on_404 = set(re.findall(r'href="/#([a-z-]+)"', self.not_found))
+        in_palette = set(re.findall(r"goTo\('#([a-z-]+)'\)", read(SCRIPT)))
+        for section in sections:
+            with self.subTest(section=section):
+                if section != "about":
+                    self.assertIn(section, on_404)
+                self.assertIn(section, in_palette)
+
     def test_404_colours_match_the_site_theme(self) -> None:
         for selector in (':root,:root[data-theme="dark"]', ':root[data-theme="light"]'):
             with self.subTest(theme=selector):

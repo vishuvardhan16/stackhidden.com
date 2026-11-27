@@ -18,8 +18,11 @@ class PaletteTest(BrowserTestCase):
         self.assertFalse(palette.evaluate("element => element.hidden"))
 
         labels = self.page.locator("#paletteList li span").all_text_contents()
-        # 16 since Nov 26, 2026: "Go to 2026, as a trace" left with the section.
-        self.assertEqual(16, len(labels))
+        # Still 17 after Nov 26, 2026: "Go to 2026, as a trace" left with
+        # the section, and "Go to Speaking" joined, the one header section
+        # the palette had no command for.
+        self.assertEqual(17, len(labels))
+        self.assertIn("Go to Speaking", labels)
         self.assertNotIn("Go to 2026, as a trace", labels)
         self.assertIn("Go to Query this page", labels)
         self.assertIn("Go to About", labels)

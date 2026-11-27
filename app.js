@@ -816,6 +816,7 @@
     { label: 'Go to Lineage, drawn out', hint: 'section', run: function () { goTo('#lineage'); } },
     { label: 'Go to Published Writing', hint: 'section', run: function () { goTo('#writing'); } },
     { label: 'Go to Featured In', hint: 'section', run: function () { goTo('#featured'); } },
+    { label: 'Go to Speaking', hint: 'section', run: function () { goTo('#speaking'); } },
     { label: 'Go to Query this page', hint: 'section', run: function () { goTo('#query'); } },
     { label: 'Go to Contact', hint: 'section', run: function () { goTo('#contact'); } },
     { label: 'Toggle light / dark theme', hint: 'action', run: function () { if (btn) btn.click(); } },
