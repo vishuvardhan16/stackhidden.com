@@ -198,7 +198,7 @@ class PhoneNavRowTest(BrowserTestCase):
     # At 390px every scroll of the row runs to its end; at 320px it can
     # stop part way, which is where the lit link's position is chosen.
     WIDTHS = (320, 390)
-    SECTIONS = ("about", "engineering", "trace", "writing", "featured", "speaking", "query", "contact")
+    SECTIONS = ("about", "engineering", "writing", "featured", "speaking", "query", "contact")
 
     def at_width(self, width: int) -> None:
         self.page.set_viewport_size({"width": width, "height": 844})

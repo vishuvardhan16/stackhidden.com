@@ -18,7 +18,9 @@ class PaletteTest(BrowserTestCase):
         self.assertFalse(palette.evaluate("element => element.hidden"))
 
         labels = self.page.locator("#paletteList li span").all_text_contents()
-        self.assertEqual(17, len(labels))
+        # 16 since Nov 26, 2026: "Go to 2026, as a trace" left with the section.
+        self.assertEqual(16, len(labels))
+        self.assertNotIn("Go to 2026, as a trace", labels)
         self.assertIn("Go to Query this page", labels)
         self.assertIn("Go to About", labels)
         self.assertIn("Case file: Custom Brands (ICM)", labels)

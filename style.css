@@ -210,15 +210,6 @@ h3{margin:.3em 0 .5em;line-height:1.35}
 .chips{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:10px;margin:0}
 .chips li{background:var(--card);border:1px solid var(--border);padding:8px 14px;border-radius:999px;font-size:.95rem}
 .trace-note{color:var(--muted)}
-.trace{margin-top:16px}
-.trace-row{padding:9px 0;border-bottom:1px dashed var(--border)}
-.trace-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.trace-label{font-weight:650;font-size:.95rem}
-.trace-date{color:var(--muted);font-size:.85rem}
-.trace-track{height:12px;border-radius:999px;background:var(--border);margin-top:7px;overflow:hidden}
-.trace-bar{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
-.trace-bar.accent{background:linear-gradient(90deg,var(--accent2),var(--accent))}
-.trace-axis{display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem;margin-top:8px}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
 .cards .card p{color:var(--muted)}
 .meta{color:var(--muted);font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;margin:0}
@@ -258,9 +249,6 @@ canvas#graph{opacity:.85}
    anomaly packet is amber: most traffic flows clean, a little is flagged. */
 .lineage-svg .packet{fill:var(--accent)}
 .lineage-svg .anomaly-packet{fill:#f59e0b}
-/* Trace rows are selectable (app.js wires them as buttons). */
-#trace .trace-row{cursor:pointer;border-radius:8px;padding:2px 6px}
-#trace .trace-row:hover,#trace .trace-row:focus{background:var(--panel);outline:none}
 /* Scrollspy: the nav link for the section in view. */
 .site-header nav a.active{color:var(--accent)}
 /* Scroll progress: a pipeline-thin track under the sticky header. */
@@ -342,9 +330,6 @@ canvas#graph{opacity:.85}
 .decisions{margin:6px 0}
 .decisions dt{font-weight:700;color:var(--text);margin-top:12px}
 .decisions dd{margin:2px 0 0}
-/* Trace result labels: each 2026 span carries its outcome in the head
-   line, the way strong trace tools label a span with its result. */
-.trace-result{color:var(--accent);font-size:.88rem;font-weight:600;margin-right:auto;padding-left:14px}
 /* Header palette button + footer text button. */
 #paletteBtn{margin-left:10px;height:38px;padding:0 12px;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;font-size:.9rem;box-shadow:var(--shadow)}
 #paletteBtn:hover{border-color:var(--accent);color:var(--accent)}
@@ -399,8 +384,8 @@ canvas#graph{opacity:.85}
   .case-body[hidden]{display:block!important}
   .reveal{opacity:1!important;transform:none!important}
   a{color:#000!important;text-decoration:none}
-  .meta,.lede,.cards .card p,.case-body p,.case-body li,.case-body dd,.impact-row span,.trace-date,.trace-note{color:#333!important}
-  .impact-row strong,.stats dt,.trace-result{color:#000!important}
+  .meta,.lede,.cards .card p,.case-body p,.case-body li,.case-body dd,.impact-row span,.trace-note{color:#333!important}
+  .impact-row strong,.stats dt{color:#000!important}
   .carousel-stage{position:static;aspect-ratio:auto}
   .carousel .slide{position:static!important;transform:none!important;pointer-events:auto}
   /* Every quote prints: app.js opens them on beforeprint. */
@@ -570,20 +555,8 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
 }
 @media print{.lineage-swipe{display:none!important}}
 
-/* The 2026 trace axis (v5): Jul 1 to Dec 1, each month label at its
-   true position, and a notch on every track at each month start, so a
-   bar's end reads as a date. See the comment above #trace. */
-.trace-axis{display:block;position:relative;height:1.5em;margin:8px 6px 0}
-.trace-axis span{position:absolute;top:0}
-.trace-track{background:
-  linear-gradient(to right,transparent calc(20.3% - 1px),var(--bg) calc(20.3% - 1px),var(--bg) 20.3%,transparent 20.3%),
-  linear-gradient(to right,transparent calc(40.5% - 1px),var(--bg) calc(40.5% - 1px),var(--bg) 40.5%,transparent 40.5%),
-  linear-gradient(to right,transparent calc(60.1% - 1px),var(--bg) calc(60.1% - 1px),var(--bg) 60.1%,transparent 60.1%),
-  linear-gradient(to right,transparent calc(80.4% - 1px),var(--bg) calc(80.4% - 1px),var(--bg) 80.4%,transparent 80.4%),
-  var(--border)}
-
 /* =====================================================================
-   V5 motion (Nov 2026). Three one-shot animations; nothing loops.
+   V5 motion (Nov 2026). One-shot animations; nothing loops.
    Each is skipped entirely under reduced motion, from the OS setting or
    the footer control (the head script applies a stored choice before
    first paint, so a visitor who turned motion off never sees the intro).
@@ -603,15 +576,7 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
   :root:not([data-motion="reduced"]) .hero-side{animation:rise .7s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0) * 70ms)}
 }
 
-/* 2. The 2026 trace. On first view the bars render left to right in
-   date order, 110ms apart, like spans arriving in a trace viewer.
-   app.js adds .trace-armed only when motion is allowed and the trace
-   starts below the fold; without it the bars are simply drawn. The
-   axis and month notches are defined with the trace fix, above. */
-.trace-armed .trace-bar{clip-path:inset(0 100% 0 0)}
-.trace-armed.trace-drawn .trace-bar{clip-path:inset(0 0 0 0);transition:clip-path .9s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--i,0) * 110ms)}
-
-/* 3. The lineage graph draws itself along the data flow on first view:
+/* 2. The lineage graph draws itself along the data flow on first view:
    sources, ingest, transform, gate, then lake and anomalies, the API,
    and analytics. app.js sets each edge's dash length and the per-step
    delays, then removes every inline style when the drawing is done, so
@@ -619,8 +584,6 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
 .lineage-svg.pre-draw .lnode{opacity:0;transform:translateY(8px)}
 .lineage-svg .lnode{transform-box:fill-box}
 .lineage-svg.pre-draw .packet,.lineage-svg.pre-draw .edges path.dashed-in{opacity:0}
-
-@media print{.trace-bar{clip-path:none!important}}
 
 /* =====================================================================
    Publisher mastheads (v5). One component for Published Writing,
@@ -786,7 +749,7 @@ button.button{border:0;cursor:pointer;font:inherit;font-weight:700}
      every other year. */
   .career-axis:not(.is-fitted) span:nth-child(even):not(.career-now){visibility:hidden}
 }
-/* First view: the spans render in order, like the 2026 trace. */
+/* First view: the spans render in order. */
 .career-armed .career-bar{clip-path:inset(0 100% 0 0)}
 .career-armed.career-drawn .career-bar{clip-path:inset(0 0 0 0);transition:clip-path .8s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--i,0) * 110ms)}
 @media print{.career-bar{clip-path:none!important}.career-detail,.career-note,.career-legend{display:none!important}}

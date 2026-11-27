@@ -45,7 +45,6 @@ class QueryConsoleTest(BrowserTestCase):
             """() => ({
                 writing: document.querySelectorAll('#writing .card').length,
                 featured: document.querySelectorAll('#featured .slide').length,
-                spans: document.querySelectorAll('#trace .trace-row').length,
                 roles: document.querySelectorAll('#experience .role-block').length,
                 case_files: document.querySelectorAll('#engineering .case').length,
                 skills: document.querySelectorAll('#work .chips li').length
@@ -55,6 +54,8 @@ class QueryConsoleTest(BrowserTestCase):
             with self.subTest(table=name):
                 self.assertGreater(count, 0)
                 self.assertEqual(count, rows[name])
+        # The 2026 trace was removed on Nov 26, 2026, and its table with it.
+        self.assertNotIn("spans", rows)
 
     def test_values_are_read_from_the_page(self) -> None:
         titles = [r[0] for r in self.run_sql("SELECT title FROM writing")]
@@ -67,12 +68,18 @@ class QueryConsoleTest(BrowserTestCase):
 
     def test_grouping_counts_and_sorting(self) -> None:
         result = self.run_sql(
-            "SELECT kind, COUNT(*) AS n FROM spans GROUP BY kind ORDER BY n DESC, kind"
+            "SELECT outlet, COUNT(*) AS n FROM featured GROUP BY outlet ORDER BY n DESC, outlet"
         )
-        counts = {kind: int(n) for kind, n in result}
-        self.assertEqual(54, sum(counts.values()))
-        self.assertEqual("featured", result[0][0])
-        self.assertIn("group by kind", self.status())
+        outlets = self.page.evaluate(
+            "[...document.querySelectorAll('#featured .slide .pub-name')].map(p => p.textContent.trim())"
+        )
+        expected = sorted(
+            ((name, outlets.count(name)) for name in set(outlets)),
+            key=lambda pair: (-pair[1], pair[0]),
+        )
+        self.assertEqual(expected, [(outlet, int(n)) for outlet, n in result])
+        self.assertEqual(46, sum(int(n) for _, n in result))
+        self.assertIn("group by outlet", self.status())
 
     def test_null_semantics(self) -> None:
         # The current role has no end date: IS NULL finds it, = never does.
@@ -111,7 +118,7 @@ class QueryConsoleTest(BrowserTestCase):
         self.assertIsNone(self.page.evaluate("window.__pwned"))
 
     def test_trace_outlines_the_source_and_back_returns_focus(self) -> None:
-        self.run_sql("SELECT label FROM spans WHERE label LIKE 'TDWI%'")
+        self.run_sql("SELECT outlet FROM writing WHERE outlet LIKE 'TDWI%'")
         self.page.click("#sqlResult .sql-row-btn")
         traced = self.page.evaluate("[...document.querySelectorAll('.traced')].map(e => e.textContent)")
         self.assertEqual(1, len(traced))
@@ -138,11 +145,11 @@ class QueryConsoleTest(BrowserTestCase):
 
     def test_history_walks_back_and_restores_the_draft(self) -> None:
         self.run_sql("SHOW TABLES")
-        self.run_sql("DESCRIBE spans")
+        self.run_sql("DESCRIBE roles")
         self.page.fill("#sqlInput", "draft")
         self.page.press("#sqlInput", "Home")
         self.page.press("#sqlInput", "ArrowUp")
-        self.assertEqual("DESCRIBE spans", self.page.input_value("#sqlInput"))
+        self.assertEqual("DESCRIBE roles", self.page.input_value("#sqlInput"))
         self.page.press("#sqlInput", "ArrowDown")
         self.assertEqual("draft", self.page.input_value("#sqlInput"))
 

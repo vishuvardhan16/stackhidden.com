@@ -1,31 +1,22 @@
-"""The v5 animations: hero intro, trace render, lineage draw-in.
+"""The v5 animations: hero intro and lineage draw-in.
 
 Each animation must do three things: play when motion is allowed, never
 play when it is not, and leave the page exactly as it would be without
-it.  The trace module also pins the chart's accuracy, since a bar that
-encodes a date is only worth animating if it ends on the right date.
+it.  The 2026 trace and its render were removed on Nov 26, 2026 at the
+owner's request; NoTraceTest pins that nothing of it is left behind.
 """
 
 from __future__ import annotations
 
-import re
 import unittest
-from datetime import date
 
 from helpers import BrowserTestCase
 
 
-MONTHS = {m: i for i, m in enumerate(
-    ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], 1)}
-AXIS_START, AXIS_END = date(2026, 7, 1), date(2026, 12, 1)
 INLINE_DECLARATIONS = (
     "[...document.querySelectorAll('#lineageSvg .lnode, #lineageSvg .edges path')]"
     ".reduce((total, el) => total + el.style.length, 0)"
 )
-
-
-def axis_percent(day: date) -> float:
-    return (day - AXIS_START).days / (AXIS_END - AXIS_START).days * 100
 
 
 class AnimationTest(BrowserTestCase):
@@ -41,39 +32,6 @@ class AnimationTest(BrowserTestCase):
             "rise",
             self.page.evaluate("getComputedStyle(document.querySelector('.hero-text h1')).animationName"),
         )
-
-    def test_trace_bars_end_on_their_dates(self) -> None:
-        rows = self.page.evaluate(
-            """() => [...document.querySelectorAll('#trace .trace-row')].map(r => ({
-                when: r.querySelector('.trace-date').textContent,
-                width: parseFloat(r.querySelector('.trace-bar').style.width)
-            }))"""
-        )
-        self.assertEqual(54, len(rows))
-        for row in rows:
-            with self.subTest(row=row["when"]):
-                month, day = re.match(r"([A-Z][a-z]{2}) (\d+)", row["when"]).groups()
-                expected = axis_percent(date(2026, MONTHS[month], int(day)))
-                self.assertAlmostEqual(expected, row["width"], delta=0.06)
-        labels = self.page.evaluate(
-            "[...document.querySelectorAll('#trace .trace-axis span')].map(s => [s.textContent, parseFloat(s.style.left)])"
-        )
-        for name, left in labels:
-            with self.subTest(label=name):
-                self.assertAlmostEqual(axis_percent(date(2026, MONTHS[name], 1)), left, delta=0.06)
-
-    def test_trace_renders_on_first_view_then_cleans_up(self) -> None:
-        trace = "document.querySelector('#trace .trace')"
-        self.assertIn("trace-armed", self.page.evaluate(f"{trace}.className"))
-        self.scroll_to("#trace")
-        self.page.wait_for_timeout(400)
-        self.assertIn("trace-drawn", self.page.evaluate(f"{trace}.className"))
-        # The bars land 110ms apart, and the cleanup runs 100ms after
-        # the last one: 900 + 54 * 110 + 100 = 6940ms from the draw.
-        self.page.wait_for_timeout(7500)
-        self.assertEqual("trace", self.page.evaluate(f"{trace}.className"))
-        clips = self.page.evaluate("[...document.querySelectorAll('.trace-bar')].map(b => getComputedStyle(b).clipPath)")
-        self.assertEqual(["none"] * 54, clips)
 
     def test_lineage_draws_itself_then_restores_the_graph(self) -> None:
         graph = "document.getElementById('lineageSvg')"
@@ -142,11 +100,29 @@ class ReducedMotionAnimationTest(BrowserTestCase):
         state = self.page.evaluate(
             """() => ({
                 hero: getComputedStyle(document.querySelector('.hero-text h1')).animationName,
-                trace: document.querySelector('#trace .trace').className,
                 graph: document.getElementById('lineageSvg').getAttribute('class')
             })"""
         )
-        self.assertEqual({"hero": "none", "trace": "trace", "graph": "lineage-svg"}, state)
+        self.assertEqual({"hero": "none", "graph": "lineage-svg"}, state)
+
+
+class NoTraceTest(BrowserTestCase):
+    """The 2026 trace is gone: no section, no nav link, no palette
+    command, no query table, and nothing in the page that points at it."""
+
+    def test_the_trace_is_gone_everywhere(self) -> None:
+        state = self.page.evaluate(
+            """() => ({
+                section: !!document.getElementById('trace'),
+                rows: document.querySelectorAll('.trace-row, .trace-bar, .trace-axis').length,
+                links: document.querySelectorAll('a[href="#trace"]').length,
+                text: /2026, as a trace|year as a trace/i.test(document.body.textContent),
+            })"""
+        )
+        self.assertEqual({"section": False, "rows": 0, "links": 0, "text": False}, state)
+        self.page.keyboard.press("Control+K")
+        self.page.fill("#paletteInput", "trace")
+        self.assertNotIn("2026", self.page.inner_text("#paletteList"))
 
 
 if __name__ == "__main__":
