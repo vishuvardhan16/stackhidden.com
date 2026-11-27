@@ -17,10 +17,9 @@ Every moving thing on the page: what starts it, how long it runs, and what happe
 | Section reveal | A section below the fold enters view | Once, 0.7s | Shown in place |
 | Lineage packets | Page load | 7-second loops along the edges | Hidden |
 | Lineage draw-in (v5) | The graph enters view, if it started below the fold | Once, about 2.7s, in the order data flows | Drawn in place |
-| 2026 trace render (v5) | The trace enters view, if it started below the fold | Once, about 1.6s, bars in date order | Drawn in place |
 | Career render (v5) | The career chart enters view, if it started below the fold | Once, about 1.6s, spans in date order | Drawn in place |
 | Sent records (v5) | Send a clean or a bad record | About 4s for a clean record, 3s for a bad one | Arrive at once; the log, counter, and announcement are identical |
-| Quote carousel | Page load | Advances every 5s; pauses on hover and keyboard focus, and holds while a quote is open | Holds its slide; arrows and dots still work |
+| Quote and writing carousels | Page load | Advance every 5s; pause on hover and keyboard focus, and the quotes hold while a quote is open. Only the arriving and the leaving slide move; the meter eases to the new position in 0.45s | Hold their slide; the arrows still work and every change is instant |
 | Read my quote chevron | Opening or closing a quote | Turns over, 0.2s | Turns at once |
 | Trace highlight (query console) | The Trace button | Outline pulses twice; removed after 2.8s | Outline only |
 | Smooth scrolling | Links and jumps | The browser's smooth scroll | Instant |
@@ -42,7 +41,7 @@ These come from the v5 pass, and every v5 animation follows them.
 ## Where the code lives
 
 - Hero intro: `style.css`, "V5 motion", part 1. Pure CSS.
-- Trace render and lineage draw-in: `app.js`, "First-view reveals", sharing `revealOnce()`. Their CSS is in `style.css`, "V5 motion", parts 2 and 3.
+- Lineage draw-in: `app.js`, "First-view reveals", through `revealOnce()`. Its CSS is in `style.css`, "V5 motion", part 2. The 2026 trace render shared it until the section was removed on Nov 26, 2026.
 - Career render: `app.js`, "Career, as a trace", also through `revealOnce()`. Its CSS is in `style.css`, "Career, as a trace".
 - Sent records: `app.js`, "Send a record through the lineage explorer".
 - Hero background: `app.js`, "Hero background", right after the figure video; its layer, stills, and tint are in `style.css` under the same name, and its files come from `scripts/render-hero-network.py`. See [[The Hero Background]].

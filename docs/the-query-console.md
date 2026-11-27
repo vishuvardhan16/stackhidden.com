@@ -15,7 +15,6 @@ Nothing is fetched and nothing leaves the browser.
 | `writing` | outlet, kind, title, date, url | Published Writing cards: the masthead, the heading, the date line, the link |
 | `talks` | venue, kind, title, date, status | Speaking cards. `status` is `delivered` before today's date and `upcoming` after |
 | `featured` | outlet, kind, title, date, url | Featured In captions |
-| `spans` | label, result, date, kind | The 2026 trace rows. The year comes from the section heading |
 | `roles` | company, title, start, end, months, location | Experience. `end` is NULL for the current role; `months` counts inclusively, as LinkedIn does |
 | `education` | school, degree, start, end | Education |
 | `case_files` | slug, title, area, years, headline | Engineering Work case files. `headline` is the first impact figure |
