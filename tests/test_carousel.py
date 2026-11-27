@@ -13,7 +13,7 @@ import unittest
 from helpers import BrowserTestCase
 
 
-# Every slide in order: its headline, and the quote word for word as
+# Every quote, oldest first: its headline, and the quote word for word as
 # published, spelling included ("favour", "prioritise"). The first six
 # are the quotes the slides' screenshots and quote cards showed before
 # Nov 6, 2026. The twenty-nine added Nov 20-21, 2026 were read off the
@@ -21,6 +21,7 @@ from helpers import BrowserTestCase
 # text can differ from what was submitted, and three of the seventeen
 # file-sourced candidates did. The eleven added Nov 26, 2026, placements
 # #36 to #46, were read off the live publisher pages the same way.
+# The carousel shows them newest first since Nov 26, 2026 (SHOWN).
 SLIDES = [
     (
         "EU AI Act: Training Data Requirements in 2026",
@@ -282,6 +283,7 @@ SLIDES = [
         "rather than drift.",
     ),
 ]
+SHOWN = SLIDES[::-1]
 
 SLIDE_STATE = """() => [...document.querySelectorAll('#quoteCarousel .slide')].map(s => {
     const link = s.querySelector('figcaption .slide-title a');
@@ -348,7 +350,7 @@ class HeadlineFirstTest(BrowserTestCase):
 
     def test_slides_lead_with_the_headline_and_no_picture_of_the_quote(self) -> None:
         slides = self.page.evaluate(SLIDE_STATE)
-        self.assertEqual([title for title, _ in SLIDES], [s["title"] for s in slides])
+        self.assertEqual([title for title, _ in SHOWN], [s["title"] for s in slides])
         for s in slides:
             with self.subTest(title=s["title"]):
                 # The headline links to the article the quote cites.
@@ -366,13 +368,13 @@ class HeadlineFirstTest(BrowserTestCase):
 
     def test_every_quote_is_word_for_word_as_published(self) -> None:
         quotes = [s["quote"] for s in self.page.evaluate(SLIDE_STATE)]
-        self.assertEqual([quote for _, quote in SLIDES], quotes)
+        self.assertEqual([quote for _, quote in SHOWN], quotes)
 
     def test_read_my_quote_opens_and_closes_the_quote(self) -> None:
         self.page.click("#quoteCarousel .slide.on summary")
         self.assertTrue(self.quote_visible())
         self.assertEqual("Hide quote", self.summary_text())
-        self.assertEqual(SLIDES[0][1], self.page.inner_text("#quoteCarousel .slide.on blockquote").strip("“” \n"))
+        self.assertEqual(SHOWN[0][1], self.page.inner_text("#quoteCarousel .slide.on blockquote").strip("“” \n"))
         self.page.click("#quoteCarousel .slide.on summary")
         self.assertFalse(self.quote_visible())
         self.assertEqual("Read my quote", self.summary_text())

@@ -40,15 +40,16 @@ class LayoutTest(BrowserTestCase):
                 self.assertGreater(box["width"], 0)
                 self.assertLessEqual(box["width"], width)
 
-                # The first slide is a Label Your Data article; its
-                # byline credits the author at every width, inside the
+                # The first slide with a byline (a Label Your Data
+                # article) credits the author at every width, inside the
                 # slide. One synchronous call, so the carousel's timer
-                # cannot move to the next slide between the click and the
-                # measurement (the next slide carries the same byline,
-                # which would hide a missing one).
+                # cannot move to the next slide between the jump and the
+                # measurement (the neighbouring Label Your Data slide
+                # carries the same byline, which would hide a missing one).
                 byline = self.page.evaluate(
                     """() => {
-                        document.getElementById('quoteCarousel').goToSlide(0);
+                        const all = [...document.querySelectorAll('#quoteCarousel .slide')];
+                        document.getElementById('quoteCarousel').goToSlide(all.findIndex(s => s.querySelector('.byline')));
                         const slide = document.querySelector('#quoteCarousel .slide.on');
                         const b = slide.querySelector('.byline');
                         if (!b) return null;

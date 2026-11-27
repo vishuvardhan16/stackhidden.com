@@ -136,6 +136,24 @@ class ControlsTest(BrowserTestCase):
         self.assertEqual("24px", pads["slide"])
 
 
+class NewestFirstTest(BrowserTestCase):
+    """Both carousels open on the latest piece (Nov 26, 2026, at the
+    owner's request), so a visitor sees the newest work first."""
+
+    def test_both_carousels_run_newest_first(self) -> None:
+        for cid, _, _, total, _ in CAROUSELS:
+            with self.subTest(carousel=cid):
+                dates = self.page.evaluate(
+                    """(id) => [...document.querySelectorAll('#' + id + ' .slide .pub-date')]
+                        .map(d => Date.parse(d.textContent.split('\u00b7')[0].trim()))""",
+                    cid,
+                )
+                self.assertEqual(total, len(dates))
+                self.assertFalse(any(d != d for d in dates), "a date did not parse")
+                self.assertEqual(sorted(dates, reverse=True), dates)
+                self.assertGreater(dates[0], dates[-1])
+
+
 class ControlsFitTest(BrowserTestCase):
     """The controls stay on one row, inside the carousel, at any width."""
 

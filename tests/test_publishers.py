@@ -83,11 +83,14 @@ class MastheadTest(BrowserTestCase):
         # to its artwork at --h:34px in a 2:1 box, and it declares 68 by
         # 34, the shape it is shown at (Nov 4, 2026). A sixth
         # caption (Tech Magazine) joined on Nov 4, 2026, so this test
-        # now reads the fifth caption rather than the last.
+        # read the fifth caption rather than the last. Since the carousel
+        # went newest first (Nov 26, 2026) it finds the caption by its
+        # headline instead of its place.
         state = self.page.evaluate(
             """() => {
                 const caps = [...document.querySelectorAll('#featured figcaption')];
-                const img = caps[4].querySelector('.pub-mark img');
+                const cap = caps.find(c => c.textContent.includes('How Software Leaders Make Room for Technical Debt'));
+                const img = cap.querySelector('.pub-mark img');
                 return img ? { src: img.getAttribute('src'), alt: img.getAttribute('alt'),
                                width: img.getAttribute('width'), height: img.getAttribute('height') } : null;
             }"""
@@ -109,11 +112,14 @@ class MastheadTest(BrowserTestCase):
         # logo system (--h:28px in style.css), so it declares 134 by
         # 28, the file's proportions at that height. It is the sixth
         # caption, not the last: twenty-nine more captions joined on
-        # Nov 20-21, 2026, so the last one is now CIO Grid.
+        # Nov 20-21, 2026, so the last one is now CIO Grid. Since the
+        # carousel went newest first (Nov 26, 2026) it is found by its
+        # headline instead of its place.
         state = self.page.evaluate(
             """() => {
                 const caps = [...document.querySelectorAll('#featured figcaption')];
-                const img = caps[5].querySelector('.pub-mark img');
+                const cap = caps.find(c => c.textContent.includes('How Software Product Teams Prioritize Customer Requests'));
+                const img = cap.querySelector('.pub-mark img');
                 return img ? { src: img.getAttribute('src'), alt: img.getAttribute('alt'),
                                width: img.getAttribute('width'), height: img.getAttribute('height') } : null;
             }"""
@@ -129,8 +135,10 @@ class MastheadTest(BrowserTestCase):
             """() => {
                 const card = document.querySelector('#writing .card');
                 const name = card.querySelector('.pub-name');
+                // The first card is the newest article (CRM Magazine since
+                // Nov 26, 2026, when Writing went newest first).
                 return { clip: getComputedStyle(name).clip, width: name.getBoundingClientRect().width,
-                         text: card.textContent.includes('TDWI Upside'),
+                         text: name.textContent.trim() === 'CRM Magazine' && card.textContent.includes('CRM Magazine'),
                          logo: card.querySelector('.pub-logo').getBoundingClientRect().height };
             }"""
         )
@@ -139,9 +147,11 @@ class MastheadTest(BrowserTestCase):
         self.assertTrue(state["text"])
         self.assertGreater(state["logo"], 20)
 
-    def test_writing_runs_in_date_order(self) -> None:
+    def test_writing_runs_newest_first(self) -> None:
+        # The articles, newest first since Nov 26, 2026 (oldest first
+        # before). The build-log card below the carousel is not one.
         dates = self.page.evaluate(
-            "[...document.querySelectorAll('#writing .pub-date')].map(d => d.textContent.trim())"
+            "[...document.querySelectorAll('#writingCarousel .pub-date')].map(d => d.textContent.trim())"
         )
         months = ["January", "February", "March", "April", "May", "June", "July",
                   "August", "September", "October", "November", "December"]
@@ -150,7 +160,8 @@ class MastheadTest(BrowserTestCase):
             m = re.search(r"([A-Z][a-z]+) (\d+)?,? ?(\d{4})", text)
             return (months.index(m.group(1)), int(m.group(2) or 0))
 
-        self.assertEqual(sorted(dates, key=key), dates)
+        self.assertEqual(7, len(dates))
+        self.assertEqual(sorted(dates, key=key, reverse=True), dates)
 
     def test_closing_links_line_up_across_a_row(self) -> None:
         bottoms = self.page.evaluate(
@@ -166,15 +177,23 @@ class MastheadTest(BrowserTestCase):
                 "[...document.querySelectorAll('#sqlResult tbody tr')].map(tr => tr.cells[0].textContent)"
             )
 
-        self.assertEqual(["TDWI Upside", "AI Loves Data", "ExchangeWire", "Platform Engineering", "eSecurity Planet", "Foojay", "CRM Magazine", "stackhidden.com"], column("SELECT outlet FROM writing"))
+        # Page order: the articles newest first (Nov 26, 2026), then the
+        # build log below the carousel.
+        self.assertEqual(["CRM Magazine", "Foojay", "eSecurity Planet", "Platform Engineering", "ExchangeWire", "AI Loves Data", "TDWI Upside", "stackhidden.com"], column("SELECT outlet FROM writing"))
         self.assertEqual(["Marketplace Risk", "NICE-TEAS ASIA 2026"], column("SELECT venue FROM talks"))
         self.assertEqual(["delivered", "upcoming"], column("SELECT status FROM talks"))
+        # Oldest first as recorded; the page shows them newest first.
         self.assertEqual(
-            ["EU AI Act: Training Data Requirements in 2026", "Golden Dataset: How to Build Trusted AI Evaluation Data",
-             "How Data Teams Balance Access and Privacy", "How Analytics Teams Turn Data Into Everyday Decisions",
-             "How Software Leaders Make Room for Technical Debt", "How Software Product Teams Prioritize Customer Requests",
+            [
+             "EU AI Act: Training Data Requirements in 2026",
+             "Golden Dataset: How to Build Trusted AI Evaluation Data",
+             "How Data Teams Balance Access and Privacy",
+             "How Analytics Teams Turn Data Into Everyday Decisions",
+             "How Software Leaders Make Room for Technical Debt",
+             "How Software Product Teams Prioritize Customer Requests",
              "22 Ways to Justify Major IT Investments to Skeptical Executives",
-             "How Software Teams Build Trust During Outages", "How IT Leaders Build Trust in Business Data",
+             "How Software Teams Build Trust During Outages",
+             "How IT Leaders Build Trust in Business Data",
              "How Data Leaders Communicate Uncertainty With Confidence",
              "How Engineering Teams Reduce Single-Person Knowledge Risk",
              "How to Help High School Graduates with Limited Work Experience Answer Behavioral Interview Questions",
@@ -211,7 +230,7 @@ class MastheadTest(BrowserTestCase):
              "How IT Leaders Build Trust During Service Outages",
              "How Engineering Leaders Build Trust Through Better Feedback",
              "6 Nervous Habits and Communication Mistakes High School Graduates Should Eliminate Before Interviews: How to Address Them",
-             "How Software Teams Keep Technical Debt From Stalling Progress"],
+             "How Software Teams Keep Technical Debt From Stalling Progress"][::-1],
             column("SELECT title FROM featured"),
         )
 

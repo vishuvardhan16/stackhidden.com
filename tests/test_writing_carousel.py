@@ -14,7 +14,8 @@ import unittest
 from helpers import BrowserTestCase
 
 
-# Every slide in order: its title and its live link.
+# Every article, oldest first: its title and its live link. The carousel
+# shows them newest first since Nov 26, 2026 (SHOWN).
 SLIDES = [
     (
         "From Reactive to Proactive: Automating Data Quality in Petabyte-Scale Analytics Pipelines",
@@ -45,6 +46,7 @@ SLIDES = [
         "https://www.destinationcrm.com/Articles/Web-Exclusives/Viewpoints/What-Needs-to-Be-in-Place-Before-an-Agent-Answers-the-Customer-177606.aspx",
     ),
 ]
+SHOWN = SLIDES[::-1]
 
 SLIDE_STATE = """() => [...document.querySelectorAll('#writingCarousel .slide')].map(s => {
     const link = s.querySelector('p:last-child a');
@@ -70,8 +72,8 @@ class WritingCarouselTest(BrowserTestCase):
 
         slides = carousel.locator(".slide")
 
-        # 7 slides: the three July-August articles and the four
-        # November articles, oldest first.
+        # 7 slides: the four November articles and the three
+        # July-August articles, newest first.
         self.assertEqual(7, slides.count())
         self.assertEqual("1 / 7", self.page.evaluate(COUNT_SHOWN))
         self.assertIn("on", slides.nth(0).get_attribute("class") or "")
@@ -85,15 +87,15 @@ class WritingCarouselTest(BrowserTestCase):
         self.assertEqual("false", slides.nth(1).get_attribute("aria-hidden"))
         self.assertEqual("true", slides.nth(0).get_attribute("aria-hidden"))
 
-    def test_slides_carry_the_articles_in_date_order_with_live_links(self) -> None:
+    def test_slides_carry_the_articles_newest_first_with_live_links(self) -> None:
         slides = self.page.evaluate(SLIDE_STATE)
-        self.assertEqual([title for title, _ in SLIDES], [s["title"] for s in slides])
+        self.assertEqual([title for title, _ in SHOWN], [s["title"] for s in slides])
         self.assertEqual(
-            ["July 8, 2026", "August 25, 2026", "August 27, 2026", "November 9, 2026",
-             "November 9, 2026", "November 19, 2026", "November 20, 2026"],
+            ["November 20, 2026", "November 19, 2026", "November 9, 2026", "November 9, 2026",
+             "August 27, 2026", "August 25, 2026", "July 8, 2026"],
             [s["date"] for s in slides],
         )
-        for s, (_, href) in zip(slides, SLIDES):
+        for s, (_, href) in zip(slides, SHOWN):
             with self.subTest(title=s["title"]):
                 self.assertEqual(href, s["href"])
         # The build-log card is not a slide.

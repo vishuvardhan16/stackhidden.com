@@ -608,7 +608,7 @@
     <p class="meta">Illustrative diagram of the pipeline architecture described in my writing. Stage tags and the checks a sent record fails are examples, not live metadata from a production job.</p>
   </section>
 
-    <!-- Published writing: exact published titles and dates, in date order. Add a link only after the live URL has been verified.
+    <!-- Published writing: exact published titles and dates, newest first (since Nov 26, 2026; oldest first before). Add a link only after the live URL has been verified.
          Each card opens with its publisher (v5): the name in the site's own
          type, a pill for the kind of piece, then the date. Logo slot: to
          show a publisher's official logo, save the file from their media
@@ -622,21 +622,66 @@
     <!-- Published Writing is a carousel like Featured In (Nov 20, 2026,
          at the owner's request): one article per slide, auto-advancing
          every 5 seconds, with a counter and arrows; app.js runs both
-         carousels from the same initializer. The build-log card is not
-         an article, so it stays below the carousel as a plain card. -->
+         carousels from the same initializer. Newest first, like Featured
+         In. The build-log card is not an article, so it stays below the
+         carousel as a plain card. -->
     <div class="carousel" id="writingCarousel">
       <div class="carousel-stage">
       <div class="carousel-track">
       <article class="card pub-card slide">
         <div class="pub-head">
-          <span class="pub-mark"><img class="pub-logo" src="assets/logos/tdwi.svg" alt="" width="61" height="30" loading="lazy" decoding="async"></span>
-          <p class="pub-name">TDWI Upside</p>
+          <span class="pub-mark"><img class="pub-logo" src="assets/logos/crmmagazine.svg" alt="" width="62" height="36" loading="lazy" decoding="async"></span>
+          <p class="pub-name">CRM Magazine</p>
           <span class="pub-kind">Article</span>
         </div>
-        <p class="meta pub-date">July 8, 2026</p>
-        <h3>From Reactive to Proactive: Automating Data Quality in Petabyte-Scale Analytics Pipelines</h3>
-        <p>How automated checks catch schema drift, volume anomalies, and distribution shift before they reach a dashboard.</p>
-        <p><a href="https://tdwi.org/articles/2026/07/08/diq-all-automating-data-quality-in-petabytescale-analytics-pipelines.aspx" target="_blank" rel="noopener">Read the article at TDWI Upside</a></p>
+        <p class="meta pub-date">November 20, 2026</p>
+        <h3>What Needs to Be in Place Before an Agent Answers the Customer</h3>
+        <p>What must be in place before an AI agent answers customers: governed playbooks, evaluation gates that hold a release, and written scope over the records it reads.</p>
+        <p><a href="https://www.destinationcrm.com/Articles/Web-Exclusives/Viewpoints/What-Needs-to-Be-in-Place-Before-an-Agent-Answers-the-Customer-177606.aspx" target="_blank" rel="noopener">Read the article at CRM Magazine</a></p>
+      </article>
+      <article class="card pub-card slide">
+        <div class="pub-head">
+          <span class="pub-mark"><img class="pub-logo noplate" src="assets/logos/foojay.png" alt="" width="95" height="33" loading="lazy" decoding="async"></span>
+          <p class="pub-name">Foojay</p>
+          <span class="pub-kind">Article</span>
+        </div>
+        <p class="meta pub-date">November 19, 2026</p>
+        <h3>Your Agent's Tool Calls Will Run Twice: Idempotency and Evaluation Gates in Java Services</h3>
+        <p>Idempotency and evaluation gates for AI agent tool calls in Java services, drawn from operating production agents.</p>
+        <p><a href="https://foojay.io/today/agent-tool-calls-run-twice/" target="_blank" rel="noopener">Read the article at Foojay</a></p>
+      </article>
+      <article class="card pub-card slide">
+        <div class="pub-head">
+          <span class="pub-mark"><img class="pub-logo" src="assets/logos/esecurityplanet.png" alt="" width="116" height="27" loading="lazy" decoding="async"></span>
+          <p class="pub-name">eSecurity Planet</p>
+          <span class="pub-kind">Article</span>
+        </div>
+        <p class="meta pub-date">November 9, 2026</p>
+        <h3>Your Agent Is an API Client. Defend It Like One</h3>
+        <p>An AI agent is an API client with a budget and a blast radius. Defend its access, its spend, and its scope the way you would any client.</p>
+        <p><a href="https://www.esecurityplanet.com/agentic-ai/your-agent-is-an-api-client-defend-it-like-one/" target="_blank" rel="noopener">Read the article at eSecurity Planet</a></p>
+      </article>
+      <article class="card pub-card slide">
+        <div class="pub-head">
+          <span class="pub-mark"><img class="pub-logo mark" src="assets/logos/platformengineering.png" alt="" width="28" height="28" loading="lazy" decoding="async"></span>
+          <p class="pub-name">Platform Engineering</p>
+          <span class="pub-kind">Article</span>
+        </div>
+        <p class="meta pub-date">November 9, 2026</p>
+        <h3>The Agent Is a Workload: What Platform Teams Should Demand Before One Ships</h3>
+        <p>What platform teams should demand before an AI agent ships: the controls that keep a workload governed once it is in production.</p>
+        <p><a href="https://platformengineering.com/contributed-content/the-agent-is-a-workload-what-platform-teams-should-demand-before-one-ships/" target="_blank" rel="noopener">Read the article at Platform Engineering</a></p>
+      </article>
+      <article class="card pub-card slide">
+        <div class="pub-head">
+          <span class="pub-mark"><img class="pub-logo" src="assets/logos/exchangewire.svg" alt="" width="148" height="21" loading="lazy" decoding="async"></span>
+          <p class="pub-name">ExchangeWire</p>
+          <span class="pub-kind">Article</span>
+        </div>
+        <p class="meta pub-date">August 27, 2026</p>
+        <h3>Building Advertiser Analytics in a Post-Identifier World</h3>
+        <p>What changes for advertiser analytics when the identifiers the industry relied on go away.</p>
+        <p><a href="https://www.exchangewire.com/blog/2026/08/27/building-advertiser-analytics-in-a-post-identifier-world/" target="_blank" rel="noopener">Read the article at ExchangeWire</a></p>
       </article>
       <article class="card pub-card slide">
         <div class="pub-head">
@@ -652,58 +697,14 @@
       </article>
       <article class="card pub-card slide">
         <div class="pub-head">
-          <span class="pub-mark"><img class="pub-logo" src="assets/logos/exchangewire.svg" alt="" width="148" height="21" loading="lazy" decoding="async"></span>
-          <p class="pub-name">ExchangeWire</p>
+          <span class="pub-mark"><img class="pub-logo" src="assets/logos/tdwi.svg" alt="" width="61" height="30" loading="lazy" decoding="async"></span>
+          <p class="pub-name">TDWI Upside</p>
           <span class="pub-kind">Article</span>
         </div>
-        <p class="meta pub-date">August 27, 2026</p>
-        <h3>Building Advertiser Analytics in a Post-Identifier World</h3>
-        <p>What changes for advertiser analytics when the identifiers the industry relied on go away.</p>
-        <p><a href="https://www.exchangewire.com/blog/2026/08/27/building-advertiser-analytics-in-a-post-identifier-world/" target="_blank" rel="noopener">Read the article at ExchangeWire</a></p>
-      </article>
-      <article class="card pub-card slide">
-        <div class="pub-head">
-          <span class="pub-mark"><img class="pub-logo mark" src="assets/logos/platformengineering.png" alt="" width="28" height="28" loading="lazy" decoding="async"></span>
-          <p class="pub-name">Platform Engineering</p>
-          <span class="pub-kind">Article</span>
-        </div>
-        <p class="meta pub-date">November 9, 2026</p>
-        <h3>The Agent Is a Workload: What Platform Teams Should Demand Before One Ships</h3>
-        <p>What platform teams should demand before an AI agent ships: the controls that keep a workload governed once it is in production.</p>
-        <p><a href="https://platformengineering.com/contributed-content/the-agent-is-a-workload-what-platform-teams-should-demand-before-one-ships/" target="_blank" rel="noopener">Read the article at Platform Engineering</a></p>
-      </article>
-      <article class="card pub-card slide">
-        <div class="pub-head">
-          <span class="pub-mark"><img class="pub-logo" src="assets/logos/esecurityplanet.png" alt="" width="116" height="27" loading="lazy" decoding="async"></span>
-          <p class="pub-name">eSecurity Planet</p>
-          <span class="pub-kind">Article</span>
-        </div>
-        <p class="meta pub-date">November 9, 2026</p>
-        <h3>Your Agent Is an API Client. Defend It Like One</h3>
-        <p>An AI agent is an API client with a budget and a blast radius. Defend its access, its spend, and its scope the way you would any client.</p>
-        <p><a href="https://www.esecurityplanet.com/agentic-ai/your-agent-is-an-api-client-defend-it-like-one/" target="_blank" rel="noopener">Read the article at eSecurity Planet</a></p>
-      </article>
-      <article class="card pub-card slide">
-        <div class="pub-head">
-          <span class="pub-mark"><img class="pub-logo noplate" src="assets/logos/foojay.png" alt="" width="95" height="33" loading="lazy" decoding="async"></span>
-          <p class="pub-name">Foojay</p>
-          <span class="pub-kind">Article</span>
-        </div>
-        <p class="meta pub-date">November 19, 2026</p>
-        <h3>Your Agent's Tool Calls Will Run Twice: Idempotency and Evaluation Gates in Java Services</h3>
-        <p>Idempotency and evaluation gates for AI agent tool calls in Java services, drawn from operating production agents.</p>
-        <p><a href="https://foojay.io/today/agent-tool-calls-run-twice/" target="_blank" rel="noopener">Read the article at Foojay</a></p>
-      </article>
-      <article class="card pub-card slide">
-        <div class="pub-head">
-          <span class="pub-mark"><img class="pub-logo" src="assets/logos/crmmagazine.svg" alt="" width="62" height="36" loading="lazy" decoding="async"></span>
-          <p class="pub-name">CRM Magazine</p>
-          <span class="pub-kind">Article</span>
-        </div>
-        <p class="meta pub-date">November 20, 2026</p>
-        <h3>What Needs to Be in Place Before an Agent Answers the Customer</h3>
-        <p>What must be in place before an AI agent answers customers: governed playbooks, evaluation gates that hold a release, and written scope over the records it reads.</p>
-        <p><a href="https://www.destinationcrm.com/Articles/Web-Exclusives/Viewpoints/What-Needs-to-Be-in-Place-Before-an-Agent-Answers-the-Customer-177606.aspx" target="_blank" rel="noopener">Read the article at CRM Magazine</a></p>
+        <p class="meta pub-date">July 8, 2026</p>
+        <h3>From Reactive to Proactive: Automating Data Quality in Petabyte-Scale Analytics Pipelines</h3>
+        <p>How automated checks catch schema drift, volume anomalies, and distribution shift before they reach a dashboard.</p>
+        <p><a href="https://tdwi.org/articles/2026/07/08/diq-all-automating-data-quality-in-petabytescale-analytics-pipelines.aspx" target="_blank" rel="noopener">Read the article at TDWI Upside</a></p>
       </article>
       </div>
       </div>
@@ -746,7 +747,11 @@
          Nov 26, 2026, placements #36 to #46: CIO Grid, Tech Magazine,
          Informatics Magazine, CTO Sync, Interview Focus, Label Your Data,
          Block Telegraph, Transit Tomorrow, Grit Daily, Smartech Daily,
-         AZ Big Media, PRAPI, and Customer Relations, in date order.
+         AZ Big Media, PRAPI, and Customer Relations.
+
+         Newest first (Nov 26, 2026, at the owner's request): a visitor
+         opens on the latest quote, and a new one goes at the top. Quotes
+         from the same day keep their placement order, latest first.
 
          Headline first (Nov 6, 2026, at the owner's request: the quote
          cards, with his name and title on every slide, were too much).
@@ -776,200 +781,299 @@
       <div class="carousel-track">
         <figure class="slide">
           <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/labelyourdata.svg" alt="" width="66" height="34" loading="lazy" decoding="async"></span><p class="pub-name">Label Your Data</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">September 30, 2026 &middot; <span class="byline">By Karyna Naminas</span></p>
-            <h3 class="slide-title"><a href="https://labelyourdata.com/articles/eu-artificial-intelligence-act" target="_blank" rel="noopener">EU AI Act: Training Data Requirements in 2026</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://labelyourdata.com/articles/eu-artificial-intelligence-act"><p>In practice, most teams have a labeling pipeline and a policy document, but no lineage. They can't tell you where a given training row came from, what transformations it went through, or whether the distribution that produced it has drifted since. A policy on paper and a safeguard inside the pipeline are not the same thing.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/labelyourdata.svg" alt="" width="66" height="34" loading="lazy" decoding="async"></span><p class="pub-name">Label Your Data</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">October 23, 2026 &middot; <span class="byline">By Karyna Naminas</span></p>
-            <h3 class="slide-title"><a href="https://labelyourdata.com/articles/machine-learning/golden-dataset" target="_blank" rel="noopener">Golden Dataset: How to Build Trusted AI Evaluation Data</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://labelyourdata.com/articles/machine-learning/golden-dataset"><p>A golden dataset is one whose lineage is auditable and whose behavior is continuously validated against the world it claims to represent. If you can't reconstruct how a dataset was built or detect when it stops matching production reality, the label accuracy is decoration.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 2, 2026</p>
-            <h3 class="slide-title"><a href="https://informaticsmagazine.com/qa/how-data-teams-balance-access-and-privacy/" target="_blank" rel="noopener">How Data Teams Balance Access and Privacy</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://informaticsmagazine.com/qa/how-data-teams-balance-access-and-privacy/"><p>Take one defect - a column renamed by an upstream team, or the loss of 20% of a day's events due to partial outages.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 3, 2026</p>
-            <h3 class="slide-title"><a href="https://informaticsmagazine.com/qa/how-analytics-teams-turn-data-into-everyday-decisions/" target="_blank" rel="noopener">How Analytics Teams Turn Data Into Everyday Decisions</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://informaticsmagazine.com/qa/how-analytics-teams-turn-data-into-everyday-decisions/"><p>A dashboard becomes part of regular decisions when it stops being a place people visit and starts showing up where the decision already happens.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/ctosync.svg" alt="" width="68" height="34" loading="lazy" decoding="async"></span><p class="pub-name">CTO Sync</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 3, 2026</p>
-            <h3 class="slide-title"><a href="https://ctosync.com/qa/how-software-leaders-make-room-for-technical-debt/" target="_blank" rel="noopener">How Software Leaders Make Room for Technical Debt</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://ctosync.com/qa/how-software-leaders-make-room-for-technical-debt/"><p>Technical debt gets roadmap space on our team because we stopped asking for it as a favour and started planning it as a category.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
             <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/techmagazine.png" alt="" width="134" height="28" loading="lazy" decoding="async"></span><p class="pub-name">Tech Magazine</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 4, 2026</p>
-            <h3 class="slide-title"><a href="https://techmagazine.io/qa/how-software-product-teams-prioritize-customer-requests/" target="_blank" rel="noopener">How Software Product Teams Prioritize Customer Requests</a></h3>
+            <p class="meta pub-date">November 25, 2026</p>
+            <h3 class="slide-title"><a href="https://techmagazine.io/qa/how-software-teams-keep-technical-debt-from-stalling-progress/" target="_blank" rel="noopener">How Software Teams Keep Technical Debt From Stalling Progress</a></h3>
           </figcaption>
           <details class="slide-quote">
             <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://techmagazine.io/qa/how-software-product-teams-prioritize-customer-requests/"><p>We prioritise the roadmap by asking what each item makes possible, and what waiting costs.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo darkplate" src="assets/logos/ciogrid.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">CIO Grid</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 6, 2026</p>
-            <h3 class="slide-title"><a href="https://ciogrid.com/qa/22-ways-to-justify-major-it-investments-to-skeptical-executives/" target="_blank" rel="noopener">22 Ways to Justify Major IT Investments to Skeptical Executives</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://ciogrid.com/qa/22-ways-to-justify-major-it-investments-to-skeptical-executives/"><p>IT investment cases fail when they are written in IT language: platforms, versions, architecture. They succeed when they are written as the business outcome the spending protects or creates.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/techmagazine.png" alt="" width="134" height="28" loading="lazy" decoding="async"></span><p class="pub-name">Tech Magazine</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 9, 2026</p>
-            <h3 class="slide-title"><a href="https://techmagazine.io/qa/how-software-teams-build-trust-during-outages/" target="_blank" rel="noopener">How Software Teams Build Trust During Outages</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://techmagazine.io/qa/how-software-teams-build-trust-during-outages/"><p>Silence is what customers fill with their worst guesses. A short message on schedule, saying what we know, what we do not know yet, and what we are doing next, reads as competence because it is verifiable.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo darkplate" src="assets/logos/ciogrid.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">CIO Grid</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 9, 2026</p>
-            <h3 class="slide-title"><a href="https://ciogrid.com/qa/how-it-leaders-build-trust-in-business-data" target="_blank" rel="noopener">How IT Leaders Build Trust in Business Data</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://ciogrid.com/qa/how-it-leaders-build-trust-in-business-data"><p>In my work, trust improves when every shared metric has one certified definition, calculated in one place, with its lineage visible.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 9, 2026</p>
-            <h3 class="slide-title"><a href="https://informaticsmagazine.com/qa/how-data-leaders-communicate-uncertainty-with-confidence/" target="_blank" rel="noopener">How Data Leaders Communicate Uncertainty With Confidence</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://informaticsmagazine.com/qa/how-data-leaders-communicate-uncertainty-with-confidence/"><p>It helps to state what the data cannot prove alongside the estimate itself, in the same view, so stakeholders act on the number with its limits in front of them.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/ctosync.svg" alt="" width="68" height="34" loading="lazy" decoding="async"></span><p class="pub-name">CTO Sync</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 9, 2026</p>
-            <h3 class="slide-title"><a href="https://ctosync.com/qa/how-engineering-teams-reduce-single-person-knowledge-risk/" target="_blank" rel="noopener">How Engineering Teams Reduce Single-Person Knowledge Risk</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://ctosync.com/qa/how-engineering-teams-reduce-single-person-knowledge-risk/"><p>The risk is rarely that the one engineer leaves. It is that they go on holiday during the one incident their system produces all year.</p></blockquote>
+            <blockquote cite="https://techmagazine.io/qa/how-software-teams-keep-technical-debt-from-stalling-progress/"><p>We decide by cost of delay, stated out loud. A debt item earns attention now when it is blocking something with a date on it, a launch, a version deadline, a partner commitment, or when it is quietly taxing every change the team makes. Debt that is merely ugly, in a part of the system nobody is touching, we live with on purpose, and we say so, so living with it is a decision rather than drift.</p></blockquote>
           </details>
         </figure>
         <figure class="slide">
           <figcaption>
             <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/interviewfocus.png" alt="" width="172" height="22" loading="lazy" decoding="async"></span><p class="pub-name">Interview Focus</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 9, 2026</p>
-            <h3 class="slide-title"><a href="https://interviewfocus.com/how-to-help-high-school-graduates-with-limited-work-experience-answer-behavioral-interview-questions/" target="_blank" rel="noopener">How to Help High School Graduates with Limited Work Experience Answer Behavioral Interview Questions</a></h3>
+            <p class="meta pub-date">November 24, 2026</p>
+            <h3 class="slide-title"><a href="https://interviewfocus.com/6-nervous-habits-and-communication-mistakes-high-school-graduates-should-eliminate-before-interviews-how-to-address-them/" target="_blank" rel="noopener">6 Nervous Habits and Communication Mistakes High School Graduates Should Eliminate Before Interviews: How to Address Them</a></h3>
           </figcaption>
           <details class="slide-quote">
             <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://interviewfocus.com/how-to-help-high-school-graduates-with-limited-work-experience-answer-behavioral-interview-questions/"><p>The mistake I correct first, with the early-career people I mentor, is the belief that behavioral questions require a job. They do not. They require evidence, and a high school graduate has more of it than they think.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/labelyourdata.svg" alt="" width="66" height="34" loading="lazy" decoding="async"></span><p class="pub-name">Label Your Data</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 9, 2026</p>
-            <h3 class="slide-title"><a href="https://labelyourdata.com/articles/data-annotation/scaling-strategies" target="_blank" rel="noopener">How to Scale Managed Data Labeling for Computer Vision</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://labelyourdata.com/articles/data-annotation/scaling-strategies"><p>In annotation work, the bottleneck is validation at volume: labels keep arriving, but checking them takes longer than producing them, so errors found late mean rework across the whole dataset instead of a quarantined batch caught at intake.</p></blockquote>
+            <blockquote cite="https://interviewfocus.com/6-nervous-habits-and-communication-mistakes-high-school-graduates-should-eliminate-before-interviews-how-to-address-them/"><p>The habit I coach my mentees out of first is narrating their own nervousness. Opening with an apology for having no experience, or filling every pause with commentary about how nervous they are, spends the interviewer's attention on the apology instead of the evidence.</p></blockquote>
           </details>
         </figure>
         <figure class="slide">
           <figcaption>
             <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/ctosync.svg" alt="" width="68" height="34" loading="lazy" decoding="async"></span><p class="pub-name">CTO Sync</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 10, 2026</p>
-            <h3 class="slide-title"><a href="https://ctosync.com/qa/how-engineering-teams-keep-technical-debt-from-slowing-product-delivery/" target="_blank" rel="noopener">How Engineering Teams Keep Technical Debt From Slowing Product Delivery</a></h3>
+            <p class="meta pub-date">November 24, 2026</p>
+            <h3 class="slide-title"><a href="https://ctosync.com/qa/how-engineering-leaders-build-trust-through-better-feedback/" target="_blank" rel="noopener">How Engineering Leaders Build Trust Through Better Feedback</a></h3>
           </figcaption>
           <details class="slide-quote">
             <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://ctosync.com/qa/how-engineering-teams-keep-technical-debt-from-slowing-product-delivery/"><p>Technical debt becomes urgent at a specific moment: when it starts charging interest on every unrelated change.</p></blockquote>
+            <blockquote cite="https://ctosync.com/qa/how-engineering-leaders-build-trust-through-better-feedback/"><p>Feedback stops being a surprise when it attaches to the work while the work is still current. On my team that means the review cycle carries it: code reviews and design reviews where comments land on a specific decision, in writing, within days of the decision being made.</p></blockquote>
           </details>
         </figure>
         <figure class="slide">
           <figcaption>
             <div class="pub-head"><span class="pub-mark"><img class="pub-logo darkplate" src="assets/logos/ciogrid.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">CIO Grid</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 10, 2026</p>
-            <h3 class="slide-title"><a href="https://ciogrid.com/qa/turn-artificial-intelligence-pilots-into-lasting-business-value/" target="_blank" rel="noopener">Turn Artificial Intelligence Pilots Into Lasting Business Value</a></h3>
+            <p class="meta pub-date">November 24, 2026</p>
+            <h3 class="slide-title"><a href="https://ciogrid.com/qa/how-it-leaders-build-trust-during-service-outages/" target="_blank" rel="noopener">How IT Leaders Build Trust During Service Outages</a></h3>
           </figcaption>
           <details class="slide-quote">
             <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://ciogrid.com/qa/turn-artificial-intelligence-pilots-into-lasting-business-value/"><p>My test for a new initiative is simple. Name the weekly decision it changes, name the owner of the data it stands on, and name how you will know in ninety days whether it worked.</p></blockquote>
+            <blockquote cite="https://ciogrid.com/qa/how-it-leaders-build-trust-during-service-outages/"><p>The practice that preserved trust in our incidents is a fixed update rhythm with honest content: what we know, what we do not know yet, and when the next update lands. Leaders can absorb bad news.</p></blockquote>
           </details>
         </figure>
         <figure class="slide">
           <figcaption>
             <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 10, 2026</p>
-            <h3 class="slide-title"><a href="https://informaticsmagazine.com/qa/how-analytics-teams-turn-dashboards-into-daily-decisions/" target="_blank" rel="noopener">How Analytics Teams Turn Dashboards Into Daily Decisions</a></h3>
+            <p class="meta pub-date">November 24, 2026</p>
+            <h3 class="slide-title"><a href="https://informaticsmagazine.com/qa/how-analytics-teams-catch-data-quality-problems-earlier/" target="_blank" rel="noopener">How Analytics Teams Catch Data Quality Problems Earlier</a></h3>
           </figcaption>
           <details class="slide-quote">
             <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://informaticsmagazine.com/qa/how-analytics-teams-turn-dashboards-into-daily-decisions/"><p>We cut the front page down to the handful of numbers tied to decisions people made every week, and moved everything else a click away.</p></blockquote>
+            <blockquote cite="https://informaticsmagazine.com/qa/how-analytics-teams-catch-data-quality-problems-earlier/"><p>I rank data quality issues by decision exposure: what decision is being made from this data, and when. An error in a feed behind a live advertiser report outranks a larger error in a dataset nobody has opened in a month. The second question is blast radius.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/customerrelations.svg" alt="" width="123" height="28" loading="lazy" decoding="async"></span><p class="pub-name">Customer Relations</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 24, 2026</p>
+            <h3 class="slide-title"><a href="https://customerrelations.io/qa/how-to-build-trust-with-proactive-customer-communication/" target="_blank" rel="noopener">How to Build Trust With Proactive Customer Communication</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://customerrelations.io/qa/how-to-build-trust-with-proactive-customer-communication/"><p>I contact them right away if the problem affects a decision the customer is about to make. I only wait when the problem is still a suspicion and I have nothing concrete to tell them yet. The test is easy.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 23, 2026</p>
+            <h3 class="slide-title"><a href="https://informaticsmagazine.com/qa/how-analytics-teams-keep-work-focused-on-business-value/" target="_blank" rel="noopener">How Analytics Teams Keep Work Focused on Business Value</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://informaticsmagazine.com/qa/how-analytics-teams-keep-work-focused-on-business-value/"><p>My test is simple: name the decision the initiative changes, and the date that decision gets made. If nobody can name both, the work is producing reports, not solving a problem.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/ctosync.svg" alt="" width="68" height="34" loading="lazy" decoding="async"></span><p class="pub-name">CTO Sync</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 23, 2026</p>
+            <h3 class="slide-title"><a href="https://ctosync.com/qa/how-software-teams-build-better-engineering-and-product-alignment/" target="_blank" rel="noopener">How Software Teams Build Better Engineering and Product Alignment</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://ctosync.com/qa/how-software-teams-build-better-engineering-and-product-alignment/"><p>The habit that made the biggest difference on my team is a short monthly review where every roadmap item has to restate its case in three lines: who it serves, what changes for them, and what it costs to delay by one quarter. Requests arrive as features. The honest unit is a decision or an outcome: a launch that cannot happen, a customer workflow that stays manual, a platform deadline that does not move.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo darkplate" src="assets/logos/ciogrid.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">CIO Grid</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 23, 2026</p>
+            <h3 class="slide-title"><a href="https://ciogrid.com/qa/how-it-leaders-make-everyday-work-more-secure/" target="_blank" rel="noopener">How IT Leaders Make Everyday Work More Secure</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://ciogrid.com/qa/how-it-leaders-make-everyday-work-more-secure/"><p>The secure choice has to be the easy choice, or people will route around it under deadline pressure, and they will be right to. Where I work, the approach that holds up is to move security into the defaults of the systems people already use, instead of adding review steps they have to remember.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/customerrelations.svg" alt="" width="123" height="28" loading="lazy" decoding="async"></span><p class="pub-name">Customer Relations</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 23, 2026</p>
+            <h3 class="slide-title"><a href="https://customerrelations.io/qa/how-customer-service-teams-rebuild-trust-after-negative-feedback/" target="_blank" rel="noopener">How Customer Service Teams Rebuild Trust After Negative Feedback</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://customerrelations.io/qa/how-customer-service-teams-rebuild-trust-after-negative-feedback/"><p>I start with what I can say is true, and I say it plainly. When a customer gives negative feedback after a disappointing experience, I name the specific change that caused it, its likely cause, and one concrete next step. I do not defend the old numbers and I do not promise a fix I cannot guarantee.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/techmagazine.png" alt="" width="134" height="28" loading="lazy" decoding="async"></span><p class="pub-name">Tech Magazine</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 23, 2026</p>
+            <h3 class="slide-title"><a href="https://techmagazine.io/qa/how-software-teams-build-customer-trust-during-outages/" target="_blank" rel="noopener">How Software Teams Build Customer Trust During Outages</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://techmagazine.io/qa/how-software-teams-build-customer-trust-during-outages/"><p>I'm a software development engineer at Amazon Advertising, and I have been the person writing customer-facing updates during incidents on the insights platform my team runs. My rule for the first message is simple: say what is affected, say what we know, and say when the next update will come. I do not wait for the root cause, because customers are making decisions with or without us, and silence just hands the explanation to rumour.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo darkplate" src="assets/logos/ciogrid.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">CIO Grid</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 20, 2026</p>
+            <h3 class="slide-title"><a href="https://ciogrid.com/qa/25-due-diligence-techniques-for-evaluating-software-vendors-beyond-sales-presentations/" target="_blank" rel="noopener">25 Due Diligence Techniques for Evaluating Software Vendors Beyond Sales Presentations</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://ciogrid.com/qa/25-due-diligence-techniques-for-evaluating-software-vendors-beyond-sales-presentations/"><p>I never evaluate a data or AI tool on the vendor's demo data. My due diligence technique is to hand the vendor a test set we built ourselves: real-shaped data with known defects planted in it, duplicates, broken joins, values that drift out of range, records that should never pass validation.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/prapi.svg" alt="" width="108" height="36" loading="lazy" decoding="async"></span><p class="pub-name">PRAPI</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 19, 2026</p>
+            <h3 class="slide-title"><a href="https://prapi.dev/research/ai-approval-line-2026" target="_blank" rel="noopener">Where Teams Let AI Act Without Asking</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://prapi.dev/research/ai-approval-line-2026"><p>The playbook had to be bounded, so it could only act inside its own scope. It had to pass an evaluation set written for that specific playbook.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/techmagazine.png" alt="" width="134" height="28" loading="lazy" decoding="async"></span><p class="pub-name">Tech Magazine</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 18, 2026</p>
+            <h3 class="slide-title"><a href="https://techmagazine.io/qa/how-software-teams-reduce-risk-from-critical-knowledge-gaps/" target="_blank" rel="noopener">How Software Teams Reduce Risk From Critical Knowledge Gaps</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://techmagazine.io/qa/how-software-teams-reduce-risk-from-critical-knowledge-gaps/"><p>Reducing key person risk is not about spreading people thin. It is about making sure critical knowledge is shared through real work, clear notes on checks and failures, and gradual ownership.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/ctosync.svg" alt="" width="68" height="34" loading="lazy" decoding="async"></span><p class="pub-name">CTO Sync</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 17, 2026</p>
+            <h3 class="slide-title"><a href="https://ctosync.com/qa/how-software-leaders-reduce-technical-debt-without-stalling-delivery/" target="_blank" rel="noopener">How Software Leaders Reduce Technical Debt Without Stalling Delivery</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://ctosync.com/qa/how-software-leaders-reduce-technical-debt-without-stalling-delivery/"><p>I rank technical debt by how often it touches customers. Debt in a part of the product that ships changes every week costs far more than debt in code nobody opens.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo darkplate" src="assets/logos/ciogrid.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">CIO Grid</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 17, 2026</p>
+            <h3 class="slide-title"><a href="https://ciogrid.com/qa/how-it-leaders-build-shared-priorities-across-the-business" target="_blank" rel="noopener">How IT Leaders Build Shared Priorities Across the Business</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://ciogrid.com/qa/how-it-leaders-build-shared-priorities-across-the-business"><p>Shared priorities do not come from a meeting where everyone lists what they want. They come from agreeing, in advance, on how competing requests will be judged.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 17, 2026</p>
+            <h3 class="slide-title"><a href="https://informaticsmagazine.com/qa/data-leaders-share-ways-to-build-lasting-adoption/" target="_blank" rel="noopener">Data Leaders Share Ways to Build Lasting Adoption</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://informaticsmagazine.com/qa/data-leaders-share-ways-to-build-lasting-adoption/"><p>Teams will adopt a slower process that they trust. They will not keep using a faster one that leaves them guessing.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/techmagazine.png" alt="" width="134" height="28" loading="lazy" decoding="async"></span><p class="pub-name">Tech Magazine</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 16, 2026</p>
+            <h3 class="slide-title"><a href="https://techmagazine.io/qa/software-team-onboarding-practices-that-help-new-hires-contribute-sooner/" target="_blank" rel="noopener">Software Team Onboarding Practices That Help New Hires Contribute Sooner</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://techmagazine.io/qa/software-team-onboarding-practices-that-help-new-hires-contribute-sooner/"><p>The change that made the biggest practical difference for us was treating onboarding as a documentation problem before treating it as a mentoring problem.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/ctosync.svg" alt="" width="68" height="34" loading="lazy" decoding="async"></span><p class="pub-name">CTO Sync</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 16, 2026</p>
+            <h3 class="slide-title"><a href="https://ctosync.com/qa/how-engineering-and-product-teams-resolve-customer-priority-conflicts/" target="_blank" rel="noopener">How Engineering and Product Teams Resolve Customer Priority Conflicts</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://ctosync.com/qa/how-engineering-and-product-teams-resolve-customer-priority-conflicts/"><p>Our principle is to split the request by trust, not by effort. We ask which part of the feature can be built on data we already validate and would defend to the customer today, and which part depends on data that still needs work.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 16, 2026</p>
+            <h3 class="slide-title"><a href="https://informaticsmagazine.com/qa/how-data-teams-make-better-data-retention-decisions/" target="_blank" rel="noopener">How Data Teams Make Better Data Retention Decisions</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://informaticsmagazine.com/qa/how-data-teams-make-better-data-retention-decisions/"><p>My rule is simple. Keep the trusted, well described output that teams actually query. Keep the raw input only long enough to reprocess it if a check fails or a source changes. After that, retention should be a decision, not a default.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo darkplate" src="assets/logos/ciogrid.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">CIO Grid</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 16, 2026</p>
+            <h3 class="slide-title"><a href="https://ciogrid.com/qa/prioritize-technology-modernization-before-risk-grows/" target="_blank" rel="noopener">Prioritize Technology Modernization Before Risk Grows</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://ciogrid.com/qa/prioritize-technology-modernization-before-risk-grows/"><p>An aging system earns modernization when the cost of staying starts exceeding the cost of moving, and in my experience that crossover shows up in three places before it shows up in any strategy document.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/azbigmedia.png" alt="" width="141" height="27" loading="lazy" decoding="async"></span><p class="pub-name">AZ Big Media</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 14, 2026</p>
+            <h3 class="slide-title"><a href="https://azbigmedia.com/business/how-business-leaders-protect-high-performers-from-burnout/" target="_blank" rel="noopener">How Business Leaders Protect High Performers From Burnout</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://azbigmedia.com/business/how-business-leaders-protect-high-performers-from-burnout/"><p>When a high performer starts showing signs of burnout, my first decision is to treat it as a workload design problem, not a resilience problem.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo darkplate" src="assets/logos/ciogrid.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">CIO Grid</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 13, 2026</p>
+            <h3 class="slide-title"><a href="https://ciogrid.com/qa/22-unconventional-contract-clauses-that-protected-businesses-from-major-problems" target="_blank" rel="noopener">22 Unconventional Contract Clauses That Protected Businesses From Major Problems</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://ciogrid.com/qa/22-unconventional-contract-clauses-that-protected-businesses-from-major-problems"><p>The clause I push for in platform and data tooling contracts is an evidence checkpoint with a clean exit: staged payments tied to the tool proving itself on our data at set intervals, and a no-penalty termination right if the evidence does not arrive.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/techmagazine.png" alt="" width="134" height="28" loading="lazy" decoding="async"></span><p class="pub-name">Tech Magazine</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 11, 2026</p>
+            <h3 class="slide-title"><a href="https://techmagazine.io/qa/how-software-teams-keep-customer-trust-during-incidents/" target="_blank" rel="noopener">How Software Teams Keep Customer Trust During Incidents</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://techmagazine.io/qa/how-software-teams-keep-customer-trust-during-incidents/"><p>Trust is protected by the corrections too. When our early understanding turns out wrong, we say so in the same channel, at the same prominence, without burying it in a longer update.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/smartechdaily.png" alt="" width="131" height="32" loading="lazy" decoding="async"></span><p class="pub-name">Smartech Daily</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 10, 2026</p>
+            <h3 class="slide-title"><a href="https://smartechdaily.com/blockchain-for-good-real-world-examples-of-transparency-in-charity/" target="_blank" rel="noopener">Blockchain for Good: Real-World Examples of Transparency in Charity</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://smartechdaily.com/blockchain-for-good-real-world-examples-of-transparency-in-charity/"><p>Donors do not really have a transparency problem. They have a provenance problem.</p></blockquote>
           </details>
         </figure>
         <figure class="slide">
           <figcaption>
             <div class="pub-head"><span class="pub-mark"><img class="pub-logo darkplate" src="assets/logos/blocktelegraph.svg" alt="" width="128" height="31" loading="lazy" decoding="async"></span><p class="pub-name">Block Telegraph</p><span class="pub-kind">Expert quote</span></div>
             <p class="meta pub-date">November 10, 2026</p>
-            <h3 class="slide-title"><a href="https://blocktelegraph.io/cybersecurity-compliance-essential-tools-and-resources/" target="_blank" rel="noopener">Cybersecurity Compliance: Essential Tools and Resources</a></h3>
+            <h3 class="slide-title"><a href="https://blocktelegraph.io/decoding-web3-success-insights-from-industry-leaders/" target="_blank" rel="noopener">Decoding Web3 Success: Insights from Industry Leaders</a></h3>
           </figcaption>
           <details class="slide-quote">
             <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://blocktelegraph.io/cybersecurity-compliance-essential-tools-and-resources/"><p>The resource I rely on most is not a vendor product. It is the practice of writing data validation and policy checks as code inside the pipeline, backed by a lineage record that shows where a field came from and which checks it passed.</p></blockquote>
+            <blockquote cite="https://blocktelegraph.io/decoding-web3-success-insights-from-industry-leaders/"><p>A Web3 business that wants to last should publish how each headline figure was produced.</p></blockquote>
           </details>
         </figure>
         <figure class="slide">
           <figcaption>
             <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/transittomorrow.png" alt="" width="131" height="28" loading="lazy" decoding="async"></span><p class="pub-name">Transit Tomorrow</p><span class="pub-kind">Expert quote</span></div>
             <p class="meta pub-date">November 10, 2026</p>
-            <h3 class="slide-title"><a href="https://transittomorrow.com/the-biggest-concerns-about-autonomous-vehicle-security/" target="_blank" rel="noopener">The Biggest Concerns About Autonomous Vehicle Security</a></h3>
+            <h3 class="slide-title"><a href="https://transittomorrow.com/community-engagement-in-smart-infrastructure-best-practices-success-stories/" target="_blank" rel="noopener">Community Engagement In Smart Infrastructure: Best Practices &amp; Success Stories</a></h3>
           </figcaption>
           <details class="slide-quote">
             <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://transittomorrow.com/the-biggest-concerns-about-autonomous-vehicle-security/"><p>The honest answer is that a hacked autonomous vehicle is not mainly a driving problem. It is a data problem.</p></blockquote>
+            <blockquote cite="https://transittomorrow.com/community-engagement-in-smart-infrastructure-best-practices-success-stories/"><p>When the community's fingerprints are on the definitions, later disagreements are about trade-offs everyone already understands.</p></blockquote>
           </details>
         </figure>
         <figure class="slide">
@@ -987,297 +1091,198 @@
           <figcaption>
             <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/transittomorrow.png" alt="" width="131" height="28" loading="lazy" decoding="async"></span><p class="pub-name">Transit Tomorrow</p><span class="pub-kind">Expert quote</span></div>
             <p class="meta pub-date">November 10, 2026</p>
-            <h3 class="slide-title"><a href="https://transittomorrow.com/community-engagement-in-smart-infrastructure-best-practices-success-stories/" target="_blank" rel="noopener">Community Engagement In Smart Infrastructure: Best Practices &amp; Success Stories</a></h3>
+            <h3 class="slide-title"><a href="https://transittomorrow.com/the-biggest-concerns-about-autonomous-vehicle-security/" target="_blank" rel="noopener">The Biggest Concerns About Autonomous Vehicle Security</a></h3>
           </figcaption>
           <details class="slide-quote">
             <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://transittomorrow.com/community-engagement-in-smart-infrastructure-best-practices-success-stories/"><p>When the community's fingerprints are on the definitions, later disagreements are about trade-offs everyone already understands.</p></blockquote>
+            <blockquote cite="https://transittomorrow.com/the-biggest-concerns-about-autonomous-vehicle-security/"><p>The honest answer is that a hacked autonomous vehicle is not mainly a driving problem. It is a data problem.</p></blockquote>
           </details>
         </figure>
         <figure class="slide">
           <figcaption>
             <div class="pub-head"><span class="pub-mark"><img class="pub-logo darkplate" src="assets/logos/blocktelegraph.svg" alt="" width="128" height="31" loading="lazy" decoding="async"></span><p class="pub-name">Block Telegraph</p><span class="pub-kind">Expert quote</span></div>
             <p class="meta pub-date">November 10, 2026</p>
-            <h3 class="slide-title"><a href="https://blocktelegraph.io/decoding-web3-success-insights-from-industry-leaders/" target="_blank" rel="noopener">Decoding Web3 Success: Insights from Industry Leaders</a></h3>
+            <h3 class="slide-title"><a href="https://blocktelegraph.io/cybersecurity-compliance-essential-tools-and-resources/" target="_blank" rel="noopener">Cybersecurity Compliance: Essential Tools and Resources</a></h3>
           </figcaption>
           <details class="slide-quote">
             <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://blocktelegraph.io/decoding-web3-success-insights-from-industry-leaders/"><p>A Web3 business that wants to last should publish how each headline figure was produced.</p></blockquote>
+            <blockquote cite="https://blocktelegraph.io/cybersecurity-compliance-essential-tools-and-resources/"><p>The resource I rely on most is not a vendor product. It is the practice of writing data validation and policy checks as code inside the pipeline, backed by a lineage record that shows where a field came from and which checks it passed.</p></blockquote>
           </details>
         </figure>
         <figure class="slide">
           <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/smartechdaily.png" alt="" width="131" height="32" loading="lazy" decoding="async"></span><p class="pub-name">Smartech Daily</p><span class="pub-kind">Expert quote</span></div>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div>
             <p class="meta pub-date">November 10, 2026</p>
-            <h3 class="slide-title"><a href="https://smartechdaily.com/blockchain-for-good-real-world-examples-of-transparency-in-charity/" target="_blank" rel="noopener">Blockchain for Good: Real-World Examples of Transparency in Charity</a></h3>
+            <h3 class="slide-title"><a href="https://informaticsmagazine.com/qa/how-analytics-teams-turn-dashboards-into-daily-decisions/" target="_blank" rel="noopener">How Analytics Teams Turn Dashboards Into Daily Decisions</a></h3>
           </figcaption>
           <details class="slide-quote">
             <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://smartechdaily.com/blockchain-for-good-real-world-examples-of-transparency-in-charity/"><p>Donors do not really have a transparency problem. They have a provenance problem.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/techmagazine.png" alt="" width="134" height="28" loading="lazy" decoding="async"></span><p class="pub-name">Tech Magazine</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 11, 2026</p>
-            <h3 class="slide-title"><a href="https://techmagazine.io/qa/how-software-teams-keep-customer-trust-during-incidents/" target="_blank" rel="noopener">How Software Teams Keep Customer Trust During Incidents</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://techmagazine.io/qa/how-software-teams-keep-customer-trust-during-incidents/"><p>Trust is protected by the corrections too. When our early understanding turns out wrong, we say so in the same channel, at the same prominence, without burying it in a longer update.</p></blockquote>
+            <blockquote cite="https://informaticsmagazine.com/qa/how-analytics-teams-turn-dashboards-into-daily-decisions/"><p>We cut the front page down to the handful of numbers tied to decisions people made every week, and moved everything else a click away.</p></blockquote>
           </details>
         </figure>
         <figure class="slide">
           <figcaption>
             <div class="pub-head"><span class="pub-mark"><img class="pub-logo darkplate" src="assets/logos/ciogrid.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">CIO Grid</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 13, 2026</p>
-            <h3 class="slide-title"><a href="https://ciogrid.com/qa/22-unconventional-contract-clauses-that-protected-businesses-from-major-problems" target="_blank" rel="noopener">22 Unconventional Contract Clauses That Protected Businesses From Major Problems</a></h3>
+            <p class="meta pub-date">November 10, 2026</p>
+            <h3 class="slide-title"><a href="https://ciogrid.com/qa/turn-artificial-intelligence-pilots-into-lasting-business-value/" target="_blank" rel="noopener">Turn Artificial Intelligence Pilots Into Lasting Business Value</a></h3>
           </figcaption>
           <details class="slide-quote">
             <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://ciogrid.com/qa/22-unconventional-contract-clauses-that-protected-businesses-from-major-problems"><p>The clause I push for in platform and data tooling contracts is an evidence checkpoint with a clean exit: staged payments tied to the tool proving itself on our data at set intervals, and a no-penalty termination right if the evidence does not arrive.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/azbigmedia.png" alt="" width="141" height="27" loading="lazy" decoding="async"></span><p class="pub-name">AZ Big Media</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 14, 2026</p>
-            <h3 class="slide-title"><a href="https://azbigmedia.com/business/how-business-leaders-protect-high-performers-from-burnout/" target="_blank" rel="noopener">How Business Leaders Protect High Performers From Burnout</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://azbigmedia.com/business/how-business-leaders-protect-high-performers-from-burnout/"><p>When a high performer starts showing signs of burnout, my first decision is to treat it as a workload design problem, not a resilience problem.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo darkplate" src="assets/logos/ciogrid.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">CIO Grid</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 16, 2026</p>
-            <h3 class="slide-title"><a href="https://ciogrid.com/qa/prioritize-technology-modernization-before-risk-grows/" target="_blank" rel="noopener">Prioritize Technology Modernization Before Risk Grows</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://ciogrid.com/qa/prioritize-technology-modernization-before-risk-grows/"><p>An aging system earns modernization when the cost of staying starts exceeding the cost of moving, and in my experience that crossover shows up in three places before it shows up in any strategy document.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 16, 2026</p>
-            <h3 class="slide-title"><a href="https://informaticsmagazine.com/qa/how-data-teams-make-better-data-retention-decisions/" target="_blank" rel="noopener">How Data Teams Make Better Data Retention Decisions</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://informaticsmagazine.com/qa/how-data-teams-make-better-data-retention-decisions/"><p>My rule is simple. Keep the trusted, well described output that teams actually query. Keep the raw input only long enough to reprocess it if a check fails or a source changes. After that, retention should be a decision, not a default.</p></blockquote>
+            <blockquote cite="https://ciogrid.com/qa/turn-artificial-intelligence-pilots-into-lasting-business-value/"><p>My test for a new initiative is simple. Name the weekly decision it changes, name the owner of the data it stands on, and name how you will know in ninety days whether it worked.</p></blockquote>
           </details>
         </figure>
         <figure class="slide">
           <figcaption>
             <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/ctosync.svg" alt="" width="68" height="34" loading="lazy" decoding="async"></span><p class="pub-name">CTO Sync</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 16, 2026</p>
-            <h3 class="slide-title"><a href="https://ctosync.com/qa/how-engineering-and-product-teams-resolve-customer-priority-conflicts/" target="_blank" rel="noopener">How Engineering and Product Teams Resolve Customer Priority Conflicts</a></h3>
+            <p class="meta pub-date">November 10, 2026</p>
+            <h3 class="slide-title"><a href="https://ctosync.com/qa/how-engineering-teams-keep-technical-debt-from-slowing-product-delivery/" target="_blank" rel="noopener">How Engineering Teams Keep Technical Debt From Slowing Product Delivery</a></h3>
           </figcaption>
           <details class="slide-quote">
             <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://ctosync.com/qa/how-engineering-and-product-teams-resolve-customer-priority-conflicts/"><p>Our principle is to split the request by trust, not by effort. We ask which part of the feature can be built on data we already validate and would defend to the customer today, and which part depends on data that still needs work.</p></blockquote>
+            <blockquote cite="https://ctosync.com/qa/how-engineering-teams-keep-technical-debt-from-slowing-product-delivery/"><p>Technical debt becomes urgent at a specific moment: when it starts charging interest on every unrelated change.</p></blockquote>
           </details>
         </figure>
         <figure class="slide">
           <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/techmagazine.png" alt="" width="134" height="28" loading="lazy" decoding="async"></span><p class="pub-name">Tech Magazine</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 16, 2026</p>
-            <h3 class="slide-title"><a href="https://techmagazine.io/qa/software-team-onboarding-practices-that-help-new-hires-contribute-sooner/" target="_blank" rel="noopener">Software Team Onboarding Practices That Help New Hires Contribute Sooner</a></h3>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/labelyourdata.svg" alt="" width="66" height="34" loading="lazy" decoding="async"></span><p class="pub-name">Label Your Data</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 9, 2026</p>
+            <h3 class="slide-title"><a href="https://labelyourdata.com/articles/data-annotation/scaling-strategies" target="_blank" rel="noopener">How to Scale Managed Data Labeling for Computer Vision</a></h3>
           </figcaption>
           <details class="slide-quote">
             <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://techmagazine.io/qa/software-team-onboarding-practices-that-help-new-hires-contribute-sooner/"><p>The change that made the biggest practical difference for us was treating onboarding as a documentation problem before treating it as a mentoring problem.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 17, 2026</p>
-            <h3 class="slide-title"><a href="https://informaticsmagazine.com/qa/data-leaders-share-ways-to-build-lasting-adoption/" target="_blank" rel="noopener">Data Leaders Share Ways to Build Lasting Adoption</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://informaticsmagazine.com/qa/data-leaders-share-ways-to-build-lasting-adoption/"><p>Teams will adopt a slower process that they trust. They will not keep using a faster one that leaves them guessing.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo darkplate" src="assets/logos/ciogrid.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">CIO Grid</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 17, 2026</p>
-            <h3 class="slide-title"><a href="https://ciogrid.com/qa/how-it-leaders-build-shared-priorities-across-the-business" target="_blank" rel="noopener">How IT Leaders Build Shared Priorities Across the Business</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://ciogrid.com/qa/how-it-leaders-build-shared-priorities-across-the-business"><p>Shared priorities do not come from a meeting where everyone lists what they want. They come from agreeing, in advance, on how competing requests will be judged.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/ctosync.svg" alt="" width="68" height="34" loading="lazy" decoding="async"></span><p class="pub-name">CTO Sync</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 17, 2026</p>
-            <h3 class="slide-title"><a href="https://ctosync.com/qa/how-software-leaders-reduce-technical-debt-without-stalling-delivery/" target="_blank" rel="noopener">How Software Leaders Reduce Technical Debt Without Stalling Delivery</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://ctosync.com/qa/how-software-leaders-reduce-technical-debt-without-stalling-delivery/"><p>I rank technical debt by how often it touches customers. Debt in a part of the product that ships changes every week costs far more than debt in code nobody opens.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/techmagazine.png" alt="" width="134" height="28" loading="lazy" decoding="async"></span><p class="pub-name">Tech Magazine</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 18, 2026</p>
-            <h3 class="slide-title"><a href="https://techmagazine.io/qa/how-software-teams-reduce-risk-from-critical-knowledge-gaps/" target="_blank" rel="noopener">How Software Teams Reduce Risk From Critical Knowledge Gaps</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://techmagazine.io/qa/how-software-teams-reduce-risk-from-critical-knowledge-gaps/"><p>Reducing key person risk is not about spreading people thin. It is about making sure critical knowledge is shared through real work, clear notes on checks and failures, and gradual ownership.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/prapi.svg" alt="" width="108" height="36" loading="lazy" decoding="async"></span><p class="pub-name">PRAPI</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 19, 2026</p>
-            <h3 class="slide-title"><a href="https://prapi.dev/research/ai-approval-line-2026" target="_blank" rel="noopener">Where Teams Let AI Act Without Asking</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://prapi.dev/research/ai-approval-line-2026"><p>The playbook had to be bounded, so it could only act inside its own scope. It had to pass an evaluation set written for that specific playbook.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo darkplate" src="assets/logos/ciogrid.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">CIO Grid</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 20, 2026</p>
-            <h3 class="slide-title"><a href="https://ciogrid.com/qa/25-due-diligence-techniques-for-evaluating-software-vendors-beyond-sales-presentations/" target="_blank" rel="noopener">25 Due Diligence Techniques for Evaluating Software Vendors Beyond Sales Presentations</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://ciogrid.com/qa/25-due-diligence-techniques-for-evaluating-software-vendors-beyond-sales-presentations/"><p>I never evaluate a data or AI tool on the vendor's demo data. My due diligence technique is to hand the vendor a test set we built ourselves: real-shaped data with known defects planted in it, duplicates, broken joins, values that drift out of range, records that should never pass validation.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/techmagazine.png" alt="" width="134" height="28" loading="lazy" decoding="async"></span><p class="pub-name">Tech Magazine</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 23, 2026</p>
-            <h3 class="slide-title"><a href="https://techmagazine.io/qa/how-software-teams-build-customer-trust-during-outages/" target="_blank" rel="noopener">How Software Teams Build Customer Trust During Outages</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://techmagazine.io/qa/how-software-teams-build-customer-trust-during-outages/"><p>I'm a software development engineer at Amazon Advertising, and I have been the person writing customer-facing updates during incidents on the insights platform my team runs. My rule for the first message is simple: say what is affected, say what we know, and say when the next update will come. I do not wait for the root cause, because customers are making decisions with or without us, and silence just hands the explanation to rumour.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/customerrelations.svg" alt="" width="123" height="28" loading="lazy" decoding="async"></span><p class="pub-name">Customer Relations</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 23, 2026</p>
-            <h3 class="slide-title"><a href="https://customerrelations.io/qa/how-customer-service-teams-rebuild-trust-after-negative-feedback/" target="_blank" rel="noopener">How Customer Service Teams Rebuild Trust After Negative Feedback</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://customerrelations.io/qa/how-customer-service-teams-rebuild-trust-after-negative-feedback/"><p>I start with what I can say is true, and I say it plainly. When a customer gives negative feedback after a disappointing experience, I name the specific change that caused it, its likely cause, and one concrete next step. I do not defend the old numbers and I do not promise a fix I cannot guarantee.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo darkplate" src="assets/logos/ciogrid.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">CIO Grid</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 23, 2026</p>
-            <h3 class="slide-title"><a href="https://ciogrid.com/qa/how-it-leaders-make-everyday-work-more-secure/" target="_blank" rel="noopener">How IT Leaders Make Everyday Work More Secure</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://ciogrid.com/qa/how-it-leaders-make-everyday-work-more-secure/"><p>The secure choice has to be the easy choice, or people will route around it under deadline pressure, and they will be right to. Where I work, the approach that holds up is to move security into the defaults of the systems people already use, instead of adding review steps they have to remember.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/ctosync.svg" alt="" width="68" height="34" loading="lazy" decoding="async"></span><p class="pub-name">CTO Sync</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 23, 2026</p>
-            <h3 class="slide-title"><a href="https://ctosync.com/qa/how-software-teams-build-better-engineering-and-product-alignment/" target="_blank" rel="noopener">How Software Teams Build Better Engineering and Product Alignment</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://ctosync.com/qa/how-software-teams-build-better-engineering-and-product-alignment/"><p>The habit that made the biggest difference on my team is a short monthly review where every roadmap item has to restate its case in three lines: who it serves, what changes for them, and what it costs to delay by one quarter. Requests arrive as features. The honest unit is a decision or an outcome: a launch that cannot happen, a customer workflow that stays manual, a platform deadline that does not move.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 23, 2026</p>
-            <h3 class="slide-title"><a href="https://informaticsmagazine.com/qa/how-analytics-teams-keep-work-focused-on-business-value/" target="_blank" rel="noopener">How Analytics Teams Keep Work Focused on Business Value</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://informaticsmagazine.com/qa/how-analytics-teams-keep-work-focused-on-business-value/"><p>My test is simple: name the decision the initiative changes, and the date that decision gets made. If nobody can name both, the work is producing reports, not solving a problem.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/customerrelations.svg" alt="" width="123" height="28" loading="lazy" decoding="async"></span><p class="pub-name">Customer Relations</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 24, 2026</p>
-            <h3 class="slide-title"><a href="https://customerrelations.io/qa/how-to-build-trust-with-proactive-customer-communication/" target="_blank" rel="noopener">How to Build Trust With Proactive Customer Communication</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://customerrelations.io/qa/how-to-build-trust-with-proactive-customer-communication/"><p>I contact them right away if the problem affects a decision the customer is about to make. I only wait when the problem is still a suspicion and I have nothing concrete to tell them yet. The test is easy.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 24, 2026</p>
-            <h3 class="slide-title"><a href="https://informaticsmagazine.com/qa/how-analytics-teams-catch-data-quality-problems-earlier/" target="_blank" rel="noopener">How Analytics Teams Catch Data Quality Problems Earlier</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://informaticsmagazine.com/qa/how-analytics-teams-catch-data-quality-problems-earlier/"><p>I rank data quality issues by decision exposure: what decision is being made from this data, and when. An error in a feed behind a live advertiser report outranks a larger error in a dataset nobody has opened in a month. The second question is blast radius.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo darkplate" src="assets/logos/ciogrid.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">CIO Grid</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 24, 2026</p>
-            <h3 class="slide-title"><a href="https://ciogrid.com/qa/how-it-leaders-build-trust-during-service-outages/" target="_blank" rel="noopener">How IT Leaders Build Trust During Service Outages</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://ciogrid.com/qa/how-it-leaders-build-trust-during-service-outages/"><p>The practice that preserved trust in our incidents is a fixed update rhythm with honest content: what we know, what we do not know yet, and when the next update lands. Leaders can absorb bad news.</p></blockquote>
-          </details>
-        </figure>
-        <figure class="slide">
-          <figcaption>
-            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/ctosync.svg" alt="" width="68" height="34" loading="lazy" decoding="async"></span><p class="pub-name">CTO Sync</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 24, 2026</p>
-            <h3 class="slide-title"><a href="https://ctosync.com/qa/how-engineering-leaders-build-trust-through-better-feedback/" target="_blank" rel="noopener">How Engineering Leaders Build Trust Through Better Feedback</a></h3>
-          </figcaption>
-          <details class="slide-quote">
-            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://ctosync.com/qa/how-engineering-leaders-build-trust-through-better-feedback/"><p>Feedback stops being a surprise when it attaches to the work while the work is still current. On my team that means the review cycle carries it: code reviews and design reviews where comments land on a specific decision, in writing, within days of the decision being made.</p></blockquote>
+            <blockquote cite="https://labelyourdata.com/articles/data-annotation/scaling-strategies"><p>In annotation work, the bottleneck is validation at volume: labels keep arriving, but checking them takes longer than producing them, so errors found late mean rework across the whole dataset instead of a quarantined batch caught at intake.</p></blockquote>
           </details>
         </figure>
         <figure class="slide">
           <figcaption>
             <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/interviewfocus.png" alt="" width="172" height="22" loading="lazy" decoding="async"></span><p class="pub-name">Interview Focus</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 24, 2026</p>
-            <h3 class="slide-title"><a href="https://interviewfocus.com/6-nervous-habits-and-communication-mistakes-high-school-graduates-should-eliminate-before-interviews-how-to-address-them/" target="_blank" rel="noopener">6 Nervous Habits and Communication Mistakes High School Graduates Should Eliminate Before Interviews: How to Address Them</a></h3>
+            <p class="meta pub-date">November 9, 2026</p>
+            <h3 class="slide-title"><a href="https://interviewfocus.com/how-to-help-high-school-graduates-with-limited-work-experience-answer-behavioral-interview-questions/" target="_blank" rel="noopener">How to Help High School Graduates with Limited Work Experience Answer Behavioral Interview Questions</a></h3>
           </figcaption>
           <details class="slide-quote">
             <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://interviewfocus.com/6-nervous-habits-and-communication-mistakes-high-school-graduates-should-eliminate-before-interviews-how-to-address-them/"><p>The habit I coach my mentees out of first is narrating their own nervousness. Opening with an apology for having no experience, or filling every pause with commentary about how nervous they are, spends the interviewer's attention on the apology instead of the evidence.</p></blockquote>
+            <blockquote cite="https://interviewfocus.com/how-to-help-high-school-graduates-with-limited-work-experience-answer-behavioral-interview-questions/"><p>The mistake I correct first, with the early-career people I mentor, is the belief that behavioral questions require a job. They do not. They require evidence, and a high school graduate has more of it than they think.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/ctosync.svg" alt="" width="68" height="34" loading="lazy" decoding="async"></span><p class="pub-name">CTO Sync</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 9, 2026</p>
+            <h3 class="slide-title"><a href="https://ctosync.com/qa/how-engineering-teams-reduce-single-person-knowledge-risk/" target="_blank" rel="noopener">How Engineering Teams Reduce Single-Person Knowledge Risk</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://ctosync.com/qa/how-engineering-teams-reduce-single-person-knowledge-risk/"><p>The risk is rarely that the one engineer leaves. It is that they go on holiday during the one incident their system produces all year.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 9, 2026</p>
+            <h3 class="slide-title"><a href="https://informaticsmagazine.com/qa/how-data-leaders-communicate-uncertainty-with-confidence/" target="_blank" rel="noopener">How Data Leaders Communicate Uncertainty With Confidence</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://informaticsmagazine.com/qa/how-data-leaders-communicate-uncertainty-with-confidence/"><p>It helps to state what the data cannot prove alongside the estimate itself, in the same view, so stakeholders act on the number with its limits in front of them.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo darkplate" src="assets/logos/ciogrid.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">CIO Grid</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 9, 2026</p>
+            <h3 class="slide-title"><a href="https://ciogrid.com/qa/how-it-leaders-build-trust-in-business-data" target="_blank" rel="noopener">How IT Leaders Build Trust in Business Data</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://ciogrid.com/qa/how-it-leaders-build-trust-in-business-data"><p>In my work, trust improves when every shared metric has one certified definition, calculated in one place, with its lineage visible.</p></blockquote>
           </details>
         </figure>
         <figure class="slide">
           <figcaption>
             <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/techmagazine.png" alt="" width="134" height="28" loading="lazy" decoding="async"></span><p class="pub-name">Tech Magazine</p><span class="pub-kind">Expert quote</span></div>
-            <p class="meta pub-date">November 25, 2026</p>
-            <h3 class="slide-title"><a href="https://techmagazine.io/qa/how-software-teams-keep-technical-debt-from-stalling-progress/" target="_blank" rel="noopener">How Software Teams Keep Technical Debt From Stalling Progress</a></h3>
+            <p class="meta pub-date">November 9, 2026</p>
+            <h3 class="slide-title"><a href="https://techmagazine.io/qa/how-software-teams-build-trust-during-outages/" target="_blank" rel="noopener">How Software Teams Build Trust During Outages</a></h3>
           </figcaption>
           <details class="slide-quote">
             <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
-            <blockquote cite="https://techmagazine.io/qa/how-software-teams-keep-technical-debt-from-stalling-progress/"><p>We decide by cost of delay, stated out loud. A debt item earns attention now when it is blocking something with a date on it, a launch, a version deadline, a partner commitment, or when it is quietly taxing every change the team makes. Debt that is merely ugly, in a part of the system nobody is touching, we live with on purpose, and we say so, so living with it is a decision rather than drift.</p></blockquote>
+            <blockquote cite="https://techmagazine.io/qa/how-software-teams-build-trust-during-outages/"><p>Silence is what customers fill with their worst guesses. A short message on schedule, saying what we know, what we do not know yet, and what we are doing next, reads as competence because it is verifiable.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo darkplate" src="assets/logos/ciogrid.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">CIO Grid</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 6, 2026</p>
+            <h3 class="slide-title"><a href="https://ciogrid.com/qa/22-ways-to-justify-major-it-investments-to-skeptical-executives/" target="_blank" rel="noopener">22 Ways to Justify Major IT Investments to Skeptical Executives</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://ciogrid.com/qa/22-ways-to-justify-major-it-investments-to-skeptical-executives/"><p>IT investment cases fail when they are written in IT language: platforms, versions, architecture. They succeed when they are written as the business outcome the spending protects or creates.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/techmagazine.png" alt="" width="134" height="28" loading="lazy" decoding="async"></span><p class="pub-name">Tech Magazine</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 4, 2026</p>
+            <h3 class="slide-title"><a href="https://techmagazine.io/qa/how-software-product-teams-prioritize-customer-requests/" target="_blank" rel="noopener">How Software Product Teams Prioritize Customer Requests</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://techmagazine.io/qa/how-software-product-teams-prioritize-customer-requests/"><p>We prioritise the roadmap by asking what each item makes possible, and what waiting costs.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/ctosync.svg" alt="" width="68" height="34" loading="lazy" decoding="async"></span><p class="pub-name">CTO Sync</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 3, 2026</p>
+            <h3 class="slide-title"><a href="https://ctosync.com/qa/how-software-leaders-make-room-for-technical-debt/" target="_blank" rel="noopener">How Software Leaders Make Room for Technical Debt</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://ctosync.com/qa/how-software-leaders-make-room-for-technical-debt/"><p>Technical debt gets roadmap space on our team because we stopped asking for it as a favour and started planning it as a category.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 3, 2026</p>
+            <h3 class="slide-title"><a href="https://informaticsmagazine.com/qa/how-analytics-teams-turn-data-into-everyday-decisions/" target="_blank" rel="noopener">How Analytics Teams Turn Data Into Everyday Decisions</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://informaticsmagazine.com/qa/how-analytics-teams-turn-data-into-everyday-decisions/"><p>A dashboard becomes part of regular decisions when it stops being a place people visit and starts showing up where the decision already happens.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/informatics.svg" alt="" width="131" height="30" loading="lazy" decoding="async"></span><p class="pub-name">Informatics Magazine</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">November 2, 2026</p>
+            <h3 class="slide-title"><a href="https://informaticsmagazine.com/qa/how-data-teams-balance-access-and-privacy/" target="_blank" rel="noopener">How Data Teams Balance Access and Privacy</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://informaticsmagazine.com/qa/how-data-teams-balance-access-and-privacy/"><p>Take one defect - a column renamed by an upstream team, or the loss of 20% of a day's events due to partial outages.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/labelyourdata.svg" alt="" width="66" height="34" loading="lazy" decoding="async"></span><p class="pub-name">Label Your Data</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">October 23, 2026 &middot; <span class="byline">By Karyna Naminas</span></p>
+            <h3 class="slide-title"><a href="https://labelyourdata.com/articles/machine-learning/golden-dataset" target="_blank" rel="noopener">Golden Dataset: How to Build Trusted AI Evaluation Data</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://labelyourdata.com/articles/machine-learning/golden-dataset"><p>A golden dataset is one whose lineage is auditable and whose behavior is continuously validated against the world it claims to represent. If you can't reconstruct how a dataset was built or detect when it stops matching production reality, the label accuracy is decoration.</p></blockquote>
+          </details>
+        </figure>
+        <figure class="slide">
+          <figcaption>
+            <div class="pub-head"><span class="pub-mark"><img class="pub-logo" src="assets/logos/labelyourdata.svg" alt="" width="66" height="34" loading="lazy" decoding="async"></span><p class="pub-name">Label Your Data</p><span class="pub-kind">Expert quote</span></div>
+            <p class="meta pub-date">September 30, 2026 &middot; <span class="byline">By Karyna Naminas</span></p>
+            <h3 class="slide-title"><a href="https://labelyourdata.com/articles/eu-artificial-intelligence-act" target="_blank" rel="noopener">EU AI Act: Training Data Requirements in 2026</a></h3>
+          </figcaption>
+          <details class="slide-quote">
+            <summary><span class="sq-closed">Read my quote</span><span class="sq-open">Hide quote</span></summary>
+            <blockquote cite="https://labelyourdata.com/articles/eu-artificial-intelligence-act"><p>In practice, most teams have a labeling pipeline and a policy document, but no lineage. They can't tell you where a given training row came from, what transformations it went through, or whether the distribution that produced it has drifted since. A policy on paper and a safeguard inside the pipeline are not the same thing.</p></blockquote>
           </details>
         </figure>
       </div>

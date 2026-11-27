@@ -128,18 +128,25 @@ class QueryConsoleTest(BrowserTestCase):
         self.assertEqual("sql-row-btn", self.page.evaluate("document.activeElement.className"))
 
     def test_trace_brings_a_quote_slide_forward(self) -> None:
-        self.run_sql("SELECT outlet FROM featured WHERE outlet LIKE 'Informatics%'")
+        # The oldest Informatics Magazine quote: far from the first slide
+        # now that the carousel is newest first.
+        self.run_sql("SELECT outlet, date FROM featured WHERE outlet LIKE 'Informatics%' ORDER BY date LIMIT 1")
         self.page.click("#sqlResult .sql-row-btn")
-        active = self.page.evaluate(
-            "[...document.querySelectorAll('#quoteCarousel .slide')].findIndex(s => s.classList.contains('on'))"
+        state = self.page.evaluate(
+            """() => {
+                const slides = [...document.querySelectorAll('#quoteCarousel .slide')];
+                return { active: slides.findIndex(s => s.classList.contains('on')),
+                         traced: slides.indexOf(document.querySelector('.traced')) };
+            }"""
         )
-        self.assertEqual(2, active)
+        self.assertGreater(state["active"], 0)
+        self.assertEqual(state["traced"], state["active"])
 
     def test_trace_brings_an_article_slide_forward(self) -> None:
         # Articles are slides too since Nov 20, 2026. Until Nov 26 only
         # the quote carousel was brought forward, so tracing an article
         # that was not showing outlined a hidden card.
-        self.run_sql("SELECT outlet FROM writing WHERE outlet = 'CRM Magazine'")
+        self.run_sql("SELECT outlet FROM writing WHERE outlet = 'TDWI Upside'")
         self.page.click("#sqlResult .sql-row-btn")
         state = self.page.evaluate(
             """() => {
@@ -150,6 +157,7 @@ class QueryConsoleTest(BrowserTestCase):
                          count: document.querySelector('#writingCarousel .cc-now').textContent };
             }"""
         )
+        # TDWI Upside is the oldest article, the last slide.
         self.assertEqual({"active": 6, "traced": 6, "count": "7"}, state)
 
     def test_tab_completes_and_otherwise_moves_focus(self) -> None:
