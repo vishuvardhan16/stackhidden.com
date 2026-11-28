@@ -21,6 +21,8 @@ from helpers import BrowserTestCase
 # text can differ from what was submitted, and three of the seventeen
 # file-sourced candidates did. The eleven added Nov 26, 2026, placements
 # #36 to #46, were read off the live publisher pages the same way.
+# The one added Nov 28, 2026, placement #47, was read off the live
+# publisher page the same way.
 # The carousel shows them newest first since Nov 26, 2026 (SHOWN).
 SLIDES = [
     (
@@ -282,6 +284,13 @@ SLIDES = [
         "nobody is touching, we live with on purpose, and we say so, so living with it is a decision "
         "rather than drift.",
     ),
+    (
+        "25 Ways to Measure ROI on Digital Transformation Investments",
+        "The best way I have found to measure ROI is to link the investment to a weekly decision, with a "
+        "named owner and a date by which to judge it. I don't measure ROI by the size of the investment, or "
+        "the amount of work delivered. I measure it by whether the decision the investment was supposed to "
+        "inform became easier, faster or more trustworthy.",
+    ),
 ]
 SHOWN = SLIDES[::-1]
 
@@ -314,17 +323,18 @@ class CarouselTest(BrowserTestCase):
 
         slides = carousel.locator(".slide")
 
-        # 46 slides since Nov 26, 2026: the six from Sep 30 to Nov 4,
-        # then twenty-nine more, placements #7 to #35, and eleven more,
-        # placements #36 to #46. The counter replaced 46 dots that day.
-        self.assertEqual(46, slides.count())
-        self.assertEqual("1 / 46", self.page.evaluate(COUNT_SHOWN))
+        # 47 slides since Nov 28, 2026: the six from Sep 30 to Nov 4,
+        # then twenty-nine more, placements #7 to #35, eleven more,
+        # placements #36 to #46, and one more, placement #47. The
+        # counter replaced 46 dots that day.
+        self.assertEqual(47, slides.count())
+        self.assertEqual("1 / 47", self.page.evaluate(COUNT_SHOWN))
         self.assertIn("on", slides.nth(0).get_attribute("class") or "")
         self.assertEqual("false", slides.nth(0).get_attribute("aria-hidden"))
 
         self.page.click("#quoteNext")
 
-        self.assertEqual("2 / 46", self.page.evaluate(COUNT_SHOWN))
+        self.assertEqual("2 / 47", self.page.evaluate(COUNT_SHOWN))
         self.assertIn("on", slides.nth(1).get_attribute("class") or "")
         self.assertNotIn("on", (slides.nth(0).get_attribute("class") or "").split())
         self.assertEqual("false", slides.nth(1).get_attribute("aria-hidden"))
@@ -384,7 +394,7 @@ class HeadlineFirstTest(BrowserTestCase):
         # headline to its toggle and then to the arrows, never into a
         # slide that is not showing.
         self.assertEqual(
-            [False] + [True] * 45,
+            [False] + [True] * 46,
             self.page.evaluate("[...document.querySelectorAll('#quoteCarousel .slide')].map(s => s.inert)"),
         )
         self.page.focus("#quoteCarousel .slide.on .slide-title a")
@@ -401,7 +411,7 @@ class HeadlineFirstTest(BrowserTestCase):
         # The next slide becomes the only reachable one.
         self.page.click("#quoteNext")
         self.assertEqual(
-            [True, False] + [True] * 44,
+            [True, False] + [True] * 45,
             self.page.evaluate("[...document.querySelectorAll('#quoteCarousel .slide')].map(s => s.inert)"),
         )
 
@@ -410,7 +420,7 @@ class HeadlineFirstTest(BrowserTestCase):
         self.page.click("#quoteCarousel .slide.on summary")
         self.assertGreater(self.page.evaluate(TRACK_HEIGHT), closed)
         self.page.click("#quoteNext")
-        self.assertEqual([False] * 46, [s["open"] for s in self.page.evaluate(SLIDE_STATE)])
+        self.assertEqual([False] * 47, [s["open"] for s in self.page.evaluate(SLIDE_STATE)])
         self.assertEqual(closed, self.page.evaluate(TRACK_HEIGHT))
         self.page.click("#quotePrev")
         self.assertEqual("Read my quote", self.summary_text())
@@ -454,7 +464,7 @@ class PrintTest(BrowserTestCase):
                 toggle: getComputedStyle(s.querySelector('summary')).display
             }))"""
         )
-        self.assertEqual([{"quote": True, "toggle": "none"}] * 46, printed)
+        self.assertEqual([{"quote": True, "toggle": "none"}] * 47, printed)
         # One after another, not stacked in the carousel's shared cell.
         overlaps = self.page.evaluate(
             """() => { const r = [...document.querySelectorAll('#quoteCarousel .slide')].map(s => s.getBoundingClientRect());
@@ -464,7 +474,7 @@ class PrintTest(BrowserTestCase):
         self.page.evaluate("window.dispatchEvent(new Event('afterprint'))")
         self.page.emulate_media(media="screen")
         self.assertEqual(
-            [True] + [False] * 45,
+            [True] + [False] * 46,
             [s["open"] for s in self.page.evaluate(SLIDE_STATE)],
         )
 
