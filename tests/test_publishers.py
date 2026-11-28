@@ -49,7 +49,7 @@ class MastheadTest(BrowserTestCase):
                 slot: !!el.querySelector('.pub-mark')
             }))"""
         )
-        self.assertEqual(8 + 2 + 46, len(heads))
+        self.assertEqual(8 + 2 + 47, len(heads))
         for head in heads:
             with self.subTest(head=head):
                 self.assertTrue(head["name"] and head["kind"] and head["slot"])
@@ -230,7 +230,8 @@ class MastheadTest(BrowserTestCase):
              "How IT Leaders Build Trust During Service Outages",
              "How Engineering Leaders Build Trust Through Better Feedback",
              "6 Nervous Habits and Communication Mistakes High School Graduates Should Eliminate Before Interviews: How to Address Them",
-             "How Software Teams Keep Technical Debt From Stalling Progress"][::-1],
+             "How Software Teams Keep Technical Debt From Stalling Progress",
+             "25 Ways to Measure ROI on Digital Transformation Investments"][::-1],
             column("SELECT title FROM featured"),
         )
 
@@ -429,7 +430,7 @@ class CarouselFitTest(BrowserTestCase):
                 self.page.set_viewport_size({"width": width, "height": height})
                 self.reload_page()
                 gaps = self.page.evaluate(CAPTION_GAPS)
-                self.assertEqual(46, len(gaps))
+                self.assertEqual(47, len(gaps))
                 self.assertTrue(all(g >= 8 for g in gaps), gaps)
 
     def test_an_open_quote_never_runs_under_the_controls(self) -> None:
@@ -441,7 +442,7 @@ class CarouselFitTest(BrowserTestCase):
                 self.page.set_viewport_size({"width": width, "height": height})
                 self.reload_page()
                 gaps = []
-                for i in range(46):
+                for i in range(47):
                     self.page.evaluate(f"document.getElementById('quoteCarousel').goToSlide({i})")
                     self.page.evaluate("document.querySelector('#quoteCarousel .slide.on details').open = true")
                     gaps.append(self.page.evaluate(OPEN_QUOTE_GAP))

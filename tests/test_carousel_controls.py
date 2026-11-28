@@ -3,7 +3,7 @@
 Nov 26, 2026, at the owner's request: with 46 quotes, Featured In drew
 46 dots in a row. On a phone the row ran past the panel and pushed both
 arrows out of reach, and on a laptop it read as clutter. Both carousels
-now show their position as a counter ("12 / 46") and a thin meter, with
+now show their position as a counter ("12 / 47") and a thin meter, with
 two arrow buttons. The same change fixed three bugs:
 
 - Slide bleed. A slide that had just left sat at the right, and on the
@@ -25,7 +25,7 @@ from helpers import BrowserTestCase, chromium_launch_kwargs, page_url
 
 CAROUSELS = [
     # id, prev, next, slide count, item name
-    ("quoteCarousel", "quotePrev", "quoteNext", 46, "Quote"),
+    ("quoteCarousel", "quotePrev", "quoteNext", 47, "Quote"),
     ("writingCarousel", "writingPrev", "writingNext", 7, "Article"),
 ]
 

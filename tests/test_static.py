@@ -119,7 +119,7 @@ class StaticContentRulesTest(unittest.TestCase):
         # Nov 9, 2026) carries no byline: its author was not verified.
         featured = section(self.index, "featured")
         slides = re.findall(r'<figure class="slide">(.*?)</figure>', featured, flags=re.DOTALL)
-        self.assertEqual(46, len(slides))
+        self.assertEqual(47, len(slides))
         for slide in slides:
             title = re.search(r'<h3 class="slide-title"><a href="[^"]+"[^>]*>([^<]+)</a></h3>', slide).group(1)
             with self.subTest(title=title):
@@ -140,9 +140,9 @@ class StaticContentRulesTest(unittest.TestCase):
         # quote". The quotes are text, each citing its article, and the
         # only images left in the section are the caption logos.
         featured = section(self.index, "featured")
-        self.assertEqual(46, featured.count('<details class="slide-quote">'))
-        self.assertEqual(46, featured.count("<summary><span class=\"sq-closed\">Read my quote</span>"))
-        self.assertEqual(46, len(re.findall(r'<blockquote cite="https://[^"]+"><p>', featured)))
+        self.assertEqual(47, featured.count('<details class="slide-quote">'))
+        self.assertEqual(47, featured.count("<summary><span class=\"sq-closed\">Read my quote</span>"))
+        self.assertEqual(47, len(re.findall(r'<blockquote cite="https://[^"]+"><p>', featured)))
         for tag in re.findall(r"<img\b[^>]*>", featured):
             with self.subTest(img=tag):
                 # A caption logo is class="pub-logo", or class="pub-logo

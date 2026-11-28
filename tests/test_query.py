@@ -64,7 +64,7 @@ class QueryConsoleTest(BrowserTestCase):
         )
         self.assertEqual(page_titles, titles)
         dates = [r[0] for r in self.run_sql("SELECT date FROM featured ORDER BY date")]
-        self.assertEqual(["2026-09-30", "2026-10-23", "2026-11-02", "2026-11-03", "2026-11-03", "2026-11-04", "2026-11-06", "2026-11-09", "2026-11-09", "2026-11-09", "2026-11-09", "2026-11-09", "2026-11-09", "2026-11-10", "2026-11-10", "2026-11-10", "2026-11-10", "2026-11-10", "2026-11-10", "2026-11-10", "2026-11-10", "2026-11-10", "2026-11-11", "2026-11-13", "2026-11-14", "2026-11-16", "2026-11-16", "2026-11-16", "2026-11-16", "2026-11-17", "2026-11-17", "2026-11-17", "2026-11-18", "2026-11-19", "2026-11-20", "2026-11-23", "2026-11-23", "2026-11-23", "2026-11-23", "2026-11-23", "2026-11-24", "2026-11-24", "2026-11-24", "2026-11-24", "2026-11-24", "2026-11-25"], dates)
+        self.assertEqual(["2026-09-30", "2026-10-23", "2026-11-02", "2026-11-03", "2026-11-03", "2026-11-04", "2026-11-06", "2026-11-09", "2026-11-09", "2026-11-09", "2026-11-09", "2026-11-09", "2026-11-09", "2026-11-10", "2026-11-10", "2026-11-10", "2026-11-10", "2026-11-10", "2026-11-10", "2026-11-10", "2026-11-10", "2026-11-10", "2026-11-11", "2026-11-13", "2026-11-14", "2026-11-16", "2026-11-16", "2026-11-16", "2026-11-16", "2026-11-17", "2026-11-17", "2026-11-17", "2026-11-18", "2026-11-19", "2026-11-20", "2026-11-23", "2026-11-23", "2026-11-23", "2026-11-23", "2026-11-23", "2026-11-24", "2026-11-24", "2026-11-24", "2026-11-24", "2026-11-24", "2026-11-25", "2026-11-27"], dates)
 
     def test_grouping_counts_and_sorting(self) -> None:
         result = self.run_sql(
@@ -78,7 +78,7 @@ class QueryConsoleTest(BrowserTestCase):
             key=lambda pair: (-pair[1], pair[0]),
         )
         self.assertEqual(expected, [(outlet, int(n)) for outlet, n in result])
-        self.assertEqual(46, sum(int(n) for _, n in result))
+        self.assertEqual(47, sum(int(n) for _, n in result))
         self.assertIn("group by outlet", self.status())
 
     def test_null_semantics(self) -> None:
@@ -232,7 +232,7 @@ class QueryPhoneTest(BrowserTestCase):
                 return r.getClientRects().length;
             })"""
         )
-        self.assertEqual([1] * 46, lines)
+        self.assertEqual([1] * 47, lines)
 
     def test_header_stays_compact(self) -> None:
         height = self.page.evaluate("document.querySelector('.site-header').offsetHeight")
